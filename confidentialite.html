@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confidentialité - Alliance Chrétienne</title>
+
+<style>
+    :root {
+        --primary: #2563eb;
+        --primary-light: #eff6ff;
+        --pink: #f43f5e;
+        --pink-light: #fff1f2;
+        --purple: #7c3aed;
+        --dark: #172033;
+        --text: #475569;
+        --muted: #94a3b8;
+        --white: #ffffff;
+        --border: #e2e8f0;
+        --bg: #fff8f8;
+
+        --dark-bg: #0f172a;
+        --dark-card: #1e293b;
+        --dark-text: #e2e8f0;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont,
+            "Segoe UI", Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        transition: background .3s ease, color .3s ease;
+    }
+
+    body.dark-mode {
+        background: var(--dark-bg);
+        color: var(--dark-text);
+    }
+
+    /* ================= HEADER ================= */
+
+    header {
+        background: rgba(255,255,255,.95);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    body.dark-mode header {
+        background: rgba(30,41,59,.95);
+        border-color: rgba(148,163,184,.18);
+    }
+
+    .navbar {
+        max-width: 1200px;
+        margin: auto;
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .logo a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .logo h1 {
+        font-size: 1.35rem;
+        color: var(--dark);
+        font-weight: 800;
+    }
+
+    body.dark-mode .logo h1 {
+        color: #fff;
+    }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+    }
+
+    .dark-mode-toggle {
+        width: 44px;
+        height: 44px;
+        border: none;
+        border-radius: 50%;
+        background: var(--primary-light);
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: all .3s ease;
+    }
+
+    body.dark-mode .dark-mode-toggle {
+        background: rgba(148,163,184,.15);
+    }
+
+    .dark-mode-toggle:hover {
+        transform: rotate(20deg) scale(1.08);
+    }
+
+    .btn-register {
+        padding: .65rem 1.2rem;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--pink), var(--purple));
+        color: white;
+        text-decoration: none;
+        font-size: .88rem;
+        font-weight: 700;
+        box-shadow: 0 6px 18px rgba(244,63,94,.25);
+    }
+
+    /* ================= PAGE ================= */
+
+    .privacy-page {
+        max-width: 1000px;
+        margin: auto;
+        padding: 3rem 1.5rem 4rem;
+    }
+
+    .privacy-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding: 2.5rem 1.5rem;
+        background: rgba(255,255,255,.96);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        box-shadow: 0 15px 40px rgba(15,23,42,.07);
+    }
+
+    body.dark-mode .privacy-header {
+        background: var(--dark-card);
+        border-color: rgba(148,163,184,.15);
+    }
+
+    .privacy-header-icon {
+        width: 68px;
+        height: 68px;
+        margin: 0 auto 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        font-size: 1.8rem;
+        color: white;
+        background: linear-gradient(135deg, var(--pink), var(--purple));
+        box-shadow: 0 10px 25px rgba(244,63,94,.25);
+    }
+
+    .privacy-header h2 {
+        color: var(--dark);
+        font-size: 2rem;
+        font-weight: 850;
+        margin-bottom: .5rem;
+    }
+
+    body.dark-mode .privacy-header h2 {
+        color: #f8fafc;
+    }
+
+    .privacy-header h2 span {
+        background: linear-gradient(135deg, var(--pink), var(--primary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .privacy-header p {
+        color: var(--muted);
+        font-size: .95rem;
+        max-width: 700px;
+        margin: auto;
+        line-height: 1.7;
+    }
+
+    .last-update {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: .4rem .8rem;
+        border-radius: 999px;
+        background: var(--primary-light);
+        color: var(--primary);
+        font-size: .75rem;
+        font-weight: 700;
+    }
+
+    /* ================= CARDS ================= */
+
+    .privacy-card {
+        background: rgba(255,255,255,.96);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 1.6rem;
+        margin-bottom: 1.2rem;
+        box-shadow: 0 10px 30px rgba(15,23,42,.05);
+    }
+
+    body.dark-mode .privacy-card {
+        background: var(--dark-card);
+        border-color: rgba(148,163,184,.15);
+    }
+
+    .privacy-card-header {
+        display: flex;
+        align-items: center;
+        gap: .9rem;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid #eef2f7;
+    }
+
+    body.dark-mode .privacy-card-header {
+        border-color: rgba(148,163,184,.12);
+    }
+
+    .privacy-icon {
+        width: 46px;
+        height: 46px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--pink-light), var(--primary-light));
+        font-size: 1.25rem;
+    }
+
+    .privacy-card h3 {
+        color: var(--dark);
+        font-size: 1.05rem;
+        font-weight: 800;
+    }
+
+    body.dark-mode .privacy-card h3 {
+        color: #f8fafc;
+    }
+
+    .privacy-card p {
+        font-size: .88rem;
+        line-height: 1.75;
+        color: var(--text);
+        margin-bottom: .8rem;
+    }
+
+    body.dark-mode .privacy-card p {
+        color: #cbd5e1;
+    }
+
+    .privacy-card p:last-child {
+        margin-bottom: 0;
+    }
+
+    .privacy-card ul {
+        padding-left: 1.3rem;
+        margin-top: .5rem;
+    }
+
+    .privacy-card li {
+        margin-bottom: .55rem;
+        font-size: .87rem;
+        line-height: 1.6;
+        color: var(--text);
+    }
+
+    body.dark-mode .privacy-card li {
+        color: #cbd5e1;
+    }
+
+    .privacy-card strong {
+        color: var(--dark);
+    }
+
+    body.dark-mode .privacy-card strong {
+        color: #f8fafc;
+    }
+
+    /* ================= HIGHLIGHT ================= */
+
+    .privacy-highlight {
+        padding: 1.2rem;
+        border-left: 4px solid var(--pink);
+        border-radius: 0 14px 14px 0;
+        background: linear-gradient(
+            135deg,
+            var(--pink-light),
+            var(--primary-light)
+        );
+        margin-top: 1rem;
+    }
+
+    body.dark-mode .privacy-highlight {
+        background: linear-gradient(
+            135deg,
+            rgba(244,63,94,.1),
+            rgba(37,99,235,.1)
+        );
+    }
+
+    .privacy-highlight p {
+        margin: 0;
+    }
+
+    /* ================= RIGHTS ================= */
+
+    .rights-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: .8rem;
+        margin-top: 1rem;
+    }
+
+    .right-item {
+        padding: 1rem;
+        border-radius: 14px;
+        background: #f8fafc;
+        border: 1px solid #eef2f7;
+    }
+
+    body.dark-mode .right-item {
+        background: rgba(148,163,184,.07);
+        border-color: rgba(148,163,184,.12);
+    }
+
+    .right-item strong {
+        display: block;
+        margin-bottom: .3rem;
+        font-size: .85rem;
+    }
+
+    .right-item span {
+        font-size: .78rem;
+        color: var(--muted);
+        line-height: 1.5;
+    }
+
+    /* ================= CTA ================= */
+
+    .privacy-cta {
+        margin-top: 2rem;
+        padding: 2rem;
+        text-align: center;
+        border-radius: 22px;
+        background: linear-gradient(135deg, #1e293b, #0f172a);
+        border-top: 4px solid var(--pink);
+        color: white;
+    }
+
+    .privacy-cta h3 {
+        font-size: 1.35rem;
+        margin-bottom: .5rem;
+    }
+
+    .privacy-cta p {
+        color: #cbd5e1;
+        font-size: .88rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .privacy-cta a {
+        display: inline-block;
+        padding: .75rem 1.3rem;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--pink), var(--purple));
+        color: white;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: .88rem;
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer {
+        background: #0f172a;
+        color: #cbd5e1;
+        text-align: center;
+        padding: 2rem 1.5rem;
+    }
+
+    footer p {
+        margin: .4rem 0;
+        font-size: .82rem;
+    }
+
+    .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.2rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .footer-links a {
+        color: #cbd5e1;
+        text-decoration: none;
+        font-size: .82rem;
+        transition: color .2s ease;
+    }
+
+    .footer-links a:hover {
+        color: white;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 650px) {
+
+        .navbar {
+            padding: .8rem 1rem;
+        }
+
+        .logo h1 {
+            font-size: 1.05rem;
+        }
+
+        .btn-register {
+            padding: .55rem .85rem;
+            font-size: .78rem;
+        }
+
+        .privacy-page {
+            padding: 1.5rem 1rem 3rem;
+        }
+
+        .privacy-header {
+            padding: 1.8rem 1rem;
+            border-radius: 19px;
+        }
+
+        .privacy-header h2 {
+            font-size: 1.5rem;
+        }
+
+        .privacy-card {
+            padding: 1.2rem;
+        }
+
+        .rights-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .footer-links {
+            gap: .8rem 1rem;
+        }
+    }
+
+
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+</style>
+
+
+</head>
+
+<body>
+
+
+<header>
+    <nav class="navbar">
+
+        <div class="logo">
+                 <a href="index.html" class="register-logo">
+    <img src="images/logo.png" alt="Alliance Chrétienne">
+</a>
+        </div>
+
+        <div class="nav-right">
+
+            <button
+                id="darkModeToggle"
+                class="dark-mode-toggle"
+                title="Mode sombre"
+                aria-label="Changer le mode"
+            >🌙</button>
+
+            <a href="register.html" class="btn-register">
+                Inscription
+            </a>
+
+        </div>
+
+    </nav>
+</header>
+
+<!-- ================= CONTENU ================= -->
+
+<main class="privacy-page">
+
+    <section class="privacy-header">
+
+        <div class="privacy-header-icon">
+            🔒
+        </div>
+
+        <h2>
+            Politique de <span>confidentialité</span>
+        </h2>
+
+        <p>
+            Chez Alliance Chrétienne, nous accordons une grande importance
+            à la protection de votre vie privée et à la sécurité de vos
+            informations personnelles.
+        </p>
+
+        <span class="last-update">
+            Dernière mise à jour : 1 septembre 2026
+        </span>
+
+    </section>
+
+
+    <!-- 1 -->
+
+    <section class="privacy-card">
+
+        <div class="privacy-card-header">
+            <div class="privacy-icon">ℹ️</div>
+            <h3>1. Introduction</h3>
+        </div>
+
+        <p>
+            Cette politique explique quelles informations peuvent être
+            collectées lorsque vous utilisez Alliance Chrétienne, pourquoi
+            elles sont utilisées et comment nous cherchons à les protéger.
+        </p>
+
+        <p>
+            Notre objectif est de permettre aux membres de faire des
+            rencontres sérieuses dans un environnement respectueux,
+            sécurisé et fondé sur les valeurs chrétiennes.
+        </p>
+
+        <div class="privacy-highlight">
+            <p>
+                <strong>Notre engagement :</strong>
+                vos informations personnelles ne doivent être collectées
+                et utilisées que pour des finalités liées au fonctionnement
+                et à l'amélioration de la plateforme.
+            </p>
+        </div>
+
+    </section>
+
+
+    <!-- 2 -->
+
+    <section class="privacy-card">
+
+        <div class="privacy-card-header">
+            <div class="privacy-icon">📋</div>
+            <h3>2. Informations que nous pouvons collecter</h3>
+        </div>
+
+        <p>
+            Selon les fonctionnalités que vous utilisez, certaines
+            informations peuvent être nécessaires au fonctionnement
+            de votre compte.
+        </p>
+
+        <ul>
+            <li>Nom ou prénom renseigné dans votre profil.</li>
+            <li>Adresse e-mail utilisée pour votre compte.</li>
+            <li>Informations générales de profil.</li>
+            <li>Photo de profil et autres photos que vous choisissez de publier.</li>
+            <li>Préférences de recherche et informations liées aux rencontres.</li>
+            <li>Messages et contenus que vous envoyez via la plateforme.</li>
+            <li>Informations techniques nécessaires au fonctionnement du site.</li>
+        </ul>
+
+    </section>
+
+
+    <!-- 3 -->
+
+    <section class="privacy-card">
+
+        <div class="privacy-card-header">
+            <div class="privacy-icon">🎯</div>
+            <h3>3. Pourquoi utilisons-nous vos informations ?</h3>
+        </div>
+
+        <p>
+            Les informations peuvent être utilisées notamment pour :
+        </p>
+
+        <ul>
+            <li>Créer et gérer votre compte.</li>
+            <li>Permettre l'affichage de votre profil aux autres membres.</li>
+            <li>Faciliter les recherches et les rencontres.</li>
+            <li>Permettre l'utilisation de la messagerie.</li>
+            <li>Améliorer les fonctionnalités et l'expérience utilisateur.</li>
+            <li>Prévenir les abus, fraudes et comportements dangereux.</li>
+            <li>Assurer la sécurité et le bon fonctionnement de la plateforme.</li>
+        </ul>
+
+    </section>
+
+
+    <!-- 4 -->
+
+    <section class="privacy-card">
+
+        <div class="privacy-card-header">
+            <div class="privacy-icon">👤</div>
+            <h3>4. Votre profil et les informations visibles</h3>
+        </div>
+
+        <p>
+            Lorsque vous créez un profil, certaines informations que vous
+            choisissez de renseigner peuvent être visibles par d'autres
+            membres de la plateforme.
+        </p>
+
+        <p>
+            Nous vous recommandons de ne jamais publier dans votre profil
+            des informations particulièrement sensibles ou qui pourraient
+            vous exposer à un risque.
+        </p>
+
+        <div class="privacy-highlight">
+            <p>
+                <strong>Conseil :</strong>
+                ne communiquez jamais votre mot de passe, vos codes
+                personnels, vos coordonnées bancaires ou toute autre
+                information sensible à une personne rencontrée en ligne.
+            </p>
+        </div>
+
+    </section>
+
+
+    <!-- 5 -->
+
+    <section class="privacy-card">
+
+        <div class="privacy-card-header">
+            <div class="privacy-icon">💬</div>
+            <h3>5. Messages et communications</h3>
+        </div>
+
+        <p>
+            Les fonctionnalités de communication permettent aux membres
+            d'échanger dans le cadre des rencontres proposées par
+            Alliance Chrétienne.
+        </p>
+
+        <p>
+            Nous pouvons traiter les informations nécessaires au
+            fonctionnement de ces fonctionnalités et à la sécurité
+            de la communauté.
+        </p>
+
+        <p>
+            En cas de signalement d'un comportement contraire aux règles
+            de la plateforme, certaines informations peuvent être examinées
+            afin de traiter le signalement.
+        </p>
+
+    </section>
+
+
+    <!-- 6 -->
+
+    <section class="privacy-card">
+
+        <div class="privacy-card-header">
+            <div class="privacy-icon">🔐</div>
+            <h3>6. Sécurité des informations</h3>
+        </div>
+
+        <p>
+            Nous mettons en place des mesures techniques et organisationnelles
+            destinées à protéger les informations contre les accès non
+            autorisés, la perte, l'altération ou la divulgation.
+        </p>
+
+        <p>
+            La sécurité d'un service en ligne dépend également des
+            utilisateurs. Nous recommandons notamment d'utiliser un mot
+            de passe suffisamment robuste et de ne jamais le communiquer.
+        </p>
+
+    </section>
+
+
+    <!-- 7 -->
+
+    <section class="privacy-card">
+
+        <div class="privacy-card-header">
+            <div class="privacy-icon">🍪</div>
+            <h3>7. Cookies et technologies similaires</h3>
+        </div>
+
+        <p>
+            Le site peut utiliser des cookies ou des technologies similaires
+            nécessaires à certaines fonctionnalités, à la mémorisation de
+            préférences ou à l'amélioration du fonctionnement du service.
+        </p>
+
+        <p>
+            Lorsque certains cookies nécessitent un consentement, les
+            informations appropriées doivent être présentées à l'utilisateur
+            conformément aux règles applicables.
+        </p>
+
+    </section>
+
+
+    <!-- 8 -->
+
+    <section class="privacy-card">
+
+        <div class="privacy-card-header">
+            <div class="privacy-icon">⏳</div>
+            <h3>8. Conservation des informations</h3>
+        </div>
+
+        <p>
+            Les informations personnelles sont conservées pendant la durée
+            nécessaire aux finalités pour lesquelles elles sont utilisées,
+            ou pendant les périodes requises lorsque des obligations
+            légales s'appliquent.
+        </p>
+
+        <p>
+            Les durées exactes de conservation peuvent varier selon la
+            nature de l'information et la fonctionnalité concernée.
+        </p>
+
+    </section>
+
+
+    <!-- 9 -->
+
+    <section class="privacy-card">
+
+        <div class="privacy-card-header">
+            <div class="privacy-icon">⚖️</div>
+            <h3>9. Vos droits</h3>
+        </div>
+
+        <p>
+            Selon les règles applicables à votre situation, vous pouvez
+            notamment disposer de droits concernant vos données personnelles.
+        </p>
+
+        <div class="rights-grid">
+
+            <div class="right-item">
+                <strong>👁️ Accès</strong>
+                <span>
+                    Demander quelles informations personnelles sont
+                    détenues à votre sujet.
+                </span>
+            </div>
+
+            <div class="right-item">
+                <strong>✏️ Rectification</strong>
+                <span>
+                    Demander la correction d'informations inexactes.
+                </span>
+            </div>
+
+            <div class="right-item">
+                <strong>🗑️ Suppression</strong>
+                <span>
+                    Demander la suppression de certaines informations
+                    lorsque les conditions sont réunies.
+                </span>
+            </div>
+
+            <div class="right-item">
+                <strong>🚫 Opposition</strong>
+                <span>
+                    Vous opposer à certains traitements lorsque le droit
+                    applicable le permet.
+                </span>
+            </div>
+
+            <div class="right-item">
+                <strong>⏸️ Limitation</strong>
+                <span>
+                    Demander, dans certaines situations, une limitation
+                    du traitement de vos données.
+                </span>
+            </div>
+
+            <div class="right-item">
+                <strong>📦 Portabilité</strong>
+                <span>
+                    Demander la récupération de certaines données dans
+                    un format exploitable lorsque ce droit s'applique.
+                </span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- 10 -->
+
+    <section class="privacy-card">
+
+        <div class="privacy-card-header">
+            <div class="privacy-icon">🚨</div>
+            <h3>10. Signalement et protection de la communauté</h3>
+        </div>
+
+        <p>
+            Alliance Chrétienne peut traiter les signalements concernant
+            les faux profils, les comportements abusifs, les tentatives
+            d'arnaque, le harcèlement ou tout autre comportement contraire
+            aux règles de la plateforme.
+        </p>
+
+        <p>
+            Ces mesures ont pour objectif de maintenir un environnement
+            respectueux et sécurisé pour l'ensemble des membres.
+        </p>
+
+    </section>
+
+
+    <!-- 11 -->
+
+    <section class="privacy-card">
+
+        <div class="privacy-card-header">
+            <div class="privacy-icon">🌍</div>
+            <h3>11. Utilisation depuis différents pays</h3>
+        </div>
+
+        <p>
+            Alliance Chrétienne peut être utilisée par des membres vivant
+            dans différents pays et régions du monde.
+        </p>
+
+        <p>
+            Les règles relatives à la protection des données peuvent varier
+            selon le pays de résidence de l'utilisateur. Les traitements
+            doivent donc être réalisés en tenant compte des obligations
+            applicables.
+        </p>
+
+    </section>
+
+
+    <!-- 12 -->
+
+    <section class="privacy-card">
+
+        <div class="privacy-card-header">
+            <div class="privacy-icon">📩</div>
+            <h3>12. Nous contacter</h3>
+        </div>
+
+        <p>
+            Si vous avez une question concernant cette politique,
+            vos informations personnelles ou l'exercice de vos droits,
+            vous pouvez contacter l'équipe Alliance Chrétienne.
+        </p>
+
+        <p>
+            Nous vous recommandons d'utiliser la page
+            <strong>Contact</strong> disponible sur la plateforme.
+        </p>
+
+    </section>
+
+
+    <!-- CTA -->
+
+    <section class="privacy-cta">
+
+        <h3>Une question concernant vos données ?</h3>
+
+        <p>
+            Notre équipe est disponible pour vous accompagner.
+        </p>
+
+        <a href="contact.html">
+            Nous contacter
+        </a>
+
+    </section>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-links">
+
+        <a href="aide.html">Aide</a>
+        <a href="blog.html">Blog</a>
+        <a href="faq.html">FAQ</a>
+        <a href="confidentialite.html">Confidentialité</a>
+        <a href="conditions.html">Conditions</a>
+        <a href="securite.html">Sécurité</a>
+        <a href="a-propos.html">À propos</a>
+        <a href="contact.html">Contact</a>
+        <a href="temoignages.html">Témoignages</a>
+        <a href="eglises.html">Églises & communautés</a>
+        <a href="signaler.html">Signaler un problème</a>
+
+    </div>
+
+    <p>
+        ✝️ Alliance Chrétienne — Plateforme de rencontres chrétiennes
+    </p>
+
+    <p>
+        © 2026 Alliance Chrétienne. Tous droits réservés.
+    </p>
+
+    <p>
+        Fait avec ❤️ pour la communauté chrétienne
+    </p>
+
+</footer>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+    const darkModeToggle =
+        document.getElementById("darkModeToggle");
+
+    const savedDarkMode =
+        localStorage.getItem("darkMode") === "true";
+
+    if (savedDarkMode) {
+        document.body.classList.add("dark-mode");
+        darkModeToggle.textContent = "☀️";
+    }
+
+    darkModeToggle.addEventListener("click", function () {
+
+        const active =
+            document.body.classList.toggle("dark-mode");
+
+        localStorage.setItem("darkMode", active);
+
+        darkModeToggle.textContent =
+            active ? "☀️" : "🌙";
+
+    });
+
+</script>
+
+
+</body>
+</html>

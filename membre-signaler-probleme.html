@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title data-i18n="report.page_title">
+    Signaler un problème - Alliance Chrétienne
+</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    :root {
+        --primary-color: #2563eb;
+        --primary-light: #eff6ff;
+        --accent-pink: #f43f5e;
+        --accent-pink-light: #fff1f2;
+        --dark-color: #1e293b;
+        --text-color: #475569;
+        --white: #ffffff;
+        --border-color: #e2e8f0;
+        --success-color: #10b981;
+        --danger-color: #ef4444;
+        --shadow: 0 20px 40px rgba(244, 63, 94, 0.08);
+        --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03);
+        --dark-bg: #0f172a;
+        --dark-card: #1e293b;
+        --dark-text: #e2e8f0;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #fff8f8;
+        color: var(--text-color);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont,
+            "Segoe UI", Roboto, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow-x: hidden;
+        transition:
+            background-color 0.3s ease,
+            color 0.3s ease;
+    }
+
+    body.dark-mode {
+        background-color: var(--dark-bg);
+        color: var(--dark-text);
+    }
+
+    /* =========================================================
+       FOND ANIMÉ
+    ========================================================= */
+
+    .animated-bg {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    .floating-shape {
+        position: absolute;
+        bottom: -150px;
+        background:
+            linear-gradient(
+                135deg,
+                rgba(244, 63, 94, 0.08),
+                rgba(37, 99, 235, 0.06)
+            );
+        backdrop-filter: blur(5px);
+        border-radius: 50%;
+        animation: floatUp 15s infinite linear;
+    }
+
+    .floating-shape:nth-child(1) {
+        width: 80px;
+        height: 80px;
+        left: 10%;
+        animation-duration: 12s;
+    }
+
+    .floating-shape:nth-child(2) {
+        width: 120px;
+        height: 120px;
+        left: 30%;
+        animation-duration: 18s;
+        animation-delay: 2s;
+    }
+
+    .floating-shape:nth-child(3) {
+        width: 60px;
+        height: 60px;
+        left: 70%;
+        animation-duration: 10s;
+        animation-delay: 4s;
+    }
+
+    .floating-shape:nth-child(4) {
+        width: 100px;
+        height: 100px;
+        left: 85%;
+        animation-duration: 14s;
+        animation-delay: 1s;
+    }
+
+    @keyframes floatUp {
+        0% {
+            transform: translateY(0) rotate(0deg) scale(1);
+            opacity: 0.8;
+        }
+
+        50% {
+            opacity: 0.4;
+        }
+
+        100% {
+            transform:
+                translateY(-100vh)
+                rotate(360deg)
+                scale(1.2);
+            opacity: 0;
+        }
+    }
+
+    /* =========================================================
+       PARTICULES
+    ========================================================= */
+
+    .particle {
+        position: absolute;
+        pointer-events: none;
+        animation: particleFloat 3s ease-out forwards;
+    }
+
+    @keyframes particleFloat {
+        0% {
+            opacity: 1;
+            transform: translate(0, 0) scale(1);
+        }
+
+        100% {
+            opacity: 0;
+            transform:
+                translate(var(--tx), var(--ty))
+                scale(0);
+        }
+    }
+
+    /* =========================================================
+       HEADER
+    ========================================================= */
+
+    header {
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        transition: all 0.3s ease;
+    }
+
+    body.dark-mode header {
+        background-color: rgba(30, 41, 59, 0.95);
+        border-bottom-color: rgba(148, 163, 184, 0.2);
+    }
+
+    .navbar {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo a {
+        text-decoration: none;
+    }
+
+    .register-logo img {
+        width: 50px;
+        height: auto;
+        display: block;
+    }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+    }
+
+    /* Sélecteur de langue */
+
+    #languageSelector {
+        height: 42px;
+        padding: 0 0.7rem;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        background: #f8fafc;
+        color: var(--dark-color);
+        font-weight: 700;
+        cursor: pointer;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+
+    #languageSelector:hover {
+        border-color: var(--accent-pink);
+    }
+
+    body.dark-mode #languageSelector {
+        background: rgba(148, 163, 184, 0.15);
+        border-color: rgba(148, 163, 184, 0.2);
+        color: var(--white);
+    }
+
+    body.dark-mode #languageSelector option {
+        background: var(--dark-card);
+        color: var(--white);
+    }
+
+    .dark-mode-toggle {
+        background: #f1f5f9;
+        border: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    body.dark-mode .dark-mode-toggle {
+        background: rgba(148, 163, 184, 0.2);
+    }
+
+    .dark-mode-toggle:hover {
+        transform: rotate(20deg) scale(1.1);
+    }
+
+    .profile-back-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        margin-right: 8px;
+        border-radius: 50%;
+        color: var(--dark-color);
+        background: transparent;
+        text-decoration: none;
+        font-size: 2rem;
+        font-weight: 400;
+        line-height: 1;
+        transition:
+            background 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    body.dark-mode .profile-back-button {
+        color: var(--white);
+    }
+
+    .profile-back-button:hover {
+        background: #f1f5f9;
+        transform: translateX(-2px);
+    }
+
+    body.dark-mode .profile-back-button:hover {
+        background: rgba(148, 163, 184, 0.15);
+    }
+
+    .profile-back-button:active {
+        transform: scale(0.92);
+    }
+
+    /* =========================================================
+       SECTION PRINCIPALE
+    ========================================================= */
+
+    .report-hero {
+        flex: 1;
+        padding: 4rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .report-grid {
+        max-width: 1100px;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+    }
+
+    /* =========================================================
+       COLONNE GAUCHE
+    ========================================================= */
+
+    .report-content h1 {
+        color: var(--dark-color);
+        font-size: 2.6rem;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+        font-weight: 800;
+        animation: slideInLeft 0.8s ease-out;
+    }
+
+    body.dark-mode .report-content h1 {
+        color: var(--white);
+    }
+
+    .report-content h1 span {
+        background:
+            linear-gradient(
+                135deg,
+                var(--accent-pink),
+                #ec4899
+            );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .report-content > p {
+        font-size: 1.08rem;
+        line-height: 1.7;
+        margin-bottom: 2rem;
+        animation:
+            slideInLeft
+            0.8s
+            ease-out
+            0.1s
+            both;
+    }
+
+    .help-card {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.4rem;
+        margin-bottom: 1rem;
+        border-radius: 1rem;
+        background:
+            linear-gradient(
+                135deg,
+                var(--accent-pink-light),
+                var(--primary-light)
+            );
+        border: 1px solid rgba(244, 63, 94, 0.15);
+        box-shadow: var(--shadow-sm);
+        animation:
+            slideInLeft
+            0.8s
+            ease-out
+            0.2s
+            both;
+        transition: all 0.3s ease;
+    }
+
+    body.dark-mode .help-card {
+        background:
+            linear-gradient(
+                135deg,
+                rgba(244, 63, 94, 0.12),
+                rgba(37, 99, 235, 0.12)
+            );
+        border-color: rgba(244, 63, 94, 0.2);
+    }
+
+    .help-card:hover {
+        transform: translateX(8px);
+        box-shadow: 0 10px 25px rgba(244, 63, 94, 0.12);
+    }
+
+    .help-icon {
+        width: 50px;
+        height: 50px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        background:
+            linear-gradient(
+                135deg,
+                var(--accent-pink),
+                #ec4899
+            );
+        color: white;
+        box-shadow:
+            0 6px 15px
+            rgba(244, 63, 94, 0.25);
+    }
+
+    .help-card h3 {
+        color: var(--dark-color);
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+    }
+
+    body.dark-mode .help-card h3 {
+        color: var(--white);
+    }
+
+    .help-card p {
+        font-size: 0.88rem;
+        line-height: 1.5;
+    }
+
+    .security-box {
+        margin-top: 1.5rem;
+        padding: 1.4rem;
+        border-left: 4px solid var(--accent-pink);
+        border-radius:
+            0
+            1rem
+            1rem
+            0;
+        background:
+            linear-gradient(
+                135deg,
+                #fff1f2,
+                #eff6ff
+            );
+        line-height: 1.6;
+        font-size: 0.92rem;
+        animation:
+            slideInLeft
+            0.8s
+            ease-out
+            0.3s
+            both;
+    }
+
+    body.dark-mode .security-box {
+        background:
+            linear-gradient(
+                135deg,
+                rgba(244, 63, 94, 0.1),
+                rgba(37, 99, 235, 0.1)
+            );
+    }
+
+    .security-box strong {
+        display: block;
+        margin-bottom: 0.4rem;
+        color: var(--accent-pink);
+    }
+
+    /* =========================================================
+       CARTE FORMULAIRE
+    ========================================================= */
+
+    .form-card {
+        background: var(--white);
+        padding: 2.5rem;
+        border-radius: 1.5rem;
+        box-shadow: var(--shadow);
+        border:
+            1px solid
+            rgba(244, 63, 94, 0.15);
+        animation:
+            slideInRight
+            0.8s
+            ease-out;
+        transition: all 0.3s ease;
+    }
+
+    body.dark-mode .form-card {
+        background:
+            linear-gradient(
+                135deg,
+                rgba(30, 41, 59, 0.9),
+                rgba(15, 23, 42, 0.9)
+            );
+        border-color:
+            rgba(244, 63, 94, 0.2);
+    }
+
+    .form-card:hover {
+        box-shadow:
+            0 25px 50px
+            rgba(244, 63, 94, 0.15);
+    }
+
+    .form-card h2 {
+        text-align: center;
+        color: var(--dark-color);
+        margin-bottom: 0.6rem;
+        font-size: 1.8rem;
+        font-weight: 800;
+    }
+
+    body.dark-mode .form-card h2 {
+        color: var(--white);
+    }
+
+    .form-intro {
+        text-align: center;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 1.8rem;
+        color: #64748b;
+    }
+
+    body.dark-mode .form-intro {
+        color: #94a3b8;
+    }
+
+    /* =========================================================
+       FORMULAIRE
+    ========================================================= */
+
+    .form-group {
+        margin-bottom: 1.4rem;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: #64748b;
+        margin-bottom: 0.7rem;
+    }
+
+    body.dark-mode .form-group label {
+        color: #94a3b8;
+    }
+
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.95rem 1.1rem;
+        font-size: 0.95rem;
+        font-family: inherit;
+        border-radius: 0.85rem;
+        border:
+            1.5px solid
+            var(--border-color);
+        background-color: #fafbfc;
+        transition: all 0.3s ease;
+    }
+
+    .form-group textarea {
+        min-height: 170px;
+        resize: vertical;
+        line-height: 1.6;
+    }
+
+    body.dark-mode .form-group select,
+    body.dark-mode .form-group textarea {
+        background-color:
+            rgba(148, 163, 184, 0.1);
+        border-color:
+            rgba(148, 163, 184, 0.2);
+        color: var(--dark-text);
+    }
+
+    .form-group select:focus,
+    .form-group textarea:focus {
+        background-color: var(--white);
+        border-color:
+            var(--accent-pink);
+        box-shadow:
+            0 0 0 4px
+            rgba(244, 63, 94, 0.15);
+        outline: none;
+    }
+
+    body.dark-mode .form-group select:focus,
+    body.dark-mode .form-group textarea:focus {
+        background-color:
+            rgba(148, 163, 184, 0.15);
+    }
+
+    .char-counter {
+        text-align: right;
+        margin-top: 0.4rem;
+        font-size: 0.75rem;
+        color: #94a3b8;
+    }
+
+    /* =========================================================
+       BOUTON
+    ========================================================= */
+
+    .btn-submit {
+        width: 100%;
+        padding: 1rem;
+        border: none;
+        border-radius: 0.85rem;
+        background:
+            linear-gradient(
+                135deg,
+                var(--accent-pink),
+                #e11d48
+            );
+        color: white;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow:
+            0 4px 15px
+            rgba(244, 63, 94, 0.3);
+    }
+
+    .btn-submit:hover {
+        filter: brightness(1.05);
+        transform: translateY(-2px);
+        box-shadow:
+            0 7px 25px
+            rgba(244, 63, 94, 0.4);
+    }
+
+    .btn-submit:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    /* =========================================================
+       ALERTES
+    ========================================================= */
+
+    .alert {
+        padding: 0.9rem 1rem;
+        border-radius: 0.8rem;
+        margin-bottom: 1.2rem;
+        font-size: 0.88rem;
+        line-height: 1.5;
+    }
+
+    .alert-success {
+        background: #ecfdf5;
+        border: 1px solid #a7f3d0;
+        color: #047857;
+    }
+
+    .alert-error {
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        color: #b91c1c;
+    }
+
+    /* =========================================================
+       ANIMATIONS
+    ========================================================= */
+
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    footer {
+        background-color: #0f172a;
+        color: #94a3b8;
+        padding: 2rem 1rem 1.5rem;
+        text-align: center;
+        font-size: 0.85rem;
+    }
+
+    footer p {
+        margin: 0.4rem 0;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 900px) {
+        .report-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .report-content h1 {
+            font-size: 2.1rem;
+        }
+
+        .report-hero {
+            padding: 2.5rem 1.5rem;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .navbar {
+            padding: 0.8rem 1rem;
+        }
+
+        .report-content h1 {
+            font-size: 1.7rem;
+        }
+
+        .report-content > p {
+            font-size: 0.95rem;
+        }
+
+        .form-card {
+            padding: 1.5rem;
+            border-radius: 1.2rem;
+        }
+
+        .form-card h2 {
+            font-size: 1.45rem;
+        }
+
+        .report-hero {
+            padding: 2rem 1rem;
+        }
+
+        #languageSelector {
+            height: 40px;
+            padding: 0 0.45rem;
+            font-size: 0.8rem;
+        }
+
+        .dark-mode-toggle {
+            width: 40px;
+            height: 40px;
+        }
+    }
+
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+
+.profile-back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin-right: 8px;
+    border-radius: 50%;
+    color: var(--dark);
+    background: transparent;
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.profile-back-button:hover {
+    background: #f1f5f9;
+    transform: translateX(-2px);
+}
+
+.profile-back-button:active {
+    transform: scale(.92);
+}
+
+</style>
+
+
+</head>
+
+<body>
+
+<div class="animated-bg">
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+</div>
+
+<header>
+  <nav class="navbar">
+
+    <!-- RETOUR À GAUCHE -->
+    <a
+        href="javascript:history.back()"
+        class="profile-back-button"
+        aria-label="Retour"
+    >
+        ‹
+    </a>
+
+    <!-- LOGO À DROITE -->
+    <div class="nav-right">
+
+        <div class="logo">
+            <a href="index.html" class="register-logo">
+                <img
+                    src="images/logo.png"
+                    alt="Alliance Chrétienne"
+                >
+            </a>
+        </div>
+
+    </div>
+
+</nav>
+
+
+</header>
+
+
+<!-- CONTENU PRINCIPAL -->
+
+<main class="report-hero">
+
+    <div class="report-grid">
+
+
+        <!-- COLONNE GAUCHE -->
+
+        <div class="report-content">
+
+            <h1>
+                <span data-i18n="report.hero_title">
+                    Besoin d'aide ?
+                </span>
+            </h1>
+
+            <p data-i18n="report.hero_description">
+                Vous rencontrez un problème sur Alliance Chrétienne ?
+                Expliquez-nous ce qui se passe et notre équipe pourra
+                vous aider.
+            </p>
+
+
+            <div class="help-card">
+
+                <div class="help-icon">
+                    🛠️
+                </div>
+
+                <div>
+
+                    <h3 data-i18n="report.technical.title">
+                        Un problème technique ?
+                    </h3>
+
+                    <p data-i18n="report.technical.description">
+                        Signalez-nous les difficultés rencontrées
+                        lors de l'utilisation de la plateforme.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="help-card">
+
+                <div class="help-icon">
+                    🛡️
+                </div>
+
+                <div>
+
+                    <h3 data-i18n="report.security.title">
+                        Un problème de sécurité ?
+                    </h3>
+
+                    <p data-i18n="report.security.description">
+                        Si vous remarquez un comportement suspect
+                        ou un problème concernant un membre,
+                        signalez-le-nous.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="help-card">
+
+                <div class="help-icon">
+                    💬
+                </div>
+
+                <div>
+
+                    <h3 data-i18n="report.feedback.title">
+                        Votre avis compte
+                    </h3>
+
+                    <p data-i18n="report.feedback.description">
+                        Vos signalements nous permettent
+                        d'améliorer Alliance Chrétienne.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="security-box">
+
+                <strong data-i18n="report.confidential.title">
+                    🔒 Vos informations restent confidentielles
+                </strong>
+
+                <span data-i18n="report.confidential.description">
+                    Votre signalement sera transmis à l'équipe
+                    d'Alliance Chrétienne afin d'être traité
+                    avec sérieux et discrétion.
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- FORMULAIRE -->
+
+        <div class="form-card">
+
+            <h2 data-i18n="report.form.title">
+                🚨 Signaler un problème
+            </h2>
+
+            <p
+                class="form-intro"
+                data-i18n="report.form.description"
+            >
+                Décrivez-nous le problème que vous rencontrez.
+                Plus votre description est précise, plus nous
+                pourrons vous aider rapidement.
+            </p>
+
+
+            <div id="alertContainer"></div>
+
+
+            <form id="reportForm">
+
+
+                <div class="form-group">
+
+                    <label
+                        for="problemType"
+                        data-i18n="report.form.type_label"
+                    >
+                        Type de problème
+                    </label>
+
+                    <select
+                        id="problemType"
+                        required
+                    >
+
+                        <option
+                            value=""
+                            data-i18n="report.form.category"
+                        >
+                            Sélectionnez une catégorie
+                        </option>
+
+                        <option
+                            value="Compte"
+                            data-i18n="report.form.account"
+                        >
+                            👤 Mon compte
+                        </option>
+
+                        <option
+                            value="Profil"
+                            data-i18n="report.form.profile"
+                        >
+                            📝 Mon profil
+                        </option>
+
+                        <option
+                            value="Messages"
+                            data-i18n="report.form.messages"
+                        >
+                            💬 Messages
+                        </option>
+
+                        <option
+                            value="Recherche"
+                            data-i18n="report.form.search"
+                        >
+                            🔎 Recherche / Découverte
+                        </option>
+
+                        <option
+                            value="Paiement"
+                            data-i18n="report.form.payment"
+                        >
+                            💳 Paiement
+                        </option>
+
+                        <option
+                            value="Certification"
+                            data-i18n="report.form.certification"
+                        >
+                            ✅ Certification
+                        </option>
+
+                        <option
+                            value="Sécurité"
+                            data-i18n="report.form.safety"
+                        >
+                            🛡️ Sécurité
+                        </option>
+
+                        <option
+                            value="Application"
+                            data-i18n="report.form.application"
+                        >
+                            📱 Application / Site
+                        </option>
+
+                        <option
+                            value="Autre"
+                            data-i18n="report.form.other"
+                        >
+                            ❓ Autre problème
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label
+                        for="problemDescription"
+                        data-i18n="report.form.description_label"
+                    >
+                        Décrivez votre problème
+                    </label>
+
+                    <textarea
+                        id="problemDescription"
+                        maxlength="2000"
+                        placeholder="Expliquez ici ce qui s'est passé..."
+                        data-i18n-placeholder="report.form.placeholder"
+                        required
+                    ></textarea>
+
+                    <div class="char-counter">
+
+                        <span id="charCount">
+                            0
+                        </span>
+
+                        / 2000
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn-submit"
+                    id="submitButton"
+                    data-i18n="report.form.submit"
+                >
+                    🚨 Envoyer le signalement
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <p data-i18n="report.footer.copyright">
+        © 2026 Alliance Chrétienne.
+        Tous droits réservés.
+    </p>
+
+    <p data-i18n="report.footer.help">
+        Nous sommes là pour vous aider ❤️
+    </p>
+
+</footer>
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase-config.js"></script>
+
+<!-- SYSTÈME DE TRADUCTION -->
+
+<script src="js/i18n.js"></script>
+
+
+<script>
+
+    /* =====================================================
+       MODE SOMBRE
+    ===================================================== */
+
+    const darkModeToggle =
+        document.getElementById('darkModeToggle');
+
+    const savedDarkMode =
+        localStorage.getItem('darkMode') === 'true';
+
+    if (savedDarkMode) {
+
+        document.body.classList.add('dark-mode');
+
+        darkModeToggle.textContent = '☀️';
+
+    }
+
+    darkModeToggle.addEventListener(
+        'click',
+        () => {
+
+            const isDark =
+                document.body.classList.toggle(
+                    'dark-mode'
+                );
+
+            localStorage.setItem(
+                'darkMode',
+                isDark
+            );
+
+            darkModeToggle.textContent =
+                isDark ? '☀️' : '🌙';
+
+        }
+    );
+
+
+    /* =====================================================
+       COMPTEUR DE CARACTÈRES
+    ===================================================== */
+
+    const description =
+        document.getElementById(
+            'problemDescription'
+        );
+
+    const charCount =
+        document.getElementById(
+            'charCount'
+        );
+
+    description.addEventListener(
+        'input',
+        () => {
+
+            charCount.textContent =
+                description.value.length;
+
+        }
+    );
+
+
+    /* =====================================================
+       AFFICHAGE MESSAGE
+    ===================================================== */
+
+    function showAlert(
+        message,
+        type
+    ) {
+
+        const container =
+            document.getElementById(
+                'alertContainer'
+            );
+
+        container.innerHTML = `
+
+            <div class="alert alert-${type}">
+                ${message}
+            </div>
+
+        `;
+
+        container.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest'
+        });
+
+    }
+
+
+    /* =====================================================
+       ENVOI DU SIGNALEMENT
+    ===================================================== */
+
+    const reportForm =
+        document.getElementById(
+            'reportForm'
+        );
+
+    const submitButton =
+        document.getElementById(
+            'submitButton'
+        );
+
+
+    reportForm.addEventListener(
+        'submit',
+        async (event) => {
+
+            event.preventDefault();
+
+
+            const problemType =
+                document.getElementById(
+                    'problemType'
+                ).value;
+
+
+            const problemDescription =
+                description.value.trim();
+
+
+            if (!problemType) {
+
+                showAlert(
+                    t(
+                        'report.alert.category',
+                        'Veuillez sélectionner le type de problème.'
+                    ),
+                    'error'
+                );
+
+                return;
+
+            }
+
+
+            if (
+                problemDescription.length < 10
+            ) {
+
+                showAlert(
+                    t(
+                        'report.alert.details',
+                        'Veuillez décrire votre problème avec un peu plus de détails.'
+                    ),
+                    'error'
+                );
+
+                return;
+
+            }
+
+
+            submitButton.disabled = true;
+
+            submitButton.textContent =
+                t(
+                    'report.form.sending',
+                    '⏳ Envoi en cours...'
+                );
+
+
+            try {
+
+                const {
+                    data: {
+                        user
+                    },
+                    error: userError
+                } =
+                    await window.supabaseClient
+                        .auth
+                        .getUser();
+
+
+                if (
+                    userError ||
+                    !user
+                ) {
+
+                    throw new Error(
+                        t(
+                            'report.alert.login',
+                            'Vous devez être connecté pour envoyer un signalement.'
+                        )
+                    );
+
+                }
+
+
+                const {
+                    error
+                } =
+                    await window.supabaseClient
+                        .from(
+                            'problem_reports'
+                        )
+                        .insert({
+
+                            user_id:
+                                user.id,
+
+                            problem_type:
+                                problemType,
+
+                            description:
+                                problemDescription,
+
+                            status:
+                                'nouveau'
+
+                        });
+
+
+                if (error) {
+
+                    console.error(
+                        'Erreur Supabase :',
+                        error
+                    );
+
+                    throw error;
+
+                }
+
+
+                showAlert(
+                    t(
+                        'report.alert.success',
+                        '✅ Votre signalement a bien été envoyé. Merci de nous avoir prévenus.'
+                    ),
+                    'success'
+                );
+
+
+                reportForm.reset();
+
+                charCount.textContent =
+                    '0';
+
+
+            } catch (error) {
+
+                console.error(
+                    'Erreur :',
+                    error
+                );
+
+
+                showAlert(
+                    t(
+                        'report.alert.error',
+                        '❌ Impossible d’envoyer votre signalement pour le moment. Veuillez réessayer.'
+                    ),
+                    'error'
+                );
+
+            } finally {
+
+                submitButton.disabled =
+                    false;
+
+                submitButton.textContent =
+                    t(
+                        'report.form.submit',
+                        '🚨 Envoyer le signalement'
+                    );
+
+            }
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

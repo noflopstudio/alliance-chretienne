@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title data-i18n="notifications.page_title">
+    Notifications - Alliance Chrétienne
+</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<!-- Supabase chargé UNE seule fois -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+    /* =========================================================
+       ALLIANCE CHRÉTIENNE — DESIGN NOTIFICATIONS
+       ========================================================= */
+
+    :root {
+        --primary-color: #2563eb;
+        --primary-light: #eff6ff;
+        --accent-pink: #f43f5e;
+        --accent-pink-light: #fff1f2;
+        --dark-color: #1e293b;
+        --text-color: #475569;
+        --muted-color: #94a3b8;
+        --white: #ffffff;
+        --border-color: #e2e8f0;
+        --success-color: #10b981;
+        --danger-color: #ef4444;
+        --light-color: #f8fafc;
+
+        --shadow:
+            0 20px 40px rgba(244, 63, 94, 0.08);
+
+        --shadow-sm:
+            0 4px 12px rgba(0, 0, 0, 0.04);
+
+        --shadow-hover:
+            0 20px 45px rgba(244, 63, 94, 0.14);
+    }
+
+    /* =========================================================
+       BASE
+       ========================================================= */
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background:
+            radial-gradient(
+                circle at 10% 10%,
+                rgba(244, 63, 94, 0.05),
+                transparent 30%
+            ),
+            radial-gradient(
+                circle at 90% 20%,
+                rgba(37, 99, 235, 0.05),
+                transparent 30%
+            ),
+            #fff8f8;
+
+        color: var(--text-color);
+
+        transition:
+            background-color 0.3s ease,
+            color 0.3s ease;
+    }
+
+    /* =========================================================
+       TITRE PRINCIPAL
+       ========================================================= */
+
+    section > .container > h2 {
+        font-size: 2rem !important;
+        font-weight: 800 !important;
+        letter-spacing: -0.7px;
+        margin-bottom: 1.5rem !important;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--dark-color),
+                var(--accent-pink)
+            );
+
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+
+        animation: notificationTitle 0.7s ease-out;
+    }
+
+    @keyframes notificationTitle {
+        from {
+            opacity: 0;
+            transform: translateY(-15px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* =========================================================
+       CONTENEUR PRINCIPAL
+       ========================================================= */
+
+    .notifications-container {
+        display: grid;
+        grid-template-columns: 270px 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    /* =========================================================
+       FILTRES
+       ========================================================= */
+
+    .notifications-filters {
+        background:
+            linear-gradient(
+                145deg,
+                rgba(255,255,255,0.98),
+                rgba(255,241,242,0.85)
+            );
+
+        border: 1px solid rgba(244, 63, 94, 0.12);
+        border-radius: 1.35rem;
+        box-shadow: var(--shadow);
+        padding: 1.5rem;
+        height: fit-content;
+        position: relative;
+        overflow: hidden;
+
+        animation: slideLeft 0.7s ease-out;
+    }
+
+    .notifications-filters::before {
+        content: "";
+        position: absolute;
+        width: 130px;
+        height: 130px;
+        top: -70px;
+        right: -60px;
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(244,63,94,0.10),
+                rgba(37,99,235,0.08)
+            );
+
+        border-radius: 50%;
+    }
+
+    .notifications-filters h3 {
+        position: relative;
+        color: var(--dark-color) !important;
+        font-size: 1.05rem !important;
+        font-weight: 800 !important;
+        margin-bottom: 1rem !important;
+    }
+
+    /* =========================================================
+       BOUTONS FILTRES
+       ========================================================= */
+
+    .filter-btn {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        width: 100%;
+        padding: 0.8rem 1rem;
+        margin-bottom: 0.6rem;
+
+        border: 1.5px solid var(--border-color);
+        background: rgba(255,255,255,0.8);
+        border-radius: 0.85rem;
+
+        cursor: pointer;
+        font-weight: 600;
+        color: var(--text-color);
+
+        transition: all 0.25s ease;
+    }
+
+    .filter-btn:hover {
+        transform: translateX(5px);
+        border-color: rgba(244,63,94,0.35);
+        background: var(--accent-pink-light);
+        color: var(--accent-pink);
+
+        box-shadow:
+            0 5px 15px rgba(244,63,94,0.08);
+    }
+
+    .filter-btn.active {
+        background:
+            linear-gradient(
+                135deg,
+                var(--accent-pink),
+                #e11d48
+            ) !important;
+
+        color: var(--white) !important;
+        border-color: transparent !important;
+
+        box-shadow:
+            0 8px 20px rgba(244,63,94,0.28);
+    }
+
+    .filter-btn.active:hover {
+        transform: translateX(4px) translateY(-1px);
+
+        box-shadow:
+            0 10px 25px rgba(244,63,94,0.35);
+    }
+
+    /* =========================================================
+       LISTE DES NOTIFICATIONS
+       ========================================================= */
+
+    .notifications-list {
+        background-color: var(--white);
+        border-radius: 1.35rem;
+
+        box-shadow: var(--shadow);
+
+        overflow: hidden;
+
+        border:
+            1px solid rgba(244,63,94,0.10);
+
+        animation:
+            slideRight 0.7s ease-out;
+    }
+
+    /* =========================================================
+       HEADER NOTIFICATIONS
+       ========================================================= */
+
+    .notifications-header {
+        padding: 1.35rem 1.5rem;
+
+        background:
+            linear-gradient(
+                135deg,
+                #ffffff,
+                #fff7f8
+            );
+
+        border-bottom:
+            1px solid var(--border-color);
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .notifications-header h2 {
+        margin: 0;
+        color: var(--dark-color);
+        font-size: 1.15rem;
+        font-weight: 800;
+    }
+
+    /* =========================================================
+       COMPTEUR
+       ========================================================= */
+
+    .notification-count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        min-width: 28px;
+        height: 28px;
+
+        padding: 0 8px;
+        margin-left: 0.5rem;
+
+        border-radius: 999px;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--accent-pink),
+                #e11d48
+            );
+
+        color: white;
+
+        font-size: 0.75rem;
+        font-weight: 800;
+
+        box-shadow:
+            0 4px 10px rgba(244,63,94,0.25);
+    }
+
+    /* =========================================================
+       TOUT MARQUER COMME LU
+       ========================================================= */
+
+    .mark-all-btn {
+        background:
+            linear-gradient(
+                135deg,
+                var(--primary-color),
+                #1d4ed8
+            );
+
+        color: var(--white);
+        border: none;
+
+        padding:
+            0.65rem 1rem;
+
+        border-radius:
+            0.75rem;
+
+        cursor: pointer;
+
+        font-weight: 700;
+        font-size: 0.82rem;
+
+        transition:
+            all 0.25s ease;
+
+        box-shadow:
+            0 5px 15px rgba(37,99,235,0.22);
+    }
+
+    .mark-all-btn:hover {
+        transform:
+            translateY(-2px);
+
+        box-shadow:
+            0 8px 20px rgba(37,99,235,0.30);
+    }
+
+    /* =========================================================
+       CONTENEUR DYNAMIQUE DES NOTIFICATIONS
+       ========================================================= */
+
+    #notificationsList {
+        width: 100%;
+    }
+
+    /* =========================================================
+       NOTIFICATION
+       ========================================================= */
+
+    .notification-item {
+        padding: 1.35rem 1.5rem;
+
+        border-bottom:
+            1px solid var(--border-color);
+
+        display: flex;
+        gap: 1rem;
+
+        cursor: pointer;
+
+        transition:
+            all 0.25s ease;
+
+        position: relative;
+
+        background:
+            rgba(255,255,255,0.95);
+    }
+
+    .notification-item:last-child {
+        border-bottom: none;
+    }
+
+    .notification-item:hover {
+        background:
+            linear-gradient(
+                90deg,
+                #fff7f8,
+                #ffffff
+            );
+
+        transform:
+            translateX(3px);
+    }
+
+    /* =========================================================
+       NOTIFICATION NON LUE
+       ========================================================= */
+
+    .notification-item.unread {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(244,63,94,0.065),
+                rgba(255,255,255,0.95)
+            );
+
+        border-left:
+            4px solid var(--accent-pink);
+    }
+
+    .notification-item.unread::after {
+        content: "";
+
+        position: absolute;
+
+        top: 18px;
+        right: 18px;
+
+        width: 8px;
+        height: 8px;
+
+        background:
+            var(--accent-pink);
+
+        border-radius: 50%;
+
+        box-shadow:
+            0 0 0 5px rgba(244,63,94,0.10);
+
+        animation:
+            notificationPulse 2s infinite;
+    }
+
+    @keyframes notificationPulse {
+        0%, 100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        50% {
+            transform: scale(1.25);
+            opacity: 0.7;
+        }
+    }
+
+    /* =========================================================
+       AVATAR
+       ========================================================= */
+
+    .notification-avatar {
+        width: 52px;
+        height: 52px;
+
+        border-radius: 50%;
+
+        object-fit: cover;
+
+        flex-shrink: 0;
+
+        border:
+            3px solid white;
+
+        box-shadow:
+            0 5px 15px rgba(0,0,0,0.10);
+
+        transition:
+            transform 0.25s ease;
+    }
+
+    .notification-item:hover .notification-avatar {
+        transform:
+            scale(1.06);
+    }
+
+    /* =========================================================
+       CONTENU
+       ========================================================= */
+
+    .notification-content {
+        flex: 1;
+        min-width: 0;
+        padding-right: 20px;
+    }
+
+    .notification-title {
+        font-weight: 800;
+        color: var(--dark-color);
+
+        margin-bottom:
+            0.3rem;
+
+        font-size:
+            0.98rem;
+    }
+
+    .notification-message {
+        color:
+            var(--text-color);
+
+        font-size:
+            0.92rem;
+
+        margin-bottom:
+            0.45rem;
+
+        line-height:
+            1.5;
+
+        word-break:
+            break-word;
+    }
+
+    .notification-time {
+        font-size:
+            0.78rem;
+
+        color:
+            var(--muted-color);
+
+        opacity:
+            1;
+    }
+
+    /* =========================================================
+       BADGES
+       ========================================================= */
+
+    .notification-badge {
+        display:
+            inline-flex;
+
+        align-items:
+            center;
+
+        padding:
+            0.3rem 0.7rem;
+
+        border-radius:
+            999px;
+
+        font-size:
+            0.72rem;
+
+        font-weight:
+            800;
+
+        margin-top:
+            0.55rem;
+
+        border:
+            1px solid transparent;
+    }
+
+    .badge-like {
+        background:
+            rgba(244,63,94,0.10);
+
+        color:
+            var(--accent-pink);
+
+        border-color:
+            rgba(244,63,94,0.15);
+    }
+
+    .badge-message {
+        background:
+            rgba(37,99,235,0.10);
+
+        color:
+            var(--primary-color);
+
+        border-color:
+            rgba(37,99,235,0.15);
+    }
+
+    .badge-match {
+        background:
+            rgba(16,185,129,0.10);
+
+        color:
+            #059669;
+
+        border-color:
+            rgba(16,185,129,0.15);
+    }
+
+    /* =========================================================
+       ACTIONS
+       ========================================================= */
+
+    .notification-actions {
+        display:
+            flex;
+
+        gap:
+            0.5rem;
+
+        margin-top:
+            0.8rem;
+
+        flex-wrap:
+            wrap;
+    }
+
+    .notification-actions button {
+        padding:
+            0.55rem 0.9rem;
+
+        border:
+            none;
+
+        border-radius:
+            0.7rem;
+
+        cursor:
+            pointer;
+
+        font-weight:
+            700;
+
+        font-size:
+            0.78rem;
+
+        transition:
+            all 0.25s ease;
+    }
+
+    .btn-action-primary {
+        background:
+            linear-gradient(
+                135deg,
+                var(--accent-pink),
+                #e11d48
+            );
+
+        color:
+            white;
+
+        box-shadow:
+            0 4px 12px rgba(244,63,94,0.20);
+    }
+
+    .btn-action-primary:hover {
+        transform:
+            translateY(-2px);
+
+        box-shadow:
+            0 7px 18px rgba(244,63,94,0.28);
+    }
+
+    .btn-action-secondary {
+        background:
+            #f8fafc;
+
+        color:
+            var(--text-color);
+
+        border:
+            1px solid var(--border-color) !important;
+    }
+
+    .btn-action-secondary:hover {
+        background:
+            var(--primary-light);
+
+        color:
+            var(--primary-color);
+
+        border-color:
+            rgba(37,99,235,0.20) !important;
+    }
+
+    /* =========================================================
+       ÉTAT VIDE
+       ========================================================= */
+
+    .empty-notifications {
+        text-align:
+            center;
+
+        padding:
+            4rem 2rem;
+
+        color:
+            var(--muted-color);
+
+        background:
+            radial-gradient(
+                circle at center,
+                #fff7f8,
+                #ffffff 65%
+            );
+    }
+
+    .empty-notifications h3 {
+        color:
+            var(--dark-color);
+
+        margin-bottom:
+            0.7rem;
+
+        font-weight:
+            800;
+
+        font-size:
+            1.15rem;
+    }
+
+    .empty-notifications p {
+        max-width:
+            450px;
+
+        margin:
+            0 auto;
+
+        line-height:
+            1.6;
+
+        font-size:
+            0.9rem;
+    }
+
+    /* =========================================================
+       ALERTES
+       ========================================================= */
+
+    #alertContainer {
+        margin-bottom:
+            1rem;
+    }
+
+    /* =========================================================
+       ANIMATIONS
+       ========================================================= */
+
+    @keyframes slideLeft {
+        from {
+            opacity: 0;
+            transform:
+                translateX(-25px);
+        }
+
+        to {
+            opacity: 1;
+            transform:
+                translateX(0);
+        }
+    }
+
+    @keyframes slideRight {
+        from {
+            opacity: 0;
+            transform:
+                translateX(25px);
+        }
+
+        to {
+            opacity: 1;
+            transform:
+                translateX(0);
+        }
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media (max-width: 900px) {
+
+        .notifications-container {
+            grid-template-columns:
+                1fr;
+        }
+
+        .notifications-filters {
+            display:
+                flex;
+
+            gap:
+                0.5rem;
+
+            overflow-x:
+                auto;
+
+            padding:
+                1rem;
+
+            border-radius:
+                1rem;
+        }
+
+        .notifications-filters h3 {
+            display:
+                none;
+        }
+
+        .filter-btn {
+            width:
+                auto;
+
+            min-width:
+                max-content;
+
+            margin-bottom:
+                0;
+
+            white-space:
+                nowrap;
+        }
+    }
+
+    @media (max-width: 600px) {
+
+        section > .container > h2 {
+            font-size:
+                1.5rem !important;
+        }
+
+        .notifications-header {
+            align-items:
+                flex-start;
+
+            flex-direction:
+                column;
+        }
+
+        .mark-all-btn {
+            width:
+                100%;
+        }
+
+        .notification-item {
+            padding:
+                1rem;
+        }
+
+        .notification-avatar {
+            width:
+                44px;
+
+            height:
+                44px;
+        }
+
+        .notification-title {
+            font-size:
+                0.9rem;
+        }
+
+        .notification-message {
+            font-size:
+                0.85rem;
+        }
+
+        .notification-actions {
+            flex-direction:
+                column;
+        }
+
+        .notification-actions button {
+            width:
+                100%;
+        }
+    }
+
+    /* =========================================================
+       MODE SOMBRE
+       ========================================================= */
+
+    body.dark-mode {
+        background:
+            radial-gradient(
+                circle at 10% 10%,
+                rgba(244,63,94,0.10),
+                transparent 30%
+            ),
+            #0f172a;
+
+        color:
+            #e2e8f0;
+    }
+
+    body.dark-mode .notifications-filters {
+        background:
+            linear-gradient(
+                145deg,
+                rgba(30,41,59,0.95),
+                rgba(15,23,42,0.95)
+            );
+
+        border-color:
+            rgba(244,63,94,0.20);
+    }
+
+    body.dark-mode .notifications-filters h3 {
+        color:
+            #f8fafc !important;
+    }
+
+    body.dark-mode .filter-btn {
+        background:
+            rgba(30,41,59,0.70);
+
+        border-color:
+            rgba(148,163,184,0.20);
+
+        color:
+            #cbd5e1;
+    }
+
+    body.dark-mode .filter-btn:hover {
+        background:
+            rgba(244,63,94,0.12);
+
+        color:
+            #fb7185;
+    }
+
+    body.dark-mode .notifications-list {
+        background:
+            #1e293b;
+
+        border-color:
+            rgba(148,163,184,0.15);
+    }
+
+    body.dark-mode .notifications-header {
+        background:
+            linear-gradient(
+                135deg,
+                #1e293b,
+                #172033
+            );
+
+        border-color:
+            rgba(148,163,184,0.15);
+    }
+
+    body.dark-mode .notifications-header h2 {
+        color:
+            #f8fafc;
+    }
+
+    body.dark-mode .notification-item {
+        background:
+            #1e293b;
+
+        border-color:
+            rgba(148,163,184,0.12);
+    }
+
+    body.dark-mode .notification-item:hover {
+        background:
+            #253247;
+    }
+
+    body.dark-mode .notification-item.unread {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(244,63,94,0.12),
+                #1e293b
+            );
+    }
+
+    body.dark-mode .notification-title {
+        color:
+            #f8fafc;
+    }
+
+    body.dark-mode .notification-message {
+        color:
+            #cbd5e1;
+    }
+
+    body.dark-mode .empty-notifications {
+        background:
+            radial-gradient(
+                circle at center,
+                rgba(244,63,94,0.08),
+                #1e293b 70%
+            );
+    }
+
+    body.dark-mode .empty-notifications h3 {
+        color:
+            #f8fafc;
+    }
+
+    body.dark-mode .btn-action-secondary {
+        background:
+            rgba(148,163,184,0.10);
+
+        color:
+            #cbd5e1;
+
+        border-color:
+            rgba(148,163,184,0.20) !important;
+    }
+
+    /* =========================================================
+       LOGO
+       ========================================================= */
+
+    .register-logo img {
+        width:
+            50px;
+
+        height:
+            auto;
+
+        display:
+            block;
+    }
+
+    /* =========================================================
+       BOUTON RETOUR
+       ========================================================= */
+
+    .profile-back-button {
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            center;
+
+        width:
+            42px;
+
+        height:
+            42px;
+
+        margin-right:
+            8px;
+
+        border-radius:
+            50%;
+
+        color:
+            var(--dark-color);
+
+        background:
+            transparent;
+
+        text-decoration:
+            none;
+
+        font-size:
+            2rem;
+
+        font-weight:
+            400;
+
+        line-height:
+            1;
+
+        transition:
+            background .2s ease,
+            transform .2s ease;
+    }
+
+    .profile-back-button:hover {
+        background:
+            #f1f5f9;
+
+        transform:
+            translateX(-2px);
+    }
+
+    .profile-back-button:active {
+        transform:
+            scale(.92);
+    }
+
+    body.dark-mode .profile-back-button {
+        color:
+            #f8fafc;
+    }
+
+    body.dark-mode .profile-back-button:hover {
+        background:
+            rgba(255,255,255,0.08);
+    }
+
+/* =========================================================
+   CORRECTIF AFFICHAGE MOBILE - NOTIFICATIONS
+   ========================================================= */
+
+@media (max-width: 600px) {
+    /* Organisation de chaque notification en colonne propre */
+    .notification-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+        gap: 0.75rem;
+    }
+
+    /* Ajustement de l'avatar pour qu'il ne soit pas trop grand */
+    .notification-avatar {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Contenu flexible sans débordement */
+    .notification-content {
+        padding-right: 0;
+        width: 100%;
+    }
+
+    /* Titre et texte plus compacts */
+    .notification-title {
+        font-size: 0.9rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .notification-message {
+        font-size: 0.85rem;
+        margin-bottom: 0.4rem;
+    }
+
+    /* Positionnement propre des badges et du temps */
+    .notification-badge {
+        display: inline-block;
+        margin-top: 0.3rem;
+        font-size: 0.7rem;
+    }
+
+    /* Boutons d'action (comme "Cerrar") bien alignés en bas */
+    .notification-actions {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .notification-actions button {
+        flex: 1;
+        padding: 0.5rem;
+        font-size: 0.75rem;
+    }
+}
+
+
+</style>
+
+
+</head>
+
+<body>
+
+<!-- Fond animé -->
+<div class="animated-bg">
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+</div>
+
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
+
+<header>
+
+    <nav class="navbar">
+
+        <div class="container">
+
+            <a
+                href="javascript:history.back()"
+                class="profile-back-button"
+                aria-label="Retour"
+            >
+                ‹
+            </a>
+
+            <div class="logo">
+
+                <a
+                    href="index.html"
+                    class="register-logo"
+                >
+                    <img
+                        src="images/logo.png"
+                        alt="Alliance Chrétienne"
+                    >
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+</header>
+
+
+<!-- =========================================================
+     CONTENU PRINCIPAL
+     ========================================================= -->
+
+<section style="padding: 2rem 0;">
+
+    <div class="container">
+
+        <h2
+            data-i18n="notifications.title"
+            style="color: var(--dark-color); margin-bottom: 1.5rem;"
+        >
+            🔔 Notifications
+        </h2>
+
+
+        <!-- =====================================================
+             ALERTES
+             ===================================================== -->
+
+        <div id="alertContainer"></div>
+
+
+        <!-- =====================================================
+             LAYOUT
+             ===================================================== -->
+
+        <div class="notifications-container">
+
+
+            <!-- =================================================
+                 FILTRES
+                 ================================================= -->
+
+            <div class="notifications-filters">
+
+                <h3
+                    data-i18n="notifications.filter"
+                    style="color: var(--dark-color); margin-bottom: 1rem; font-size: 1.1rem;"
+                >
+                    Filtrer
+                </h3>
+
+
+                <button
+                    class="filter-btn active"
+                    onclick="filterNotifications('all')"
+                >
+                    <span data-i18n="notifications.all">
+                        📬 Toutes
+                    </span>
+                </button>
+
+
+                <button
+                    class="filter-btn"
+                    onclick="filterNotifications('like')"
+                >
+                    <span data-i18n="notifications.likes">
+                        ❤️ Likes
+                    </span>
+                </button>
+
+
+                <button
+                    class="filter-btn"
+                    onclick="filterNotifications('match')"
+                >
+                    <span data-i18n="notifications.matches">
+                        💕 Matchs
+                    </span>
+                </button>
+
+
+                <button
+                    class="filter-btn"
+                    onclick="filterNotifications('message')"
+                >
+                    <span data-i18n="notifications.messages">
+                        💬 Messages
+                    </span>
+                </button>
+
+
+                <button
+                    class="filter-btn"
+                    onclick="filterNotifications('audio_call')"
+                >
+                    <span data-i18n="notifications.audio_calls">
+                        📞 Appels audio
+                    </span>
+                </button>
+
+
+                <button
+                    class="filter-btn"
+                    onclick="filterNotifications('video_call')"
+                >
+                    <span data-i18n="notifications.video_calls">
+                        🎥 Appels vidéo
+                    </span>
+                </button>
+
+
+                <button
+                    class="filter-btn"
+                    onclick="filterNotifications('problem_report')"
+                >
+                    <span data-i18n="notifications.reports">
+                        🚨 Signalements
+                    </span>
+                </button>
+
+
+                <button
+                    class="filter-btn"
+                    onclick="filterNotifications('unread')"
+                    style="margin-top: 1rem; border-color: var(--danger-color); color: var(--danger-color);"
+                >
+                    <span data-i18n="notifications.unread">
+                        🔴 Non lues
+                    </span>
+                </button>
+
+            </div>
+
+
+            <!-- =================================================
+                 LISTE DES NOTIFICATIONS
+                 ================================================= -->
+
+            <div class="notifications-list">
+
+
+                <!-- HEADER -->
+
+                <div class="notifications-header">
+
+                    <h2>
+
+                        <span data-i18n="notifications.your_notifications">
+                            Vos notifications
+                        </span>
+
+                        <span
+                            class="notification-count"
+                            id="unreadCount"
+                        >
+                            0
+                        </span>
+
+                    </h2>
+
+
+                    <button
+                        class="mark-all-btn"
+                        onclick="markAllAsRead()"
+                        data-i18n="notifications.mark_all_read"
+                    >
+                        Tout marquer comme lu
+                    </button>
+
+                </div>
+
+
+                <!-- =================================================
+                     CONTENEUR DYNAMIQUE
+                     notifications.js peut injecter les notifications
+                     ici.
+                     ================================================= -->
+
+                <div id="notificationsList">
+
+                    <!-- État vide par défaut -->
+
+                    <div class="empty-notifications">
+
+                        <h3 data-i18n="notifications.empty_title">
+                            📭 Aucune notification
+                        </h3>
+
+                        <p data-i18n="notifications.empty_description">
+                            Vous recevrez des notifications quand quelqu'un vous likera, matchera ou enverra un message.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+
+<footer>
+
+    <div class="container">
+
+        <p>
+
+            &copy; 2026 Alliance Chrétienne.
+
+            <span data-i18n="notifications.all_rights_reserved">
+                Tous droits réservés.
+            </span>
+
+        </p>
+
+    </div>
+
+</footer>
+
+
+<!-- =========================================================
+     SCRIPTS
+     ========================================================= -->
+
+<!-- Configuration Supabase -->
+<script src="js/supabase-config.js"></script>
+
+<!-- Traductions AVANT notifications.js -->
+<script src="js/i18n.js"></script>
+
+<!-- Système de notifications -->
+<script src="js/notifications.js"></script>
+
+
+</body>
+
+</html>

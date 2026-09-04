@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Développement - Alliance Chrétienne</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    :root {
+        --primary-color: #2563eb;
+        --primary-light: #eff6ff;
+        --accent-pink: #f43f5e;
+        --accent-pink-light: #fff1f2;
+        --dark-color: #1e293b;
+        --text-color: #475569;
+        --white: #ffffff;
+        --border-color: #e2e8f0;
+        --dark-bg: #0f172a;
+        --dark-card: #1e293b;
+        --dark-text: #e2e8f0;
+        --shadow: 0 20px 40px rgba(244, 63, 94, 0.08);
+        --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #fff8f8;
+        color: var(--text-color);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        min-height: 100vh;
+        overflow-x: hidden;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    body.dark-mode {
+        background-color: var(--dark-bg);
+        color: var(--dark-text);
+    }
+
+    .animated-bg {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    .floating-shape {
+        position: absolute;
+        bottom: -150px;
+        background: linear-gradient(
+            135deg,
+            rgba(244, 63, 94, 0.08),
+            rgba(37, 99, 235, 0.06)
+        );
+        backdrop-filter: blur(5px);
+        border-radius: 50%;
+        animation: floatUp 15s infinite linear;
+    }
+
+    .floating-shape:nth-child(1) {
+        width: 80px;
+        height: 80px;
+        left: 10%;
+        animation-duration: 12s;
+    }
+
+    .floating-shape:nth-child(2) {
+        width: 120px;
+        height: 120px;
+        left: 30%;
+        animation-duration: 18s;
+        animation-delay: 2s;
+    }
+
+    .floating-shape:nth-child(3) {
+        width: 60px;
+        height: 60px;
+        left: 70%;
+        animation-duration: 10s;
+        animation-delay: 4s;
+    }
+
+    .floating-shape:nth-child(4) {
+        width: 100px;
+        height: 100px;
+        left: 85%;
+        animation-duration: 14s;
+        animation-delay: 1s;
+    }
+
+    .floating-shape:nth-child(5) {
+        width: 70px;
+        height: 70px;
+        left: 50%;
+        animation-duration: 16s;
+        animation-delay: 5s;
+    }
+
+    body.dark-mode .floating-shape {
+        background: linear-gradient(
+            135deg,
+            rgba(244, 63, 94, 0.12),
+            rgba(37, 99, 235, 0.10)
+        );
+    }
+
+    @keyframes floatUp {
+        0% {
+            transform: translateY(0) rotate(0deg) scale(1);
+            opacity: 0.8;
+        }
+
+        50% {
+            opacity: 0.4;
+        }
+
+        100% {
+            transform: translateY(-100vh) rotate(360deg) scale(1.2);
+            opacity: 0;
+        }
+    }
+
+    header {
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        transition: all 0.3s ease;
+    }
+
+    body.dark-mode header {
+        background-color: rgba(30, 41, 59, 0.95);
+        border-bottom-color: rgba(148, 163, 184, 0.2);
+    }
+
+    .navbar {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .register-logo img {
+        width: 50px;
+        height: auto;
+        display: block;
+        transition: transform 0.3s ease;
+    }
+
+    .register-logo img:hover {
+        transform: scale(1.08);
+    }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .dark-mode-toggle {
+        background: #f1f5f9;
+        border: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    body.dark-mode .dark-mode-toggle {
+        background: rgba(148, 163, 184, 0.2);
+    }
+
+    .dark-mode-toggle:hover {
+        transform: rotate(20deg) scale(1.1);
+    }
+
+    .btn-back {
+        padding: 0.6rem 1.4rem;
+        border-radius: 0.75rem;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        background: linear-gradient(
+            135deg,
+            var(--accent-pink),
+            #e11d48
+        );
+        color: var(--white);
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3);
+    }
+
+    .btn-back:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(244, 63, 94, 0.4);
+    }
+
+    .development-hero {
+        padding: 5rem 1.5rem 4rem;
+    }
+
+    .hero-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .hero-icon {
+        width: 90px;
+        height: 90px;
+        margin: 0 auto 1.5rem;
+        border-radius: 1.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        background: linear-gradient(
+            135deg,
+            var(--accent-pink),
+            #2563eb
+        );
+        color: white;
+        box-shadow: 0 15px 35px rgba(244, 63, 94, 0.25);
+        animation: iconFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes iconFloat {
+        0%, 100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-8px);
+        }
+    }
+
+    .hero-container h1 {
+        color: var(--dark-color);
+        font-size: 3rem;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+    }
+
+    body.dark-mode .hero-container h1 {
+        color: var(--white);
+    }
+
+    .hero-container h1 span {
+        background: linear-gradient(
+            135deg,
+            var(--accent-pink),
+            #ec4899
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .hero-container > p {
+        max-width: 760px;
+        margin: 0 auto;
+        font-size: 1.15rem;
+        line-height: 1.7;
+        color: var(--text-color);
+    }
+
+    body.dark-mode .hero-container > p {
+        color: #cbd5e1;
+    }
+
+    .development-content {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 1.5rem 5rem;
+    }
+
+    .developer-card {
+        background: var(--white);
+        border: 1px solid rgba(244, 63, 94, 0.15);
+        border-radius: 1.5rem;
+        padding: 2.5rem;
+        box-shadow: var(--shadow);
+        text-align: center;
+        margin-bottom: 2rem;
+        transition: all 0.3s ease;
+    }
+
+    body.dark-mode .developer-card {
+        background: linear-gradient(
+            135deg,
+            rgba(30, 41, 59, 0.9),
+            rgba(15, 23, 42, 0.9)
+        );
+        border-color: rgba(244, 63, 94, 0.2);
+    }
+
+    .developer-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 25px 50px rgba(244, 63, 94, 0.15);
+    }
+
+    .developer-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 999px;
+        background: var(--accent-pink-light);
+        color: var(--accent-pink);
+        font-size: 0.85rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    body.dark-mode .developer-badge {
+        background: rgba(244, 63, 94, 0.12);
+    }
+
+    .developer-card h2 {
+        color: var(--dark-color);
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+    }
+
+    body.dark-mode .developer-card h2 {
+        color: var(--white);
+    }
+
+    .developer-name {
+        font-size: 1.3rem;
+        font-weight: 800;
+        background: linear-gradient(
+            135deg,
+            var(--accent-pink),
+            #2563eb
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1rem;
+    }
+
+    .developer-card p {
+        max-width: 750px;
+        margin: 0 auto;
+        line-height: 1.7;
+        color: var(--text-color);
+    }
+
+    body.dark-mode .developer-card p {
+        color: #cbd5e1;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .section-title h2 {
+        color: var(--dark-color);
+        font-size: 2rem;
+        margin-bottom: 0.6rem;
+    }
+
+    body.dark-mode .section-title h2 {
+        color: var(--white);
+    }
+
+    .section-title p {
+        color: var(--text-color);
+    }
+
+    body.dark-mode .section-title p {
+        color: #94a3b8;
+    }
+
+    .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+        margin-bottom: 3rem;
+    }
+
+    .tech-card {
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid var(--border-color);
+        border-radius: 1.2rem;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.3s ease;
+    }
+
+    body.dark-mode .tech-card {
+        background: rgba(30, 41, 59, 0.65);
+        border-color: rgba(148, 163, 184, 0.2);
+    }
+
+    .tech-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(244, 63, 94, 0.35);
+        box-shadow: 0 12px 25px rgba(244, 63, 94, 0.12);
+    }
+
+    .tech-icon {
+        font-size: 2.2rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .tech-card h3 {
+        color: var(--dark-color);
+        font-size: 1.05rem;
+        margin-bottom: 0.5rem;
+    }
+
+    body.dark-mode .tech-card h3 {
+        color: var(--white);
+    }
+
+    .tech-card p {
+        color: #64748b;
+        font-size: 0.88rem;
+        line-height: 1.5;
+    }
+
+    body.dark-mode .tech-card p {
+        color: #94a3b8;
+    }
+
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    .value-card {
+        background: var(--white);
+        border: 1px solid var(--border-color);
+        border-radius: 1.3rem;
+        padding: 1.8rem;
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.3s ease;
+    }
+
+    body.dark-mode .value-card {
+        background: rgba(30, 41, 59, 0.65);
+        border-color: rgba(148, 163, 184, 0.2);
+    }
+
+    .value-card:hover {
+        transform: translateX(5px);
+        box-shadow: 0 12px 25px rgba(244, 63, 94, 0.1);
+    }
+
+    .value-icon {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        border-radius: 0.9rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(
+            135deg,
+            var(--accent-pink),
+            #2563eb
+        );
+        color: white;
+        font-size: 1.35rem;
+    }
+
+    .value-card h3 {
+        color: var(--dark-color);
+        margin-bottom: 0.4rem;
+        font-size: 1.05rem;
+    }
+
+    body.dark-mode .value-card h3 {
+        color: var(--white);
+    }
+
+    .value-card p {
+        color: #64748b;
+        font-size: 0.9rem;
+        line-height: 1.55;
+    }
+
+    body.dark-mode .value-card p {
+        color: #94a3b8;
+    }
+
+    .development-cta {
+        background: linear-gradient(
+            135deg,
+            #1e293b,
+            #0f172a
+        );
+        color: var(--white);
+        padding: 4rem 1.5rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border-top: 4px solid var(--accent-pink);
+    }
+
+    .development-cta::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(
+                circle at 20% 20%,
+                rgba(244, 63, 94, 0.15),
+                transparent 30%
+            ),
+            radial-gradient(
+                circle at 80% 80%,
+                rgba(37, 99, 235, 0.15),
+                transparent 30%
+            );
+    }
+
+    .development-cta > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    .development-cta h2 {
+        font-size: 2.3rem;
+        margin-bottom: 1rem;
+    }
+
+    .development-cta p {
+        max-width: 700px;
+        margin: 0 auto 1.8rem;
+        color: #cbd5e1;
+        line-height: 1.7;
+    }
+
+    .developer-signature {
+        display: inline-block;
+        padding: 0.9rem 1.5rem;
+        border: 1px solid rgba(244, 63, 94, 0.4);
+        border-radius: 0.9rem;
+        background: rgba(255, 255, 255, 0.05);
+        font-weight: 700;
+    }
+
+    .developer-signature span {
+        color: #fb7185;
+    }
+
+    footer {
+        background-color: #0f172a;
+        color: #94a3b8;
+        padding: 3rem 1rem 1.5rem;
+        text-align: center;
+    }
+
+    .footer-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        align-items: center;
+    }
+
+    .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
+        font-weight: 500;
+    }
+
+    .footer-links a {
+        color: #cbd5e1;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+        color: #ffffff;
+    }
+
+    .footer-countries {
+        border-top: 1px solid #ec4899;
+        border-bottom: 1px solid #1e293b;
+        width: 100%;
+        padding: 1.5rem 0;
+    }
+
+    .footer-countries strong {
+        color: #ec4899;
+        display: block;
+        margin-bottom: 0.6rem;
+        font-size: 0.95rem;
+    }
+
+    .footer-countries p {
+        margin: 0;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+        letter-spacing: 0.5px;
+        line-height: 2;
+    }
+
+    .copyright {
+        font-size: 0.85rem;
+        color: #64748b;
+    }
+
+    @media (max-width: 900px) {
+        .hero-container h1 {
+            font-size: 2.4rem;
+        }
+
+        .tech-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .development-hero {
+            padding-top: 3.5rem;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .navbar {
+            padding: 0.85rem 1rem;
+        }
+
+        .register-logo img {
+            width: 45px;
+        }
+
+        .btn-back {
+            padding: 0.55rem 1rem;
+            font-size: 0.82rem;
+        }
+
+        .development-hero {
+            padding: 3rem 1rem 2.5rem;
+        }
+
+        .hero-icon {
+            width: 75px;
+            height: 75px;
+            font-size: 2.4rem;
+        }
+
+        .hero-container h1 {
+            font-size: 1.9rem;
+        }
+
+        .hero-container > p {
+            font-size: 0.98rem;
+        }
+
+        .development-content {
+            padding: 0 1rem 3rem;
+        }
+
+        .developer-card {
+            padding: 1.7rem 1.2rem;
+        }
+
+        .developer-card h2 {
+            font-size: 1.5rem;
+        }
+
+        .tech-grid,
+        .values-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .section-title h2 {
+            font-size: 1.5rem;
+        }
+
+        .development-cta {
+            padding: 3rem 1rem;
+        }
+
+        .development-cta h2 {
+            font-size: 1.7rem;
+        }
+
+        .footer-links {
+            gap: 1rem;
+        }
+
+        .footer-links a {
+            font-size: 0.85rem;
+        }
+
+        .footer-countries p {
+            font-size: 0.85rem;
+            line-height: 1.9;
+        }
+    }
+</style>
+
+</head>
+
+<body>
+
+<div class="animated-bg">
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+</div>
+
+<header>
+    <nav class="navbar">
+
+        <div class="logo">
+            <a href="index.html" class="register-logo">
+                <img
+                    src="images/logo.png"
+                    alt="Alliance Chrétienne"
+                >
+            </a>
+        </div>
+
+        <div class="nav-right">
+
+            <button
+                id="darkModeToggle"
+                class="dark-mode-toggle"
+                title="Mode sombre"
+                type="button"
+            >
+                🌙
+            </button>
+
+            <a href="index.html" class="btn-back">
+                Accueil
+            </a>
+
+        </div>
+
+    </nav>
+</header>
+
+<main>
+
+    <section class="development-hero">
+
+        <div class="hero-container">
+
+            <div class="hero-icon">
+                💻
+            </div>
+
+            <h1>
+                Développement
+                <span>Alliance Chrétienne</span>
+            </h1>
+
+            <p>
+                Découvrez la conception et le développement de la
+                plateforme Alliance Chrétienne, pensée pour offrir
+                une expérience moderne, sécurisée et respectueuse
+                des valeurs chrétiennes.
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="development-content">
+
+        <!-- DÉVELOPPEUR -->
+
+        <div class="developer-card">
+
+            <div class="developer-badge">
+                ✨ Création de la plateforme
+            </div>
+
+            <h2>
+                Conception & développement
+            </h2>
+
+            <div class="developer-name">
+                Yelo Joel
+            </div>
+
+            <p>
+                Alliance Chrétienne est une plateforme conçue et
+                développée avec l'objectif de créer un espace
+                moderne permettant aux célibataires chrétiens
+                de faire des rencontres sérieuses dans un cadre
+                respectueux, sécurisé et orienté vers des
+                relations authentiques.
+            </p>
+
+        </div>
+
+        <!-- TECHNOLOGIES -->
+
+        <div class="section-title">
+
+            <h2>
+                Technologies utilisées
+            </h2>
+
+            <p>
+                Une architecture moderne pour assurer
+                performance, fiabilité et évolutivité.
+            </p>
+
+        </div>
+
+        <div class="tech-grid">
+
+            <div class="tech-card">
+
+                <div class="tech-icon">
+                    🌐
+                </div>
+
+                <h3>
+                    HTML5
+                </h3>
+
+                <p>
+                    Structure moderne et sémantique des
+                    différentes pages de la plateforme.
+                </p>
+
+            </div>
+
+            <div class="tech-card">
+
+                <div class="tech-icon">
+                    🎨
+                </div>
+
+                <h3>
+                    CSS3
+                </h3>
+
+                <p>
+                    Interfaces responsives, animations,
+                    mode sombre et expérience visuelle moderne.
+                </p>
+
+            </div>
+
+            <div class="tech-card">
+
+                <div class="tech-icon">
+                    ⚡
+                </div>
+
+                <h3>
+                    JavaScript
+                </h3>
+
+                <p>
+                    Interactions dynamiques, messagerie,
+                    présence en ligne et fonctionnalités
+                    de la plateforme.
+                </p>
+
+            </div>
+
+            <div class="tech-card">
+
+                <div class="tech-icon">
+                    🗄️
+                </div>
+
+                <h3>
+                    Supabase
+                </h3>
+
+                <p>
+                    Authentification, base de données,
+                    stockage et gestion des données utilisateurs.
+                </p>
+
+            </div>
+
+            <div class="tech-card">
+
+                <div class="tech-icon">
+                    🔐
+                </div>
+
+                <h3>
+                    Sécurité
+                </h3>
+
+                <p>
+                    Protection des données et contrôle des
+                    accès pour préserver la confiance des membres.
+                </p>
+
+            </div>
+
+            <div class="tech-card">
+
+                <div class="tech-icon">
+                    📱
+                </div>
+
+                <h3>
+                    Responsive Design
+                </h3>
+
+                <p>
+                    Une interface adaptée aux ordinateurs,
+                    tablettes et smartphones.
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- VALEURS -->
+
+        <div class="section-title">
+
+            <h2>
+                Les priorités du développement
+            </h2>
+
+            <p>
+                Chaque fonctionnalité est pensée autour
+                de l'expérience des membres.
+            </p>
+
+        </div>
+
+        <div class="values-grid">
+
+            <div class="value-card">
+
+                <div class="value-icon">
+                    ❤️
+                </div>
+
+                <div>
+
+                    <h3>
+                        Expérience utilisateur
+                    </h3>
+
+                    <p>
+                        Une navigation claire et intuitive
+                        pour permettre aux membres de profiter
+                        facilement de leur espace.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="value-card">
+
+                <div class="value-icon">
+                    🔒
+                </div>
+
+                <div>
+
+                    <h3>
+                        Protection & sécurité
+                    </h3>
+
+                    <p>
+                        La sécurité des comptes et la protection
+                        des informations personnelles font partie
+                        des priorités de la plateforme.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="value-card">
+
+                <div class="value-icon">
+                    💬
+                </div>
+
+                <div>
+
+                    <h3>
+                        Communication
+                    </h3>
+
+                    <p>
+                        Messagerie et fonctionnalités de
+                        communication conçues pour favoriser
+                        des échanges respectueux.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="value-card">
+
+                <div class="value-icon">
+                    🚀
+                </div>
+
+                <div>
+
+                    <h3>
+                        Évolution
+                    </h3>
+
+                    <p>
+                        La plateforme est conçue pour évoluer
+                        progressivement avec de nouvelles
+                        fonctionnalités et améliorations.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="development-cta">
+
+        <h2>
+            Une plateforme pensée avec passion ✝️
+        </h2>
+
+        <p>
+            Alliance Chrétienne continue d'évoluer pour proposer
+            aux célibataires chrétiens un espace de rencontre
+            moderne, sérieux et respectueux de leurs valeurs.
+        </p>
+
+        <div class="developer-signature">
+            Conception & développement :
+            <span>Yelo Joel</span>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+
+    <div class="footer-container">
+
+        <div class="footer-links">
+
+            <a href="aide.html">Aide</a>
+            <a href="blog.html">Blog</a>
+            <a href="faq.html">FAQ</a>
+            <a href="confidentialite.html">Confidentialité</a>
+            <a href="conditions.html">Conditions</a>
+            <a href="securite.html">Sécurité</a>
+            <a href="a-propos.html">À propos</a>
+            <a href="contact.html">Contact</a>
+            <a href="temoignages.html">Témoignages</a>
+            <a href="eglises.html">Églises & communautés</a>
+            <a href="signaler.html">Signaler un problème</a>
+            <a href="tarifs.html">Tarifs</a>
+            <a href="conseils-securite.html">Conseils & sécurité</a>
+            <a href="communaute.html">Communauté</a>
+            <a href="partenaires.html">Devenir partenaire</a>
+            <a href="developpement.html">💻 Développement</a>
+
+        </div>
+
+        <div class="footer-countries">
+
+            <strong>
+                🌍 Alliance Chrétienne dans le monde
+            </strong>
+
+            <p>
+                🇨🇮 Côte d'Ivoire &bull;
+                🇨🇲 Cameroun &bull;
+                🇸🇳 Sénégal &bull;
+                🇲🇱 Mali &bull;
+                🇲🇦 Maroc &bull;
+                🇬🇳 Guinée &bull;
+                🇨🇩 RDC &bull;
+                🇧🇯 Bénin &bull;
+                🇬🇦 Gabon &bull;
+                🇬🇭 Ghana &bull;
+                🇫🇷 France &bull;
+                🇧🇪 Belgique &bull;
+                🇨🇭 Suisse &bull;
+                🇩🇪 Allemagne &bull;
+                🇮🇹 Italie &bull;
+                🇪🇸 Espagne &bull;
+                🇬🇧 Royaume-Uni &bull;
+                🇵🇹 Portugal &bull;
+                🇳🇱 Pays-Bas &bull;
+                🇺🇸 États-Unis &bull;
+                🇨🇦 Canada &bull;
+                🇧🇷 Brésil &bull;
+                🇲🇽 Mexique &bull;
+                🇦🇷 Argentine &bull;
+                🇱🇧 Liban &bull;
+                🇮🇱 Israël &bull;
+                🇮🇳 Inde &bull;
+                🇦🇺 Australie &bull;
+                🇳🇿 Nouvelle-Zélande &bull;
+                🇯🇵 Japon
+            </p>
+
+        </div>
+
+        <div class="copyright">
+
+            <p>
+                &copy; 2026 Alliance Chrétienne.
+                Tous droits réservés.
+            </p>
+
+        </div>
+
+    </div>
+
+</footer>
+
+<script>
+
+    const darkModeToggle =
+        document.getElementById('darkModeToggle');
+
+    const isDarkMode =
+        localStorage.getItem('darkMode') === 'true';
+
+    if (isDarkMode) {
+
+        document.body.classList.add('dark-mode');
+
+        darkModeToggle.textContent = '☀️';
+
+    }
+
+    darkModeToggle.addEventListener('click', () => {
+
+        const isCurrentlyDark =
+            document.body.classList.toggle('dark-mode');
+
+        localStorage.setItem(
+            'darkMode',
+            isCurrentlyDark
+        );
+
+        darkModeToggle.textContent =
+            isCurrentlyDark
+                ? '☀️'
+                : '🌙';
+
+    });
+
+</script>
+
+
+</body>
+</html>

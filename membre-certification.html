@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demande de certification - Alliance Chrétienne</title>
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="js/i18n.js"></script>
+
+    <style>
+        /* =========================================================
+           VARIABLES
+        ========================================================= */
+        :root {
+            --primary-color: #2563eb;
+            --primary-light: #eff6ff;
+            --accent-pink: #f43f5e;
+            --accent-pink-light: #fff1f2;
+            --dark-color: #1e293b;
+            --text-color: #475569;
+            --white: #ffffff;
+            --border-color: #e2e8f0;
+            --danger-color: #ef4444;
+            --success-color: #10b981;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-text: #e2e8f0;
+            --shadow-sm: 0 4px 12px rgba(15, 23, 42, .06);
+            --shadow: 0 20px 45px rgba(15, 23, 42, .08);
+        }
+
+        /* =========================================================
+           PAGE
+        ========================================================= */
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        body {
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .certification-page {
+            width: 100%;
+            max-width: 100%;
+            min-height: 100vh;
+            box-sizing: border-box;
+            padding: 120px 20px 60px;
+        }
+
+        body.dark-mode .certification-page {
+            background: linear-gradient(135deg, #0f172a 0%, #111827 50%, #172033 100%);
+        }
+
+        /* =========================================================
+           DECORATION
+        ========================================================= */
+        .certification-page::before {
+            content: "";
+            position: fixed;
+            width: 350px;
+            height: 350px;
+            top: -150px;
+            right: -120px;
+            border-radius: 50%;
+            background: rgba(244, 63, 94, .08);
+            pointer-events: none;
+        }
+
+        .certification-page::after {
+            content: "";
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            bottom: -150px;
+            left: -100px;
+            border-radius: 50%;
+            background: rgba(37, 99, 235, .08);
+            pointer-events: none;
+        }
+
+        /* =========================================================
+           CONTAINER
+        ========================================================= */
+        .certification-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+        .certification-hero {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .certification-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 9px 17px;
+            border-radius: 30px;
+            background: linear-gradient(135deg, var(--accent-pink-light), var(--primary-light));
+            border: 1px solid rgba(244, 63, 94, .12);
+            color: var(--accent-pink);
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: .3px;
+            box-shadow: 0 6px 20px rgba(244, 63, 94, .08);
+        }
+
+        .certification-hero h1 {
+            margin: 17px 0 10px;
+            font-size: 34px;
+            line-height: 1.2;
+            color: var(--dark-color);
+            font-weight: 800;
+            letter-spacing: -.5px;
+        }
+
+        body.dark-mode .certification-hero h1 {
+            color: var(--white);
+        }
+
+        .certification-hero h1 span {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .certification-hero p {
+            max-width: 680px;
+            margin: 0 auto;
+            color: var(--text-color);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        body.dark-mode .certification-hero p {
+            color: #94a3b8;
+        }
+
+        /* =========================================================
+           CARD PRINCIPALE
+        ========================================================= */
+        .certification-card {
+            background: rgba(255, 255, 255, .96);
+            border: 1px solid rgba(226, 232, 240, .9);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(18px);
+        }
+
+        body.dark-mode .certification-card {
+            background: rgba(30, 41, 59, .96);
+            border-color: rgba(148, 163, 184, .15);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .25);
+        }
+
+        /* =========================================================
+           INFO BOX
+        ========================================================= */
+        .info-box {
+            display: flex;
+            gap: 15px;
+            padding: 18px;
+            margin-bottom: 28px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #eff6ff, #fff1f2);
+            border: 1px solid rgba(37, 99, 235, .12);
+        }
+
+        body.dark-mode .info-box {
+            background: linear-gradient(135deg, rgba(37, 99, 235, .12), rgba(244, 63, 94, .10));
+            border-color: rgba(148, 163, 184, .15);
+        }
+
+        .info-box-icon {
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, .85);
+            font-size: 25px;
+            box-shadow: 0 5px 15px rgba(15, 23, 42, .06);
+        }
+
+        .info-box strong {
+            display: block;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+
+        body.dark-mode .info-box strong {
+            color: #60a5fa;
+        }
+
+        .info-box p {
+            margin: 0;
+            color: var(--text-color);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        body.dark-mode .info-box p {
+            color: #94a3b8;
+        }
+
+        /* =========================================================
+           SECTIONS
+        ========================================================= */
+        .form-section {
+            padding: 28px 0;
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        body.dark-mode .form-section {
+            border-bottom-color: rgba(148, 163, 184, .12);
+        }
+
+        .form-section:last-of-type {
+            border-bottom: none;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 0 0 8px;
+            color: var(--dark-color);
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        body.dark-mode .section-title {
+            color: var(--white);
+        }
+
+        .section-title .icon {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary-light), var(--accent-pink-light));
+            font-size: 20px;
+            box-shadow: 0 5px 15px rgba(37, 99, 235, .06);
+        }
+
+        body.dark-mode .section-title .icon {
+            background: linear-gradient(135deg, rgba(37, 99, 235, .15), rgba(244, 63, 94, .13));
+        }
+
+        .section-description {
+            margin: 0 0 22px 54px;
+            color: #667085;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        body.dark-mode .section-description {
+            color: #94a3b8;
+        }
+
+        /* =========================================================
+           FORM GRID
+        ========================================================= */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #344054;
+        }
+
+        body.dark-mode .form-group label {
+            color: #cbd5e1;
+        }
+
+        .required {
+            color: var(--accent-pink);
+        }
+
+        .optional {
+            color: #98a2b3;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* =========================================================
+           INPUTS
+        ========================================================= */
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 13px 14px;
+            border: 1px solid #d0d5dd;
+            border-radius: 11px;
+            background: #ffffff;
+            color: #172033;
+            font-size: 14px;
+            outline: none;
+            transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+        }
+
+        body.dark-mode .form-group input,
+        body.dark-mode .form-group select,
+        body.dark-mode .form-group textarea {
+            background: #0f172a;
+            border-color: rgba(148, 163, 184, .25);
+            color: #e2e8f0;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #98a2b3;
+        }
+
+        body.dark-mode .form-group input::placeholder,
+        body.dark-mode .form-group textarea::placeholder {
+            color: #64748b;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, .10);
+            transform: translateY(-1px);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* =========================================================
+           WAVE
+        ========================================================= */
+        .wave-payment {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 18px;
+            margin-bottom: 20px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #f8faff, #fdf7ff);
+            border: 1px solid #e3ecfb;
+        }
+
+        body.dark-mode .wave-payment {
+            background: linear-gradient(135deg, rgba(37, 99, 235, .10), rgba(244, 63, 94, .07));
+            border-color: rgba(148, 163, 184, .15);
+        }
+
+        .wave-logo {
+            width: 54px;
+            height: 54px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            background: #ffffff;
+            font-size: 29px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .06);
+        }
+
+        .wave-payment strong {
+            display: block;
+            color: var(--dark-color);
+            margin-bottom: 4px;
+        }
+
+        body.dark-mode .wave-payment strong {
+            color: var(--white);
+        }
+
+        .wave-payment span {
+            color: #667085;
+            font-size: 13px;
+        }
+
+        body.dark-mode .wave-payment span {
+            color: #94a3b8;
+        }
+
+        /* =========================================================
+           UPLOAD
+        ========================================================= */
+        .upload-zone {
+            display: block;
+            border: 2px dashed #cbd5e1;
+            border-radius: 17px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            background: #fafcff;
+            transition: border-color .25s ease, background-color .25s ease, transform .25s ease;
+        }
+
+        body.dark-mode .upload-zone {
+            background: rgba(15, 23, 42, .55);
+            border-color: rgba(148, 163, 184, .3);
+        }
+
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: var(--primary-color);
+            background: #f4f8ff;
+            transform: translateY(-2px);
+        }
+
+        body.dark-mode .upload-zone:hover,
+        body.dark-mode .upload-zone.dragover {
+            background: rgba(37, 99, 235, .08);
+        }
+
+        .upload-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .upload-zone strong {
+            display: block;
+            color: #344054;
+            margin-bottom: 6px;
+            font-size: 15px;
+        }
+
+        body.dark-mode .upload-zone strong {
+            color: #e2e8f0;
+        }
+
+        .upload-zone span {
+            color: #667085;
+            font-size: 13px;
+        }
+
+        body.dark-mode .upload-zone span {
+            color: #94a3b8;
+        }
+
+        .upload-zone input {
+            display: none;
+        }
+
+        /* =========================================================
+           PREVIEW
+        ========================================================= */
+        .preview-container {
+            display: none;
+            margin-top: 18px;
+            text-align: center;
+        }
+
+        .preview-container img {
+            max-width: 100%;
+            max-height: 360px;
+            border-radius: 15px;
+            border: 1px solid #e4e7ec;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, .08);
+        }
+
+        .remove-preview {
+            margin-top: 10px;
+            padding: 8px 13px;
+            border: none;
+            border-radius: 8px;
+            background: #fff0f1;
+            color: #d92d20;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: .2s ease;
+        }
+
+        .remove-preview:hover {
+            background: #fee2e2;
+            transform: translateY(-1px);
+        }
+
+        /* =========================================================
+           CHECKBOX
+        ========================================================= */
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 12px;
+            background: #f8fafc;
+            border: 1px solid #edf0f5;
+        }
+
+        body.dark-mode .checkbox-group {
+            background: rgba(15, 23, 42, .45);
+            border-color: rgba(148, 163, 184, .12);
+        }
+
+        .checkbox-group input {
+            width: 17px;
+            height: 17px;
+            flex-shrink: 0;
+            margin-top: 3px;
+            accent-color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            color: #526071;
+            font-size: 13px;
+            line-height: 1.6;
+            cursor: pointer;
+        }
+
+        body.dark-mode .checkbox-group label {
+            color: #94a3b8;
+        }
+
+        /* =========================================================
+           SUBMIT
+        ========================================================= */
+        .submit-area {
+            padding-top: 25px;
+            text-align: center;
+        }
+
+        .submit-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-width: 230px;
+            border: none;
+            border-radius: 13px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-pink));
+            color: white;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, .18);
+            transition: transform .25s ease, box-shadow .25s ease, opacity .25s ease;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(244, 63, 94, .20);
+        }
+
+        .submit-button:disabled {
+            opacity: .65;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .security-note {
+            margin-top: 14px;
+            color: #98a2b3;
+            font-size: 12px;
+        }
+
+        /* =========================================================
+           MESSAGE / ALERT
+        ========================================================= */
+        .certification-message {
+            display: none;
+            margin-bottom: 20px;
+            padding: 15px 18px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .certification-message.success {
+            background: #ecfdf3;
+            border: 1px solid #a7f3d0;
+            color: #047857;
+        }
+
+        .certification-message.error {
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            color: #be123c;
+        }
+
+        /* =========================================================
+           NAVBAR
+        ========================================================= */
+        .profile-back-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            margin-right: 8px;
+            border-radius: 50%;
+            color: var(--dark-color);
+            background: transparent;
+            text-decoration: none;
+            font-size: 2rem;
+            font-weight: 400;
+            line-height: 1;
+            transition: background .2s ease, transform .2s ease;
+        }
+
+        .profile-back-button:hover {
+            background: #f1f5f9;
+            transform: translateX(-2px);
+        }
+
+        .profile-back-button:active {
+            transform: scale(.92);
+        }
+
+        body.dark-mode .profile-back-button {
+            color: var(--white);
+        }
+
+        body.dark-mode .profile-back-button:hover {
+            background: rgba(255, 255, 255, .08);
+        }
+
+        .certification-page .navbar .logo img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+        }
+
+        .certification-page .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+        @media (max-width: 700px) {
+            .certification-page {
+                padding: 85px 12px 50px;
+            }
+
+            .certification-hero {
+                margin-bottom: 22px;
+            }
+
+            .certification-hero h1 {
+                font-size: 27px;
+            }
+
+            .certification-hero p {
+                font-size: 14px;
+            }
+
+            .certification-card {
+                padding: 20px 16px;
+                border-radius: 18px;
+            }
+
+            .info-box {
+                align-items: flex-start;
+                padding: 15px;
+            }
+
+            .info-box-icon {
+                width: 42px;
+                height: 42px;
+                font-size: 21px;
+            }
+
+            .section-title {
+                font-size: 18px;
+            }
+
+            .section-title .icon {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+            }
+
+            .section-description {
+                margin-left: 0;
+                font-size: 13px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .wave-payment {
+                align-items: flex-start;
+            }
+
+            .upload-zone {
+                padding: 25px 15px;
+            }
+
+            .submit-button {
+                width: 100%;
+                min-width: 0;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .certification-page {
+                padding-left: 9px;
+                padding-right: 9px;
+            }
+
+            .certification-card {
+                padding: 16px 13px;
+            }
+
+            .certification-hero h1 {
+                font-size: 24px;
+            }
+
+            .certification-badge {
+                font-size: 11px;
+                padding: 8px 13px;
+            }
+        }
+
+
+        .register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+
+.profile-back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin-right: 8px;
+    border-radius: 50%;
+    color: var(--dark);
+    background: transparent;
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.profile-back-button:hover {
+    background: #f1f5f9;
+    transform: translateX(-2px);
+}
+
+.profile-back-button:active {
+    transform: scale(.92);
+}
+
+    </style>
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+    </div>
+
+    <!-- Header avec Navbar -->
+    <header>
+        <div class="navbar">
+            <div class="container">
+                <a href="javascript:history.back()" class="profile-back-button" aria-label="Retour">‹</a>
+                <div class="logo">
+                    <a href="index.html" class="register-logo">
+                        <img src="images/logo.png" alt="Alliance Chrétienne">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page de Certification -->
+    <div class="certification-page">
+        <div class="certification-container">
+
+            <!-- Hero Section -->
+            <div class="certification-hero">
+                <span class="certification-badge" data-i18n="certification.badge">
+                    🛡️ PROFIL CERTIFIÉ
+                </span>
+
+                <h1>
+                    <span data-i18n="certification.title">Demande de</span>
+                    <span data-i18n="certification.title_highlight">certification</span>
+                </h1>
+
+                <p data-i18n="certification.subtitle">
+                    Faites vérifier votre profil et obtenez le badge
+                    de certification sur Alliance Chrétienne.
+                </p>
+            </div>
+
+            <!-- Carte Principale -->
+            <div class="certification-card">
+
+                <!-- Info Box -->
+                <div class="info-box">
+                    <div class="info-box-icon">🌍</div>
+                    <div>
+                        <strong data-i18n="certification.info_title">
+                            Renforcez la confiance sur votre profil
+                        </strong>
+                        <p data-i18n="certification.info_description">
+                            Après votre paiement, envoyez votre preuve de
+                            paiement ainsi que les informations demandées.
+                            Notre équipe vérifiera votre demande avant
+                            d'accorder la certification.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Message -->
+                <div id="certificationMessage" class="certification-message"></div>
+
+                <!-- Formulaire -->
+                <form id="certificationForm">
+
+                    <!-- Section: Informations Personnelles -->
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <span class="icon">👤</span>
+                            <span data-i18n="certification.personal_title">Vos informations</span>
+                        </h2>
+                        <p class="section-description" data-i18n="certification.personal_description">
+                            Ces informations permettent d'identifier votre
+                            compte et de traiter votre demande.
+                        </p>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="fullName">
+                                    <span data-i18n="certification.full_name">Nom et prénom</span>
+                                    <span class="required">*</span>
+                                </label>
+                                <input type="text" id="fullName" name="fullName" 
+                                       placeholder="Ex. Jean Kouassi"
+                                       data-i18n-placeholder="certification.full_name_placeholder" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">
+                                    <span data-i18n="certification.phone">Numéro de téléphone</span>
+                                    <span class="required">*</span>
+                                </label>
+                                <input type="tel" id="phone" name="phone" 
+                                       placeholder="Ex. 07 XX XX XX XX"
+                                       data-i18n-placeholder="certification.phone_placeholder" required>
+                            </div>
+
+                            <div class="form-group full">
+                                <label for="email">
+                                    <span data-i18n="certification.email">Adresse e-mail</span>
+                                    <span class="required">*</span>
+                                </label>
+                                <input type="email" id="email" name="email" 
+                                       placeholder="votre@email.com"
+                                       data-i18n-placeholder="certification.email_placeholder" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Paiement -->
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <span class="icon">💳</span>
+                            <span data-i18n="certification.payment_title">Informations du paiement</span>
+                        </h2>
+                        <p class="section-description" data-i18n="certification.payment_description">
+                            Indiquez les informations correspondant à votre
+                            paiement de certification.
+                        </p>
+
+                        <div class="wave-payment">
+                            <div class="wave-logo">💙</div>
+                            <div>
+                                <strong data-i18n="certification.wave_title">
+                                    Paiement effectué avec Wave
+                                </strong>
+                                <span data-i18n="certification.wave_description">
+                                    Utilisez les informations affichées
+                                    sur votre reçu de paiement.
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="paymentPhone">
+                                    <span data-i18n="certification.payment_phone">Numéro Wave utilisé</span>
+                                    <span class="required">*</span>
+                                </label>
+                                <input type="tel" id="paymentPhone" name="paymentPhone" 
+                                       placeholder="Numéro ayant effectué le paiement"
+                                       data-i18n-placeholder="certification.payment_phone_placeholder" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="amount">
+                                    <span data-i18n="certification.amount">Montant payé (FCFA)</span>
+                                    <span class="required">*</span>
+                                </label>
+                                <input type="number" id="amount" name="amount" value="5000" readonly required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="transactionId">
+                                    <span data-i18n="certification.transaction_id">ID de transaction Wave</span>
+                                    <span class="required">*</span>
+                                </label>
+                                <input type="text" id="transactionId" name="transactionId" 
+                                       placeholder="Entrez l'ID de votre transaction"
+                                       data-i18n-placeholder="certification.transaction_id_placeholder" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="paymentDate">
+                                    <span data-i18n="certification.payment_date">Date du paiement</span>
+                                    <span class="required">*</span>
+                                </label>
+                                <input type="date" id="paymentDate" name="paymentDate" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Preuve -->
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <span class="icon">📸</span>
+                            <span data-i18n="certification.proof_title">Preuve de paiement</span>
+                        </h2>
+                        <p class="section-description" data-i18n="certification.proof_description">
+                            Envoyez une capture claire de votre reçu ou
+                            de la confirmation de paiement Wave.
+                        </p>
+
+                        <label class="upload-zone" id="uploadZone">
+                            <div class="upload-icon">📤</div>
+                            <strong data-i18n="certification.upload_title">
+                                Cliquez pour sélectionner votre capture
+                            </strong>
+                            <span data-i18n="certification.upload_formats">
+                                JPG, PNG ou WEBP • 5 Mo maximum
+                            </span>
+                            <input type="file" id="paymentProof" name="paymentProof" 
+                                   accept="image/png,image/jpeg,image/webp" required>
+                        </label>
+
+                        <div class="preview-container" id="previewContainer">
+                            <img id="previewImage" src="" alt="Aperçu de la preuve de paiement">
+                            <br>
+                            <button type="button" class="remove-preview" id="removePreview">
+                                <span data-i18n="certification.remove_preview">🗑️ Supprimer la capture</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Section: Message -->
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <span class="icon">📝</span>
+                            <span data-i18n="certification.additional_title">Informations complémentaires</span>
+                        </h2>
+                        <p class="section-description" data-i18n="certification.additional_description">
+                            Ajoutez une précision si nécessaire.
+                        </p>
+
+                        <div class="form-group">
+                            <label for="message">
+                                <span data-i18n="certification.message">Message</span>
+                                <span class="optional" data-i18n="certification.optional">(facultatif)</span>
+                            </label>
+                            <textarea id="message" name="message" 
+                                      placeholder="Écrivez votre message ou une précision concernant votre demande..."
+                                      data-i18n-placeholder="certification.message_placeholder"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Confirmation -->
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="confirmation" required>
+                        <label for="confirmation">
+                            <span data-i18n="certification.confirmation">
+                                Je confirme que les informations fournies sont
+                                exactes et que l'ID de transaction ainsi que la
+                                preuve de paiement correspondent bien à mon
+                                paiement de certification.
+                            </span>
+                        </label>
+                    </div>
+
+                    <!-- Bouton Submit -->
+                    <div class="submit-area">
+                        <button type="submit" class="submit-button" id="submitButton">
+                            <span data-i18n="certification.submit">📤 Envoyer ma demande</span>
+                        </button>
+                        <div class="security-note" data-i18n="certification.security_note">
+                            🔒 Vos informations sont traitées de manière
+                            confidentielle et utilisées uniquement pour
+                            vérifier votre demande.
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script JavaScript -->
+    <script>
+        /* =========================================================
+           VÉRIFICATION SUPABASE
+        ========================================================= */
+        if (!window.supabaseClient) {
+            console.error('❌ supabaseClient est introuvable.');
+            alert('Erreur de configuration Supabase. Vérifiez supabase-config.js.');
+        }
+
+        /* =========================================================
+           ÉLÉMENTS
+        ========================================================= */
+        const paymentProof = document.getElementById('paymentProof');
+        const previewContainer = document.getElementById('previewContainer');
+        const previewImage = document.getElementById('previewImage');
+        const removePreview = document.getElementById('removePreview');
+        const uploadZone = document.getElementById('uploadZone');
+        const certificationForm = document.getElementById('certificationForm');
+        const submitButton = document.getElementById('submitButton');
+        const paymentDate = document.getElementById('paymentDate');
+        const certificationMessage = document.getElementById('certificationMessage');
+
+        /* =========================================================
+           DATE DU JOUR
+        ========================================================= */
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        paymentDate.value = `${year}-${month}-${day}`;
+
+        /* =========================================================
+           MESSAGE
+        ========================================================= */
+        function showMessage(message, type = 'error') {
+            certificationMessage.textContent = message;
+            certificationMessage.className = `certification-message ${type}`;
+            certificationMessage.style.display = 'block';
+            certificationMessage.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+        }
+
+        /* =========================================================
+           VALIDATION FICHIER
+        ========================================================= */
+        function validateFile(file) {
+            if (!file) return false;
+
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+
+            if (!allowedTypes.includes(file.type)) {
+                showMessage('Veuillez sélectionner une image JPG, PNG ou WEBP.', 'error');
+                return false;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                showMessage('La capture ne doit pas dépasser 5 Mo.', 'error');
+                return false;
+            }
+
+            return true;
+        }
+
+        /* =========================================================
+           APERÇU
+        ========================================================= */
+        function showPreview(file) {
+            if (!validateFile(file)) {
+                paymentProof.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                previewImage.src = event.target.result;
+                previewContainer.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        /* =========================================================
+           SÉLECTION FICHIER
+        ========================================================= */
+        paymentProof.addEventListener('change', function() {
+            const file = this.files[0];
+            if (!file) return;
+            showPreview(file);
+        });
+
+        /* =========================================================
+           SUPPRESSION APERÇU
+        ========================================================= */
+        removePreview.addEventListener('click', function() {
+            paymentProof.value = '';
+            previewImage.src = '';
+            previewContainer.style.display = 'none';
+        });
+
+        /* =========================================================
+           DRAG OVER
+        ========================================================= */
+        uploadZone.addEventListener('dragover', function(event) {
+            event.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        /* =========================================================
+           DRAG LEAVE
+        ========================================================= */
+        uploadZone.addEventListener('dragleave', function() {
+            uploadZone.classList.remove('dragover');
+        });
+
+        /* =========================================================
+           DROP
+        ========================================================= */
+        uploadZone.addEventListener('drop', function(event) {
+            event.preventDefault();
+            uploadZone.classList.remove('dragover');
+
+            const files = event.dataTransfer.files;
+            if (!files || !files.length) return;
+
+            const file = files[0];
+            if (!validateFile(file)) return;
+
+            try {
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                paymentProof.files = dataTransfer.files;
+            } catch (error) {
+                console.warn('Impossible de modifier automatiquement le champ fichier.', error);
+            }
+
+            showPreview(file);
+        });
+
+        /* =========================================================
+           ENVOI DU FORMULAIRE
+        ========================================================= */
+        certificationForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            if (!window.supabaseClient) {
+                showMessage('Supabase n\'est pas correctement configuré.', 'error');
+                return;
+            }
+
+            const file = paymentProof.files[0];
+            if (!file) {
+                showMessage('Veuillez ajouter votre preuve de paiement Wave.', 'error');
+                return;
+            }
+
+            if (!validateFile(file)) return;
+
+            const confirmation = document.getElementById('confirmation');
+            if (!confirmation.checked) {
+                showMessage('Veuillez confirmer que les informations fournies sont exactes.', 'error');
+                return;
+            }
+
+            submitButton.disabled = true;
+            submitButton.textContent = '⏳ Envoi en cours...';
+
+            try {
+                /* Utilisateur connecté */
+                const { data: { user }, error: userError } = await window.supabaseClient.auth.getUser();
+
+                if (userError) throw userError;
+
+                if (!user) {
+                    showMessage('Vous devez être connecté pour envoyer une demande de certification.', 'error');
+                    setTimeout(function() {
+                        window.location.href = 'connexion.html';
+                    }, 1500);
+                    return;
+                }
+
+                /* Récupération des informations */
+                const fullName = document.getElementById('fullName').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const paymentPhone = document.getElementById('paymentPhone').value.trim();
+                const amount = Number(document.getElementById('amount').value);
+                const transactionId = document.getElementById('transactionId').value.trim();
+                const paymentDateValue = document.getElementById('paymentDate').value;
+                const message = document.getElementById('message').value.trim();
+
+                /* Nom fichier */
+                const extension = file.name.split('.').pop().toLowerCase();
+                const uniqueFileName = `${crypto.randomUUID()}.${extension}`;
+                const filePath = `${user.id}/${uniqueFileName}`;
+
+                console.log('📤 Upload de la preuve...', filePath);
+
+                /* Upload Storage */
+                const { error: uploadError } = await window.supabaseClient
+                    .storage
+                    .from('certification-proofs')
+                    .upload(filePath, file, {
+                        cacheControl: '3600',
+                        upsert: false,
+                        contentType: file.type
+                    });
+
+                if (uploadError) throw uploadError;
+
+                console.log('✅ Preuve envoyée dans Storage.');
+
+                /* Enregistrement demande */
+                const { error: requestError } = await window.supabaseClient
+                    .from('certification_requests')
+                    .insert({
+                        user_id: user.id,
+                        full_name: fullName,
+                        phone: phone,
+                        email: email,
+                        payment_phone: paymentPhone,
+                        amount: amount,
+                        transaction_id: transactionId,
+                        payment_date: paymentDateValue,
+                        payment_proof_url: filePath,
+                        message: message || null,
+                        status: 'pending'
+                    });
+
+                /* Si erreur insert */
+                if (requestError) {
+                    await window.supabaseClient
+                        .storage
+                        .from('certification-proofs')
+                        .remove([filePath]);
+                    throw requestError;
+                }
+
+                console.log('✅ Demande de certification enregistrée.');
+
+                /* Succès */
+                showMessage('✅ Votre demande de certification a bien été envoyée. Notre équipe va maintenant vérifier votre paiement et votre profil.', 'success');
+
+                /* Bloquer le formulaire après envoi */
+                submitButton.textContent = '✅ Demande envoyée';
+                submitButton.disabled = true;
+
+                /* Redirection */
+                setTimeout(function() {
+                    window.location.href = 'membre-certification.html';
+                }, 2500);
+
+            } catch (error) {
+                console.error('❌ Erreur demande certification :', error);
+                showMessage('❌ Impossible d\'envoyer votre demande. ' + (error.message || 'Une erreur est survenue. Veuillez réessayer.'), 'error');
+                submitButton.disabled = false;
+                submitButton.textContent = '📤 Envoyer ma demande';
+            }
+        });
+    </script>
+</body>
+
+</html>

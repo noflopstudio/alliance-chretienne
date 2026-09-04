@@ -1,0 +1,858 @@
+{
+    "header": {
+        "register": "Sign up"
+    },
+
+    "login": {
+        "title_before": "Find love blessed by",
+        "god": "God",
+        "description": "Log in to access your space and meet genuine Christian singles who are serious about their faith.",
+
+        "faith_title": "Built on faith and commitment",
+        "faith_description": "Serious relationships oriented toward Christian marriage and lasting commitments.",
+
+        "benefit1": "Explore compatible and faith-centered profiles",
+        "benefit2": "Connect with people who share your values",
+        "benefit3": "Chat in a respectful and secure environment",
+
+        "form_title": "Log in",
+        "email": "Email address",
+        "password": "Password",
+        "remember": "Remember me",
+        "forgot_password": "Forgot your password?",
+        "submit": "Log in",
+        "or": "or",
+        "google": "Continue with Google",
+        "no_account": "Don't have an account yet?",
+        "create_account": "Create an account",
+
+        "verse": "\"Love is patient, love is kind; it does not envy, it does not boast, it is not proud.\"",
+        "verse_reference": "— 1 Corinthians 13:4",
+
+        "cta_title": "Find your other half 💕",
+        "cta_description": "Thousands of Christian singles share the same faith and are waiting to write a beautiful story with you.",
+        "cta_community": "Christian community",
+        "cta_marriage": "Blessed marriage projects",
+        "cta_moderated": "Moderated and respectful profiles",
+        "cta_button": "Join our community for free"
+    },
+
+    "search": {
+        "install": "📱 Install Christian Alliance",
+        "install_button": "Install",
+
+        "profile": "My profile",
+        "messages": "Messages",
+        "favorites": "My favorites",
+        "notifications": "Notifications",
+        "certification": "Certification request",
+        "warnings": "Warnings",
+        "security": "Safety tips",
+        "report": "Report a problem",
+        "testimonials": "My testimonials",
+        "settings": "Settings",
+        "logout": "Log out",
+
+        "world_badge": "🌍 Christian Alliance Worldwide",
+        "title": "Discover Christian profiles",
+        "title_highlight": "from around the world",
+        "subtitle": "Meet brothers and sisters who share your faith, values, and vision of a relationship. Connect, pray together, and build sincere relationships beyond borders.",
+
+        "wherever": "Wherever you are",
+        "more": "✨ And much more...",
+
+        "filter_title": "Refine your search",
+        "gender": "Gender",
+        "all": "-- All --",
+        "man": "Man",
+        "woman": "Woman",
+
+        "min_age": "Minimum age",
+        "denomination": "Denomination",
+        "all_female": "-- All --",
+        "catholic": "Catholic",
+        "protestant": "Protestant",
+        "evangelical": "Evangelical",
+        "pentecostal": "Pentecostal",
+        "orthodox": "Orthodox",
+        "other": "Other",
+
+        "city": "City",
+        "city_placeholder": "E.g.: Abidjan",
+
+        "faith_engagement": "Faith commitment",
+        "new_believer": "New believer",
+        "engaged": "Committed",
+        "very_engaged": "Very committed",
+        "pastor": "Pastor/Pastor's wife",
+
+        "every_week": "Every week",
+        "two_three_times_month": "2-3 times a month",
+        "once_month": "Once a month",
+        "occasionally": "Occasionally",
+
+        "search_button": "🔍 Search",
+        "reset": "↺ Reset",
+
+        "loading": "Loading profiles...",
+
+        "no_results": "No profile found 😔",
+        "no_results_description": "Try changing your search criteria to find other Christian singles.",
+        "reset_filters": "Reset filters",
+
+        "cote_ivoire": "Ivory Coast",
+        "cameroon": "Cameroon",
+        "senegal": "Senegal",
+        "benin": "Benin",
+        "togo": "Togo",
+        "drc": "DR Congo",
+        "france": "France",
+        "belgium": "Belgium",
+        "switzerland": "Switzerland",
+        "canada": "Canada",
+        "usa": "United States"
+    },
+
+    "profile": {
+        "page_title": "My profile - Christian Alliance",
+        "certification_title": "🔵 Profile certification",
+        "certification_checking": "Checking your status...",
+        "view_profile": "View my profile",
+        "edit": "Edit",
+        "matches": "My matches",
+        "photos": "Photos",
+
+        "personal_info": "Personal information",
+        "first_name": "First name",
+        "age": "Age",
+        "gender": "Gender",
+        "city": "City",
+        "country": "Country",
+
+        "your_faith": "Your faith",
+        "your_faith_title": "🙏 Your faith",
+        "denomination": "Denomination",
+        "church_frequency": "Church attendance",
+        "faith_engagement": "Commitment",
+        "faith_engagement_full": "Faith commitment",
+        "favorite_verse": "Favorite Bible verse",
+
+        "about_you": "About you",
+        "looking_for": "What you are looking for",
+
+        "search_criteria": "Your search criteria",
+        "search_gender": "Gender sought",
+        "search_age": "Age",
+        "max_distance": "Maximum distance",
+
+        "edit_profile": "Edit my profile",
+        "my_photos": "My photos",
+        "photos_description": "Add your best photos to make people want to discover your profile ❤️",
+        "photos_moderation": "To protect our community from fake profiles, every photo you add is reviewed and approved by our team before it becomes visible on your profile.",
+        "add_photo": "Add a photo",
+
+        "who_are_you": "Who are you?",
+        "what_are_you_looking_for": "What are you looking for?",
+
+        "man": "Man",
+        "woman": "Woman",
+        "any": "Any",
+
+        "catholic": "Catholic",
+        "protestant": "Protestant",
+        "evangelical": "Evangelical",
+        "pentecostal": "Pentecostal",
+        "orthodox": "Orthodox",
+        "other": "Other",
+
+        "new_believer": "New believer",
+        "engaged": "Committed",
+        "very_engaged": "Very committed",
+        "pastor": "Pastor/Pastor's wife",
+
+        "every_week": "Every week",
+        "two_three_times_month": "2-3 times a month",
+        "once_month": "Once a month",
+        "occasionally": "Occasionally",
+
+        "min_age": "Minimum age",
+        "max_age": "Maximum age",
+        "distance_km": "Distance (km)",
+
+        "save": "Save",
+        "cancel": "Cancel",
+        "loading": "Loading...",
+
+        "certified_profile": "🔵 Verified profile",
+        "certified_description": "Your profile has been verified by the Christian Alliance team.",
+        "no_liked_profiles": "You haven't liked any profiles yet.",
+
+        "all_rights_reserved": "All rights reserved."
+    },
+
+    "messages": {
+        "page_title": "Messages - Christian Alliance",
+        "title": "Your messages",
+        "conversations": "💕 Conversations",
+        "loading_conversations": "⏳ Loading your conversations...",
+        "empty_title": "Your discussion space",
+        "empty_description": "Select a conversation to start chatting in a respectful and Christian environment.",
+
+        "certified_profile": "Verified profile",
+        "no_conversations": "No conversations yet.",
+        "no_message": "No message",
+        "loading_messages": "⏳ Loading messages...",
+        "error_loading_conversations": "Error loading conversations",
+        "error_loading_messages": "Unable to load messages",
+        "no_messages": "No messages. Start the conversation!",
+
+        "online": "Online",
+        "offline": "Offline",
+
+        "just_now": "Just now",
+        "minutes_ago": "{count} min ago",
+        "hours_ago": "{count} hr ago",
+        "days_ago": "{count} days ago",
+        "months_ago": "{count} months ago",
+        "year_ago": "{count} year ago",
+        "years_ago": "{count} years ago",
+
+        "edit": "Edit",
+        "delete": "Delete",
+        "report_message": "Report this message",
+        "message_reported": "Message already reported",
+
+        "edit_error": "Unable to edit this message",
+        "edit_mode": "Edit mode enabled ✏️",
+        "message_updated": "Message updated successfully ✅",
+
+        "login_required": "You must be logged in.",
+        "supabase_unavailable": "Supabase connection unavailable.",
+        "select_conversation": "Select a conversation",
+
+        "report_title": "🚨 Report this message",
+        "close": "Close",
+        "report_question": "Why do you want to report this message?",
+        "report_inappropriate": "🚫 Inappropriate content",
+        "report_harassment": "😡 Harassment",
+        "report_spam": "📢 Spam",
+        "report_fake_profile": "👤 Fake profile",
+        "report_other": "📝 Other",
+        "report_details_placeholder": "Please specify the reason...",
+        "cancel": "Cancel",
+        "report": "🚨 Report",
+
+        "select_reason": "Please select a reason.",
+        "specify_reason": "Please specify the reason.",
+        "sending": "⏳ Sending...",
+        "report_check_error": "Unable to check the report.",
+        "already_reported": "You have already reported this message.",
+        "report_save_error": "Unable to save the report.",
+        "report_success": "Message reported successfully 🚨",
+        "report_save_error_prefix": "Error saving report:",
+        "delete_error": "Error deleting message...",
+        "delete_success": "Message deleted successfully 🗑️",
+
+        "send_empty": "The message cannot be empty",
+        "send_error": "Error sending the message",
+
+        "new_message_notification": "New message from {name}: {message}",
+
+        "call_login_required": "You must be logged in.",
+        "call_select_conversation": "Select a conversation.",
+        "call_already_in_progress": "A call is already in progress.",
+        "unknown_member": "A member",
+
+        "incoming_video_call": "🎥 Incoming video call",
+        "incoming_audio_call": "📞 Incoming audio call",
+
+        "video_call_in_progress": "🟢 Video call in progress",
+        "audio_call_in_progress": "🟢 Audio call in progress",
+        "call_in_progress": "📞 Call in progress...",
+
+        "connection_interrupted": "⚠️ Connection interrupted",
+        "call_ended": "📴 Call ended",
+        "connecting": "Connecting...",
+        "call_rejected": "Call declined.",
+        "call_finished": "The call has ended.",
+
+        "camera_unavailable": "📷 Camera unavailable. The call will continue with audio.",
+        "microphone_unavailable": "🎤 Unable to access the microphone.",
+
+        "incoming_video_badge": "🎥 VIDEO CALL",
+        "incoming_audio_badge": "📞 AUDIO CALL",
+        "incoming_video_description": "Wants to start a video call with you",
+        "incoming_audio_description": "Wants to call you",
+
+        "accept": "Accept",
+        "reject": "Decline",
+
+        "microphone": "Microphone",
+        "camera": "Camera",
+        "hang_up": "Hang up",
+
+        "message_placeholder": "Write your message...",
+
+        "all_rights_reserved": "All rights reserved.",
+        "footer_made_with_love": "Made with ❤️ for a community founded on faith."
+    },
+
+    "favorites": {
+        "page_title": "My favorites - Christian Alliance",
+        "title": "❤️ My favorites",
+        "description": "Find the members you have added to your favorites.",
+        "your_favorites": "❤️ Your favorites",
+        "loading": "⏳ Loading your favorites...",
+        "empty_title": "No favorites",
+        "empty_description": "You haven't added any member to your favorites yet.",
+        "empty_profiles_title": "No favorite profiles",
+        "empty_profiles_description": "The favorite profiles are no longer available.",
+        "verified_member": "Verified member",
+        "member": "Member",
+        "years_old": "years old",
+        "profile": "👤 Profile",
+        "message": "💬 Message",
+        "remove": "💔 Remove from favorites",
+        "remove_confirm": "Do you want to remove this member from your favorites?",
+        "login_required": "❌ You must be logged in to view your favorites.",
+        "load_error": "❌ Unable to load your favorites.",
+        "remove_error": "❌ Unable to remove this member from your favorites.",
+        "supabase_error": "Supabase client not found. Check supabase-config.js.",
+        "id_error": "Unable to find the ID of the favorite members.",
+        "all_rights_reserved": "All rights reserved."
+    },
+
+    "notifications": {
+        "page_title": "Notifications - Christian Alliance",
+
+        "supabase_unavailable": "Error: Supabase is not available",
+        "load_error": "Error loading notifications",
+        "error_prefix": "Error:",
+
+        "filter": "Filter",
+        "all": "📬 All",
+        "likes": "❤️ Likes",
+        "matches": "💕 Matches",
+
+        "your_notifications": "Your notifications",
+
+        "new_like": "❤️ New like",
+        "new_match": "💕 New match",
+        "new_message": "💬 New message",
+        "incoming_audio_call": "📞 Incoming audio call",
+        "incoming_video_call": "🎥 Incoming video call",
+
+        "report": "🚨 Report",
+
+        "testimonial_approved_badge": "✅ Testimonial approved",
+        "testimonial_rejected_badge": "🔴 Testimonial rejected",
+
+        "alliance_chretienne": "🚨 Christian Alliance",
+        "user": "User",
+        "avatar": "Avatar",
+        "notification": "Notification",
+
+        "view_profile": "View profile",
+        "close": "Close",
+        "write_message": "💬 Send a message",
+        "reply": "💬 Reply",
+
+        "messages": "💬 Messages",
+        "audio_calls": "📞 Audio calls",
+        "video_calls": "🎥 Video calls",
+        "reports": "🚨 Reports",
+        "unread": "🔴 Unread",
+        "mark_all_read": "Mark all as read",
+        "all_rights_reserved": "All rights reserved",
+
+        "answer": "📞 Answer",
+        "answer_video": "🎥 Answer",
+        "ignore": "✕ Ignore",
+
+        "default_like": "Someone liked your profile.",
+        "default_match": "You have a new match!",
+        "default_message": "You received a new message.",
+        "default_audio_call": "You received an incoming audio call.",
+        "default_video_call": "You received an incoming video call.",
+
+        "default_problem_report": "Your report has been processed by the Christian Alliance team.",
+
+        "default_testimonial_approved": "✅ Your testimonial has been approved and published on Christian Alliance.",
+
+        "default_testimonial_rejected": "🔴 Your testimonial was not selected for publication on Christian Alliance.",
+
+        "default_report": "You received a report.",
+
+        "default": "You have a new notification.",
+
+        "caller_not_found": "Unable to find the caller.",
+        "call_error": "Unable to answer the call.",
+        "call_ignored": "Call ignored",
+
+        "close_error": "Unable to close this notification",
+
+        "no_unread": "No unread notifications",
+
+        "mark_all_error": "Unable to mark notifications as read.",
+
+        "all_marked_read": "✅ All notifications have been marked as read",
+
+        "empty_title": "📭 No notifications",
+
+        "empty_description": "You will receive notifications when someone likes you, matches with you, sends you a message, or calls you.",
+
+        "just_now": "Just now",
+
+        "minutes_ago": "{count} min ago",
+
+        "hours_ago": "{count} hr ago",
+
+        "days_ago": "{count} days ago"
+    },
+
+    "certification": {
+        "page_title": "Certification Request - Christian Alliance",
+        "badge": "🛡️ VERIFIED PROFILE",
+        "title": "Certification",
+        "title_highlight": "request",
+        "subtitle": "Have your profile verified and receive the certification badge on Christian Alliance.",
+        "info_title": "Build trust on your profile",
+        "info_description": "After making your payment, submit your proof of payment along with the requested information. Our team will review your request before granting certification.",
+        "personal_title": "Your information",
+        "personal_description": "This information helps identify your account and process your request.",
+        "full_name": "Full name",
+        "full_name_placeholder": "E.g. John Doe",
+        "phone": "Phone number",
+        "phone_placeholder": "E.g. +225 07 XX XX XX XX",
+        "email": "Email address",
+        "email_placeholder": "your@email.com",
+        "payment_title": "Payment information",
+        "payment_description": "Enter the information corresponding to your certification payment.",
+        "wave_title": "Payment made with Wave",
+        "wave_description": "Use the information displayed on your payment receipt.",
+        "payment_phone": "Wave phone number used",
+        "payment_phone_placeholder": "Number used to make the payment",
+        "amount": "Amount paid (FCFA)",
+        "transaction_id": "Wave transaction ID",
+        "transaction_id_placeholder": "Enter your transaction ID",
+        "payment_date": "Payment date",
+        "proof_title": "Proof of payment",
+        "proof_description": "Upload a clear screenshot of your receipt or Wave payment confirmation.",
+        "upload_title": "Click to select your screenshot",
+        "upload_formats": "JPG, PNG or WEBP • 5 MB maximum",
+        "remove_preview": "🗑️ Remove screenshot",
+        "additional_title": "Additional information",
+        "additional_description": "Add a note if necessary.",
+        "message": "Message",
+        "optional": "(optional)",
+        "message_placeholder": "Write your message or any additional information about your request...",
+        "confirmation": "I confirm that the information provided is accurate and that the transaction ID and proof of payment correspond to my certification payment.",
+        "submit": "📤 Submit my request",
+        "security_note": "🔒 Your information is treated confidentially and used only to verify your request."
+    },
+
+    "warnings": {
+        "page_title": "My warnings",
+        "title": "My warnings",
+        "description": "Here you will find the warnings issued to you by the Christian Alliance moderation team. Our goal is to maintain a respectful, caring community that remains faithful to its values.",
+
+        "stats": {
+            "total": "Total",
+            "current_level": "Current level",
+            "status": "Status",
+            "none": "None",
+            "excellent": "Excellent",
+            "to_monitor": "To monitor",
+            "new": "New",
+            "viewed": "Viewed"
+        },
+
+        "moderation": {
+            "title": "A community based on respect",
+            "description": "Warnings are used to inform you when a behavior or content does not comply with the community rules. They are not intended to judge you, but to preserve a healthy space for everyone."
+        },
+
+        "card": {
+            "title": "Moderation history",
+            "private_space": "Private space"
+        },
+
+        "loading": "Loading your warnings...",
+
+        "empty": {
+            "title": "No warnings",
+            "description": "Your account currently has no moderation warnings."
+        },
+
+        "levels": {
+            "level1": {
+                "title": "First warning",
+                "short": "Level 1"
+            },
+            "level2": {
+                "title": "Second warning",
+                "short": "Level 2"
+            },
+            "level3": {
+                "title": "Serious violation",
+                "short": "Level 3"
+            }
+        },
+
+        "warning": {
+            "title": "Moderation warning",
+            "date_unknown": "Unknown date",
+            "reason": "Reason",
+            "message": "Message from the administration",
+            "moderator": "Moderation team",
+            "read": "Warning viewed",
+            "unread": "New warning"
+        },
+
+        "errors": {
+            "not_connected": "❌ You must be logged in to view your warnings.",
+            "load_failed": "❌ Unable to load your warnings."
+        },
+
+        "footer": {
+            "copyright": "© 2026 Christian Alliance. All rights reserved.",
+            "made_with": "Made with ❤️ for a respectful Christian community."
+        }
+    },
+
+    "security": {
+        "page_title": "Safety Tips - Christian Alliance",
+        "hero_title": "Safety",
+        "hero_highlight": "Tips",
+        "hero_description": "Your safety and peace of mind are important to us. Discover good practices for meeting people online safely.",
+
+        "intro": {
+            "title": "❤️ Take care of yourself",
+            "description": "Online dating can help create beautiful relationships. However, always take the time to get to know someone before trusting them. If a situation seems strange or makes you uncomfortable, trust your instincts."
+        },
+
+        "money": {
+            "title": "Never give money",
+            "description": "This is one of the most important rules on dating platforms.",
+            "item1": "Never send money to someone you met online.",
+            "item2": "Even if their story seems urgent or emotional.",
+            "item3": "Do not participate in an investment proposed by someone you met on the platform."
+        },
+
+        "money_requests": {
+            "title": "Beware of money requests",
+            "description": "Be especially careful with requests involving situations presented as urgent.",
+            "item1": "Plane ticket",
+            "item2": "Medical expenses",
+            "item3": "Family problem",
+            "item4": "Investment or cryptocurrency",
+            "item5": "Gift card or money transfer"
+        },
+
+        "personal": {
+            "title": "Protect your personal information",
+            "description": "Do not share information too quickly that could allow someone to identify or locate you.",
+            "item1": "Personal address",
+            "item2": "Identity documents",
+            "item3": "Banking information",
+            "item4": "Payment codes",
+            "item5": "Exact home address",
+            "item6": "Sensitive professional information"
+        },
+
+        "time": {
+            "title": "Take your time",
+            "description": "A sincere relationship is built gradually. Never feel pressured to do something too quickly.",
+            "item1": "Gradually get to know the person.",
+            "item2": "Ask questions and observe their answers.",
+            "item3": "Do not let anyone pressure you."
+        },
+
+        "suspicious": {
+            "title": "Watch for suspicious behavior",
+            "description": "Some behaviors may be signs that a person is not being honest with you.",
+            "item1": "Stories that regularly change",
+            "item2": "Consistent refusal to communicate normally",
+            "item3": "Pressure to send money",
+            "item4": "Requests for sensitive personal information"
+        },
+
+        "meeting": {
+            "title": "For a first meeting",
+            "description": "If you decide to meet someone in person, take a few simple precautions.",
+            "item1": "Choose a public place.",
+            "item2": "Tell someone you trust.",
+            "item3": "Keep your own means of transportation if possible.",
+            "item4": "Avoid sharing your personal address."
+        },
+
+        "report": {
+            "title": "Does something seem suspicious?",
+            "description": "If someone asks you for money, threatens you, harasses you, or behaves in a way that makes you uncomfortable, do not stay silent. Use the reporting tools available on Christian Alliance."
+        },
+
+        "footer": "🛡️ Your safety matters to Christian Alliance"
+    },
+
+        "report": {
+        "page_title": "Report a Problem - Christian Alliance",
+        "back": "Back",
+        "hero_title": "Need help?",
+        "hero_description": "Are you experiencing a problem on Christian Alliance? Tell us what is happening and our team will be able to help you.",
+
+        "technical": {
+            "title": "A technical problem?",
+            "description": "Let us know about any difficulties you encounter while using the platform."
+        },
+
+        "security": {
+            "title": "A security problem?",
+            "description": "If you notice suspicious behavior or a problem involving a member, please report it to us."
+        },
+
+        "feedback": {
+            "title": "Your feedback matters",
+            "description": "Your reports help us improve Christian Alliance."
+        },
+
+        "confidential": {
+            "title": "🔒 Your information remains confidential",
+            "description": "Your report will be sent to the Christian Alliance team so it can be handled seriously and discreetly."
+        },
+
+        "form": {
+            "title": "🚨 Report a Problem",
+            "description": "Describe the problem you are experiencing. The more precise your description is, the more quickly we can help you.",
+            "type_label": "Problem type",
+            "category": "Select a category",
+            "account": "👤 My account",
+            "profile": "📝 My profile",
+            "messages": "💬 Messages",
+            "search": "🔎 Search / Discover",
+            "payment": "💳 Payment",
+            "certification": "✅ Certification",
+            "safety": "🛡️ Safety",
+            "application": "📱 Application / Website",
+            "other": "❓ Other problem",
+            "description_label": "Describe your problem",
+            "placeholder": "Explain here what happened...",
+            "submit": "🚨 Send report",
+            "sending": "⏳ Sending..."
+        },
+
+        "alert": {
+            "category": "Please select the type of problem.",
+            "details": "Please describe your problem in a little more detail.",
+            "login": "You must be logged in to submit a report.",
+            "success": "✅ Your report has been sent successfully. Thank you for letting us know.",
+            "error": "❌ Unable to send your report at the moment. Please try again."
+        },
+
+        "footer": {
+            "copyright": "© 2026 Christian Alliance. All rights reserved.",
+            "help": "We are here to help you ❤️"
+        }
+    },
+
+    "settings": {
+        "page_title": "Settings - Christian Alliance",
+        "title": "Settings",
+        "description": "Manage the settings of your Christian Alliance space.",
+
+        "general_title": "General settings",
+        "general_description": "The main settings of your platform.",
+
+        "platform_title": "Platform",
+        "platform_description": "General platform settings will be available here.",
+
+        "notifications_title": "Notifications",
+        "notifications_description": "Manage your notification preferences.",
+
+        "security_title": "Security",
+        "security_description": "Security and privacy settings will be available here.",
+
+        "coming_soon": "Coming soon",
+
+        "information_title": "Information",
+        "information_description": "Information about the platform.",
+
+        "platform_name": "Christian Alliance",
+        "platform_type": "Christian dating platform",
+
+        "platform_status": "Platform status",
+        "system_operational": "System operational",
+
+        "all_rights_reserved": "All rights reserved."
+},
+"testimonials": {
+    "meta_description": "Discover testimonials from Christian Alliance members.",
+    "page_title": "Testimonials - Christian Alliance",
+    "hero_title": "Stories that begin",
+    "hero_highlight": "with faith",
+    "hero_description": "Discover testimonials from members who chose Christian Alliance to meet people seriously, based on faith, Christian values, and the desire to build a lasting relationship.",
+    "section_title": "They share their experience ❤️",
+    "section_description": "Authentic connections around the same faith.",
+    "loading": "Loading testimonials...",
+    "load_error": "Unable to load testimonials.",
+    "empty_title": "No testimonials published yet",
+    "empty_description": "Approved testimonials will appear here.",
+    "member": "Member",
+    "verified_member": "✓ Member",
+    "member_of_alliance": "Christian Alliance member",
+    "success_title": "One encounter can change a life",
+    "success_description": "Christian Alliance aims to help Christian singles meet in a respectful, welcoming space centered on their values. Take the time to discover someone, talk, pray, and gradually build a serious relationship.",
+    "cta_title": "Your story can begin here! 💕",
+    "cta_description": "Join a community of Christian singles who want to build sincere, serious relationships based on faith.",
+    "cta_button": "Join the community for free",
+    "available_worldwide": "🌍 Available to Christians worldwide",
+    "help": "Help",
+    "blog": "Blog",
+    "faq": "FAQ",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "security": "Security",
+    "about": "About",
+    "contact": "Contact",
+    "testimonials_link": "Testimonials",
+    "churches": "Churches and communities",
+    "report_problem": "Report a problem",
+    "countries": "🇨🇮 Côte d'Ivoire • 🇨🇲 Cameroon • 🇲🇱 Mali • 🇬🇳 Guinea • 🇸🇳 Senegal • 🇨🇩 DR Congo • 🇲🇦 Morocco • 🇧🇯 Benin • 🇬🇦 Gabon • 🇲🇬 Madagascar • 🇫🇷 France • 🇧🇪 Belgium • 🇨🇭 Switzerland • 🇩🇪 Germany • 🇮🇹 Italy • 🇪🇸 Spain • 🇬🇧 United Kingdom • 🇨🇦 Canada • 🇺🇸 United States • 🇧🇷 Brazil • 🇭🇹 Haiti • 🇦🇺 Australia • 🇱🇧 Lebanon • 🇿🇦 South Africa • 🇵🇹 Portugal • 🇳🇱 Netherlands • 🇸🇪 Sweden • 🇳🇴 Norway • 🇦🇪 United Arab Emirates • 🇮🇱 Israel • 🇷🇼 Rwanda",
+    "platform_name": "Christian Alliance",
+    "all_rights_reserved": "All rights reserved.",
+    "made_with_love": "Made with ❤️ for the Christian community"
+
+},
+"register": {
+    "page_title": "Sign Up - Christian Alliance",
+    "login": "Log in",
+    "hero_title": "Create your account",
+    "hero_description": "Join Christian Alliance and start meeting people who share your faith and values.",
+    "progress_profile": "Profile",
+    "progress_faith": "Faith",
+    "progress_about": "About you",
+    "progress_preferences": "Preferences",
+    "progress_validation": "Confirmation",
+
+    "account_title": "Login information",
+    "account_description": "Create your credentials to access your account.",
+
+    "first_name": "First name",
+    "first_name_placeholder": "John",
+
+    "email": "Email address",
+    "email_placeholder": "you@example.com",
+    "email_help": "A confirmation email may be sent to you.",
+
+    "password": "Password",
+    "password_placeholder": "Minimum 8 characters",
+    "password_help": "Minimum 8 characters.",
+
+    "confirm_password": "Confirm password",
+    "confirm_password_placeholder": "Confirm your password",
+
+    "profile_title": "Your profile",
+    "profile_description": "A few details to help you introduce yourself.",
+
+    "birth_date": "Date of birth",
+    "gender": "Gender",
+
+    "city": "City",
+    "city_placeholder": "Abidjan",
+
+    "country": "Country",
+    "country_placeholder": "Côte d'Ivoire",
+
+    "faith_title": "Your faith",
+    "faith_description": "Because your faith is part of your story.",
+
+    "denomination": "Christian denomination",
+    "church_frequency": "Church attendance",
+    "faith_engagement": "Level of faith commitment",
+
+    "select": "-- Select --",
+
+    "male": "Male",
+    "female": "Female",
+
+    "catholic": "Catholic",
+    "protestant": "Protestant",
+    "evangelical": "Evangelical",
+    "pentecostal": "Pentecostal",
+    "orthodox": "Orthodox",
+    "other": "Other",
+
+    "every_week": "Every week",
+    "two_three_month": "2-3 times a month",
+    "once_month": "Once a month",
+    "occasionally": "Occasionally",
+
+    "new_believer": "New believer",
+    "committed": "Committed",
+    "very_committed": "Very committed",
+    "pastor": "Pastor",
+
+    "about_title": "Tell us about yourself",
+    "about_description": "Tell us about your personality, expectations, and faith.",
+
+    "who_are_you": "Who are you?",
+    "bio_placeholder": "Tell us about yourself, your passions, your interests...",
+    "max_500": "Maximum 500 characters.",
+
+    "looking_for": "What are you looking for?",
+    "looking_for_placeholder": "Describe the person you are looking for and your expectations...",
+
+    "favorite_verse": "Favorite Bible verse",
+    "favorite_verse_placeholder": "Ex: John 3:16",
+
+    "preferences_title": "Your preferences",
+    "preferences_description": "Tell us what kind of connection you are looking for.",
+
+    "search_gender": "Gender you're looking for",
+    "any": "Doesn't matter",
+
+    "max_distance": "Maximum distance",
+    "distance_placeholder": "50",
+    "distance_help": "Distance in kilometers.",
+
+    "min_age": "Minimum age",
+    "max_age": "Maximum age",
+
+    "final_step": "Final step",
+    "final_description": "Confirm your registration with Christian Alliance.",
+
+    "accept_terms_start": "I accept the",
+    "terms": "terms of use",
+    "and_privacy": "and the",
+    "privacy": "privacy policy",
+
+    "create_account": "Create my account 💕",
+
+    "already_account": "Already have an account?",
+    "login_now": "Log in",
+
+    "age_validation": "The maximum age must be greater than or equal to the minimum age.",
+
+    "footer_help": "Help",
+    "footer_blog": "Blog",
+    "footer_faq": "FAQ",
+    "footer_privacy": "Privacy",
+    "footer_terms": "Terms",
+    "footer_security": "Security",
+    "footer_about": "About",
+    "footer_contact": "Contact",
+    "footer_testimonials": "Testimonials",
+    "footer_churches": "Churches & communities",
+    "footer_report": "Report a problem",
+    "footer_certification": "Certification",
+    "footer_safety": "Safety tips",
+    "footer_community": "Community",
+    "footer_partner": "Become a partner",
+
+    "platform_name": "Christian Alliance",
+    "all_rights_reserved": "All rights reserved.",
+    "made_with_love": "Made with ❤️ for the Christian community."
+
+
+
+    }
+}

@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Alliance Chrétienne</title>
+
+<style>
+    :root {
+        --primary: #2563eb;
+        --primary-light: #eff6ff;
+        --pink: #f43f5e;
+        --pink-light: #fff1f2;
+        --purple: #7c3aed;
+        --dark: #172033;
+        --text: #475569;
+        --muted: #94a3b8;
+        --white: #ffffff;
+        --border: #e2e8f0;
+        --bg: #fff8f8;
+
+        --dark-bg: #0f172a;
+        --dark-card: #1e293b;
+        --dark-text: #e2e8f0;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont,
+            "Segoe UI", Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        transition: background .3s ease, color .3s ease;
+    }
+
+    body.dark-mode {
+        background: var(--dark-bg);
+        color: var(--dark-text);
+    }
+
+    /* ================= HEADER ================= */
+
+    header {
+        background: rgba(255,255,255,.95);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    body.dark-mode header {
+        background: rgba(30,41,59,.95);
+        border-color: rgba(148,163,184,.18);
+    }
+
+    .navbar {
+        max-width: 1200px;
+        margin: auto;
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .logo a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .logo h1 {
+        font-size: 1.35rem;
+        color: var(--dark);
+        font-weight: 800;
+        transition: transform .3s ease;
+    }
+
+    body.dark-mode .logo h1 {
+        color: #fff;
+    }
+
+    .logo h1:hover {
+        transform: scale(1.03);
+    }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+    }
+
+    .dark-mode-toggle {
+        width: 44px;
+        height: 44px;
+        border: none;
+        border-radius: 50%;
+        background: var(--primary-light);
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: all .3s ease;
+    }
+
+    body.dark-mode .dark-mode-toggle {
+        background: rgba(148,163,184,.15);
+    }
+
+    .dark-mode-toggle:hover {
+        transform: rotate(20deg) scale(1.08);
+    }
+
+    .btn-register {
+        padding: .65rem 1.2rem;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--pink), var(--purple));
+        color: white;
+        text-decoration: none;
+        font-size: .88rem;
+        font-weight: 700;
+        box-shadow: 0 6px 18px rgba(244,63,94,.25);
+        transition: all .3s ease;
+    }
+
+    .btn-register:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(244,63,94,.35);
+    }
+
+    /* ================= HERO ================= */
+
+    .faq-page {
+        max-width: 1000px;
+        margin: auto;
+        padding: 3rem 1.5rem 4rem;
+    }
+
+    .faq-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding: 2.5rem 1.5rem;
+        background: rgba(255,255,255,.96);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        box-shadow: 0 15px 40px rgba(15,23,42,.07);
+    }
+
+    body.dark-mode .faq-header {
+        background: var(--dark-card);
+        border-color: rgba(148,163,184,.15);
+    }
+
+    .faq-header-icon {
+        width: 68px;
+        height: 68px;
+        margin: 0 auto 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        font-size: 1.8rem;
+        color: white;
+        background: linear-gradient(135deg, var(--pink), var(--purple));
+        box-shadow: 0 10px 25px rgba(244,63,94,.25);
+    }
+
+    .faq-header h2 {
+        color: var(--dark);
+        font-size: 2rem;
+        font-weight: 850;
+        margin-bottom: .5rem;
+    }
+
+    body.dark-mode .faq-header h2 {
+        color: #f8fafc;
+    }
+
+    .faq-header h2 span {
+        background: linear-gradient(135deg, var(--pink), var(--primary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .faq-header p {
+        color: var(--muted);
+        font-size: .95rem;
+        max-width: 650px;
+        margin: auto;
+        line-height: 1.6;
+    }
+
+    /* ================= SEARCH ================= */
+
+    .faq-search {
+        margin: 1.5rem auto 2rem;
+        max-width: 700px;
+        position: relative;
+    }
+
+    .faq-search input {
+        width: 100%;
+        padding: 1rem 1.2rem 1rem 3rem;
+        border-radius: 15px;
+        border: 1px solid var(--border);
+        background: white;
+        color: var(--dark);
+        font-size: .95rem;
+        outline: none;
+        transition: all .3s ease;
+    }
+
+    body.dark-mode .faq-search input {
+        background: var(--dark-card);
+        border-color: rgba(148,163,184,.2);
+        color: white;
+    }
+
+    .faq-search input:focus {
+        border-color: var(--pink);
+        box-shadow: 0 0 0 4px rgba(244,63,94,.12);
+    }
+
+    .faq-search-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.1rem;
+    }
+
+    /* ================= SECTIONS ================= */
+
+    .faq-section {
+        margin-bottom: 1.5rem;
+    }
+
+    .faq-section-title {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+        margin-bottom: .8rem;
+    }
+
+    .faq-section-title-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--pink-light), var(--primary-light));
+        font-size: 1.1rem;
+    }
+
+    .faq-section-title h3 {
+        color: var(--dark);
+        font-size: 1rem;
+        font-weight: 800;
+    }
+
+    body.dark-mode .faq-section-title h3 {
+        color: #f8fafc;
+    }
+
+    /* ================= QUESTIONS ================= */
+
+    .faq-item {
+        background: rgba(255,255,255,.96);
+        border: 1px solid var(--border);
+        border-radius: 17px;
+        margin-bottom: .75rem;
+        overflow: hidden;
+        box-shadow: 0 7px 22px rgba(15,23,42,.04);
+        transition: all .25s ease;
+    }
+
+    body.dark-mode .faq-item {
+        background: var(--dark-card);
+        border-color: rgba(148,163,184,.15);
+    }
+
+    .faq-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(244,63,94,.09);
+    }
+
+    .faq-question {
+        width: 100%;
+        border: none;
+        background: transparent;
+        padding: 1.1rem 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        text-align: left;
+        cursor: pointer;
+        color: var(--dark);
+        font-size: .92rem;
+        font-weight: 750;
+    }
+
+    body.dark-mode .faq-question {
+        color: #f8fafc;
+    }
+
+    .faq-question span:first-child {
+        flex: 1;
+    }
+
+    .faq-arrow {
+        width: 30px;
+        height: 30px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: var(--pink-light);
+        color: var(--pink);
+        font-size: .85rem;
+        transition: transform .3s ease;
+    }
+
+    body.dark-mode .faq-arrow {
+        background: rgba(244,63,94,.12);
+    }
+
+    .faq-item.active .faq-arrow {
+        transform: rotate(180deg);
+    }
+
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height .35s ease;
+    }
+
+    .faq-answer-content {
+        padding: 0 1.2rem 1.2rem;
+        color: var(--text);
+        font-size: .86rem;
+        line-height: 1.7;
+    }
+
+    body.dark-mode .faq-answer-content {
+        color: #cbd5e1;
+    }
+
+    /* ================= CTA ================= */
+
+    .faq-cta {
+        margin-top: 2rem;
+        padding: 2rem;
+        text-align: center;
+        border-radius: 22px;
+        background: linear-gradient(135deg, #1e293b, #0f172a);
+        border-top: 4px solid var(--pink);
+        color: white;
+    }
+
+    .faq-cta h3 {
+        font-size: 1.4rem;
+        margin-bottom: .5rem;
+    }
+
+    .faq-cta p {
+        color: #cbd5e1;
+        font-size: .9rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .faq-cta a {
+        display: inline-block;
+        padding: .75rem 1.3rem;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--pink), var(--purple));
+        color: white;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: .88rem;
+        transition: all .3s ease;
+    }
+
+    .faq-cta a:hover {
+        transform: translateY(-2px);
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer {
+        background: #0f172a;
+        color: #cbd5e1;
+        text-align: center;
+        padding: 2rem 1.5rem;
+    }
+
+    footer p {
+        margin: .4rem 0;
+        font-size: .82rem;
+    }
+
+    .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.2rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .footer-links a {
+        color: #cbd5e1;
+        text-decoration: none;
+        font-size: .82rem;
+        transition: color .2s ease;
+    }
+
+    .footer-links a:hover {
+        color: white;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 600px) {
+
+        .navbar {
+            padding: .8rem 1rem;
+        }
+
+        .logo h1 {
+            font-size: 1.05rem;
+        }
+
+        .btn-register {
+            padding: .55rem .85rem;
+            font-size: .78rem;
+        }
+
+        .faq-page {
+            padding: 1.5rem 1rem 3rem;
+        }
+
+        .faq-header {
+            padding: 1.8rem 1rem;
+            border-radius: 19px;
+        }
+
+        .faq-header h2 {
+            font-size: 1.5rem;
+        }
+
+        .faq-question {
+            padding: 1rem;
+            font-size: .86rem;
+        }
+
+        .faq-answer-content {
+            padding: 0 1rem 1rem;
+        }
+
+        .footer-links {
+            gap: .8rem 1rem;
+        }
+    }
+
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+</style>
+
+
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar">
+
+        <div class="logo">
+                   <a href="index.html" class="register-logo">
+    <img src="images/logo.png" alt="Alliance Chrétienne">
+</a>
+        </div>
+
+        <div class="nav-right">
+            <button
+                id="darkModeToggle"
+                class="dark-mode-toggle"
+                title="Mode sombre"
+                aria-label="Changer le mode"
+            >🌙</button>
+
+            <a href="register.html" class="btn-register">
+                Inscription
+            </a>
+        </div>
+
+    </nav>
+</header>
+
+<!-- ================= CONTENU ================= -->
+
+<main class="faq-page">
+
+    <section class="faq-header">
+
+        <div class="faq-header-icon">
+            ❓
+        </div>
+
+        <h2>Questions <span>fréquentes</span></h2>
+
+        <p>
+            Retrouvez les réponses aux questions les plus fréquentes
+            concernant Alliance Chrétienne, votre compte et vos rencontres.
+        </p>
+
+    </section>
+
+    <!-- RECHERCHE -->
+
+    <div class="faq-search">
+        <span class="faq-search-icon">🔎</span>
+
+        <input
+            type="search"
+            id="faqSearch"
+            placeholder="Rechercher une question..."
+            autocomplete="off"
+        >
+    </div>
+
+    <!-- COMPTE -->
+
+    <section class="faq-section">
+
+        <div class="faq-section-title">
+            <div class="faq-section-title-icon">👤</div>
+            <h3>Compte et inscription</h3>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                <span>Comment créer un compte sur Alliance Chrétienne ?</span>
+                <span class="faq-arrow">▼</span>
+            </button>
+
+            <div class="faq-answer">
+                <div class="faq-answer-content">
+                    Cliquez sur « Inscription », renseignez vos informations,
+                    puis suivez les étapes affichées à l'écran pour créer
+                    votre compte.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                <span>Qui peut s'inscrire sur Alliance Chrétienne ?</span>
+                <span class="faq-arrow">▼</span>
+            </button>
+
+            <div class="faq-answer">
+                <div class="faq-answer-content">
+                    Alliance Chrétienne est destinée aux personnes célibataires
+                    qui souhaitent faire des rencontres sérieuses dans un
+                    environnement fondé sur les valeurs chrétiennes.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                <span>Puis-je modifier les informations de mon profil ?</span>
+                <span class="faq-arrow">▼</span>
+            </button>
+
+            <div class="faq-answer">
+                <div class="faq-answer-content">
+                    Oui. Depuis votre espace membre, vous pouvez modifier
+                    les informations de votre profil lorsque cette fonctionnalité
+                    est disponible.
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- RENCONTRES -->
+
+    <section class="faq-section">
+
+        <div class="faq-section-title">
+            <div class="faq-section-title-icon">💕</div>
+            <h3>Rencontres et messages</h3>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                <span>Comment trouver une personne compatible ?</span>
+                <span class="faq-arrow">▼</span>
+            </button>
+
+            <div class="faq-answer">
+                <div class="faq-answer-content">
+                    Utilisez les profils et les critères de recherche afin
+                    de découvrir des personnes qui correspondent à vos
+                    préférences et à vos valeurs.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                <span>Comment envoyer un message ?</span>
+                <span class="faq-arrow">▼</span>
+            </button>
+
+            <div class="faq-answer">
+                <div class="faq-answer-content">
+                    Ouvrez le profil de la personne et utilisez la messagerie
+                    lorsque celle-ci est disponible pour votre compte.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                <span>Comment signaler un comportement inapproprié ?</span>
+                <span class="faq-arrow">▼</span>
+            </button>
+
+            <div class="faq-answer">
+                <div class="faq-answer-content">
+                    Si vous rencontrez un comportement qui ne respecte pas
+                    les règles de la plateforme, utilisez la fonction
+                    « Signaler un problème » ou contactez notre équipe.
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- SECURITE -->
+
+    <section class="faq-section">
+
+        <div class="faq-section-title">
+            <div class="faq-section-title-icon">🔒</div>
+            <h3>Sécurité et confidentialité</h3>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                <span>Mes informations personnelles sont-elles protégées ?</span>
+                <span class="faq-arrow">▼</span>
+            </button>
+
+            <div class="faq-answer">
+                <div class="faq-answer-content">
+                    Nous accordons une grande importance à la protection
+                    des informations personnelles et à la sécurité des
+                    membres de la communauté.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                <span>Que faire si quelqu'un me contacte de manière suspecte ?</span>
+                <span class="faq-arrow">▼</span>
+            </button>
+
+            <div class="faq-answer">
+                <div class="faq-answer-content">
+                    Ne partagez jamais vos informations sensibles ou
+                    financières. Bloquez ou signalez le compte concerné
+                    et contactez l'équipe Alliance Chrétienne si nécessaire.
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- CTA -->
+
+    <section class="faq-cta">
+
+        <h3>Vous ne trouvez pas votre réponse ?</h3>
+
+        <p>
+            Notre équipe est là pour vous aider.
+        </p>
+
+        <a href="contact.html">
+            Nous contacter
+        </a>
+
+    </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-links">
+
+        <a href="aide.html">Aide</a>
+        <a href="blog.html">Blog</a>
+        <a href="faq.html">FAQ</a>
+        <a href="confidentialite.html">Confidentialité</a>
+        <a href="conditions.html">Conditions</a>
+        <a href="securite.html">Sécurité</a>
+        <a href="a-propos.html">À propos</a>
+        <a href="contact.html">Contact</a>
+        <a href="temoignages.html">Témoignages</a>
+        <a href="eglises.html">Églises & communautés</a>
+        <a href="signaler.html">Signaler un problème</a>
+
+    </div>
+
+    <p>
+        ✝️ Alliance Chrétienne — Plateforme de rencontres chrétiennes
+    </p>
+
+    <p>
+        © 2026 Alliance Chrétienne. Tous droits réservés.
+    </p>
+
+    <p>
+        Fait avec ❤️ pour la communauté chrétienne
+    </p>
+
+</footer>
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+    /* ================= DARK MODE ================= */
+
+    const darkModeToggle =
+        document.getElementById("darkModeToggle");
+
+    const savedDarkMode =
+        localStorage.getItem("darkMode") === "true";
+
+    if (savedDarkMode) {
+        document.body.classList.add("dark-mode");
+        darkModeToggle.textContent = "☀️";
+    }
+
+    darkModeToggle.addEventListener("click", function () {
+
+        const active =
+            document.body.classList.toggle("dark-mode");
+
+        localStorage.setItem("darkMode", active);
+
+        darkModeToggle.textContent =
+            active ? "☀️" : "🌙";
+    });
+
+
+    /* ================= ACCORDÉON FAQ ================= */
+
+    const faqItems =
+        document.querySelectorAll(".faq-item");
+
+    faqItems.forEach(function(item) {
+
+        const question =
+            item.querySelector(".faq-question");
+
+        const answer =
+            item.querySelector(".faq-answer");
+
+        question.addEventListener("click", function() {
+
+            const isActive =
+                item.classList.contains("active");
+
+            faqItems.forEach(function(otherItem) {
+
+                otherItem.classList.remove("active");
+
+                otherItem.querySelector(".faq-answer")
+                    .style.maxHeight = null;
+
+            });
+
+            if (!isActive) {
+
+                item.classList.add("active");
+
+                answer.style.maxHeight =
+                    answer.scrollHeight + "px";
+
+            }
+
+        });
+
+    });
+
+
+    /* ================= RECHERCHE ================= */
+
+    const searchInput =
+        document.getElementById("faqSearch");
+
+    searchInput.addEventListener("input", function() {
+
+        const search =
+            this.value.toLowerCase().trim();
+
+        faqItems.forEach(function(item) {
+
+            const question =
+                item.querySelector(".faq-question")
+                    .textContent.toLowerCase();
+
+            const answer =
+                item.querySelector(".faq-answer")
+                    .textContent.toLowerCase();
+
+            const match =
+                question.includes(search) ||
+                answer.includes(search);
+
+            item.style.display =
+                match ? "" : "none";
+
+        });
+
+    });
+
+</script>
+
+
+</body>
+</html>

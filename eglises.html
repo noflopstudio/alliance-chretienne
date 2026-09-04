@@ -1,0 +1,1038 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Églises et communautés chrétiennes - Alliance Chrétienne">
+    <title>Églises & communautés - Alliance Chrétienne</title>
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #eff6ff;
+            --pink: #f43f5e;
+            --pink-light: #fff1f2;
+            --purple: #7c3aed;
+            --dark: #172033;
+            --text: #475569;
+            --muted: #94a3b8;
+            --white: #ffffff;
+            --border: #e2e8f0;
+            --bg: #fff8f8;
+            --success: #10b981;
+            --shadow: 0 10px 30px rgba(15, 23, 42, .07);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont,
+                "Segoe UI", Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background .3s ease, color .3s ease;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .logo a {
+            text-decoration: none;
+        }
+
+        .logo h1 {
+            margin: 0;
+            color: var(--dark);
+            font-size: 1.35rem;
+            font-weight: 800;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: .8rem;
+        }
+
+        .dark-mode-toggle {
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: 50%;
+            background: #f1f5f9;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: .3s ease;
+        }
+
+        .dark-mode-toggle:hover {
+            transform: rotate(15deg) scale(1.08);
+        }
+
+        .btn-register {
+            padding: .65rem 1.25rem;
+            border-radius: .75rem;
+            text-decoration: none;
+            background: linear-gradient(135deg, var(--pink), #e11d48);
+            color: white;
+            font-weight: 700;
+            font-size: .9rem;
+            box-shadow: 0 5px 15px rgba(244,63,94,.25);
+            transition: .3s ease;
+        }
+
+        .btn-register:hover {
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            padding: 4rem 1.5rem 3rem;
+            text-align: center;
+
+            background:
+                radial-gradient(
+                    circle at 10% 20%,
+                    rgba(244,63,94,.08),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 90% 20%,
+                    rgba(37,99,235,.08),
+                    transparent 30%
+                );
+        }
+
+        .hero-icon {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 22px;
+            font-size: 2rem;
+            background: linear-gradient(
+                135deg,
+                var(--pink),
+                var(--purple)
+            );
+            box-shadow:
+                0 12px 30px rgba(244,63,94,.25);
+        }
+
+        .hero h2 {
+            color: var(--dark);
+            font-size: 2.4rem;
+            font-weight: 850;
+            margin-bottom: .8rem;
+        }
+
+        .hero h2 span {
+            background: linear-gradient(
+                135deg,
+                var(--pink),
+                var(--primary)
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            max-width: 720px;
+            margin: auto;
+            line-height: 1.7;
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        /* =========================
+           CONTENU
+        ========================= */
+
+        .container {
+            max-width: 1150px;
+            margin: auto;
+            padding: 0 1.5rem 4rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 1rem 0 2rem;
+        }
+
+        .section-title h3 {
+            color: var(--dark);
+            font-size: 1.5rem;
+            margin-bottom: .4rem;
+        }
+
+        .section-title p {
+            color: var(--muted);
+            font-size: .9rem;
+        }
+
+        /* =========================
+           INTRO
+        ========================= */
+
+        .intro-card {
+            background: rgba(255,255,255,.96);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .intro-card .icon {
+            font-size: 2rem;
+            margin-bottom: .7rem;
+        }
+
+        .intro-card h3 {
+            color: var(--dark);
+            margin-bottom: .5rem;
+            font-size: 1.2rem;
+        }
+
+        .intro-card p {
+            max-width: 800px;
+            margin: auto;
+            color: var(--text);
+            line-height: 1.7;
+            font-size: .9rem;
+        }
+
+        /* =========================
+           DENOMINATIONS
+        ========================= */
+
+        .church-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+        }
+
+        .church-card {
+            position: relative;
+            background: rgba(255,255,255,.97);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 1.4rem;
+            box-shadow: var(--shadow);
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease;
+            overflow: hidden;
+        }
+
+        .church-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(
+                90deg,
+                var(--pink),
+                var(--primary)
+            );
+        }
+
+        .church-card:hover {
+            transform: translateY(-5px);
+            box-shadow:
+                0 18px 40px rgba(37,99,235,.10);
+        }
+
+        .church-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: linear-gradient(
+                135deg,
+                var(--pink-light),
+                var(--primary-light)
+            );
+            margin-bottom: 1rem;
+        }
+
+        .church-card h4 {
+            color: var(--dark);
+            font-size: 1rem;
+            margin-bottom: .45rem;
+        }
+
+        .church-card p {
+            color: var(--text);
+            font-size: .83rem;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           VALEURS
+        ========================= */
+
+        .values {
+            margin-top: 2.5rem;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .value-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1.25rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .value-card .value-icon {
+            font-size: 1.8rem;
+            margin-bottom: .6rem;
+        }
+
+        .value-card strong {
+            display: block;
+            color: var(--dark);
+            font-size: .9rem;
+            margin-bottom: .3rem;
+        }
+
+        .value-card span {
+            color: var(--muted);
+            font-size: .76rem;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           PROFIL
+        ========================= */
+
+        .profile-church {
+            margin-top: 2rem;
+            padding: 2rem;
+            border-radius: 22px;
+            background: linear-gradient(
+                135deg,
+                #fff1f2,
+                #eff6ff
+            );
+            border: 1px solid rgba(244,63,94,.15);
+            text-align: center;
+        }
+
+        .profile-church .big-icon {
+            font-size: 2.4rem;
+            margin-bottom: .7rem;
+        }
+
+        .profile-church h3 {
+            color: var(--dark);
+            margin-bottom: .5rem;
+        }
+
+        .profile-church p {
+            max-width: 700px;
+            margin: auto;
+            color: var(--text);
+            line-height: 1.7;
+            font-size: .9rem;
+        }
+
+        /* =========================
+           CTA
+        ========================= */
+
+        .cta {
+            margin-top: 2rem;
+            padding: 3.5rem 1.5rem;
+            text-align: center;
+            color: white;
+            border-radius: 24px;
+            background: linear-gradient(
+                135deg,
+                #1e293b,
+                #0f172a
+            );
+            border-top: 4px solid var(--pink);
+        }
+
+        .cta h2 {
+            font-size: 2rem;
+            margin-bottom: .8rem;
+        }
+
+        .cta p {
+            max-width: 680px;
+            margin: 0 auto 1.7rem;
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .btn-cta {
+            display: inline-block;
+            padding: .9rem 1.8rem;
+            border-radius: .85rem;
+            background: linear-gradient(
+                135deg,
+                var(--pink),
+                #e11d48
+            );
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            box-shadow:
+                0 10px 25px rgba(244,63,94,.35);
+            transition: .3s ease;
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-3px);
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+            padding: 2rem 1.5rem;
+        }
+
+        footer p {
+            margin: .35rem 0;
+            font-size: .85rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-bottom: 1.3rem;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: .85rem;
+            transition: color .2s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .countries {
+            max-width: 950px;
+            margin: 1.2rem auto;
+            padding-top: 1.2rem;
+            border-top: 1px solid rgba(148,163,184,.15);
+        }
+
+        .countries p {
+            line-height: 2;
+            color: #cbd5e1;
+        }
+
+        /* =========================
+           DARK MODE
+        ========================= */
+
+        body.dark-mode {
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+
+        body.dark-mode header {
+            background: rgba(30,41,59,.95);
+            border-color: rgba(148,163,184,.15);
+        }
+
+        body.dark-mode .logo h1,
+        body.dark-mode .hero h2,
+        body.dark-mode .section-title h3,
+        body.dark-mode .intro-card h3,
+        body.dark-mode .church-card h4,
+        body.dark-mode .value-card strong,
+        body.dark-mode .profile-church h3 {
+            color: #f8fafc;
+        }
+
+        body.dark-mode .hero {
+            background:
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(244,63,94,.12),
+                    transparent 30%
+                ),
+                #0f172a;
+        }
+
+        body.dark-mode .hero p,
+        body.dark-mode .intro-card p,
+        body.dark-mode .church-card p,
+        body.dark-mode .profile-church p {
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .intro-card,
+        body.dark-mode .church-card,
+        body.dark-mode .value-card {
+            background: #1e293b;
+            border-color: rgba(148,163,184,.15);
+        }
+
+        body.dark-mode .profile-church {
+            background: linear-gradient(
+                135deg,
+                rgba(244,63,94,.12),
+                rgba(37,99,235,.12)
+            );
+            border-color: rgba(244,63,94,.2);
+        }
+
+        body.dark-mode .dark-mode-toggle {
+            background: rgba(148,163,184,.15);
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 950px) {
+            .church-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .values-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: .8rem 1rem;
+            }
+
+            .logo h1 {
+                font-size: 1.05rem;
+            }
+
+            .btn-register {
+                padding: .55rem .9rem;
+                font-size: .8rem;
+            }
+
+            .hero {
+                padding: 2.8rem 1rem 2rem;
+            }
+
+            .hero h2 {
+                font-size: 1.65rem;
+            }
+
+            .container {
+                padding: 0 1rem 3rem;
+            }
+
+            .church-grid,
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-church {
+                padding: 1.5rem;
+            }
+
+            .cta {
+                padding: 2.5rem 1.2rem;
+            }
+
+            .cta h2 {
+                font-size: 1.5rem;
+            }
+
+            .footer-links {
+                gap: .8rem 1.2rem;
+            }
+        }
+
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+    </style>
+</head>
+
+<body>
+
+
+    <header>
+        <nav class="navbar">
+
+            <div class="logo">
+               <a href="index.html" class="register-logo">
+    <img src="images/logo.png" alt="Alliance Chrétienne">
+</a>
+            </div>
+
+            <div class="nav-right">
+
+                <button
+                    id="darkModeToggle"
+                    class="dark-mode-toggle"
+                    title="Mode sombre"
+                    aria-label="Changer le thème">
+                    🌙
+                </button>
+
+                <a href="register.html" class="btn-register">
+                    Inscription
+                </a>
+
+            </div>
+
+        </nav>
+    </header>
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <section class="hero">
+
+        <div class="hero-icon">
+            ⛪
+        </div>
+
+        <h2>
+            Églises &
+            <span>communautés chrétiennes</span>
+        </h2>
+
+        <p>
+            Alliance Chrétienne rassemble des célibataires issus
+            de différentes sensibilités chrétiennes. La foi, le
+            respect et l'amour du prochain restent au cœur de notre
+            communauté.
+        </p>
+
+    </section>
+
+    <!-- =========================
+         CONTENU
+    ========================== -->
+
+    <main class="container">
+
+        <section class="intro-card">
+
+            <div class="icon">🤝</div>
+
+            <h3>
+                Une communauté ouverte aux chrétiens
+            </h3>
+
+            <p>
+                Chaque chrétien peut vivre sa foi selon sa tradition
+                et sa communauté. Alliance Chrétienne souhaite
+                favoriser les rencontres entre personnes qui partagent
+                des valeurs chrétiennes communes, dans un esprit de
+                respect et de bienveillance.
+            </p>
+
+        </section>
+
+        <!-- =========================
+             FAMILLES CHRETIENNES
+        ========================== -->
+
+        <div class="section-title">
+
+            <h3>
+                Les différentes familles chrétiennes
+            </h3>
+
+            <p>
+                Chacun peut indiquer sa communauté ou sa sensibilité
+                chrétienne dans son profil.
+            </p>
+
+        </div>
+
+        <div class="church-grid">
+
+            <article class="church-card">
+
+                <div class="church-icon">
+                    ✝️
+                </div>
+
+                <h4>
+                    Catholique
+                </h4>
+
+                <p>
+                    Une grande tradition chrétienne présente dans
+                    de nombreux pays et communautés à travers le monde.
+                </p>
+
+            </article>
+
+            <article class="church-card">
+
+                <div class="church-icon">
+                    📖
+                </div>
+
+                <h4>
+                    Protestant
+                </h4>
+
+                <p>
+                    Des communautés attachées à l'Évangile, à la Bible
+                    et à une vie chrétienne fondée sur la foi.
+                </p>
+
+            </article>
+
+            <article class="church-card">
+
+                <div class="church-icon">
+                    🔥
+                </div>
+
+                <h4>
+                    Évangélique
+                </h4>
+
+                <p>
+                    Des églises qui mettent particulièrement l'accent
+                    sur la conversion, la Bible et la relation personnelle
+                    avec Jésus-Christ.
+                </p>
+
+            </article>
+
+            <article class="church-card">
+
+                <div class="church-icon">
+                    🕊️
+                </div>
+
+                <h4>
+                    Pentecôtiste
+                </h4>
+
+                <p>
+                    Des communautés mettant notamment l'accent sur
+                    l'action du Saint-Esprit, la prière et les dons
+                    spirituels.
+                </p>
+
+            </article>
+
+            <article class="church-card">
+
+                <div class="church-icon">
+                    ⛪
+                </div>
+
+                <h4>
+                    Orthodoxe
+                </h4>
+
+                <p>
+                    Une tradition chrétienne ancienne avec une riche
+                    vie liturgique, spirituelle et communautaire.
+                </p>
+
+            </article>
+
+            <article class="church-card">
+
+                <div class="church-icon">
+                    🌍
+                </div>
+
+                <h4>
+                    Autre communauté chrétienne
+                </h4>
+
+                <p>
+                    Vous appartenez à une autre église ou communauté ?
+                    Vous pouvez également l'indiquer dans votre profil.
+                </p>
+
+            </article>
+
+        </div>
+
+        <!-- =========================
+             VALEURS
+        ========================== -->
+
+        <section class="values">
+
+            <div class="section-title">
+
+                <h3>
+                    Ce qui nous rassemble
+                </h3>
+
+                <p>
+                    Au-delà des différences de traditions.
+                </p>
+
+            </div>
+
+            <div class="values-grid">
+
+                <div class="value-card">
+                    <div class="value-icon">✝️</div>
+                    <strong>La foi</strong>
+                    <span>
+                        Une foi chrétienne au cœur de la démarche.
+                    </span>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">❤️</div>
+                    <strong>L'amour</strong>
+                    <span>
+                        Construire des relations avec sincérité.
+                    </span>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">🤝</div>
+                    <strong>Le respect</strong>
+                    <span>
+                        Respecter chaque personne et son parcours.
+                    </span>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">💍</div>
+                    <strong>L'engagement</strong>
+                    <span>
+                        Favoriser les relations sérieuses et durables.
+                    </span>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =========================
+             PROFIL
+        ========================== -->
+
+        <section class="profile-church">
+
+            <div class="big-icon">
+                🙏
+            </div>
+
+            <h3>
+                Indiquez votre église dans votre profil
+            </h3>
+
+            <p>
+                Votre communauté chrétienne peut aider les autres
+                membres à mieux comprendre votre parcours et votre
+                environnement spirituel. L'objectif n'est pas de
+                créer des divisions, mais de favoriser des échanges
+                transparents et respectueux.
+            </p>
+
+        </section>
+
+        <!-- =========================
+             CTA
+        ========================== -->
+
+        <section class="cta">
+
+            <h2>
+                Rencontrez quelqu'un qui partage vos valeurs 💕
+            </h2>
+
+            <p>
+                Rejoignez Alliance Chrétienne et découvrez des
+                célibataires chrétiens de différents pays et de
+                différentes communautés.
+            </p>
+
+            <a href="register.html" class="btn-cta">
+                Créer mon compte gratuitement
+            </a>
+
+        </section>
+
+    </main>
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        <div class="footer-links">
+
+            <a href="aide.html">Aide</a>
+            <a href="blog.html">Blog</a>
+            <a href="faq.html">FAQ</a>
+            <a href="confidentialite.html">Confidentialité</a>
+            <a href="conditions.html">Conditions</a>
+            <a href="securite.html">Sécurité</a>
+            <a href="a-propos.html">À propos</a>
+            <a href="contact.html">Contact</a>
+            <a href="temoignages.html">Témoignages</a>
+            <a href="eglises.html">Églises & communautés</a>
+            <a href="signaler.html">Signaler un problème</a>
+
+        </div>
+
+        <div class="countries">
+
+            <p>
+                🌍 Disponible pour les chrétiens du monde entier
+            </p>
+
+            <p>
+                🇨🇮 Côte d'Ivoire •
+                🇨🇲 Cameroun •
+                🇲🇱 Mali •
+                🇬🇳 Guinée •
+                🇸🇳 Sénégal •
+                🇨🇩 RDC •
+                🇲🇦 Maroc •
+                🇧🇯 Bénin •
+                🇬🇦 Gabon •
+                🇲🇬 Madagascar •
+                🇿🇦 Afrique du Sud •
+                🇫🇷 France •
+                🇧🇪 Belgique •
+                🇨🇭 Suisse •
+                🇩🇪 Allemagne •
+                🇮🇹 Italie •
+                🇪🇸 Espagne •
+                🇬🇧 Royaume-Uni •
+                🇨🇦 Canada •
+                🇺🇸 États-Unis •
+                🇧🇷 Brésil •
+                🇭🇹 Haïti •
+                🇦🇺 Australie •
+                🇱🇧 Liban •
+                🇵🇹 Portugal •
+                🇳🇱 Pays-Bas •
+                🇸🇪 Suède •
+                🇳🇴 Norvège •
+                🇦🇪 Émirats arabes unis •
+                🇮🇱 Israël •
+                🇷🇼 Rwanda
+            </p>
+
+        </div>
+
+        <p>
+            © 2026 Alliance Chrétienne. Tous droits réservés.
+        </p>
+
+        <p>
+            Fait avec ❤️ pour la communauté chrétienne
+        </p>
+
+    </footer>
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        const darkModeToggle =
+            document.getElementById("darkModeToggle");
+
+        const isDarkMode =
+            localStorage.getItem("darkMode") === "true";
+
+        if (isDarkMode) {
+
+            document.body.classList.add("dark-mode");
+
+            darkModeToggle.textContent = "☀️";
+        }
+
+        darkModeToggle.addEventListener("click", () => {
+
+            const enabled =
+                document.body.classList.toggle("dark-mode");
+
+            localStorage.setItem(
+                "darkMode",
+                enabled
+            );
+
+            darkModeToggle.textContent =
+                enabled ? "☀️" : "🌙";
+
+        });
+
+    </script>
+
+</body>
+</html>
+

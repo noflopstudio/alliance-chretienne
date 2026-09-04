@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Alliance Chrétienne</title>
+
+<style>
+    :root {
+        --primary-color: #2563eb;
+        --accent-pink: #f43f5e;
+        --accent-pink-light: #fff1f2;
+        --primary-light: #eff6ff;
+        --dark-color: #172033;
+        --text-color: #475569;
+        --white: #ffffff;
+        --border-color: #e2e8f0;
+        --dark-bg: #0f172a;
+        --dark-card: #1e293b;
+        --dark-text: #e2e8f0;
+        --success-color: #10b981;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+            Roboto, sans-serif;
+        background: #fff8f8;
+        color: var(--text-color);
+        min-height: 100vh;
+        transition: background .3s ease, color .3s ease;
+    }
+
+    body.dark-mode {
+        background: var(--dark-bg);
+        color: var(--dark-text);
+    }
+
+    /* =========================
+       FOND
+    ========================= */
+
+    .animated-bg {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    .floating-shape {
+        position: absolute;
+        bottom: -150px;
+        border-radius: 50%;
+        background: linear-gradient(
+            135deg,
+            rgba(244, 63, 94, .08),
+            rgba(37, 99, 235, .06)
+        );
+        animation: floatUp 16s linear infinite;
+    }
+
+    .floating-shape:nth-child(1) {
+        width: 90px;
+        height: 90px;
+        left: 10%;
+        animation-duration: 13s;
+    }
+
+    .floating-shape:nth-child(2) {
+        width: 130px;
+        height: 130px;
+        left: 35%;
+        animation-duration: 19s;
+        animation-delay: 3s;
+    }
+
+    .floating-shape:nth-child(3) {
+        width: 70px;
+        height: 70px;
+        left: 70%;
+        animation-duration: 12s;
+        animation-delay: 5s;
+    }
+
+    .floating-shape:nth-child(4) {
+        width: 110px;
+        height: 110px;
+        left: 88%;
+        animation-duration: 17s;
+        animation-delay: 2s;
+    }
+
+    @keyframes floatUp {
+        0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: .8;
+        }
+
+        100% {
+            transform: translateY(-110vh) rotate(360deg);
+            opacity: 0;
+        }
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: rgba(255,255,255,.95);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    body.dark-mode header {
+        background: rgba(30,41,59,.95);
+        border-bottom-color: rgba(148,163,184,.18);
+    }
+
+    .navbar {
+        max-width: 1200px;
+        margin: auto;
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .logo a {
+        text-decoration: none;
+    }
+
+    .logo h1 {
+        color: var(--dark-color);
+        font-size: 1.4rem;
+        font-weight: 800;
+    }
+
+    body.dark-mode .logo h1 {
+        color: white;
+    }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: .8rem;
+    }
+
+    .dark-mode-toggle {
+        width: 44px;
+        height: 44px;
+        border: none;
+        border-radius: 50%;
+        background: #f1f5f9;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: .3s ease;
+    }
+
+    body.dark-mode .dark-mode-toggle {
+        background: rgba(148,163,184,.18);
+    }
+
+    .dark-mode-toggle:hover {
+        transform: rotate(15deg) scale(1.08);
+    }
+
+    .btn-register {
+        text-decoration: none;
+        color: white;
+        font-weight: 700;
+        font-size: .9rem;
+        padding: .65rem 1.2rem;
+        border-radius: .75rem;
+        background: linear-gradient(
+            135deg,
+            var(--accent-pink),
+            #e11d48
+        );
+        box-shadow: 0 5px 15px rgba(244,63,94,.25);
+        transition: .3s ease;
+    }
+
+    .btn-register:hover {
+        transform: translateY(-2px);
+    }
+
+    /* =========================
+       HERO BLOG
+    ========================= */
+
+    .blog-hero {
+        max-width: 1200px;
+        margin: auto;
+        padding: 4rem 1.5rem 2rem;
+        text-align: center;
+    }
+
+    .blog-icon {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 1rem;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: white;
+        background: linear-gradient(
+            135deg,
+            var(--accent-pink),
+            #7c3aed,
+            var(--primary-color)
+        );
+        box-shadow: 0 12px 30px rgba(244,63,94,.2);
+    }
+
+    .blog-hero h2 {
+        font-size: 2.7rem;
+        color: var(--dark-color);
+        margin-bottom: .8rem;
+        font-weight: 850;
+    }
+
+    body.dark-mode .blog-hero h2 {
+        color: white;
+    }
+
+    .blog-hero h2 span {
+        background: linear-gradient(
+            135deg,
+            var(--accent-pink),
+            var(--primary-color)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .blog-hero p {
+        max-width: 700px;
+        margin: auto;
+        line-height: 1.7;
+        color: #64748b;
+        font-size: 1rem;
+    }
+
+    body.dark-mode .blog-hero p {
+        color: #94a3b8;
+    }
+
+    /* =========================
+       CATEGORIES
+    ========================= */
+
+    .categories {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: .7rem;
+        margin: 1.5rem auto 3rem;
+        padding: 0 1rem;
+    }
+
+    .category {
+        border: 1px solid var(--border-color);
+        background: white;
+        color: #475569;
+        padding: .55rem 1rem;
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: 650;
+        font-size: .82rem;
+        transition: .25s ease;
+    }
+
+    body.dark-mode .category {
+        background: var(--dark-card);
+        border-color: rgba(148,163,184,.18);
+        color: #cbd5e1;
+    }
+
+    .category:hover,
+    .category.active {
+        color: white;
+        border-color: transparent;
+        background: linear-gradient(
+            135deg,
+            var(--accent-pink),
+            var(--primary-color)
+        );
+        transform: translateY(-2px);
+    }
+
+    /* =========================
+       ARTICLES
+    ========================= */
+
+    .blog-container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 0 1.5rem 4rem;
+    }
+
+    .featured {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        overflow: hidden;
+        margin-bottom: 2rem;
+        background: white;
+        border: 1px solid var(--border-color);
+        border-radius: 24px;
+        box-shadow: 0 15px 40px rgba(15,23,42,.07);
+    }
+
+    body.dark-mode .featured {
+        background: var(--dark-card);
+        border-color: rgba(148,163,184,.15);
+    }
+
+    .featured-visual {
+        min-height: 330px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 7rem;
+        background: linear-gradient(
+            135deg,
+            #fff1f2,
+            #eff6ff
+        );
+    }
+
+    body.dark-mode .featured-visual {
+        background: linear-gradient(
+            135deg,
+            rgba(244,63,94,.12),
+            rgba(37,99,235,.12)
+        );
+    }
+
+    .featured-content {
+        padding: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .tag {
+        display: inline-block;
+        width: fit-content;
+        padding: .35rem .7rem;
+        border-radius: 999px;
+        background: var(--accent-pink-light);
+        color: var(--accent-pink);
+        font-size: .72rem;
+        font-weight: 800;
+        margin-bottom: .9rem;
+    }
+
+    body.dark-mode .tag {
+        background: rgba(244,63,94,.12);
+    }
+
+    .featured-content h3 {
+        color: var(--dark-color);
+        font-size: 1.7rem;
+        margin-bottom: .8rem;
+    }
+
+    body.dark-mode .featured-content h3 {
+        color: white;
+    }
+
+    .featured-content p {
+        line-height: 1.7;
+        color: #64748b;
+        margin-bottom: 1.2rem;
+    }
+
+    body.dark-mode .featured-content p {
+        color: #94a3b8;
+    }
+
+    .read-more {
+        display: inline-block;
+        width: fit-content;
+        text-decoration: none;
+        color: var(--accent-pink);
+        font-weight: 800;
+        font-size: .9rem;
+    }
+
+    .read-more:hover {
+        text-decoration: underline;
+    }
+
+    /* =========================
+       GRILLE
+    ========================= */
+
+    .articles-title {
+        color: var(--dark-color);
+        font-size: 1.4rem;
+        margin: 2.5rem 0 1.2rem;
+    }
+
+    body.dark-mode .articles-title {
+        color: white;
+    }
+
+    .articles-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.3rem;
+    }
+
+    .article-card {
+        background: white;
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(15,23,42,.05);
+        transition: .3s ease;
+    }
+
+    body.dark-mode .article-card {
+        background: var(--dark-card);
+        border-color: rgba(148,163,184,.15);
+    }
+
+    .article-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 18px 40px rgba(244,63,94,.12);
+    }
+
+    .article-image {
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3.8rem;
+        background: linear-gradient(
+            135deg,
+            #fff1f2,
+            #eff6ff
+        );
+    }
+
+    body.dark-mode .article-image {
+        background: linear-gradient(
+            135deg,
+            rgba(244,63,94,.1),
+            rgba(37,99,235,.1)
+        );
+    }
+
+    .article-content {
+        padding: 1.25rem;
+    }
+
+    .article-content h3 {
+        color: var(--dark-color);
+        font-size: 1rem;
+        line-height: 1.4;
+        margin-bottom: .6rem;
+    }
+
+    body.dark-mode .article-content h3 {
+        color: white;
+    }
+
+    .article-content p {
+        color: #64748b;
+        font-size: .82rem;
+        line-height: 1.6;
+        margin-bottom: .9rem;
+    }
+
+    body.dark-mode .article-content p {
+        color: #94a3b8;
+    }
+
+    .article-date {
+        font-size: .72rem;
+        color: #94a3b8;
+    }
+
+    /* =========================
+       CTA
+    ========================= */
+
+    .blog-cta {
+        max-width: 1200px;
+        margin: 0 auto 3rem;
+        padding: 3rem 1.5rem;
+        text-align: center;
+        border-radius: 24px;
+        color: white;
+        background: linear-gradient(
+            135deg,
+            #1e293b,
+            #0f172a
+        );
+        border-top: 4px solid var(--accent-pink);
+    }
+
+    .blog-cta h2 {
+        font-size: 2rem;
+        margin-bottom: .7rem;
+    }
+
+    .blog-cta p {
+        color: #cbd5e1;
+        max-width: 650px;
+        margin: 0 auto 1.5rem;
+        line-height: 1.6;
+    }
+
+    .blog-cta a {
+        display: inline-block;
+        text-decoration: none;
+        color: white;
+        font-weight: 800;
+        padding: .9rem 1.7rem;
+        border-radius: .8rem;
+        background: linear-gradient(
+            135deg,
+            var(--accent-pink),
+            #e11d48
+        );
+        box-shadow: 0 8px 25px rgba(244,63,94,.3);
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+        background: #0f172a;
+        color: #94a3b8;
+        text-align: center;
+        padding: 2.5rem 1.5rem;
+    }
+
+    .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.3rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .footer-links a {
+        color: #cbd5e1;
+        text-decoration: none;
+        font-size: .85rem;
+        font-weight: 600;
+        transition: .2s ease;
+    }
+
+    .footer-links a:hover {
+        color: white;
+    }
+
+    footer p {
+        margin: .4rem 0;
+        font-size: .82rem;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 900px) {
+        .featured {
+            grid-template-columns: 1fr;
+        }
+
+        .featured-visual {
+            min-height: 220px;
+        }
+
+        .articles-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 600px) {
+        .logo h1 {
+            font-size: 1.05rem;
+        }
+
+        .btn-register {
+            padding: .55rem .8rem;
+        }
+
+        .blog-hero {
+            padding-top: 2.5rem;
+        }
+
+        .blog-hero h2 {
+            font-size: 2rem;
+        }
+
+        .featured-content {
+            padding: 1.5rem;
+        }
+
+        .featured-content h3 {
+            font-size: 1.35rem;
+        }
+
+        .articles-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .blog-cta {
+            border-radius: 18px;
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+    }
+
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+</style>
+
+
+</head>
+
+<body>
+
+<!-- FOND ANIMÉ -->
+<div class="animated-bg">
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+</div>
+
+<!-- HEADER -->
+<header>
+    <nav class="navbar">
+
+        <div class="logo">
+                           <a href="index.html" class="register-logo">
+    <img src="images/logo.png" alt="Alliance Chrétienne">
+</a>
+        </div>
+
+        <div class="nav-right">
+            <button
+                id="darkModeToggle"
+                class="dark-mode-toggle"
+                title="Mode sombre">
+                🌙
+            </button>
+
+            <a href="register.html" class="btn-register">
+                Inscription
+            </a>
+        </div>
+
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="blog-hero">
+
+    <div class="blog-icon">
+        📝
+    </div>
+
+    <h2>
+        Le <span>Blog</span> Alliance Chrétienne
+    </h2>
+
+    <p>
+        Découvrez des conseils, réflexions et inspirations pour construire
+        une relation chrétienne saine, sérieuse et fondée sur la foi.
+    </p>
+
+</section>
+
+<!-- CATEGORIES -->
+<div class="categories">
+
+    <button class="category active">
+        Tous
+    </button>
+
+    <button class="category">
+        💕 Relations
+    </button>
+
+    <button class="category">
+        🙏 Foi & spiritualité
+    </button>
+
+    <button class="category">
+        💍 Mariage
+    </button>
+
+    <button class="category">
+        ❤️ Amour chrétien
+    </button>
+
+    <button class="category">
+        🌱 Vie chrétienne
+    </button>
+
+</div>
+
+<!-- ARTICLES -->
+<main class="blog-container">
+
+    <!-- ARTICLE PRINCIPAL -->
+    <article class="featured">
+
+        <div class="featured-visual">
+            💕
+        </div>
+
+        <div class="featured-content">
+
+            <span class="tag">
+                ARTICLE À LA UNE
+            </span>
+
+            <h3>
+                Construire une relation chrétienne fondée sur la foi
+            </h3>
+
+            <p>
+                Une relation solide ne repose pas uniquement sur les
+                sentiments. La confiance, la communication, la prière
+                et des valeurs communes peuvent aider deux personnes
+                à avancer ensemble.
+            </p>
+
+            <a href="#" class="read-more">
+                Lire l'article →
+            </a>
+
+        </div>
+
+    </article>
+
+    <h2 class="articles-title">
+        Derniers articles
+    </h2>
+
+    <div class="articles-grid">
+
+        <article class="article-card">
+            <div class="article-image">
+                🙏
+            </div>
+            <div class="article-content">
+                <span class="tag">FOI</span>
+                <h3>
+                    La place de la prière dans une relation
+                </h3>
+                <p>
+                    Comment développer une relation où la foi occupe
+                    une place importante au quotidien.
+                </p>
+                <span class="article-date">
+                    1 septembre 2026
+                </span>
+            </div>
+        </article>
+
+        <article class="article-card">
+            <div class="article-image">
+                💍
+            </div>
+            <div class="article-content">
+                <span class="tag">MARIAGE</span>
+                <h3>
+                    Se préparer sérieusement au mariage chrétien
+                </h3>
+                <p>
+                    Quelques pistes pour réfléchir au mariage et
+                    construire un projet commun.
+                </p>
+                <span class="article-date">
+                    29 août 2026
+                </span>
+            </div>
+        </article>
+
+        <article class="article-card">
+            <div class="article-image">
+                💬
+            </div>
+            <div class="article-content">
+                <span class="tag">RELATIONS</span>
+                <h3>
+                    L'importance d'une bonne communication
+                </h3>
+                <p>
+                    Écouter, comprendre et parler avec respect sont
+                    essentiels dans une relation durable.
+                </p>
+                <span class="article-date">
+                    27 août 2026
+                </span>
+            </div>
+        </article>
+
+        <article class="article-card">
+            <div class="article-image">
+                ❤️
+            </div>
+            <div class="article-content">
+                <span class="tag">AMOUR</span>
+                <h3>
+                    Reconnaître une relation sérieuse
+                </h3>
+                <p>
+                    Les signes qui peuvent montrer qu'une relation
+                    avance avec maturité et respect.
+                </p>
+                <span class="article-date">
+                    24 août 2026
+                </span>
+            </div>
+        </article>
+
+        <article class="article-card">
+            <div class="article-image">
+                🌱
+            </div>
+            <div class="article-content">
+                <span class="tag">VIE CHRÉTIENNE</span>
+                <h3>
+                    Grandir ensemble dans la foi
+                </h3>
+                <p>
+                    Une relation peut aussi devenir une occasion
+                    de progresser ensemble dans la vie chrétienne.
+                </p>
+                <span class="article-date">
+                    21 août 2026
+                </span>
+            </div>
+        </article>
+
+        <article class="article-card">
+            <div class="article-image">
+                🔒
+            </div>
+            <div class="article-content">
+                <span class="tag">SÉCURITÉ</span>
+                <h3>
+                    Faire des rencontres en toute sécurité
+                </h3>
+                <p>
+                    Quelques bonnes pratiques pour protéger sa vie
+                    privée lors des rencontres en ligne.
+                </p>
+                <span class="article-date">
+                    18 août 2026
+                </span>
+            </div>
+        </article>
+
+    </div>
+
+</main>
+
+<!-- CTA -->
+<section class="blog-cta">
+
+    <h2>
+        Prêt à écrire votre histoire ? 💕
+    </h2>
+
+    <p>
+        Rejoignez Alliance Chrétienne et rencontrez des célibataires
+        qui partagent votre foi, vos valeurs et votre désir de construire
+        une relation sérieuse.
+    </p>
+
+    <a href="register.html">
+        Créer mon compte gratuitement
+    </a>
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+
+    <div class="footer-links">
+
+        <a href="aide.html">Aide</a>
+        <a href="blog.html">Blog</a>
+        <a href="faq.html">FAQ</a>
+        <a href="confidentialite.html">Confidentialité</a>
+        <a href="conditions.html">Conditions</a>
+        <a href="securite.html">Sécurité</a>
+        <a href="a-propos.html">À propos</a>
+        <a href="contact.html">Contact</a>
+        <a href="temoignages.html">Témoignages</a>
+        <a href="eglises.html">Églises & communautés</a>
+        <a href="signaler.html">Signaler un problème</a>
+
+    </div>
+
+    <p>
+        © 2026 Alliance Chrétienne. Tous droits réservés.
+    </p>
+
+    <p>
+        Fait avec ❤️ pour la communauté chrétienne
+    </p>
+
+</footer>
+
+<!-- JAVASCRIPT -->
+<script>
+
+    // =========================
+    // MODE SOMBRE
+    // =========================
+
+    const darkModeToggle =
+        document.getElementById("darkModeToggle");
+
+    const savedDarkMode =
+        localStorage.getItem("darkMode") === "true";
+
+    if (savedDarkMode) {
+        document.body.classList.add("dark-mode");
+        darkModeToggle.textContent = "☀️";
+    }
+
+    darkModeToggle.addEventListener("click", function () {
+
+        const dark =
+            document.body.classList.toggle("dark-mode");
+
+        localStorage.setItem("darkMode", dark);
+
+        darkModeToggle.textContent =
+            dark ? "☀️" : "🌙";
+    });
+
+
+    // =========================
+    // FILTRES CATÉGORIES
+    // =========================
+
+    const categories =
+        document.querySelectorAll(".category");
+
+    categories.forEach(function(category) {
+
+        category.addEventListener("click", function() {
+
+            categories.forEach(function(item) {
+                item.classList.remove("active");
+            });
+
+            this.classList.add("active");
+
+        });
+
+    });
+
+</script>
+
+
+</body>
+</html>

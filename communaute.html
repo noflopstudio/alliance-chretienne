@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Communauté - Alliance Chrétienne</title>
+
+<style>
+    :root {
+        --primary: #2563eb;
+        --primary-light: #eff6ff;
+        --pink: #f43f5e;
+        --pink-light: #fff1f2;
+        --purple: #7c3aed;
+        --dark: #172033;
+        --text: #475569;
+        --muted: #94a3b8;
+        --white: #ffffff;
+        --border: #e2e8f0;
+        --success: #10b981;
+        --bg: #fff8f8;
+        --dark-bg: #0f172a;
+        --dark-card: #1e293b;
+        --dark-text: #e2e8f0;
+        --shadow: 0 10px 30px rgba(15, 23, 42, .07);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        transition: background .3s ease, color .3s ease;
+    }
+
+    body.dark-mode {
+        background: var(--dark-bg);
+        color: var(--dark-text);
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: rgba(255,255,255,.95);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+    }
+
+    body.dark-mode header {
+        background: rgba(30,41,59,.95);
+        border-bottom-color: rgba(148,163,184,.15);
+    }
+
+    .navbar {
+        max-width: 1200px;
+        margin: auto;
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .logo a {
+        text-decoration: none;
+    }
+
+    .logo h1 {
+        margin: 0;
+        color: var(--dark);
+        font-size: 1.35rem;
+        font-weight: 850;
+    }
+
+    body.dark-mode .logo h1 {
+        color: #f8fafc;
+    }
+
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+    }
+
+    .dark-toggle {
+        width: 42px;
+        height: 42px;
+        border: none;
+        border-radius: 50%;
+        background: var(--primary-light);
+        cursor: pointer;
+        font-size: 1.15rem;
+        transition: .25s ease;
+    }
+
+    body.dark-mode .dark-toggle {
+        background: rgba(148,163,184,.12);
+    }
+
+    .dark-toggle:hover {
+        transform: rotate(15deg) scale(1.05);
+    }
+
+    .btn-login {
+        text-decoration: none;
+        color: white;
+        background: linear-gradient(135deg, var(--pink), var(--purple));
+        padding: .65rem 1.2rem;
+        border-radius: 12px;
+        font-size: .85rem;
+        font-weight: 750;
+        box-shadow: 0 6px 18px rgba(244,63,94,.2);
+        transition: .25s ease;
+    }
+
+    .btn-login:hover {
+        transform: translateY(-2px);
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .community-page {
+        min-height: calc(100vh - 80px);
+        padding: 2.5rem 1.5rem 4rem;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: auto;
+    }
+
+    .hero {
+        text-align: center;
+        padding: 2rem 1rem 2.5rem;
+    }
+
+    .hero-icon {
+        width: 72px;
+        height: 72px;
+        margin: 0 auto 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 22px;
+        font-size: 2rem;
+        color: white;
+        background: linear-gradient(135deg, var(--pink), var(--purple), var(--primary));
+        box-shadow: 0 12px 30px rgba(244,63,94,.2);
+    }
+
+    .hero h1 {
+        color: var(--dark);
+        font-size: 2.3rem;
+        font-weight: 850;
+        margin-bottom: .7rem;
+    }
+
+    body.dark-mode .hero h1 {
+        color: #f8fafc;
+    }
+
+    .hero h1 span {
+        background: linear-gradient(135deg, var(--pink), var(--purple), var(--primary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .hero p {
+        max-width: 700px;
+        margin: auto;
+        color: var(--text);
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    body.dark-mode .hero p {
+        color: #cbd5e1;
+    }
+
+    /* =========================
+       CARDS
+    ========================= */
+
+    .card {
+        background: rgba(255,255,255,.96);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 1.5rem;
+        margin-bottom: 1.25rem;
+        box-shadow: var(--shadow);
+        transition: .25s ease;
+    }
+
+    body.dark-mode .card {
+        background: var(--dark-card);
+        border-color: rgba(148,163,184,.15);
+    }
+
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 18px 45px rgba(244,63,94,.09);
+    }
+
+    .card-header {
+        display: flex;
+        align-items: center;
+        gap: .9rem;
+        margin-bottom: 1.25rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #eef2f7;
+    }
+
+    body.dark-mode .card-header {
+        border-bottom-color: rgba(148,163,184,.12);
+    }
+
+    .card-icon {
+        width: 46px;
+        height: 46px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 14px;
+        color: white;
+        font-size: 1.3rem;
+        background: linear-gradient(135deg, var(--pink), var(--purple));
+        box-shadow: 0 7px 18px rgba(244,63,94,.18);
+    }
+
+    .card-header h2 {
+        color: var(--dark);
+        font-size: 1.15rem;
+        font-weight: 850;
+        margin-bottom: .2rem;
+    }
+
+    body.dark-mode .card-header h2 {
+        color: #f8fafc;
+    }
+
+    .card-header p {
+        color: var(--muted);
+        font-size: .82rem;
+    }
+
+    /* =========================
+       VALEURS
+    ========================= */
+
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+
+    .value-card {
+        padding: 1.25rem;
+        border-radius: 18px;
+        background: linear-gradient(135deg, var(--pink-light), var(--primary-light));
+        border: 1px solid rgba(244,63,94,.1);
+        transition: .25s ease;
+    }
+
+    body.dark-mode .value-card {
+        background: linear-gradient(
+            135deg,
+            rgba(244,63,94,.1),
+            rgba(37,99,235,.1)
+        );
+        border-color: rgba(244,63,94,.15);
+    }
+
+    .value-card:hover {
+        transform: translateY(-4px);
+    }
+
+    .value-icon {
+        font-size: 1.8rem;
+        margin-bottom: .7rem;
+    }
+
+    .value-card h3 {
+        color: var(--dark);
+        font-size: .95rem;
+        margin-bottom: .4rem;
+        font-weight: 800;
+    }
+
+    body.dark-mode .value-card h3 {
+        color: #f8fafc;
+    }
+
+    .value-card p {
+        color: var(--text);
+        font-size: .82rem;
+        line-height: 1.55;
+    }
+
+    body.dark-mode .value-card p {
+        color: #cbd5e1;
+    }
+
+    /* =========================
+       RÈGLES
+    ========================= */
+
+    .rules {
+        display: grid;
+        gap: .75rem;
+    }
+
+    .rule {
+        display: flex;
+        align-items: flex-start;
+        gap: .8rem;
+        padding: .9rem;
+        border-radius: 14px;
+        background: #f8fafc;
+    }
+
+    body.dark-mode .rule {
+        background: rgba(148,163,184,.07);
+    }
+
+    .rule-number {
+        width: 28px;
+        height: 28px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: white;
+        font-size: .75rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--pink), var(--purple));
+    }
+
+    .rule strong {
+        display: block;
+        color: var(--dark);
+        font-size: .9rem;
+        margin-bottom: .15rem;
+    }
+
+    body.dark-mode .rule strong {
+        color: #f8fafc;
+    }
+
+    .rule p {
+        color: var(--text);
+        font-size: .8rem;
+        line-height: 1.5;
+    }
+
+    body.dark-mode .rule p {
+        color: #cbd5e1;
+    }
+
+    /* =========================
+       ESPACES COMMUNAUTAIRES
+    ========================= */
+
+    .community-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .community-item {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        padding: 1rem;
+        border: 1px solid #eef2f7;
+        border-radius: 16px;
+        transition: .25s ease;
+    }
+
+    body.dark-mode .community-item {
+        border-color: rgba(148,163,184,.12);
+    }
+
+    .community-item:hover {
+        background: #fff8f8;
+        transform: translateX(3px);
+    }
+
+    body.dark-mode .community-item:hover {
+        background: #253247;
+    }
+
+    .community-item-icon {
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 13px;
+        font-size: 1.2rem;
+        background: linear-gradient(135deg, var(--pink-light), var(--primary-light));
+    }
+
+    .community-item h3 {
+        color: var(--dark);
+        font-size: .9rem;
+        margin-bottom: .2rem;
+    }
+
+    body.dark-mode .community-item h3 {
+        color: #f8fafc;
+    }
+
+    .community-item p {
+        color: var(--text);
+        font-size: .78rem;
+        line-height: 1.45;
+    }
+
+    body.dark-mode .community-item p {
+        color: #cbd5e1;
+    }
+
+    /* =========================
+       SÉCURITÉ
+    ========================= */
+
+    .security-box {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        padding: 1.2rem;
+        border-radius: 18px;
+        background: linear-gradient(
+            135deg,
+            #ecfdf5,
+            #eff6ff
+        );
+        border: 1px solid rgba(16,185,129,.15);
+    }
+
+    body.dark-mode .security-box {
+        background: linear-gradient(
+            135deg,
+            rgba(16,185,129,.08),
+            rgba(37,99,235,.08)
+        );
+        border-color: rgba(16,185,129,.15);
+    }
+
+    .security-icon {
+        width: 50px;
+        height: 50px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 15px;
+        background: linear-gradient(135deg, #10b981, #2563eb);
+        color: white;
+        font-size: 1.4rem;
+    }
+
+    .security-box h3 {
+        color: var(--dark);
+        font-size: .95rem;
+        margin-bottom: .25rem;
+    }
+
+    body.dark-mode .security-box h3 {
+        color: #f8fafc;
+    }
+
+    .security-box p {
+        color: var(--text);
+        font-size: .8rem;
+        line-height: 1.55;
+    }
+
+    body.dark-mode .security-box p {
+        color: #cbd5e1;
+    }
+
+    /* =========================
+       CTA
+    ========================= */
+
+    .community-cta {
+        text-align: center;
+        padding: 2.5rem 1.5rem;
+        border-radius: 24px;
+        color: white;
+        background: linear-gradient(135deg, #1e293b, #0f172a);
+        border-top: 4px solid var(--pink);
+        box-shadow: 0 15px 40px rgba(15,23,42,.15);
+    }
+
+    .community-cta h2 {
+        font-size: 1.7rem;
+        margin-bottom: .6rem;
+    }
+
+    .community-cta p {
+        max-width: 650px;
+        margin: 0 auto 1.5rem;
+        color: #cbd5e1;
+        line-height: 1.6;
+        font-size: .9rem;
+    }
+
+    .cta-buttons {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: .8rem;
+    }
+
+    .cta-button {
+        display: inline-block;
+        padding: .8rem 1.3rem;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 750;
+        font-size: .85rem;
+        transition: .25s ease;
+    }
+
+    .cta-primary {
+        color: white;
+        background: linear-gradient(135deg, var(--pink), var(--purple));
+        box-shadow: 0 8px 20px rgba(244,63,94,.3);
+    }
+
+    .cta-secondary {
+        color: #e2e8f0;
+        border: 1px solid rgba(255,255,255,.2);
+        background: rgba(255,255,255,.06);
+    }
+
+    .cta-button:hover {
+        transform: translateY(-2px);
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+        margin-top: 2rem;
+        padding: 2rem 1.5rem;
+        text-align: center;
+        background: #0f172a;
+        color: #94a3b8;
+    }
+
+    footer p {
+        margin: .4rem 0;
+        font-size: .82rem;
+    }
+
+    .footer-links {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1.2rem;
+        margin: 1rem 0;
+    }
+
+    .footer-links a {
+        color: #cbd5e1;
+        text-decoration: none;
+        font-size: .8rem;
+        transition: .2s ease;
+    }
+
+    .footer-links a:hover {
+        color: white;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 800px) {
+        .values-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .community-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .hero h1 {
+            font-size: 1.9rem;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .community-page {
+            padding: 1.5rem 1rem 3rem;
+        }
+
+        .navbar {
+            padding: .8rem 1rem;
+        }
+
+        .logo h1 {
+            font-size: 1.05rem;
+        }
+
+        .btn-login {
+            padding: .55rem .8rem;
+            font-size: .75rem;
+        }
+
+        .hero {
+            padding: 1.5rem .5rem 2rem;
+        }
+
+        .hero h1 {
+            font-size: 1.6rem;
+        }
+
+        .hero p {
+            font-size: .88rem;
+        }
+
+        .card {
+            padding: 1.1rem;
+            border-radius: 18px;
+        }
+
+        .community-cta {
+            padding: 2rem 1rem;
+        }
+
+        .community-cta h2 {
+            font-size: 1.4rem;
+        }
+    }
+
+    .register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+    
+</style>
+
+
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar">
+
+
+    <div class="logo">
+                    <a href="index.html" class="register-logo">
+    <img src="images/logo.png" alt="Alliance Chrétienne">
+</a>
+    </div>
+
+    <div class="nav-actions">
+        <button id="darkModeToggle" class="dark-toggle" title="Mode sombre">
+            🌙
+        </button>
+
+        <a href="index.html" class="btn-login">
+            Accueil
+        </a>
+    </div>
+
+</nav>
+
+
+</header>
+
+<main class="community-page">
+
+<div class="container">
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="hero-icon">
+        🤝
+    </div>
+
+    <h1>
+        Bienvenue dans la <span>Communauté</span>
+    </h1>
+
+    <p>
+        Alliance Chrétienne est plus qu'une plateforme de rencontres.
+        C'est un espace où des chrétiens peuvent échanger,
+        s'encourager et créer des relations fondées sur la foi,
+        le respect et la sincérité.
+    </p>
+
+</section>
+
+
+<!-- NOTRE ESPRIT -->
+
+<section class="card">
+
+    <div class="card-header">
+
+        <div class="card-icon">❤️</div>
+
+        <div>
+            <h2>Notre esprit communautaire</h2>
+            <p>Une communauté construite autour de valeurs chrétiennes.</p>
+        </div>
+
+    </div>
+
+    <div class="values-grid">
+
+        <div class="value-card">
+            <div class="value-icon">🙏</div>
+            <h3>Foi</h3>
+            <p>
+                Mettre la foi chrétienne au cœur de nos échanges
+                et de nos relations.
+            </p>
+        </div>
+
+        <div class="value-card">
+            <div class="value-icon">🤍</div>
+            <h3>Respect</h3>
+            <p>
+                Accueillir chaque personne avec dignité,
+                bienveillance et respect.
+            </p>
+        </div>
+
+        <div class="value-card">
+            <div class="value-icon">🤝</div>
+            <h3>Sincérité</h3>
+            <p>
+                Encourager des profils authentiques et des
+                intentions honnêtes.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- COMMENT PARTICIPER -->
+
+<section class="card">
+
+    <div class="card-header">
+
+        <div class="card-icon">🌍</div>
+
+        <div>
+            <h2>Une communauté internationale</h2>
+            <p>Des chrétiens venant de différents horizons.</p>
+        </div>
+
+    </div>
+
+    <div class="community-grid">
+
+        <div class="community-item">
+            <div class="community-item-icon">💬</div>
+            <div>
+                <h3>Échanger</h3>
+                <p>
+                    Discutez avec d'autres membres dans un
+                    environnement respectueux.
+                </p>
+            </div>
+        </div>
+
+        <div class="community-item">
+            <div class="community-item-icon">🙏</div>
+            <div>
+                <h3>S'encourager</h3>
+                <p>
+                    Partagez des paroles positives, des témoignages
+                    et des encouragements.
+                </p>
+            </div>
+        </div>
+
+        <div class="community-item">
+            <div class="community-item-icon">📖</div>
+            <div>
+                <h3>Partager la foi</h3>
+                <p>
+                    Échangez autour de la Bible, de la prière
+                    et de votre parcours chrétien.
+                </p>
+            </div>
+        </div>
+
+        <div class="community-item">
+            <div class="community-item-icon">💍</div>
+            <div>
+                <h3>Créer des relations</h3>
+                <p>
+                    Faites connaissance avec des personnes qui
+                    partagent vos valeurs et vos objectifs.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- RÈGLES -->
+
+<section class="card">
+
+    <div class="card-header">
+
+        <div class="card-icon">📜</div>
+
+        <div>
+            <h2>Nos règles communautaires</h2>
+            <p>Quelques principes essentiels pour préserver notre espace.</p>
+        </div>
+
+    </div>
+
+    <div class="rules">
+
+        <div class="rule">
+            <div class="rule-number">1</div>
+            <div>
+                <strong>Respectez les autres</strong>
+                <p>
+                    Les insultes, humiliations, menaces et harcèlements
+                    n'ont pas leur place dans notre communauté.
+                </p>
+            </div>
+        </div>
+
+        <div class="rule">
+            <div class="rule-number">2</div>
+            <div>
+                <strong>Soyez honnête</strong>
+                <p>
+                    Utilisez vos propres informations et des photos
+                    qui vous représentent réellement.
+                </p>
+            </div>
+        </div>
+
+        <div class="rule">
+            <div class="rule-number">3</div>
+            <div>
+                <strong>Respectez les convictions</strong>
+                <p>
+                    Les différences de dénomination ou de parcours
+                    chrétien doivent être abordées avec respect.
+                </p>
+            </div>
+        </div>
+
+        <div class="rule">
+            <div class="rule-number">4</div>
+            <div>
+                <strong>Aucune demande d'argent</strong>
+                <p>
+                    Ne demandez jamais d'argent, de codes, de cartes
+                    ou d'informations financières à un autre membre.
+                </p>
+            </div>
+        </div>
+
+        <div class="rule">
+            <div class="rule-number">5</div>
+            <div>
+                <strong>Pas de contenu inapproprié</strong>
+                <p>
+                    Les contenus sexuels, provocateurs ou destinés
+                    à mettre les autres membres mal à l'aise sont interdits.
+                </p>
+            </div>
+        </div>
+
+        <div class="rule">
+            <div class="rule-number">6</div>
+            <div>
+                <strong>Signalez les comportements suspects</strong>
+                <p>
+                    Si quelque chose vous semble dangereux, faux
+                    ou déplacé, utilisez notre système de signalement.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SÉCURITÉ -->
+
+<section class="card">
+
+    <div class="card-header">
+
+        <div class="card-icon">🛡️</div>
+
+        <div>
+            <h2>Une communauté qui veille sur ses membres</h2>
+            <p>Votre sécurité reste une priorité.</p>
+        </div>
+
+    </div>
+
+    <div class="security-box">
+
+        <div class="security-icon">
+            🔒
+        </div>
+
+        <div>
+
+            <h3>Restez prudent dans vos échanges</h3>
+
+            <p>
+                Prenez le temps de connaître une personne avant de
+                partager vos informations personnelles. Ne transmettez
+                jamais d'argent à quelqu'un rencontré en ligne et
+                signalez rapidement tout comportement suspect.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CTA -->
+
+<section class="community-cta">
+
+    <h2>Construisons une belle communauté ensemble 🤍</h2>
+
+    <p>
+        Chaque membre contribue à faire d'Alliance Chrétienne
+        un espace plus respectueux, chaleureux et authentique.
+        Votre comportement peut aider quelqu'un à se sentir
+        accueilli et en sécurité.
+    </p>
+
+    <div class="cta-buttons">
+
+        <a href="register.html" class="cta-button cta-primary">
+            Rejoindre la communauté
+        </a>
+
+        <a href="signaler.html" class="cta-button cta-secondary">
+            Signaler un problème
+        </a>
+
+    </div>
+
+</section>
+
+
+</div>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer>
+
+
+<p>
+    © 2026 Alliance Chrétienne. Tous droits réservés.
+</p>
+
+<div class="footer-links">
+
+    <a href="aide.html">Aide</a>
+    <a href="blog.html">Blog</a>
+    <a href="faq.html">FAQ</a>
+    <a href="confidentialite.html">Confidentialité</a>
+    <a href="conditions.html">Conditions</a>
+    <a href="securite.html">Sécurité</a>
+    <a href="a-propos.html">À propos</a>
+    <a href="contact.html">Contact</a>
+    <a href="temoignages.html">Témoignages</a>
+    <a href="eglises.html">Églises & communautés</a>
+    <a href="signaler.html">Signaler un problème</a>
+    <a href="tarifs.html">Tarifs</a>
+    <a href="conseils-securite.html">Conseils sécurité</a>
+    <a href="communaute.html">Communauté</a>
+
+</div>
+
+<p>
+    Fait avec ❤️ pour la communauté chrétienne
+</p>
+
+
+</footer>
+
+<script>
+
+    /* =========================
+       MODE SOMBRE
+    ========================= */
+
+    const darkModeToggle =
+        document.getElementById("darkModeToggle");
+
+    const isDark =
+        localStorage.getItem("darkMode") === "true";
+
+    if (isDark) {
+        document.body.classList.add("dark-mode");
+        darkModeToggle.textContent = "☀️";
+    }
+
+    darkModeToggle.addEventListener("click", function () {
+
+        const active =
+            document.body.classList.toggle("dark-mode");
+
+        localStorage.setItem("darkMode", active);
+
+        darkModeToggle.textContent =
+            active ? "☀️" : "🌙";
+
+    });
+
+</script>
+
+</body>
+</html>

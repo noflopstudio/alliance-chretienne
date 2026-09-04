@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Connexion - Alliance Chrétienne</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+</head>
+
+<body>
+
+    <div style="
+        min-height:100vh;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-family:Arial,sans-serif;
+        text-align:center;
+    ">
+
+        <div>
+
+            <div style="font-size:45px;">✝️</div>
+
+            <h2>Connexion en cours...</h2>
+
+            <p id="message">
+                Vérification de votre compte...
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        async function checkUserRole() {
+
+            try {
+
+                console.log('🔐 Vérification du compte...');
+
+                const {
+                    data: {
+                        user
+                    },
+                    error
+                } =
+                    await window.supabaseClient
+                        .auth
+                        .getUser();
+
+
+                if (error || !user) {
+
+                    console.error(
+                        '❌ Aucun utilisateur:',
+                        error
+                    );
+
+                    window.location.href =
+                        'login.html';
+
+                    return;
+                }
+
+
+                console.log(
+                    '👤 Utilisateur connecté:',
+                    user.id
+                );
+
+
+                // Vérifier le rôle dans profiles
+                const {
+                    data: profile,
+                    error: profileError
+                } =
+                    await window.supabaseClient
+                        .from('profiles')
+                        .select('is_admin')
+                        .eq('id', user.id)
+                        .single();
+
+
+                if (profileError) {
+
+                    console.error(
+                        '❌ Erreur profil:',
+                        profileError
+                    );
+
+                    document.getElementById(
+                        'message'
+                    ).textContent =
+                        'Impossible de vérifier votre compte.';
+
+                    return;
+                }
+
+
+                // ADMIN
+                if (profile?.is_admin === true) {
+
+                    console.log(
+                        '👑 ADMIN détecté'
+                    );
+
+                    document.getElementById(
+                        'message'
+                    ).textContent =
+                        '👑 Bienvenue administrateur...';
+
+                    setTimeout(() => {
+
+                        window.location.href =
+                            'admin-dashboard.html';
+
+                    }, 500);
+
+
+                    return;
+                }
+
+
+                // MEMBRE
+                console.log(
+                    '👤 MEMBRE détecté'
+                );
+
+                document.getElementById(
+                    'message'
+                ).textContent =
+                    'Bienvenue sur Alliance Chrétienne...';
+
+                setTimeout(() => {
+
+                    window.location.href =
+                        'search.html';
+
+                }, 500);
+
+
+            } catch (error) {
+
+                console.error(
+                    '❌ Erreur générale:',
+                    error
+                );
+
+                window.location.href =
+                    'login.html';
+            }
+        }
+
+
+        checkUserRole();
+
+    </script>
+
+</body>
+</html>

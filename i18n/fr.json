@@ -1,0 +1,862 @@
+{
+    "header": {
+        "register": "Inscription"
+    },
+
+    "login": {
+        "title_before": "Trouvez l'amour béni par",
+        "god": "Dieu",
+        "description": "Connectez-vous pour retrouver votre espace et faire des rencontres authentiques entre célibataires chrétiens engagés.",
+
+        "faith_title": "Bâti sur la foi et l'engagement",
+        "faith_description": "Des relations sérieuses orientées vers le mariage chrétien et des alliances durables.",
+
+        "benefit1": "Explorez des profils compatibles et pieux",
+        "benefit2": "Matchez avec des personnes partageant vos valeurs",
+        "benefit3": "Discutez dans un cadre respectueux et sécurisé",
+
+        "form_title": "Connexion",
+        "email": "Adresse Email",
+        "password": "Mot de passe",
+        "remember": "Se souvenir de moi",
+        "forgot_password": "Mot de passe oublié ?",
+        "submit": "Se connecter",
+        "or": "ou",
+        "google": "Continuer avec Google",
+        "no_account": "Pas encore de compte ?",
+        "create_account": "Créer un compte",
+
+        "verse": "\"L’amour est patient, l’amour est plein de bonté ; l’amour n’est point envieux ; l’amour ne se vante point, il ne s’enfle point d’orgueil.\"",
+        "verse_reference": "— 1 Corinthiens 13:4",
+
+        "cta_title": "Trouvez votre moitié 💕",
+        "cta_description": "Des milliers de chrétiens célibataires partagent la même foi et vous attendent déjà pour écrire une belle histoire.",
+        "cta_community": "Communauté chrétienne",
+        "cta_marriage": "Projets de mariage bénis",
+        "cta_moderated": "Profils modérés & respectueux",
+        "cta_button": "Rejoignez notre communauté gratuitement"
+    },
+
+
+"search": {
+    "install": "📱 Installez Alliance Chrétienne",
+    "install_button": "Installer",
+
+    "profile": "Mon profil",
+    "messages": "Messages",
+    "favorites": "Mes favoris",
+    "notifications": "Notifications",
+    "certification": "Demande de certification",
+    "warnings": "Avertissements",
+    "security": "Conseils de sécurité",
+    "report": "Signaler un problème",
+    "testimonials": "Mes Témoignages",
+    "settings": "Paramètres",
+    "logout": "Déconnexion",
+
+    "world_badge": "🌍 Alliance Chrétienne Mondiale",
+    "title": "Découvrez des profils chrétiens",
+    "title_highlight": "du monde entier",
+    "subtitle": "Rencontrez des frères et sœurs qui partagent votre foi, vos valeurs et votre vision du couple. Échangez, priez ensemble et bâtissez des relations sincères, au-delà des frontières.",
+
+    "wherever": "Où que vous soyez",
+    "more": "✨ Et bien plus encore...",
+
+    "filter_title": "Affiner votre recherche",
+    "gender": "Genre",
+    "all": "-- Tous --",
+    "man": "Homme",
+    "woman": "Femme",
+
+
+    "min_age": "Âge minimum",
+    "denomination": "Dénomination",
+    "all_female": "-- Toutes --",
+    "catholic": "Catholique",
+    "protestant": "Protestant",
+    "evangelical": "Évangélique",
+    "pentecostal": "Pentecôtiste",
+    "orthodox": "Orthodoxe",
+    "other": "Autre",
+
+    "city": "Ville",
+    "city_placeholder": "Ex : Abidjan",
+
+    "faith_engagement": "Engagement dans la foi",
+    "new_believer": "Nouveau croyant",
+    "engaged": "Engagé",
+    "very_engaged": "Très engagé",
+   "pastor": "Pasteur/Pasteure",
+
+   "every_week": "Chaque semaine",
+"two_three_times_month": "2-3 fois par mois",
+"once_month": "Une fois par mois",
+"occasionally": "Occasionnellement",
+
+    "search_button": "🔍 Rechercher",
+    "reset": "↺ Réinitialiser",
+
+    "loading": "Chargement des profils...",
+
+    "no_results": "Aucun profil trouvé 😔",
+    "no_results_description": "Essayez de modifier vos critères de recherche pour trouver d'autres célibataires.",
+    "reset_filters": "Réinitialiser les filtres",
+
+    "cote_ivoire": "Côte d'Ivoire",
+    "cameroon": "Cameroun",
+    "senegal": "Sénégal",
+    "benin": "Bénin",
+    "togo": "Togo",
+    "drc": "RDC",
+    "france": "France",
+    "belgium": "Belgique",
+    "switzerland": "Suisse",
+    "canada": "Canada",
+    "usa": "États-Unis"
+},
+
+"profile": {
+    "page_title": "Mon profil - Alliance Chrétienne",
+    "certification_title": "🔵 Certification du profil",
+    "certification_checking": "Vérification de votre statut...",
+    "view_profile": "Voir mon profil",
+    "edit": "Modifier",
+    "matches": "Mes matchs",
+    "photos": "Photos",
+
+    "personal_info": "Informations personnelles",
+    "first_name": "Prénom",
+    "age": "Âge",
+    "gender": "Genre",
+    "city": "Ville",
+    "country": "Pays",
+
+    "your_faith": "Votre foi",
+    "your_faith_title": "🙏 Votre foi",
+    "denomination": "Dénomination",
+    "church_frequency": "Fréquence à l'église",
+    "faith_engagement": "Engagement",
+    "faith_engagement_full": "Engagement dans la foi",
+    "favorite_verse": "Verset préféré",
+
+    "about_you": "À propos de vous",
+    "looking_for": "Ce que vous recherchez",
+
+    "search_criteria": "Vos critères de recherche",
+    "search_gender": "Genre recherché",
+    "search_age": "Âge",
+    "max_distance": "Distance maximale",
+
+    "edit_profile": "Modifier mon profil",
+    "my_photos": "Mes photos",
+    "photos_description": "Ajoutez vos meilleures photos pour donner envie de découvrir votre profil ❤️",
+    "photos_moderation": "Pour protéger notre communauté contre les faux profils, chaque photo ajoutée est vérifiée et approuvée par notre équipe avant d'être visible sur votre profil.",
+    "add_photo": "Ajouter une photo",
+
+    "who_are_you": "Qui êtes-vous ?",
+    "what_are_you_looking_for": "Qu'est-ce que vous recherchez ?",
+
+    "man": "Homme",
+    "woman": "Femme",
+    "any": "Peu importe",
+
+    "catholic": "Catholique",
+    "protestant": "Protestant",
+    "evangelical": "Évangélique",
+    "pentecostal": "Pentecôtiste",
+    "orthodox": "Orthodoxe",
+    "other": "Autre",
+
+    "new_believer": "Nouveau croyant",
+    "engaged": "Engagé",
+    "very_engaged": "Très engagé",
+    "pastor": "Pasteur/Pasteure",
+
+    "every_week": "Chaque semaine",
+    "two_three_times_month": "2-3 fois par mois",
+    "once_month": "Une fois par mois",
+    "occasionally": "Occasionnellement",
+
+    "min_age": "Âge minimum",
+    "max_age": "Âge maximum",
+    "distance_km": "Distance (km)",
+
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "loading": "Chargement...",
+
+    "certified_profile": "🔵 Profil certifié",
+    "certified_description": "Votre profil a été vérifié par l'équipe Alliance Chrétienne.",
+    "no_liked_profiles": "Vous n'avez pas encore liké de profil.",
+    "all_rights_reserved": "Tous droits réservés."
+},
+
+"messages": {
+    "page_title": "Messages - Alliance Chrétienne",
+    "title": "Vos messages",
+    "conversations": "💕 Conversations",
+    "loading_conversations": "⏳ Chargement de vos conversations...",
+    "empty_title": "Votre espace de discussion",
+    "empty_description": "Sélectionnez une conversation pour commencer à échanger dans un cadre respectueux et chrétien.",
+
+    "certified_profile": "Profil certifié",
+    "no_conversations": "Aucune conversation pour le moment.",
+    "no_message": "Pas de message",
+    "loading_messages": "⏳ Chargement des messages...",
+    "error_loading_conversations": "Erreur lors du chargement des conversations",
+    "error_loading_messages": "Impossible de charger les messages",
+    "no_messages": "Aucun message. Commencez la conversation !",
+
+    "online": "En ligne",
+    "offline": "Hors ligne",
+
+    "just_now": "À l'instant",
+    "minutes_ago": "Il y a {count} min",
+    "hours_ago": "Il y a {count} h",
+    "days_ago": "Il y a {count} j",
+    "months_ago": "Il y a {count} mois",
+    "year_ago": "Il y a {count} an",
+    "years_ago": "Il y a {count} ans",
+
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "report_message": "Signaler ce message",
+
+    "message_reported": "Message déjà signalé",
+    "edit_error": "Impossible de modifier ce message",
+    "edit_mode": "Mode édition activé ✏️",
+    "message_updated": "Message modifié avec succès ✅",
+
+    "login_required": "Vous devez être connecté.",
+    "supabase_unavailable": "Erreur : Supabase n'est pas disponible",
+    "select_conversation": "Sélectionnez une conversation",
+
+    "report_title": "🚨 Signaler ce message",
+    "close": "Fermer",
+    "report_question": "Pourquoi souhaitez-vous signaler ce message ?",
+    "report_inappropriate": "🚫 Contenu inapproprié",
+    "report_harassment": "😡 Harcèlement",
+    "report_spam": "📢 Spam",
+    "report_fake_profile": "👤 Faux profil",
+    "report_other": "📝 Autre",
+    "report_details_placeholder": "Précisez le motif...",
+    "cancel": "Annuler",
+    "report": "🚨 Signaler",
+
+    "select_reason": "Veuillez sélectionner un motif.",
+    "specify_reason": "Veuillez préciser le motif.",
+    "sending": "⏳ Envoi...",
+    "report_check_error": "Impossible de vérifier le signalement.",
+    "already_reported": "Vous avez déjà signalé ce message.",
+    "report_save_error": "Impossible d'enregistrer le signalement.",
+    "report_success": "Message signalé avec succès 🚨",
+    "report_save_error_prefix": "Erreur enregistrement signalement :",
+    "delete_error": "Erreur suppression...",
+    "delete_success": "Message supprimé avec succès 🗑️",
+
+    "send_empty": "Le message ne peut pas être vide",
+    "send_error": "Erreur lors de l'envoi du message",
+
+    "new_message_notification": "Nouveau message de {name} : {message}",
+
+    "call_login_required": "Vous devez être connecté.",
+    "call_select_conversation": "Sélectionnez une conversation.",
+    "call_already_in_progress": "Un appel est déjà en cours.",
+    "unknown_member": "Un membre",
+
+    "incoming_video_call": "🎥 Appel vidéo entrant",
+    "incoming_audio_call": "📞 Appel audio entrant",
+
+    "video_call_in_progress": "🟢 Appel vidéo en cours",
+    "audio_call_in_progress": "🟢 Appel en cours",
+    "call_in_progress": "📞 Appel en cours...",
+
+    "connection_interrupted": "⚠️ Connexion interrompue",
+    "call_ended": "📴 Appel terminé",
+    "connecting": "Connexion...",
+    "call_rejected": "Appel refusé.",
+    "call_finished": "L'appel est terminé.",
+
+    "camera_unavailable": "📷 Caméra indisponible. L’appel continue en audio.",
+    "microphone_unavailable": "🎤 Impossible d’accéder au microphone.",
+
+    "incoming_video_badge": "🎥 APPEL VIDÉO",
+    "incoming_audio_badge": "📞 APPEL AUDIO",
+    "incoming_video_description": "Souhaite vous passer un appel vidéo",
+    "incoming_audio_description": "Souhaite vous appeler",
+
+    "accept": "Accepter",
+    "reject": "Refuser",
+
+    "microphone": "Microphone",
+    "camera": "Caméra",
+    "hang_up": "Raccrocher",
+
+    "message_placeholder": "Écrivez votre message...",
+
+    "all_rights_reserved": "Tous droits réservés.",
+    "footer_made_with_love": "Fait avec ❤️ pour une communauté fondée sur la foi."
+},
+"favorites": {
+    "page_title": "Mes favoris - Alliance Chrétienne",
+    "title": "❤️ Mes favoris",
+    "description": "Retrouvez les membres que vous avez ajoutés à vos favoris.",
+    "your_favorites": "❤️ Vos favoris",
+    "loading": "⏳ Chargement de vos favoris...",
+    "empty_title": "Aucun favori",
+    "empty_description": "Vous n'avez pas encore ajouté de membre à vos favoris.",
+    "empty_profiles_title": "Aucun profil favori",
+    "empty_profiles_description": "Les profils favoris ne sont plus disponibles.",
+    "verified_member": "Membre certifié",
+    "member": "Membre",
+    "years_old": "ans",
+    "profile": "👤 Profil",
+    "message": "💬 Message",
+    "remove": "💔 Retirer des favoris",
+    "remove_confirm": "Voulez-vous retirer ce membre de vos favoris ?",
+    "login_required": "❌ Vous devez être connecté pour consulter vos favoris.",
+    "load_error": "❌ Impossible de charger vos favoris.",
+    "remove_error": "❌ Impossible de retirer ce membre des favoris.",
+    "supabase_error": "Client Supabase introuvable. Vérifie supabase-config.js.",
+    "id_error": "Impossible de trouver l’identifiant des membres favoris.",
+    "all_rights_reserved": "Tous droits réservés."
+
+ },
+
+"notifications": {
+    "page_title": "Notifications - Alliance Chrétienne",
+    "title": " Notifications",
+    "filter": "Filtrer",
+
+    "supabase_unavailable": "Erreur : Supabase n’est pas disponible",
+    "load_error": "Erreur lors du chargement des notifications",
+    "error_prefix": "Erreur :",
+
+    "all": "📬 Toutes",
+    "likes": "❤️ Likes",
+    "matches": "💕 Matchs",
+    "your_notifications": "Vos notifications",
+
+    "new_like": "❤️ Nouveau like",
+    "new_match": "💕 Nouveau match",
+    "new_message": "💬 Nouveau message",
+
+    "incoming_audio_call": "📞 Appel audio entrant",
+    "incoming_video_call": "🎥 Appel vidéo entrant",
+
+    "report": "🚨 Signalement",
+
+    "testimonial_approved_badge": "✅ Témoignage approuvé",
+    "testimonial_rejected_badge": "🔴 Témoignage refusé",
+
+    "alliance_chretienne": "🚨 Alliance Chrétienne",
+    "user": "Utilisateur",
+    "avatar": "Avatar",
+    "notification": "Notification",
+
+    "view_profile": "Voir le profil",
+    "close": "Fermer",
+    "write_message": "💬 Écrire un message",
+    "reply": "💬 Répondre",
+
+    "messages": "💬 Messages",
+"audio_calls": "📞 Appels audio",
+"video_calls": "🎥 Appels vidéo",
+"reports": "🚨 Signalements",
+"unread": "🔴 Non lues",
+"mark_all_read": "Tout marquer comme lu",
+"all_rights_reserved": "Tous droits réservés",
+
+    "answer": "📞 Répondre",
+    "answer_video": "🎥 Répondre",
+    "ignore": "✕ Ignorer",
+
+    "default_like": "Quelqu’un a aimé votre profil.",
+    "default_match": "Vous avez un nouveau match !",
+    "default_message": "Vous avez reçu un nouveau message.",
+    "default_audio_call": "Vous avez reçu un appel audio entrant.",
+    "default_video_call": "Vous avez reçu un appel vidéo entrant.",
+
+    "default_problem_report": "Votre signalement a été traité par l’équipe d’Alliance Chrétienne.",
+
+    "default_testimonial_approved": "✅ Votre témoignage a été approuvé et publié sur Alliance Chrétienne.",
+
+    "default_testimonial_rejected": "🔴 Votre témoignage n’a pas été retenu pour publication sur Alliance Chrétienne.",
+
+    "default_report": "Vous avez reçu un signalement.",
+
+    "default": "Vous avez une nouvelle notification.",
+
+    "caller_not_found": "Impossible de retrouver l’appelant.",
+    "call_error": "Impossible de répondre à l’appel.",
+    "call_ignored": "Appel ignoré",
+
+    "close_error": "Impossible de fermer cette notification",
+
+    "no_unread": "Aucune notification non lue",
+
+    "mark_all_error": "Impossible de marquer les notifications comme lues.",
+
+    "all_marked_read": "✅ Toutes les notifications sont marquées comme lues",
+
+    "empty_title": "📭 Aucune notification",
+
+    "empty_description": "Vous recevrez des notifications quand quelqu’un vous likera, matchera, enverra un message ou vous appellera.",
+
+    "just_now": "À l’instant",
+
+    "minutes_ago": "Il y a {count} min",
+
+    "hours_ago": "Il y a {count} h",
+
+    "days_ago": "Il y a {count} j"
+
+},
+"certification": {
+    "page_title": "Demande de certification - Alliance Chrétienne",
+    "badge": "🛡️ PROFIL CERTIFIÉ",
+    "title": "Demande de",
+    "title_highlight": "certification",
+    "subtitle": "Faites vérifier votre profil et obtenez le badge de certification sur Alliance Chrétienne.",
+    "info_title": "Renforcez la confiance sur votre profil",
+    "info_description": "Après votre paiement, envoyez votre preuve de paiement ainsi que les informations demandées. Notre équipe vérifiera votre demande avant d'accorder la certification.",
+    "personal_title": "Vos informations",
+    "personal_description": "Ces informations permettent d'identifier votre compte et de traiter votre demande.",
+    "full_name": "Nom et prénom",
+    "full_name_placeholder": "Ex. Jean Kouassi",
+    "phone": "Numéro de téléphone",
+    "phone_placeholder": "Ex. 07 XX XX XX XX",
+    "email": "Adresse e-mail",
+    "email_placeholder": "votre@email.com",
+    "payment_title": "Informations du paiement",
+    "payment_description": "Indiquez les informations correspondant à votre paiement de certification.",
+    "wave_title": "Paiement effectué avec Wave",
+    "wave_description": "Utilisez les informations affichées sur votre reçu de paiement.",
+    "payment_phone": "Numéro Wave utilisé",
+    "payment_phone_placeholder": "Numéro ayant effectué le paiement",
+    "amount": "Montant payé (FCFA)",
+    "transaction_id": "ID de transaction Wave",
+    "transaction_id_placeholder": "Entrez l'ID de votre transaction",
+    "payment_date": "Date du paiement",
+    "proof_title": "Preuve de paiement",
+    "proof_description": "Envoyez une capture claire de votre reçu ou de la confirmation de paiement Wave.",
+    "upload_title": "Cliquez pour sélectionner votre capture",
+    "upload_formats": "JPG, PNG ou WEBP • 5 Mo maximum",
+    "remove_preview": "🗑️ Supprimer la capture",
+    "additional_title": "Informations complémentaires",
+    "additional_description": "Ajoutez une précision si nécessaire.",
+    "message": "Message",
+    "optional": "(facultatif)",
+    "message_placeholder": "Écrivez votre message ou une précision concernant votre demande...",
+    "confirmation": "Je confirme que les informations fournies sont exactes et que l'ID de transaction ainsi que la preuve de paiement correspondent bien à mon paiement de certification.",
+    "submit": "📤 Envoyer ma demande",
+    "security_note": "🔒 Vos informations sont traitées de manière confidentielle et utilisées uniquement pour vérifier votre demande."
+},
+"warnings": {
+    "page_title": "Mes avertissements",
+    "title": "Mes avertissements",
+    "description": "Retrouvez ici les avertissements qui vous ont été adressés par l’équipe de modération d’Alliance Chrétienne. Notre objectif est de maintenir une communauté respectueuse, bienveillante et fidèle à ses valeurs.",
+
+    "stats": {
+        "total": "Total",
+        "current_level": "Niveau actuel",
+        "status": "Statut",
+        "none": "Aucun",
+        "excellent": "Excellent",
+        "to_monitor": "À surveiller",
+        "new": "Nouveau",
+        "viewed": "Consulté"
+    },
+
+    "moderation": {
+        "title": "Une communauté fondée sur le respect",
+        "description": "Les avertissements servent à vous informer lorsqu’un comportement ou un contenu ne respecte pas les règles de la communauté. Ils ne sont pas destinés à vous juger, mais à préserver un espace sain pour tous."
+    },
+
+    "card": {
+        "title": "Historique de modération",
+        "private_space": "Espace privé"
+    },
+
+    "loading": "Chargement de vos avertissements...",
+
+    "empty": {
+        "title": "Aucun avertissement",
+        "description": "Votre compte ne comporte actuellement aucun avertissement de modération."
+    },
+
+    "levels": {
+        "level1": {
+            "title": "Premier avertissement",
+            "short": "Niveau 1"
+        },
+        "level2": {
+            "title": "Deuxième avertissement",
+            "short": "Niveau 2"
+        },
+        "level3": {
+            "title": "Infraction grave",
+            "short": "Niveau 3"
+        }
+    },
+
+    "warning": {
+        "title": "Avertissement de modération",
+        "date_unknown": "Date inconnue",
+        "reason": "Motif",
+        "message": "Message de l’administration",
+        "moderator": "Équipe de modération",
+        "read": "Avertissement consulté",
+        "unread": "Nouveau avertissement"
+    },
+
+    "errors": {
+        "not_connected": "❌ Vous devez être connecté pour consulter vos avertissements.",
+        "load_failed": "❌ Impossible de charger vos avertissements."
+    },
+
+    "footer": {
+        "copyright": "© 2026 Alliance Chrétienne. Tous droits réservés.",
+        "made_with": "Fait avec ❤️ pour une communauté chrétienne respectueuse."
+    }
+},
+
+"security": {
+    "page_title": "Conseils de sécurité - Alliance Chrétienne",
+    "hero_title": "Conseils de sécurité",
+    "hero_highlight": "sécurité",
+    "hero_description": "Votre sécurité et votre tranquillité sont importantes pour nous. Découvrez les bonnes pratiques pour faire des rencontres en ligne en toute prudence.",
+
+    "intro": {
+        "title": "❤️ Prenez soin de vous",
+        "description": "Les rencontres en ligne peuvent permettre de créer de belles relations. Cependant, prenez toujours le temps de connaître une personne avant de lui faire confiance. Si une situation vous semble étrange ou vous met mal à l'aise, écoutez votre instinct."
+    },
+
+    "money": {
+        "title": "Ne donnez jamais d'argent",
+        "description": "C'est l'une des règles les plus importantes sur les plateformes de rencontres.",
+        "item1": "Ne transférez jamais d'argent à une personne rencontrée en ligne.",
+        "item2": "Même si son histoire semble urgente ou émouvante.",
+        "item3": "Ne participez pas à un investissement proposé par une personne rencontrée sur la plateforme."
+    },
+
+    "money_requests": {
+        "title": "Attention aux demandes d'argent",
+        "description": "Méfiez-vous particulièrement des demandes liées à des situations présentées comme urgentes.",
+        "item1": "Billet d'avion",
+        "item2": "Frais médicaux",
+        "item3": "Problème familial",
+        "item4": "Investissement ou crypto-monnaie",
+        "item5": "Carte cadeau ou transfert d'argent"
+    },
+
+    "personal": {
+        "title": "Protégez vos informations personnelles",
+        "description": "Ne partagez pas trop rapidement des informations qui pourraient permettre à quelqu'un de vous identifier ou de vous localiser.",
+        "item1": "Adresse personnelle",
+        "item2": "Documents d'identité",
+        "item3": "Informations bancaires",
+        "item4": "Codes de paiement",
+        "item5": "Adresse exacte de votre domicile",
+        "item6": "Informations professionnelles sensibles"
+    },
+
+    "time": {
+        "title": "Prenez votre temps",
+        "description": "Une relation sincère se construit progressivement. Ne vous sentez jamais obligé de faire quelque chose trop rapidement.",
+        "item1": "Apprenez progressivement à connaître la personne.",
+        "item2": "Posez des questions et observez ses réponses.",
+        "item3": "Ne laissez personne vous mettre la pression."
+    },
+
+    "suspicious": {
+        "title": "Soyez attentif aux comportements suspects",
+        "description": "Certains comportements peuvent être des signes qu'une personne n'est pas honnête avec vous.",
+        "item1": "Histoires qui changent régulièrement",
+        "item2": "Refus systématique de communiquer normalement",
+        "item3": "Pression pour envoyer de l'argent",
+        "item4": "Demandes d'informations personnelles sensibles"
+    },
+
+    "meeting": {
+        "title": "Pour une première rencontre",
+        "description": "Si vous décidez de rencontrer quelqu'un en personne, prenez quelques précautions simples.",
+        "item1": "Choisissez un lieu public.",
+        "item2": "Prévenez une personne de confiance.",
+        "item3": "Gardez votre propre moyen de transport si possible.",
+        "item4": "Évitez de communiquer votre adresse personnelle."
+    },
+
+    "report": {
+        "title": "Quelque chose vous semble suspect ?",
+        "description": "Si une personne vous demande de l'argent, vous menace, vous harcèle ou adopte un comportement qui vous met mal à l'aise, ne restez pas silencieux. Utilisez les outils de signalement disponibles sur Alliance Chrétienne."
+    },
+
+    "footer": "🛡️ Votre sécurité compte pour Alliance Chrétienne"
+},
+
+"report": {
+    "page_title": "Signaler un problème - Alliance Chrétienne",
+    "back": "Retour",
+    "hero_title": "Besoin d'aide ?",
+    "hero_description": "Vous rencontrez un problème sur Alliance Chrétienne ? Expliquez-nous ce qui se passe et notre équipe pourra vous aider.",
+
+    "technical": {
+        "title": "Un problème technique ?",
+        "description": "Signalez-nous les difficultés rencontrées lors de l'utilisation de la plateforme."
+    },
+
+    "security": {
+        "title": "Un problème de sécurité ?",
+        "description": "Si vous remarquez un comportement suspect ou un problème concernant un membre, signalez-le-nous."
+    },
+
+    "feedback": {
+        "title": "Votre avis compte",
+        "description": "Vos signalements nous permettent d'améliorer Alliance Chrétienne."
+    },
+
+    "confidential": {
+        "title": "🔒 Vos informations restent confidentielles",
+        "description": "Votre signalement sera transmis à l'équipe d'Alliance Chrétienne afin d'être traité avec sérieux et discrétion."
+    },
+
+    "form": {
+        "title": "🚨 Signaler un problème",
+        "description": "Décrivez-nous le problème que vous rencontrez. Plus votre description est précise, plus nous pourrons vous aider rapidement.",
+        "type_label": "Type de problème",
+        "category": "Sélectionnez une catégorie",
+        "account": "👤 Mon compte",
+        "profile": "📝 Mon profil",
+        "messages": "💬 Messages",
+        "search": "🔎 Recherche / Découverte",
+        "payment": "💳 Paiement",
+        "certification": "✅ Certification",
+        "safety": "🛡️ Sécurité",
+        "application": "📱 Application / Site",
+        "other": "❓ Autre problème",
+        "description_label": "Décrivez votre problème",
+        "placeholder": "Expliquez ici ce qui s'est passé...",
+        "submit": "🚨 Envoyer le signalement",
+        "sending": "⏳ Envoi en cours..."
+    },
+
+    "alert": {
+        "category": "Veuillez sélectionner le type de problème.",
+        "details": "Veuillez décrire votre problème avec un peu plus de détails.",
+        "login": "Vous devez être connecté pour envoyer un signalement.",
+        "success": "✅ Votre signalement a bien été envoyé. Merci de nous avoir prévenus.",
+        "error": "❌ Impossible d’envoyer votre signalement pour le moment. Veuillez réessayer."
+    },
+
+    "footer": {
+        "copyright": "© 2026 Alliance Chrétienne. Tous droits réservés.",
+        "help": "Nous sommes là pour vous aider ❤️"
+    }
+},
+
+"settings": {
+    "page_title": "Paramètres - Alliance Chrétienne",
+    "title": "Paramètres",
+    "description": "Gérez les réglages de votre espace Alliance Chrétienne.",
+
+    "general_title": "Paramètres généraux",
+    "general_description": "Les réglages principaux de votre plateforme.",
+
+    "platform_title": "Plateforme",
+    "platform_description": "Les réglages généraux de la plateforme seront disponibles ici.",
+
+    "notifications_title": "Notifications",
+    "notifications_description": "Gérez les préférences liées aux notifications.",
+
+    "security_title": "Sécurité",
+    "security_description": "Les paramètres de sécurité et de confidentialité seront disponibles ici.",
+
+    "coming_soon": "Bientôt",
+
+    "information_title": "Informations",
+    "information_description": "Informations concernant la plateforme.",
+
+    "platform_name": "Alliance Chrétienne",
+    "platform_type": "Plateforme de rencontres chrétiennes",
+
+    "platform_status": "État de la plateforme",
+    "system_operational": "Système opérationnel",
+
+    "all_rights_reserved": "Tous droits réservés."
+
+},
+
+"testimonials": {
+    "meta_description": "Découvrez les témoignages des membres d'Alliance Chrétienne.",
+    "page_title": "Témoignages - Alliance Chrétienne",
+    "hero_title": "Des histoires qui commencent",
+    "hero_highlight": "avec la foi",
+    "hero_description": "Découvrez les témoignages de membres qui ont choisi Alliance Chrétienne pour faire des rencontres sérieuses, fondées sur la foi, les valeurs chrétiennes et le désir de construire une relation durable.",
+    "section_title": "Ils partagent leur expérience ❤️",
+    "section_description": "Des rencontres authentiques autour d'une même foi.",
+    "loading": "Chargement des témoignages...",
+    "load_error": "Impossible de charger les témoignages.",
+    "empty_title": "Aucun témoignage publié pour le moment",
+    "empty_description": "Les témoignages approuvés apparaîtront ici.",
+    "member": "Membre",
+    "verified_member": "✓ Membre",
+    "member_of_alliance": "Membre d'Alliance Chrétienne",
+    "success_title": "Une rencontre peut changer une vie",
+    "success_description": "Alliance Chrétienne a pour objectif de permettre aux célibataires chrétiens de se rencontrer dans un espace respectueux, accueillant et centré sur leurs valeurs. Prenez le temps de découvrir quelqu'un, d'échanger, de prier et de construire progressivement une relation sérieuse.",
+    "cta_title": "Votre histoire peut commencer ici ! 💕",
+    "cta_description": "Rejoignez une communauté de célibataires chrétiens qui souhaitent construire des relations sincères, sérieuses et fondées sur la foi.",
+    "cta_button": "Rejoindre la communauté gratuitement",
+    "available_worldwide": "🌍 Disponible pour les chrétiens du monde entier",
+    "help": "Aide",
+    "blog": "Blog",
+    "faq": "Questions fréquentes",
+    "privacy": "Confidentialité",
+    "terms": "Conditions",
+    "security": "Sécurité",
+    "about": "À propos",
+    "contact": "Contact",
+    "testimonials_link": "Témoignages",
+    "churches": "Églises et communautés",
+    "report_problem": "Signaler un problème",
+    "countries": "🇨🇮 Côte d'Ivoire • 🇨🇲 Cameroun • 🇲🇱 Mali • 🇬🇳 Guinée • 🇸🇳 Sénégal • 🇨🇩 RDC • 🇲🇦 Maroc • 🇧🇯 Bénin • 🇬🇦 Gabon • 🇲🇬 Madagascar • 🇫🇷 France • 🇧🇪 Belgique • 🇨🇭 Suisse • 🇩🇪 Allemagne • 🇮🇹 Italie • 🇪🇸 Espagne • 🇬🇧 Royaume-Uni • 🇨🇦 Canada • 🇺🇸 États-Unis • 🇧🇷 Brésil • 🇭🇹 Haïti • 🇦🇺 Australie • 🇱🇧 Liban • 🇿🇦 Afrique du Sud • 🇵🇹 Portugal • 🇳🇱 Pays-Bas • 🇸🇪 Suède • 🇳🇴 Norvège • 🇦🇪 Émirats arabes unis • 🇮🇱 Israël • 🇷🇼 Rwanda",
+    "platform_name": "Alliance Chrétienne",
+    "all_rights_reserved": "Tous droits réservés.",
+    "made_with_love": "Fait avec ❤️ pour la communauté chrétienne"
+
+    },
+"register": {
+    "page_title": "Inscription - Alliance Chrétienne",
+    "login": "Connexion",
+    "hero_title": "Créez votre compte",
+    "hero_description": "Rejoignez Alliance Chrétienne et commencez à rencontrer des personnes qui partagent votre foi et vos valeurs.",
+    "progress_profile": "Profil",
+    "progress_faith": "Foi",
+    "progress_about": "Présentation",
+    "progress_preferences": "Préférences",
+    "progress_validation": "Validation",
+
+    "account_title": "Informations de connexion",
+    "account_description": "Créez vos identifiants pour accéder à votre compte.",
+
+    "first_name": "Prénom",
+    "first_name_placeholder": "Jean",
+
+    "email": "Adresse email",
+    "email_placeholder": "vous@example.com",
+    "email_help": "Un email de confirmation pourra vous être envoyé.",
+
+    "password": "Mot de passe",
+    "password_placeholder": "Minimum 8 caractères",
+    "password_help": "Minimum 8 caractères.",
+
+    "confirm_password": "Confirmer le mot de passe",
+    "confirm_password_placeholder": "Confirmez votre mot de passe",
+
+    "profile_title": "Votre profil",
+    "profile_description": "Quelques informations pour mieux vous présenter.",
+
+    "birth_date": "Date de naissance",
+    "gender": "Genre",
+
+    "city": "Ville",
+    "city_placeholder": "Abidjan",
+
+    "country": "Pays",
+    "country_placeholder": "Côte d'Ivoire",
+
+    "faith_title": "Votre foi",
+    "faith_description": "Parce que votre foi fait partie de votre histoire.",
+
+    "denomination": "Dénomination chrétienne",
+    "church_frequency": "Fréquence à l'église",
+    "faith_engagement": "Niveau d'engagement dans la foi",
+
+    "select": "-- Sélectionnez --",
+
+    "male": "Homme",
+    "female": "Femme",
+
+    "catholic": "Catholique",
+    "protestant": "Protestant",
+    "evangelical": "Évangélique",
+    "pentecostal": "Pentecôtiste",
+    "orthodox": "Orthodoxe",
+    "other": "Autre",
+
+    "every_week": "Chaque semaine",
+    "two_three_month": "2-3 fois par mois",
+    "once_month": "Une fois par mois",
+    "occasionally": "Occasionnellement",
+
+    "new_believer": "Nouveau croyant",
+    "committed": "Engagé",
+    "very_committed": "Très engagé",
+    "pastor": "Pasteur/Pastrice",
+
+    "about_title": "Parlez-nous de vous",
+    "about_description": "Présentez votre personnalité, vos attentes et votre foi.",
+
+    "who_are_you": "Qui êtes-vous ?",
+    "bio_placeholder": "Parlez-nous de vous, vos passions, vos intérêts...",
+    "max_500": "Maximum 500 caractères.",
+
+    "looking_for": "Qu'est-ce que vous recherchez ?",
+    "looking_for_placeholder": "Décrivez la personne que vous recherchez et vos attentes...",
+
+    "favorite_verse": "Verset biblique préféré",
+    "favorite_verse_placeholder": "Ex : Jean 3:16",
+
+    "preferences_title": "Vos préférences",
+    "preferences_description": "Indiquez le type de rencontre que vous souhaitez.",
+
+    "search_gender": "Genre recherché",
+    "any": "Peu importe",
+
+    "max_distance": "Distance maximale",
+    "distance_placeholder": "50",
+    "distance_help": "Distance en kilomètres.",
+
+    "min_age": "Âge minimum recherché",
+    "max_age": "Âge maximum recherché",
+
+    "final_step": "Dernière étape",
+    "final_description": "Confirmez votre inscription à Alliance Chrétienne.",
+
+    "accept_terms_start": "J'accepte les",
+    "terms": "conditions d'utilisation",
+    "and_privacy": "et la",
+    "privacy": "politique de confidentialité",
+
+    "create_account": "Créer mon compte 💕",
+
+    "already_account": "Vous avez déjà un compte ?",
+    "login_now": "Connectez-vous",
+
+    "age_validation": "L'âge maximum doit être supérieur ou égal à l'âge minimum.",
+
+    "footer_help": "Aide",
+    "footer_blog": "Blog",
+    "footer_faq": "FAQ",
+    "footer_privacy": "Confidentialité",
+    "footer_terms": "Conditions",
+    "footer_security": "Sécurité",
+    "footer_about": "À propos",
+    "footer_contact": "Contact",
+    "footer_testimonials": "Témoignages",
+    "footer_churches": "Églises & communautés",
+    "footer_report": "Signaler un problème",
+    "footer_certification": "Certification",
+    "footer_safety": "Conseils sécurité",
+    "footer_community": "Communauté",
+    "footer_partner": "Devenir partenaire",
+
+    "platform_name": "Alliance Chrétienne",
+    "all_rights_reserved": "Tous droits réservés.",
+    "made_with_love": "Fait avec ❤️ pour la communauté chrétienne."
+
+
+
+}
+
+}

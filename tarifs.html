@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Certification - Alliance Chrétienne</title>
+
+<style>
+    :root {
+        --pink: #f43f5e;
+        --pink-dark: #e11d48;
+        --blue: #2563eb;
+        --blue-light: #eff6ff;
+        --pink-light: #fff1f2;
+        --dark: #172033;
+        --text: #475569;
+        --muted: #94a3b8;
+        --white: #ffffff;
+        --border: #e2e8f0;
+        --green: #059669;
+        --green-light: #ecfdf5;
+        --orange: #ea580c;
+        --orange-light: #fff7ed;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        min-height: 100vh;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont,
+            "Segoe UI", Roboto, sans-serif;
+
+        color: var(--text);
+
+        background:
+            radial-gradient(
+                circle at 10% 10%,
+                rgba(244,63,94,.07),
+                transparent 30%
+            ),
+            radial-gradient(
+                circle at 90% 20%,
+                rgba(37,99,235,.07),
+                transparent 30%
+            ),
+            #fff8f8;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+        background: rgba(255,255,255,.96);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .navbar {
+        max-width: 1200px;
+        margin: auto;
+
+        padding: 1rem 1.5rem;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        text-decoration: none;
+        color: var(--dark);
+
+        font-size: 1.35rem;
+        font-weight: 850;
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+    }
+
+    .nav-links a {
+        text-decoration: none;
+        color: var(--text);
+
+        padding: .55rem .9rem;
+
+        border-radius: 10px;
+
+        font-size: .88rem;
+        font-weight: 650;
+
+        transition: .2s ease;
+    }
+
+    .nav-links a:hover {
+        background: var(--pink-light);
+        color: var(--pink);
+    }
+
+    .btn-home {
+        color: white !important;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--pink),
+                var(--pink-dark)
+            );
+
+        box-shadow:
+            0 5px 15px rgba(244,63,94,.2);
+    }
+
+    /* =========================
+       PAGE
+    ========================= */
+
+    .page {
+        max-width: 1050px;
+        margin: auto;
+
+        padding: 3rem 1.5rem 4rem;
+    }
+
+    .hero {
+        text-align: center;
+
+        margin-bottom: 2rem;
+    }
+
+    .hero-icon {
+        width: 75px;
+        height: 75px;
+
+        margin: 0 auto 1rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 22px;
+
+        font-size: 2rem;
+
+        color: white;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--pink),
+                #7c3aed
+            );
+
+        box-shadow:
+            0 12px 30px rgba(244,63,94,.22);
+    }
+
+    .hero h1 {
+        color: var(--dark);
+
+        font-size: 2.2rem;
+        font-weight: 850;
+
+        margin-bottom: .6rem;
+    }
+
+    .hero p {
+        max-width: 700px;
+        margin: auto;
+
+        line-height: 1.65;
+
+        color: var(--text);
+    }
+
+    /* =========================
+       MAIN CERTIFICATION CARD
+    ========================= */
+
+    .certification-card {
+        background: rgba(255,255,255,.97);
+
+        border: 1px solid var(--border);
+
+        border-radius: 25px;
+
+        padding: 2rem;
+
+        box-shadow:
+            0 15px 40px rgba(15,23,42,.08);
+
+        margin-bottom: 1.5rem;
+    }
+
+    .certification-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        gap: 1rem;
+
+        padding-bottom: 1.5rem;
+
+        border-bottom: 1px solid #eef2f7;
+    }
+
+    .certification-title {
+        display: flex;
+        align-items: center;
+        gap: .9rem;
+    }
+
+    .certification-title-icon {
+        width: 50px;
+        height: 50px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 15px;
+
+        background: var(--blue-light);
+
+        font-size: 1.35rem;
+    }
+
+    .certification-title h2 {
+        color: var(--dark);
+
+        font-size: 1.25rem;
+
+        margin-bottom: .2rem;
+    }
+
+    .certification-title p {
+        color: var(--muted);
+
+        font-size: .82rem;
+    }
+
+    .price {
+        text-align: right;
+    }
+
+    .price strong {
+        display: block;
+
+        color: var(--pink);
+
+        font-size: 1.7rem;
+        font-weight: 850;
+    }
+
+    .price span {
+        color: var(--muted);
+
+        font-size: .75rem;
+    }
+
+    /* =========================
+       FEATURES
+    ========================= */
+
+    .features {
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 1rem;
+
+        margin: 1.5rem 0;
+    }
+
+    .feature {
+        display: flex;
+        gap: .8rem;
+
+        padding: 1rem;
+
+        border-radius: 14px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #fff,
+                #f8fafc
+            );
+
+        border: 1px solid #eef2f7;
+    }
+
+    .feature-icon {
+        width: 38px;
+        height: 38px;
+
+        flex-shrink: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 11px;
+
+        background: var(--pink-light);
+
+        font-size: 1rem;
+    }
+
+    .feature strong {
+        display: block;
+
+        color: var(--dark);
+
+        font-size: .86rem;
+
+        margin-bottom: .2rem;
+    }
+
+    .feature p {
+        color: var(--muted);
+
+        font-size: .76rem;
+
+        line-height: 1.4;
+    }
+
+    /* =========================
+       IMPORTANT WARNING
+    ========================= */
+
+    .important-box {
+        padding: 1.3rem;
+
+        margin-top: 1.5rem;
+
+        border-radius: 17px;
+
+        background: var(--orange-light);
+
+        border: 1px solid #fed7aa;
+    }
+
+    .important-title {
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+
+        color: #9a3412;
+
+        font-size: .95rem;
+        font-weight: 850;
+
+        margin-bottom: .6rem;
+    }
+
+    .important-box p {
+        color: #9a3412;
+
+        font-size: .83rem;
+
+        line-height: 1.6;
+    }
+
+    /* =========================
+       REFUND BOX
+    ========================= */
+
+    .refund-box {
+        padding: 1.3rem;
+
+        margin-top: 1rem;
+
+        border-radius: 17px;
+
+        background: var(--green-light);
+
+        border: 1px solid #a7f3d0;
+    }
+
+    .refund-title {
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+
+        color: #047857;
+
+        font-size: .95rem;
+        font-weight: 850;
+
+        margin-bottom: .6rem;
+    }
+
+    .refund-box p {
+        color: #047857;
+
+        font-size: .83rem;
+
+        line-height: 1.6;
+    }
+
+    /* =========================
+       PROCESS
+    ========================= */
+
+    .process-card {
+        background: white;
+
+        border: 1px solid var(--border);
+
+        border-radius: 22px;
+
+        padding: 1.7rem;
+
+        box-shadow:
+            0 10px 30px rgba(15,23,42,.06);
+
+        margin-bottom: 1.5rem;
+    }
+
+    .process-card h2 {
+        color: var(--dark);
+
+        font-size: 1.15rem;
+
+        margin-bottom: 1.3rem;
+    }
+
+    .steps {
+        display: grid;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 1rem;
+    }
+
+    .step {
+        text-align: center;
+
+        padding: 1rem;
+    }
+
+    .step-number {
+        width: 42px;
+        height: 42px;
+
+        margin: 0 auto .7rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+
+        color: white;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--pink),
+                var(--blue)
+            );
+
+        font-weight: 850;
+    }
+
+    .step strong {
+        display: block;
+
+        color: var(--dark);
+
+        font-size: .85rem;
+
+        margin-bottom: .3rem;
+    }
+
+    .step p {
+        color: var(--muted);
+
+        font-size: .75rem;
+
+        line-height: 1.45;
+    }
+
+    /* =========================
+       CTA
+    ========================= */
+
+    .cta {
+        text-align: center;
+
+        padding: 2rem;
+
+        border-radius: 22px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #172033,
+                #0f172a
+            );
+
+        color: white;
+    }
+
+    .cta h2 {
+        font-size: 1.4rem;
+
+        margin-bottom: .5rem;
+    }
+
+    .cta p {
+        color: #cbd5e1;
+
+        max-width: 650px;
+
+        margin: 0 auto 1.3rem;
+
+        font-size: .85rem;
+
+        line-height: 1.6;
+    }
+
+    .btn-certify {
+        display: inline-block;
+
+        padding: .9rem 1.7rem;
+
+        border-radius: 12px;
+
+        text-decoration: none;
+
+        color: white;
+
+        font-weight: 750;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--pink),
+                var(--pink-dark)
+            );
+
+        box-shadow:
+            0 8px 20px rgba(244,63,94,.3);
+
+        transition: .25s ease;
+    }
+
+    .btn-certify:hover {
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 12px 28px rgba(244,63,94,.4);
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+        background: #172033;
+
+        color: #cbd5e1;
+
+        text-align: center;
+
+        padding: 2.5rem 1.5rem;
+    }
+
+    .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+
+        justify-content: center;
+
+        gap: 1.2rem;
+
+        margin-bottom: 1.5rem;
+    }
+
+    .footer-links a {
+        color: #cbd5e1;
+
+        text-decoration: none;
+
+        font-size: .83rem;
+
+        transition: .2s;
+    }
+
+    .footer-links a:hover {
+        color: white;
+    }
+
+    footer p {
+        margin: .4rem 0;
+
+        font-size: .78rem;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 700px) {
+
+        .navbar {
+            padding: .8rem 1rem;
+        }
+
+        .logo {
+            font-size: 1.05rem;
+        }
+
+        .nav-links a:not(.btn-home) {
+            display: none;
+        }
+
+        .page {
+            padding: 2rem 1rem 3rem;
+        }
+
+        .hero h1 {
+            font-size: 1.7rem;
+        }
+
+        .certification-card,
+        .process-card {
+            padding: 1.2rem;
+        }
+
+        .certification-top {
+            flex-direction: column;
+        }
+
+        .price {
+            text-align: left;
+        }
+
+        .features {
+            grid-template-columns: 1fr;
+        }
+
+        .steps {
+            grid-template-columns: 1fr;
+        }
+    }
+
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+</style>
+
+
+</head>
+
+<body>
+
+<header>
+
+<nav class="navbar">
+
+         <a href="index.html" class="register-logo">
+    <img src="images/logo.png" alt="Alliance Chrétienne">
+</a>
+
+    <div class="nav-links">
+        <a href="aide.html">Aide</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html">Contact</a>
+        <a href="index.html" class="btn-home">Accueil</a>
+    </div>
+
+</nav>
+
+
+</header>
+
+<main class="page">
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="hero-icon">
+        ✓
+    </div>
+
+    <h1>Certification Alliance Chrétienne</h1>
+
+    <p>
+        Faites vérifier votre profil afin de montrer aux autres membres
+        que votre identité et vos informations ont été examinées par
+        notre équipe.
+    </p>
+
+</section>
+
+
+<!-- CERTIFICATION -->
+
+<section class="certification-card">
+
+    <div class="certification-top">
+
+        <div class="certification-title">
+
+            <div class="certification-title-icon">
+                🛡️
+            </div>
+
+            <div>
+
+                <h2>Certification du profil</h2>
+
+                <p>
+                    Service optionnel et payant
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="price">
+
+            <strong>À définir</strong>
+
+            <span>Certification</span>
+
+        </div>
+
+    </div>
+
+
+    <div class="features">
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                🔎
+            </div>
+
+            <div>
+
+                <strong>Vérification des informations</strong>
+
+                <p>
+                    Notre équipe examine les informations fournies
+                    lors de votre demande.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                🛡️
+            </div>
+
+            <div>
+
+                <strong>Profil plus rassurant</strong>
+
+                <p>
+                    Une certification permet de renforcer la confiance
+                    entre les membres.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                ✓
+            </div>
+
+            <div>
+
+                <strong>Certification officielle</strong>
+
+                <p>
+                    Si votre demande est validée, votre profil reçoit
+                    le statut de profil certifié.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                ⏱️
+            </div>
+
+            <div>
+
+                <strong>Vérification sous 3 jours</strong>
+
+                <p>
+                    Notre équipe dispose d'un délai de vérification
+                    pouvant aller jusqu'à 3 jours.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- IMPORTANT -->
+
+    <div class="important-box">
+
+        <div class="important-title">
+            ⚠️ Important : le paiement ne garantit pas la certification
+        </div>
+
+        <p>
+            <strong>La certification est un service payant, mais le simple
+            fait de payer ne signifie pas que votre profil sera certifié.</strong>
+            Notre équipe vérifie les informations fournies avant de prendre
+            une décision.
+        </p>
+
+        <p style="margin-top:.7rem;">
+            Si les informations fournies sont insuffisantes, incohérentes,
+            inexactes ou ne permettent pas de confirmer clairement votre
+            identité, <strong>notre équipe peut refuser la certification</strong>.
+        </p>
+
+    </div>
+
+
+    <!-- REMBOURSEMENT -->
+
+    <div class="refund-box">
+
+        <div class="refund-title">
+            💰 En cas de refus : remboursement
+        </div>
+
+        <p>
+            Si votre demande de certification est refusée après vérification,
+            <strong>le montant payé pour la certification sera remboursé</strong>.
+            Le remboursement sera effectué après la période de vérification,
+            dans un délai pouvant aller jusqu'à <strong>3 jours</strong>.
+        </p>
+
+        <p style="margin-top:.7rem;">
+            Le paiement correspond donc à une <strong>demande de vérification</strong>,
+            et non à une garantie automatique d'obtention de la certification.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- PROCESSUS -->
+
+<section class="process-card">
+
+    <h2>Comment fonctionne la certification ?</h2>
+
+    <div class="steps">
+
+        <div class="step">
+
+            <div class="step-number">
+                1
+            </div>
+
+            <strong>Demande</strong>
+
+            <p>
+                Vous envoyez votre demande de certification
+                et effectuez le paiement.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                2
+            </div>
+
+            <strong>Vérification</strong>
+
+            <p>
+                Notre équipe examine les informations
+                et éléments fournis.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                3
+            </div>
+
+            <strong>Décision</strong>
+
+            <p>
+                Certification acceptée ou refusée.
+                En cas de refus, le montant est remboursé.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CTA -->
+
+<section class="cta">
+
+    <h2>Vous souhaitez faire certifier votre profil ? 🛡️</h2>
+
+    <p>
+        Assurez-vous que les informations de votre profil sont complètes,
+        exactes et suffisamment claires avant de soumettre votre demande.
+    </p>
+
+    <a href="membre-profil.html" class="btn-certify">
+        Vérifier mon profil
+    </a>
+
+</section>
+
+
+</main>
+
+<footer>
+
+
+<div class="footer-links">
+
+    <a href="aide.html">Aide</a>
+    <a href="blog.html">Blog</a>
+    <a href="faq.html">FAQ</a>
+    <a href="confidentialite.html">Confidentialité</a>
+    <a href="conditions.html">Conditions</a>
+    <a href="securite.html">Sécurité</a>
+    <a href="a-propos.html">À propos</a>
+    <a href="contact.html">Contact</a>
+    <a href="temoignages.html">Témoignages</a>
+    <a href="eglises.html">Églises & communautés</a>
+    <a href="signaler.html">Signaler un problème</a>
+    <a href="tarifs.html">Certification</a>
+
+</div>
+
+<p>
+    ✝️ Alliance Chrétienne — Une communauté fondée sur la foi,
+    le respect et l'amour.
+</p>
+
+<p>
+    © 2026 Alliance Chrétienne. Tous droits réservés.
+</p>
+
+
+</footer>
+
+</body>
+</html>

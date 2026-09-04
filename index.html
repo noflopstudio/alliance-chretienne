@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mon profil - Alliance Chrétienne</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+    
+        body {
+            background-color: #f7f9fc;
+            color: var(--text-color);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        /* En-tête de profil repensé : style bannière immersive avec avatar en surépaisseur */
+        .profile-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 3rem 2.5rem 2rem 2.5rem;
+            border-radius: 1.5rem;
+            margin-bottom: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+
+        .profile-avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            flex-shrink: 0;
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        .profile-header-info h2 {
+            font-size: 2.3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .profile-header-info p {
+            opacity: 0.95;
+            margin-bottom: 0.4rem;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        /* Onglets style "Boutons Flottants Modernes" */
+        .profile-tabs {
+            display: flex;
+            gap: 1rem;
+            background: transparent;
+            border-bottom: none;
+            margin-bottom: 2rem;
+        }
+
+        .profile-tab {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            padding: 0.9rem 1.8rem;
+            cursor: pointer;
+            color: var(--text-color);
+            font-weight: 700;
+            font-size: 0.95rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            border-bottom: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .profile-tab.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .profile-tab:hover:not(.active) {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeInScale 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.98) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* Sections de profil type "Cards" minimalistes */
+        .profile-section {
+            background-color: var(--white);
+            padding: 2.2rem;
+            border-radius: 1.25rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-section:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+        }
+
+        .profile-section h3 {
+            color: var(--dark-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 800;
+            border-bottom: none;
+            padding-bottom: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.3px;
+        }
+
+        .profile-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-info-item {
+            background-color: #fafbfc;
+            padding: 1.2rem;
+            border-radius: 1rem;
+            border: 1px solid #edf2f7;
+            transition: background-color 0.2s ease;
+        }
+
+        .profile-info-item:hover {
+            background-color: #f1f5f9;
+        }
+
+        .profile-info-label {
+            color: #718096;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .profile-info-value {
+            color: var(--dark-color);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .profile-bio {
+            background-color: #fafbfc;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            line-height: 1.8;
+            color: var(--text-color);
+            border: 1px solid #edf2f7;
+            font-size: 1.05rem;
+        }
+
+        /* Formulaire de modification élégant */
+        .edit-form {
+            background-color: var(--white);
+            padding: 2.5rem;
+            border-radius: 1.25rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            border-radius: 0.85rem;
+            border: 1.5px solid #e2e8f0;
+            padding: 0.9rem 1.1rem;
+            background-color: #fafbfc;
+            font-size: 1rem;
+            transition: all 0.25s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            background-color: var(--white);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            outline: none;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2.5rem;
+        }
+
+        .btn-group button {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 0.85rem;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        }
+
+        .btn-save {
+            background-color: var(--success-color);
+            color: var(--white);
+        }
+
+        .btn-save:hover {
+            filter: brightness(0.95);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-cancel {
+            background-color: #edf2f7;
+            color: #4a5568;
+        }
+
+        .btn-cancel:hover {
+            background-color: #e2e8f0;
+        }
+
+        /* Grille de Matchs chic */
+        .matches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .match-card {
+            background-color: var(--white);
+            border-radius: 1.25rem;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid #edf2f7;
+        }
+
+        .match-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .match-card img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+        }
+
+        .match-card-info {
+            padding: 1.25rem;
+        }
+
+        .match-card-name {
+            font-weight: 700;
+            color: var(--dark-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .match-card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .match-card-actions button {
+            flex: 1;
+            padding: 0.7rem;
+            border: none;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: transform 0.2s ease;
+        }
+
+        .match-card-actions button:hover {
+            transform: scale(1.03);
+        }
+
+        /* Responsive design pour mobile */
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 2.5rem 1.5rem;
+            }
+            .profile-header-info p {
+                justify-content: center;
+            }
+            .profile-tabs {
+                flex-direction: column;
+            }
+        }
+
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+    </style>
+</head>
+<body>
+    <!-- En-tête -->
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                          <a href="index.html" class="register-logo">
+    <img src="images/logo.png" alt="Alliance Chrétienne">
+</a>
+                </div>
+                <div class="nav-links">
+                    <a href="search.html" class="btn-secondary">🔍 Découvrir</a>
+                    <a href="membre-messages.html" class="btn-secondary">💬 Messages</a>
+                    <a href="#" id="logoutBtn" class="btn-secondary" style="background-color: var(--danger-color); border-color: var(--danger-color); color: var(--white);">
+                        Déconnexion
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Contenu principal -->
+    <section style="padding: 2.5rem 0;">
+        <div class="container">
+            <!-- Affichage des messages -->
+            <div id="alertContainer"></div>
+
+            <!-- En-tête du profil -->
+            <div class="profile-header" id="profileHeader">
+                <img id="profileAvatar" src="" alt="Avatar" class="profile-avatar">
+
+                <div class="profile-header-info">
+                    <h2 id="profileName">Chargement...</h2>
+                    <p id="profileLocation">📍 -</p>
+                    <p id="profileFaith">🙏 -</p>
+                    <p id="profileStats">❤️ -</p>
+                </div>
+            </div>
+
+            <!-- ===== CERTIFICATION DU PROFIL ===== -->
+            <div id="certificationSection" class="profile-section" style="border: 2px dashed var(--primary-color); background-color: rgba(99, 102, 241, 0.02);">
+                <h3>🔵 Certification du profil</h3>
+                <div id="certificationContent">
+                    <p style="color: var(--text-color);">
+                        Vérification de votre statut...
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="profile-tabs">
+                <button class="profile-tab active" onclick="switchTab('view')">👁️ Voir mon profil</button>
+                <button class="profile-tab" onclick="switchTab('edit')">✏️ Modifier</button>
+                <button class="profile-tab" onclick="switchTab('matches')">❤️ Mes matchs</button>
+            </div>
+
+            <!-- TAB 1 : VUE DU PROFIL -->
+            <div id="view-tab" class="tab-content active">
+
+                <!-- ===== PHOTOS DU PROFIL ===== -->
+                <div class="profile-section">
+                    <h3>📸 Photos</h3>
+                    <div id="profilePhotosGallery" class="profile-photos-gallery">
+                        <!-- Les photos seront chargées automatiquement par profile.js -->
+                    </div>
+                </div>
+
+                <!-- Informations personnelles -->
+                <div class="profile-section">
+                    <h3 data-i18n="profile.personal_info">
+    👤 Informations personnelles
+</h3>
+                    <div class="profile-info-grid">
+                        <div class="profile-info-item">
+                            <div class="profile-info-label">Prénom</div>
+                            <div class="profile-info-value" id="viewFirstName">-</div>
+                        </div>
+
+                        <div class="profile-info-item">
+                            <div class="profile-info-label">Âge</div>
+                            <div class="profile-info-value" id="viewAge">-</div>
+                        </div>
+
+                        <div class="profile-info-item">
+                            <div class="profile-info-label">Genre</div>
+                            <div class="profile-info-value" id="viewGender">-</div>
+                        </div>
+
+                        <div class="profile-info-item">
+                            <div class="profile-info-label">Ville</div>
+                            <div class="profile-info-value" id="viewCity">-</div>
+                        </div>
+
+                        <div class="profile-info-item">
+                            <div class="profile-info-label">Pays</div>
+                            <div class="profile-info-value" id="viewCountry">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Informations spirituelles -->
+                <div class="profile-section">
+                    <h3>🙏 Votre foi</h3>
+                    <div class="profile-info-grid">
+                        <div class="profile-info-item">
+                            <div class="profile-info-label">Dénomination</div>
+                            <div class="profile-info-value" id="viewDenomination">-</div>
+                        </div>
+                        <div class="profile-info-item">
+                            <div class="profile-info-label">Fréquence à l'église</div>
+                            <div class="profile-info-value" id="viewChurchFrequency">-</div>
+                        </div>
+                        <div class="profile-info-item">
+                            <div class="profile-info-label">Engagement</div>
+                            <div class="profile-info-value" id="viewFaithEngagement">-</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1.25rem;" class="profile-info-item">
+                        <div class="profile-info-label">Verset préféré</div>
+                        <div class="profile-info-value" id="viewFavoriteVerse" style="margin-top: 0.25rem;">-</div>
+                    </div>
+                </div>
+
+                <!-- À propos -->
+                <div class="profile-section">
+                    <h3>💭 À propos de vous</h3>
+                    <div class="profile-bio" id="viewBio">-</div>
+                </div>
+
+                <!-- Ce que vous recherchez -->
+                <div class="profile-section">
+                    <h3>💕 Ce que vous recherchez</h3>
+                    <div class="profile-bio" id="viewLookingFor">-</div>
+                </div>
+
+                <!-- Critères de recherche -->
+                <div class="profile-section">
+                    <h3>🔍 Vos critères de recherche</h3>
+                    <div class="profile-info-grid">
+                        <div class="profile-info-item">
+                            <div class="profile-info-label">Genre recherché</div>
+                            <div class="profile-info-value" id="viewSearchGender">-</div>
+                        </div>
+                        <div class="profile-info-item">
+                            <div class="profile-info-label">Âge</div>
+                            <div class="profile-info-value" id="viewSearchAge">-</div>
+                        </div>
+                        <div class="profile-info-item">
+                            <div class="profile-info-label">Distance maximale</div>
+                            <div class="profile-info-value" id="viewSearchDistance">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2 : EDIT / MODIFICATION -->
+            <div id="edit-tab" class="tab-content">
+                <div class="edit-form">
+                    <h3 style="color: var(--dark-color); margin-bottom: 2rem; font-size: 1.4rem;">
+                        ✏️ Modifier mon profil
+                    </h3>
+
+                    <!-- 📸 MES PHOTOS -->
+                    <div class="profile-section" style="box-shadow: none; border: 1.5px solid #edf2f7; padding: 1.5rem; margin-bottom: 2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <h3 style="margin-bottom: 0;">📸 Mes photos</h3>
+                            <span id="photoCounter" style="color: var(--text-color); font-size: 0.85rem; font-weight: 700;">0 / 4</span>
+                        </div>
+
+                        <p style="color: var(--text-color); opacity: 0.75; font-size: 0.9rem; margin-bottom: 1rem;">
+                            Ajoutez vos meilleures photos pour donner envie de découvrir votre profil ❤️
+                        </p>
+
+                        <!-- Galerie -->
+                        <div id="profilePhotosContainer" class="profile-photos-grid"></div>
+
+                        <!-- Ajouter -->
+                        <div class="photo-upload-box" style="margin-top: 1rem;">
+                            <label for="photoUploadEdit" class="photo-upload-btn" style="cursor: pointer; display: inline-block;">
+                                📷 Ajouter une photo
+                            </label>
+                            <input type="file" id="photoUploadEdit" accept="image/*" onchange="uploadPhoto(event)" style="display: none;">
+                        </div>
+                    </div>
+
+                    <form id="editForm">
+                        <!-- Informations de base -->
+                        <h4 style="color: var(--primary-color); margin-bottom: 1rem; margin-top: 1.5rem; font-weight: 700;">👤 Informations personnelles</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editFirstName">Prénom</label>
+                                <input type="text" id="editFirstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editGender">Genre</label>
+                                <select id="editGender" required>
+                                    <option value="Homme">Homme</option>
+                                    <option value="Femme">Femme</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editCity">Ville</label>
+                                <input type="text" id="editCity" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editCountry">Pays</label>
+                                <input type="text" id="editCountry" required>
+                            </div>
+                        </div>
+
+                        <!-- Informations spirituelles -->
+                        <h4 style="color: var(--primary-color); margin-bottom: 1rem; margin-top: 2rem; font-weight: 700;">🙏 Votre foi</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editDenomination">Dénomination</label>
+                                <select id="editDenomination" required>
+                                    <option value="Catholique">Catholique</option>
+                                    <option value="Protestant">Protestant</option>
+                                    <option value="Évangélique">Évangélique</option>
+                                    <option value="Pentecôtiste">Pentecôtiste</option>
+                                    <option value="Orthodoxe">Orthodoxe</option>
+                                    <option value="Autre">Autre</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editChurchFrequency">Fréquence à l'église</label>
+                                <select id="editChurchFrequency" required>
+                                    <option value="Chaque semaine">Chaque semaine</option>
+                                    <option value="2-3 fois par mois">2-3 fois par mois</option>
+                                    <option value="Une fois par mois">Une fois par mois</option>
+                                    <option value="Occasionnellement">Occasionnellement</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editFaithEngagement">Engagement dans la foi</label>
+                                <select id="editFaithEngagement" required>
+                                    <option value="Nouveau croyant">Nouveau croyant</option>
+                                    <option value="Engagé">Engagé</option>
+                                    <option value="Très engagé">Très engagé</option>
+                                    <option value="Pasteur/Pastrice">Pasteur/Pastrice</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editFavoriteVerse">Verset préféré</label>
+                                <input type="text" id="editFavoriteVerse" placeholder="Ex: Jean 3:16">
+                            </div>
+                        </div>
+
+                        <!-- À propos -->
+                        <h4 style="color: var(--primary-color); margin-bottom: 1rem; margin-top: 2rem; font-weight: 700;">💭 À propos de vous</h4>
+                        <div class="form-group" style="margin-bottom: 1.25rem;">
+                            <label for="editBio">Qui êtes-vous ?</label>
+                            <textarea id="editBio" required></textarea>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 1.25rem;">
+                            <label for="editLookingFor">Qu'est-ce que vous recherchez ?</label>
+                            <textarea id="editLookingFor" required></textarea>
+                        </div>
+
+                        <!-- Critères -->
+                        <h4 style="color: var(--primary-color); margin-bottom: 1rem; margin-top: 2rem; font-weight: 700;">🔍 Critères de recherche</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editSearchGender">Genre recherché</label>
+                                <select id="editSearchGender" required>
+                                    <option value="Homme">Homme</option>
+                                    <option value="Femme">Femme</option>
+                                    <option value="Peu importe">Peu importe</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editSearchMinAge">Âge minimum</label>
+                                <input type="number" id="editSearchMinAge" min="18" max="100" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editSearchMaxAge">Âge maximum</label>
+                                <input type="number" id="editSearchMaxAge" min="18" max="100" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editSearchDistance">Distance (km)</label>
+                                <input type="number" id="editSearchDistance" min="1" max="1000" required>
+                            </div>
+                        </div>
+
+                        <!-- Boutons -->
+                        <div class="btn-group">
+                            <button type="submit" class="btn-save">✅ Enregistrer</button>
+                            <button type="button" class="btn-cancel" onclick="switchTab('view')">✕ Annuler</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- TAB 3 : MES MATCHS -->
+            <div id="matches-tab" class="tab-content">
+                <div class="profile-section">
+                    <h3>❤️ Mes matchs</h3>
+                    <div id="matchesContainer" class="matches-grid">
+                        <p style="grid-column: 1 / -1; text-align: center; color: var(--text-color); padding: 2rem;">Chargement...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pied de page -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Alliance Chrétienne. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+   <script src="js/i18n.js"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/profile.js"></script>
+
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+                .then(registration => {
+                    console.log('✅ Service Worker enregistré :', registration.scope);
+                })
+                .catch(error => {
+                    console.error('❌ Erreur Service Worker :', error);
+                });
+        });
+    }
+</script>
+</body>
+</html>

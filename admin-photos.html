@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Photos - Administration | Alliance Chrétienne</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+
+        :root {
+            --primary-color: #2563eb;
+            --primary-light: #eff6ff;
+
+            --accent-pink: #f43f5e;
+            --accent-pink-light: #fff1f2;
+
+            --dark-color: #1e293b;
+            --text-color: #475569;
+
+            --white: #ffffff;
+
+            --border-color: #e2e8f0;
+
+            --success-color: #10b981;
+
+            --shadow: 0 20px 40px rgba(244, 63, 94, 0.08);
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03);
+
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-text: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #fff8f8;
+            color: var(--text-color);
+
+            font-family:
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                sans-serif;
+
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+
+            transition:
+                background-color 0.3s ease,
+                color 0.3s ease;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 100%;
+
+            overflow: hidden;
+
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .floating-shape {
+            position: absolute;
+
+            bottom: -150px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(244, 63, 94, 0.08),
+                    rgba(37, 99, 235, 0.06)
+                );
+
+            backdrop-filter: blur(5px);
+
+            border-radius: 50%;
+
+            animation:
+                floatUp 15s infinite linear;
+        }
+
+        .floating-shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            left: 10%;
+            animation-duration: 12s;
+        }
+
+        .floating-shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            left: 25%;
+            animation-duration: 18s;
+            animation-delay: 3s;
+        }
+
+        .floating-shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            left: 50%;
+            animation-duration: 10s;
+            animation-delay: 6s;
+        }
+
+        .floating-shape:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            left: 75%;
+            animation-duration: 14s;
+            animation-delay: 1s;
+        }
+
+        .floating-shape:nth-child(5) {
+            width: 70px;
+            height: 70px;
+            left: 90%;
+            animation-duration: 16s;
+            animation-delay: 4s;
+        }
+
+        body.dark-mode .floating-shape {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(244, 63, 94, 0.12),
+                    rgba(37, 99, 235, 0.10)
+                );
+        }
+
+        @keyframes floatUp {
+
+            0% {
+                transform:
+                    translateY(0)
+                    rotate(0deg)
+                    scale(1);
+
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+
+            100% {
+                transform:
+                    translateY(-100vh)
+                    rotate(360deg)
+                    scale(1.2);
+
+                opacity: 0;
+            }
+
+        }
+
+        .particle {
+            position: absolute;
+            pointer-events: none;
+
+            animation:
+                particleFloat 3s ease-out forwards;
+        }
+
+        @keyframes particleFloat {
+
+            0% {
+                opacity: 1;
+                transform:
+                    translate(0, 0)
+                    scale(1);
+            }
+
+            100% {
+                opacity: 0;
+
+                transform:
+                    translate(var(--tx), var(--ty))
+                    scale(0);
+            }
+
+        }
+
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+
+            backdrop-filter: blur(10px);
+
+            border-bottom:
+                1px solid var(--border-color);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode header {
+            background-color:
+                rgba(30, 41, 59, 0.95);
+
+            border-bottom-color:
+                rgba(148, 163, 184, 0.2);
+        }
+
+        .navbar {
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding:
+                1rem 1.5rem;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+        }
+
+        .logo a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+
+            margin: 0;
+
+            color: var(--dark-color);
+
+            font-weight: 800;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 0.75rem;
+
+            transition:
+                transform 0.3s ease;
+        }
+
+        body.dark-mode .logo h1 {
+            color: var(--white);
+        }
+
+        .logo h1:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-right {
+            display: flex;
+
+            align-items: center;
+
+            gap: 1rem;
+        }
+
+        .dark-mode-toggle {
+            background: #eff6ff;
+
+            border: none;
+
+            width: 45px;
+            height: 45px;
+
+            border-radius: 50%;
+
+            cursor: pointer;
+
+            font-size: 1.3rem;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .dark-mode-toggle {
+            background:
+                rgba(148, 163, 184, 0.2);
+        }
+
+        .dark-mode-toggle:hover {
+            transform:
+                rotate(20deg)
+                scale(1.1);
+        }
+
+        .btn-back {
+            padding:
+                0.6rem 1.4rem;
+
+            border-radius:
+                0.75rem;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            font-size: 0.9rem;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent-pink),
+                    #e11d48
+                );
+
+            color: var(--white);
+
+            border: none;
+
+            cursor: pointer;
+
+            transition: all 0.3s ease;
+
+            box-shadow:
+                0 4px 15px
+                rgba(244, 63, 94, 0.3);
+        }
+
+        .btn-back:hover {
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 6px 20px
+                rgba(244, 63, 94, 0.4);
+        }
+
+        .photos-admin-container {
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding:
+                3rem 1.5rem 4rem;
+        }
+
+        .photos-admin-header {
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            gap: 1rem;
+
+            margin-bottom: 2rem;
+
+            flex-wrap: wrap;
+
+            animation:
+                slideInUp 0.8s ease-out;
+        }
+
+        .photos-admin-title h1 {
+            margin: 0;
+
+            color: var(--dark-color);
+
+            font-size: 2.3rem;
+
+            line-height: 1.2;
+
+            font-weight: 800;
+        }
+
+        body.dark-mode
+        .photos-admin-title h1 {
+            color: var(--white);
+        }
+
+        .photos-admin-title h1 span {
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent-pink),
+                    #ec4899
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            background-clip: text;
+        }
+
+        .photos-admin-title p {
+            margin-top: 0.7rem;
+
+            color: var(--text-color);
+
+            font-size: 1rem;
+
+            line-height: 1.6;
+        }
+
+        body.dark-mode
+        .photos-admin-title p {
+            color: #cbd5e1;
+        }
+
+        .photos-info-banner {
+            display: flex;
+
+            align-items: center;
+
+            gap: 1rem;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent-pink-light),
+                    var(--primary-light)
+                );
+
+            padding: 1.2rem 1.5rem;
+
+            border-radius: 1rem;
+
+            margin-bottom: 2rem;
+
+            border:
+                1px solid
+                rgba(244, 63, 94, 0.2);
+
+            backdrop-filter: blur(10px);
+
+            box-shadow: var(--shadow-sm);
+
+            animation:
+                slideInUp 0.8s ease-out 0.1s both;
+
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode
+        .photos-info-banner {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(244, 63, 94, 0.15),
+                    rgba(37, 99, 235, 0.15)
+                );
+
+            border-color:
+                rgba(244, 63, 94, 0.3);
+        }
+
+        .photos-info-banner:hover {
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 8px 20px
+                rgba(244, 63, 94, 0.12);
+        }
+
+        .photos-info-icon {
+            width: 45px;
+            height: 45px;
+
+            border-radius: 50%;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 1.3rem;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent-pink),
+                    #ec4899
+                );
+
+            color: white;
+
+            box-shadow:
+                0 4px 12px
+                rgba(244, 63, 94, 0.25);
+        }
+
+        .photos-info-banner strong {
+            color: var(--dark-color);
+        }
+
+        body.dark-mode
+        .photos-info-banner strong {
+            color: var(--white);
+        }
+
+        .photos-info-banner p {
+            margin: 0;
+
+            font-size: 0.9rem;
+
+            line-height: 1.5;
+        }
+
+        .photos-stats-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 1rem;
+
+            margin-bottom: 2rem;
+        }
+
+        .photo-stat-card {
+            background:
+                rgba(255, 255, 255, 0.9);
+
+            border-radius: 1.25rem;
+
+            padding: 1.4rem;
+
+            box-shadow:
+                var(--shadow-sm);
+
+            border:
+                1px solid
+                rgba(244, 63, 94, 0.08);
+
+            backdrop-filter: blur(10px);
+
+            transition:
+                all 0.3s ease;
+
+            animation:
+                slideInUp 0.8s ease-out both;
+        }
+
+        body.dark-mode
+        .photo-stat-card {
+            background:
+                rgba(30, 41, 59, 0.75);
+
+            border-color:
+                rgba(148, 163, 184, 0.15);
+        }
+
+        .photo-stat-card:hover {
+            transform:
+                translateY(-5px);
+
+            box-shadow:
+                0 12px 25px
+                rgba(244, 63, 94, 0.12);
+        }
+
+        .photo-stat-card:nth-child(1) {
+            animation-delay: 0.15s;
+        }
+
+        .photo-stat-card:nth-child(2) {
+            animation-delay: 0.25s;
+        }
+
+        .photo-stat-card:nth-child(3) {
+            animation-delay: 0.35s;
+        }
+
+        .photo-stat-card:nth-child(4) {
+            animation-delay: 0.45s;
+        }
+
+        .photo-stat-icon {
+            font-size: 1.8rem;
+
+            margin-bottom: 0.6rem;
+        }
+
+        .photo-stat-value {
+            font-size: 1.8rem;
+
+            font-weight: 800;
+
+            color: var(--dark-color);
+        }
+
+        body.dark-mode
+        .photo-stat-value {
+            color: var(--white);
+        }
+
+        .photo-stat-label {
+            opacity: 0.7;
+
+            margin-top: 0.2rem;
+
+            font-size: 0.9rem;
+        }
+
+        .photos-filters {
+            display: flex;
+
+            gap: 1rem;
+
+            margin-bottom: 2rem;
+
+            flex-wrap: wrap;
+
+            animation:
+                slideInUp 0.8s ease-out 0.4s both;
+        }
+
+        .photos-search {
+            flex: 1;
+
+            min-width: 250px;
+        }
+
+        .photos-search input,
+        .photos-filters select {
+            width: 100%;
+
+            padding:
+                0.95rem 1.2rem;
+
+            border:
+                1.5px solid
+                var(--border-color);
+
+            border-radius:
+                0.85rem;
+
+            background:
+                rgba(255, 255, 255, 0.9);
+
+            color: var(--dark-color);
+
+            font-size: 0.95rem;
+
+            font-family: inherit;
+
+            box-sizing: border-box;
+
+            transition:
+                all 0.3s ease;
+
+            backdrop-filter: blur(8px);
+        }
+
+        body.dark-mode
+        .photos-search input,
+
+        body.dark-mode
+        .photos-filters select {
+            background:
+                rgba(30, 41, 59, 0.75);
+
+            border-color:
+                rgba(148, 163, 184, 0.2);
+
+            color: var(--dark-text);
+        }
+
+        .photos-search input:focus,
+        .photos-filters select:focus {
+            outline: none;
+
+            border-color:
+                var(--accent-pink);
+
+            box-shadow:
+                0 0 0 4px
+                rgba(244, 63, 94, 0.15);
+
+            transform:
+                scale(1.01);
+        }
+
+        .photos-filters select {
+            width: 240px;
+
+            cursor: pointer;
+        }
+
+        .photos-moderation-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 1.2rem;
+        }
+
+        .photo-moderation-card {
+            background:
+                rgba(255, 255, 255, 0.95);
+
+            border-radius:
+                1.25rem;
+
+            overflow: hidden;
+
+            box-shadow:
+                var(--shadow-sm);
+
+            border:
+                1px solid
+                rgba(244, 63, 94, 0.08);
+
+            transition:
+                all 0.35s ease;
+
+            animation:
+                slideInUp 0.7s ease-out both;
+        }
+
+        body.dark-mode
+        .photo-moderation-card {
+            background:
+                rgba(30, 41, 59, 0.82);
+
+            border-color:
+                rgba(148, 163, 184, 0.15);
+        }
+
+        .photo-moderation-card:hover {
+            transform:
+                translateY(-6px);
+
+            box-shadow:
+                0 18px 35px
+                rgba(244, 63, 94, 0.14);
+        }
+
+        .photo-preview {
+            position: relative;
+
+            width: 100%;
+
+            aspect-ratio: 4 / 5;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8fafc,
+                    #fff1f2
+                );
+
+            overflow: hidden;
+
+            cursor: pointer;
+        }
+
+        body.dark-mode
+        .photo-preview {
+            background:
+                linear-gradient(
+                    135deg,
+                    #1e293b,
+                    #312e3b
+                );
+        }
+
+        .photo-preview img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+
+            transition:
+                transform 0.5s ease;
+        }
+
+        .photo-moderation-card:hover
+        .photo-preview img {
+            transform:
+                scale(1.05);
+        }
+
+        .photo-status-badge {
+            position: absolute;
+
+            top: 10px;
+            left: 10px;
+
+            padding:
+                6px 10px;
+
+            border-radius:
+                20px;
+
+            color: white;
+
+            font-size:
+                0.75rem;
+
+            font-weight:
+                700;
+
+            z-index: 2;
+
+            backdrop-filter:
+                blur(8px);
+
+            box-shadow:
+                0 4px 10px
+                rgba(0, 0, 0, 0.15);
+        }
+
+        .photo-status-pending {
+            background:
+                linear-gradient(
+                    135deg,
+                    #f59e0b,
+                    #d97706
+                );
+        }
+
+        .photo-status-approved {
+            background:
+                linear-gradient(
+                    135deg,
+                    #10b981,
+                    #059669
+                );
+        }
+
+        .photo-status-rejected {
+            background:
+                linear-gradient(
+                    135deg,
+                    #f43f5e,
+                    #e11d48
+                );
+        }
+
+        .photo-card-content {
+            padding: 1.1rem;
+        }
+
+        .photo-member-name {
+            font-weight: 800;
+
+            font-size: 1rem;
+
+            margin-bottom: 0.35rem;
+
+            color: var(--dark-color);
+        }
+
+        body.dark-mode
+        .photo-member-name {
+            color: var(--white);
+        }
+
+        .photo-date {
+            font-size: 0.8rem;
+
+            opacity: 0.65;
+
+            margin-bottom: 1rem;
+        }
+
+        .photo-actions {
+            display: flex;
+
+            gap: 0.5rem;
+
+            flex-wrap: wrap;
+        }
+
+        .photo-action-btn {
+            flex: 1;
+
+            min-width: 70px;
+
+            border: none;
+
+            border-radius:
+                0.75rem;
+
+            padding:
+                0.72rem 0.5rem;
+
+            cursor: pointer;
+
+            font-weight:
+                700;
+
+            font-size:
+                0.8rem;
+
+            font-family:
+                inherit;
+
+            transition:
+                all 0.3s ease;
+        }
+
+        .photo-action-btn:hover {
+            transform:
+                translateY(-2px);
+        }
+
+        .photo-approve-btn {
+            background:
+                linear-gradient(
+                    135deg,
+                    #10b981,
+                    #059669
+                );
+
+            color: white;
+
+            box-shadow:
+                0 4px 12px
+                rgba(16, 185, 129, 0.2);
+        }
+
+        .photo-approve-btn:hover {
+            box-shadow:
+                0 7px 18px
+                rgba(16, 185, 129, 0.3);
+        }
+
+        .photo-reject-btn {
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent-pink),
+                    #e11d48
+                );
+
+            color: white;
+
+            box-shadow:
+                0 4px 12px
+                rgba(244, 63, 94, 0.2);
+        }
+
+        .photo-reject-btn:hover {
+            box-shadow:
+                0 7px 18px
+                rgba(244, 63, 94, 0.3);
+        }
+
+        .photo-view-btn {
+            background:
+                var(--primary-light);
+
+            color:
+                var(--primary-color);
+
+            border:
+                1px solid
+                rgba(37, 99, 235, 0.1);
+        }
+
+        body.dark-mode
+        .photo-view-btn {
+            background:
+                rgba(37, 99, 235, 0.15);
+
+            color:
+                #93c5fd;
+
+            border-color:
+                rgba(37, 99, 235, 0.2);
+        }
+
+        .photo-view-btn:hover {
+            background:
+                #dbeafe;
+        }
+
+        body.dark-mode
+        .photo-view-btn:hover {
+            background:
+                rgba(37, 99, 235, 0.25);
+        }
+
+        .photo-modal {
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(15, 23, 42, 0.88);
+
+            backdrop-filter:
+                blur(8px);
+
+            z-index: 9999;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            padding: 1rem;
+        }
+
+        .photo-modal.active {
+            display: flex;
+
+            animation:
+                modalFadeIn 0.25s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+
+        }
+
+        .photo-modal-content {
+            position: relative;
+
+            max-width: 650px;
+
+            max-height: 90vh;
+
+            animation:
+                modalZoom 0.3s ease-out;
+        }
+
+        @keyframes modalZoom {
+
+            from {
+                transform:
+                    scale(0.9);
+
+                opacity: 0;
+            }
+
+            to {
+                transform:
+                    scale(1);
+
+                opacity: 1;
+            }
+
+        }
+
+        .photo-modal-content img {
+            max-width: 100%;
+
+            max-height: 85vh;
+
+            border-radius:
+                1rem;
+
+            display: block;
+
+            box-shadow:
+                0 25px 60px
+                rgba(0, 0, 0, 0.35);
+        }
+
+        .photo-modal-close {
+            position: absolute;
+
+            top: -50px;
+
+            right: 0;
+
+            width: 40px;
+            height: 40px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent-pink),
+                    #e11d48
+                );
+
+            color: white;
+
+            font-size: 1.2rem;
+
+            cursor: pointer;
+
+            transition:
+                all 0.3s ease;
+
+            box-shadow:
+                0 5px 15px
+                rgba(244, 63, 94, 0.3);
+        }
+
+        .photo-modal-close:hover {
+            transform:
+                rotate(90deg)
+                scale(1.1);
+        }
+
+        .photos-empty {
+            grid-column:
+                1 / -1;
+
+            text-align: center;
+
+            padding:
+                4rem 1rem;
+
+            background:
+                rgba(255, 255, 255, 0.8);
+
+            border-radius:
+                1.25rem;
+
+            border:
+                1px solid
+                rgba(244, 63, 94, 0.08);
+
+            box-shadow:
+                var(--shadow-sm);
+
+            opacity: 0.75;
+        }
+
+        body.dark-mode
+        .photos-empty {
+            background:
+                rgba(30, 41, 59, 0.7);
+
+            border-color:
+                rgba(148, 163, 184, 0.15);
+        }
+
+        .admin-footer {
+            background:
+                linear-gradient(
+                    135deg,
+                    #1e293b,
+                    #0f172a
+                );
+
+            color: white;
+
+            padding:
+                2.5rem 1.5rem 1.5rem;
+
+            text-align: center;
+
+            border-top:
+                4px solid
+                var(--accent-pink);
+        }
+
+        .admin-footer p {
+            margin:
+                0.4rem 0;
+
+            color:
+                #94a3b8;
+
+            font-size:
+                0.85rem;
+        }
+
+        .admin-footer strong {
+            color:
+                var(--accent-pink);
+        }
+
+        @keyframes slideInUp {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+
+        }
+
+        @media (max-width: 1100px) {
+
+            .photos-moderation-grid {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+            .photos-stats-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding:
+                    0.9rem 1rem;
+            }
+
+            .logo h1 {
+                font-size:
+                    1.15rem;
+
+                gap:
+                    0.4rem;
+            }
+
+            .btn-back {
+                padding:
+                    0.55rem 0.9rem;
+
+                font-size:
+                    0.8rem;
+            }
+
+            .dark-mode-toggle {
+                width: 40px;
+                height: 40px;
+
+                font-size:
+                    1.1rem;
+            }
+
+            .photos-admin-container {
+                padding:
+                    2rem 1rem 3rem;
+            }
+
+            .photos-admin-title h1 {
+                font-size:
+                    1.8rem;
+            }
+
+            .photos-moderation-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+                gap:
+                    0.9rem;
+            }
+
+            .photos-stats-grid {
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+            .photos-filters {
+                flex-direction:
+                    column;
+            }
+
+            .photos-filters select {
+                width:
+                    100%;
+            }
+
+            .photos-info-banner {
+                align-items:
+                    flex-start;
+
+                padding:
+                    1rem;
+            }
+
+            .photos-info-icon {
+                width: 40px;
+                height: 40px;
+
+                font-size:
+                    1.1rem;
+            }
+
+        }
+
+
+        @media (max-width: 450px) {
+
+            .photos-moderation-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .photos-stats-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .photos-admin-title h1 {
+                font-size:
+                    1.5rem;
+            }
+
+            .photo-actions {
+                flex-direction:
+                    column;
+            }
+
+            .photo-action-btn {
+                width:
+                    100%;
+            }
+
+            .photo-modal-close {
+                top:
+                    -45px;
+            }
+
+        }
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.register-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+.profile-back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    color: var(--dark-color);
+    background: transparent;
+
+    text-decoration: none;
+
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1;
+
+    transition: background .2s ease, transform .2s ease;
+}
+
+.profile-back-button:hover {
+    background: #f1f5f9;
+    transform: translateX(-2px);
+}
+
+.profile-back-button:active {
+    transform: scale(.92);
+}
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="animated-bg">
+
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+
+    </div>
+
+ <header>
+
+    <nav class="navbar">
+
+        <div class="header-left">
+
+            <a href="javascript:history.back()"
+               class="profile-back-button"
+               aria-label="Retour">
+                ‹
+            </a>
+
+        </div>
+
+    </nav>
+
+</header>
+
+    <main class="photos-admin-container">
+
+        <header class="photos-admin-header">
+
+            <div class="photos-admin-title">
+
+                <h1>
+                    📷 Modération des
+                    <span>photos</span>
+                </h1>
+
+                <p>
+                    Vérifiez et validez les photos envoyées par les membres
+                    avant leur publication sur la communauté.
+                </p>
+
+            </div>
+
+        </header>
+
+        <div class="photos-info-banner">
+
+            <div class="photos-info-icon">
+                🔐
+            </div>
+
+            <p>
+                <strong>
+                    Protection de la communauté
+                </strong>
+                <br>
+                Chaque photo envoyée par un membre doit être vérifiée
+                avant de devenir visible publiquement.
+            </p>
+
+        </div>
+
+        <section class="photos-stats-grid">
+
+
+            <div class="photo-stat-card">
+
+                <div class="photo-stat-icon">
+                    📷
+                </div>
+
+                <div
+                    class="photo-stat-value"
+                    id="totalPhotos"
+                >
+                    0
+                </div>
+
+                <div class="photo-stat-label">
+                    Total photos
+                </div>
+
+            </div>
+
+
+            <div class="photo-stat-card">
+
+                <div class="photo-stat-icon">
+                    ⏳
+                </div>
+
+                <div
+                    class="photo-stat-value"
+                    id="pendingPhotos"
+                >
+                    0
+                </div>
+
+                <div class="photo-stat-label">
+                    En attente
+                </div>
+
+            </div>
+
+
+            <div class="photo-stat-card">
+
+                <div class="photo-stat-icon">
+                    ✅
+                </div>
+
+                <div
+                    class="photo-stat-value"
+                    id="approvedPhotos"
+                >
+                    0
+                </div>
+
+                <div class="photo-stat-label">
+                    Approuvées
+                </div>
+
+            </div>
+
+
+            <div class="photo-stat-card">
+
+                <div class="photo-stat-icon">
+                    ❌
+                </div>
+
+                <div
+                    class="photo-stat-value"
+                    id="rejectedPhotos"
+                >
+                    0
+                </div>
+
+                <div class="photo-stat-label">
+                    Rejetées
+                </div>
+
+            </div>
+
+
+        </section>
+
+        <section class="photos-filters">
+
+
+            <div class="photos-search">
+
+                <input
+                    type="search"
+                    id="photoSearch"
+                    placeholder="🔎 Rechercher un membre..."
+                >
+
+            </div>
+
+
+            <select id="photoStatusFilter">
+
+                <option value="all">
+                    Tous les statuts
+                </option>
+
+                <option value="pending">
+                    ⏳ En attente
+                </option>
+
+                <option value="approved">
+                    ✅ Approuvées
+                </option>
+
+                <option value="rejected">
+                    ❌ Rejetées
+                </option>
+
+            </select>
+
+
+        </section>
+
+        <section
+            id="photosModerationGrid"
+            class="photos-moderation-grid"
+        >
+
+            <div class="photos-empty">
+
+                ⏳ Chargement des photos...
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+    <div
+        id="photoModal"
+        class="photo-modal"
+    >
+
+        <div class="photo-modal-content">
+
+            <button
+                id="photoModalClose"
+                class="photo-modal-close"
+                type="button"
+                aria-label="Fermer"
+            >
+                ✕
+            </button>
+
+            <img
+                id="photoModalImage"
+                src=""
+                alt="Aperçu de la photo"
+            >
+
+        </div>
+
+    </div>
+
+    <footer class="admin-footer">
+
+        <p>
+            ✝️ <strong>Alliance Chrétienne</strong>
+        </p>
+
+        <p>
+            Administration de la communauté
+        </p>
+
+        <p>
+            &copy; 2026 Alliance Chrétienne.
+            Tous droits réservés.
+        </p>
+
+    </footer>
+
+    <script>
+
+        const darkModeToggle =
+            document.getElementById('darkModeToggle');
+
+        const isDarkMode =
+            localStorage.getItem('darkMode') === 'true';
+
+
+        if (isDarkMode) {
+
+            document.body.classList.add('dark-mode');
+
+            darkModeToggle.textContent = '☀️';
+
+        }
+
+        darkModeToggle.addEventListener('click', function (event) {
+
+            const isCurrentlyDark =
+                document.body.classList.toggle('dark-mode');
+
+            localStorage.setItem(
+                'darkMode',
+                isCurrentlyDark
+            );
+
+            darkModeToggle.textContent =
+                isCurrentlyDark
+                    ? '☀️'
+                    : '🌙';
+
+
+            createParticles(event);
+
+        });
+
+        function createParticles(e) {
+
+            for (let i = 0; i < 5; i++) {
+
+                const particle =
+                    document.createElement('div');
+
+                particle.className =
+                    'particle';
+
+                particle.textContent =
+                    '✨';
+
+                particle.style.left =
+                    e.clientX + 'px';
+
+                particle.style.top =
+                    e.clientY + 'px';
+
+                particle.style.setProperty(
+                    '--tx',
+                    (Math.random() - 0.5) * 100 + 'px'
+                );
+
+                particle.style.setProperty(
+                    '--ty',
+                    (Math.random() - 0.5) * 100 + 'px'
+                );
+
+                document.body.appendChild(
+                    particle
+                );
+
+
+                setTimeout(
+                    () => particle.remove(),
+                    3000
+                );
+
+            }
+
+        }
+
+        document.addEventListener(
+            'keydown',
+            function (event) {
+
+                if (
+                    event.key === 'Escape'
+                ) {
+
+                    const modal =
+                        document.getElementById(
+                            'photoModal'
+                        );
+
+                    if (modal) {
+
+                        modal.classList.remove(
+                            'active'
+                        );
+
+                    }
+
+                }
+
+            }
+        );
+
+    </script>
+
+
+    <!-- ==========================================================
+         SUPABASE + ADMIN PHOTOS
+    ========================================================== -->
+
+    <script src="js/supabase-config.js"></script>
+
+    <script src="js/admin-photos.js"></script>
+
+
+</body>
+
+</html>

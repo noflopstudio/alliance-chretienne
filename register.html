@@ -1,0 +1,1928 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title data-i18n="register.page_title">
+        Inscription - Alliance Chrétienne
+    </title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/i18n.js"></script>
+
+    <style>
+        /* =========================================================
+           ALLIANCE CHRÉTIENNE — INSCRIPTION
+           Design moderne / cartes / dégradés
+           ========================================================= */
+
+        :root {
+            --primary: #2563eb;
+            --primary-light: #eff6ff;
+
+            --pink: #f43f5e;
+            --pink-light: #fff1f2;
+
+            --purple: #7c3aed;
+
+            --dark: #172033;
+            --text: #475569;
+            --muted: #94a3b8;
+
+            --white: #ffffff;
+            --border: #e2e8f0;
+
+            --success: #10b981;
+
+            --shadow:
+                0 20px 50px rgba(15, 23, 42, .08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(244, 63, 94, .07),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 90% 20%,
+                    rgba(37, 99, 235, .07),
+                    transparent 30%
+                ),
+                #fff8f8;
+
+            color: var(--text);
+            font-family:
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                sans-serif;
+        }
+
+        /* =========================================================
+           HEADER
+           ========================================================= */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            background: rgba(255,255,255,.94);
+            backdrop-filter: blur(12px);
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .register-navbar {
+            max-width: 1200px;
+            margin: auto;
+
+            padding: 1rem 1.5rem;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .register-logo {
+            text-decoration: none;
+        }
+
+        .register-logo h1 {
+            margin: 0;
+
+            color: var(--dark);
+
+            font-size: 1.4rem;
+            font-weight: 850;
+        }
+
+        .register-login {
+            display: inline-flex;
+            align-items: center;
+
+            padding: .65rem 1.2rem;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    #1d4ed8
+                );
+
+            color: white;
+
+            text-decoration: none;
+
+            font-weight: 700;
+            font-size: .9rem;
+
+            box-shadow:
+                0 6px 18px rgba(37,99,235,.22);
+
+            transition: .25s ease;
+        }
+
+        .register-login:hover {
+            transform: translateY(-2px);
+        }
+
+        /* =========================================================
+           PAGE
+           ========================================================= */
+
+        .register-page {
+            padding: 3rem 1rem 4rem;
+        }
+
+        .register-wrapper {
+            width: min(100%, 920px);
+            margin: auto;
+        }
+
+        /* =========================================================
+           HERO
+           ========================================================= */
+
+        .register-intro {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .register-intro-icon {
+            width: 70px;
+            height: 70px;
+
+            margin: 0 auto 1rem;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--pink),
+                    var(--purple)
+                );
+
+            color: white;
+
+            font-size: 2rem;
+
+            box-shadow:
+                0 12px 30px rgba(244,63,94,.22);
+        }
+
+        .register-intro h2 {
+            margin-bottom: .5rem;
+
+            color: var(--dark);
+
+            font-size: 2rem;
+            font-weight: 850;
+        }
+
+        .register-intro p {
+            color: var(--text);
+
+            max-width: 600px;
+            margin: auto;
+
+            line-height: 1.6;
+        }
+
+        /* =========================================================
+           PROGRESSION
+           ========================================================= */
+
+        .register-progress {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+
+            gap: .6rem;
+
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-step {
+            padding: .75rem .4rem;
+
+            text-align: center;
+
+            border-radius: 12px;
+
+            background: rgba(255,255,255,.8);
+
+            border: 1px solid var(--border);
+
+            color: var(--muted);
+
+            font-size: .72rem;
+            font-weight: 700;
+        }
+
+        .progress-step span {
+            display: block;
+
+            font-size: 1.1rem;
+
+            margin-bottom: .25rem;
+        }
+
+        .progress-step.active {
+            color: var(--pink);
+
+            border-color: rgba(244,63,94,.25);
+
+            background: var(--pink-light);
+        }
+
+        /* =========================================================
+           FORM CARD
+           ========================================================= */
+
+        .register-card {
+            background: rgba(255,255,255,.97);
+
+            border: 1px solid rgba(226,232,240,.9);
+
+            border-radius: 26px;
+
+            padding: 2rem;
+
+            box-shadow: var(--shadow);
+        }
+
+        /* =========================================================
+           SECTION
+           ========================================================= */
+
+        .form-section {
+            padding: 1.5rem;
+
+            margin-bottom: 1.25rem;
+
+            border: 1px solid #edf0f5;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255,255,255,.98),
+                    rgba(248,250,252,.8)
+                );
+        }
+
+        .form-section-header {
+            display: flex;
+            align-items: center;
+
+            gap: .9rem;
+
+            padding-bottom: 1rem;
+            margin-bottom: 1.25rem;
+
+            border-bottom: 1px solid #eef2f7;
+        }
+
+        .section-icon {
+            width: 44px;
+            height: 44px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--pink-light),
+                    var(--primary-light)
+                );
+
+            font-size: 1.25rem;
+        }
+
+        .form-section-header h3 {
+            color: var(--dark);
+
+            font-size: 1.05rem;
+            font-weight: 850;
+        }
+
+        .form-section-header p {
+            margin-top: .2rem;
+
+            color: var(--muted);
+
+            font-size: .8rem;
+        }
+
+        /* =========================================================
+           GRID
+           ========================================================= */
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 1rem;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* =========================================================
+           FORM
+           ========================================================= */
+
+        .form-group {
+            margin-bottom: .25rem;
+        }
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: .5rem;
+
+            color: var(--dark);
+
+            font-size: .82rem;
+            font-weight: 750;
+        }
+
+        .required {
+            color: var(--pink);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+
+            padding: .9rem 1rem;
+
+            border: 1.5px solid var(--border);
+
+            border-radius: 12px;
+
+            background: #fafbfc;
+
+            color: var(--dark);
+
+            font-family: inherit;
+            font-size: .92rem;
+
+            outline: none;
+
+            transition: .25s ease;
+        }
+
+        .form-group textarea {
+            min-height: 125px;
+
+            resize: vertical;
+
+            line-height: 1.5;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            background: white;
+
+            border-color: var(--pink);
+
+            box-shadow:
+                0 0 0 4px rgba(244,63,94,.10);
+        }
+
+        .form-group small {
+            display: block;
+
+            margin-top: .4rem;
+
+            color: var(--muted);
+
+            font-size: .72rem;
+        }
+
+        /* =========================================================
+           PASSWORD
+           ========================================================= */
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 3rem;
+        }
+
+        .toggle-password {
+            position: absolute;
+
+            right: .5rem;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            width: 38px;
+            height: 38px;
+
+            border: none;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            font-size: 1.1rem;
+
+            border-radius: 10px;
+
+            transition: .2s ease;
+        }
+
+        .toggle-password:hover {
+            background: var(--pink-light);
+        }
+
+        /* =========================================================
+           CONDITIONS
+           ========================================================= */
+
+        .terms-box {
+            display: flex;
+            align-items: flex-start;
+
+            gap: .75rem;
+
+            padding: 1rem;
+
+            margin-top: .5rem;
+
+            border-radius: 14px;
+
+            background: #f8fafc;
+
+            border: 1px solid var(--border);
+        }
+
+        .terms-box input {
+            width: 18px !important;
+            height: 18px;
+
+            margin-top: .1rem;
+
+            accent-color: var(--pink);
+
+            flex-shrink: 0;
+        }
+
+        .terms-box label {
+            margin: 0;
+
+            font-size: .8rem;
+
+            font-weight: 500;
+
+            line-height: 1.5;
+
+            color: var(--text);
+        }
+
+        .terms-box a {
+            color: var(--primary);
+
+            font-weight: 700;
+
+            text-decoration: none;
+        }
+
+        /* =========================================================
+           BUTTON
+           ========================================================= */
+
+        .register-submit {
+            width: 100%;
+
+            padding: 1rem 1.5rem;
+
+            border: none;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--pink),
+                    #e11d48
+                );
+
+            color: white;
+
+            font-size: 1rem;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 25px rgba(244,63,94,.25);
+
+            transition: .25s ease;
+        }
+
+        .register-submit:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 14px 30px rgba(244,63,94,.32);
+        }
+
+        .login-bottom {
+            text-align: center;
+
+            margin-top: 1.5rem;
+
+            color: var(--text);
+
+            font-size: .9rem;
+        }
+
+        .login-bottom a {
+            color: var(--pink);
+
+            font-weight: 800;
+
+            text-decoration: none;
+        }
+
+        /* =========================================================
+           FOOTER
+           ========================================================= */
+
+        footer {
+            padding: 2rem 1rem;
+
+            text-align: center;
+
+            background: #172033;
+
+            color: #cbd5e1;
+        }
+
+        footer p {
+            margin: .35rem 0;
+
+            font-size: .8rem;
+        }
+
+        .footer-links {
+            display: flex;
+
+            justify-content: center;
+
+            flex-wrap: wrap;
+
+            gap: 1.2rem;
+
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+
+            text-decoration: none;
+
+            font-size: .78rem;
+
+            font-weight: 600;
+
+            transition: .2s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* =========================================================
+           RESPONSIVE
+           ========================================================= */
+
+        @media (max-width: 700px) {
+
+            .register-page {
+                padding: 2rem .75rem;
+            }
+
+            .register-card {
+                padding: 1rem;
+
+                border-radius: 20px;
+            }
+
+            .form-section {
+                padding: 1rem;
+
+                border-radius: 16px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            .register-progress {
+                grid-template-columns: repeat(5, 1fr);
+
+                gap: .3rem;
+            }
+
+            .progress-step {
+                padding: .55rem .2rem;
+
+                font-size: .58rem;
+            }
+
+            .progress-step span {
+                font-size: .95rem;
+            }
+
+            .register-intro h2 {
+                font-size: 1.6rem;
+            }
+
+            .register-navbar {
+                padding: .8rem 1rem;
+            }
+
+            .register-logo h1 {
+                font-size: 1.1rem;
+            }
+
+            .register-login {
+                padding: .55rem .8rem;
+
+                font-size: .78rem;
+            }
+        }
+
+        .register-logo img {
+            width: 50px;
+            height: auto;
+            display: block;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
+
+<header>
+    <nav class="register-navbar">
+
+        <a href="index.html" class="register-logo">
+            <img src="images/logo.png" alt="Alliance Chrétienne">
+        </a>
+
+        <a
+            href="login.html"
+            class="register-login"
+            data-i18n="register.login"
+        >
+            Connexion
+        </a>
+
+    </nav>
+</header>
+
+
+<!-- =========================================================
+     PAGE INSCRIPTION
+     ========================================================= -->
+
+<main class="register-page">
+
+    <div class="register-wrapper">
+
+        <!-- INTRO -->
+
+        <div class="register-intro">
+
+            <div class="register-intro-icon">
+                💕
+            </div>
+
+            <h2 data-i18n="register.hero_title">
+                Créez votre compte
+            </h2>
+
+            <p data-i18n="register.hero_description">
+                Rejoignez Alliance Chrétienne et commencez à rencontrer
+                des personnes qui partagent votre foi et vos valeurs.
+            </p>
+
+        </div>
+
+
+        <!-- PROGRESSION -->
+
+        <div class="register-progress">
+
+            <div class="progress-step active">
+                <span>👤</span>
+                <span data-i18n="register.progress_profile">
+                    Profil
+                </span>
+            </div>
+
+            <div class="progress-step">
+                <span>🙏</span>
+                <span data-i18n="register.progress_faith">
+                    Foi
+                </span>
+            </div>
+
+            <div class="progress-step">
+                <span>💭</span>
+                <span data-i18n="register.progress_about">
+                    Présentation
+                </span>
+            </div>
+
+            <div class="progress-step">
+                <span>❤️</span>
+                <span data-i18n="register.progress_preferences">
+                    Préférences
+                </span>
+            </div>
+
+            <div class="progress-step">
+                <span>✓</span>
+                <span data-i18n="register.progress_validation">
+                    Validation
+                </span>
+            </div>
+
+        </div>
+
+
+        <!-- FORMULAIRE -->
+
+        <div class="register-card">
+
+            <div id="alertContainer"></div>
+
+            <form id="registerForm">
+
+
+                <!-- =================================================
+                     1. COMPTE
+                     ================================================= -->
+
+                <section class="form-section">
+
+                    <div class="form-section-header">
+
+                        <div class="section-icon">
+                            🔐
+                        </div>
+
+                        <div>
+                            <h3 data-i18n="register.account_title">
+                                Informations de connexion
+                            </h3>
+
+                            <p data-i18n="register.account_description">
+                                Créez vos identifiants pour accéder à votre compte.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="firstName">
+
+                                <span data-i18n="register.first_name">
+                                    Prénom
+                                </span>
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input
+                                type="text"
+                                id="firstName"
+                                name="firstName"
+                                placeholder="Jean"
+                                data-i18n-placeholder="register.first_name_placeholder"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="email">
+
+                                <span data-i18n="register.email">
+                                    Adresse email
+                                </span>
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="vous@example.com"
+                                data-i18n-placeholder="register.email_placeholder"
+                                required
+                            >
+
+                            <small data-i18n="register.email_help">
+                                Un email de confirmation pourra vous être envoyé.
+                            </small>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="password">
+
+                                <span data-i18n="register.password">
+                                    Mot de passe
+                                </span>
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <div class="password-wrapper">
+
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    placeholder="Minimum 8 caractères"
+                                    data-i18n-placeholder="register.password_placeholder"
+                                    minlength="8"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    class="toggle-password"
+                                    data-target="password"
+                                >
+                                    👁️
+                                </button>
+
+                            </div>
+
+                            <small data-i18n="register.password_help">
+                                Minimum 8 caractères.
+                            </small>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="confirmPassword">
+
+                                <span data-i18n="register.confirm_password">
+                                    Confirmer le mot de passe
+                                </span>
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <div class="password-wrapper">
+
+                                <input
+                                    type="password"
+                                    id="confirmPassword"
+                                    name="confirmPassword"
+                                    placeholder="Confirmez votre mot de passe"
+                                    data-i18n-placeholder="register.confirm_password_placeholder"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    class="toggle-password"
+                                    data-target="confirmPassword"
+                                >
+                                    👁️
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     2. PROFIL
+                     ================================================= -->
+
+                <section class="form-section">
+
+                    <div class="form-section-header">
+
+                        <div class="section-icon">
+                            👤
+                        </div>
+
+                        <div>
+
+                            <h3 data-i18n="register.profile_title">
+                                Votre profil
+                            </h3>
+
+                            <p data-i18n="register.profile_description">
+                                Quelques informations pour mieux vous présenter.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="birthDate">
+
+                                <span data-i18n="register.birth_date">
+                                    Date de naissance
+                                </span>
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input
+                                type="date"
+                                id="birthDate"
+                                name="birthDate"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="gender">
+
+                                <span data-i18n="register.gender">
+                                    Genre
+                                </span>
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <select
+                                id="gender"
+                                name="gender"
+                                required
+                            >
+
+                                <option
+                                    value=""
+                                    data-i18n="register.select"
+                                >
+                                    -- Sélectionnez --
+                                </option>
+
+                                <option
+                                    value="Homme"
+                                    data-i18n="register.male"
+                                >
+                                    Homme
+                                </option>
+
+                                <option
+                                    value="Femme"
+                                    data-i18n="register.female"
+                                >
+                                    Femme
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="city">
+
+                                <span data-i18n="register.city">
+                                    Ville
+                                </span>
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input
+                                type="text"
+                                id="city"
+                                name="city"
+                                placeholder="Abidjan"
+                                data-i18n-placeholder="register.city_placeholder"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="country">
+
+                                <span data-i18n="register.country">
+                                    Pays
+                                </span>
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input
+                                type="text"
+                                id="country"
+                                name="country"
+                                placeholder="Côte d'Ivoire"
+                                data-i18n-placeholder="register.country_placeholder"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     3. FOI
+                     ================================================= -->
+
+                <section class="form-section">
+
+                    <div class="form-section-header">
+
+                        <div class="section-icon">
+                            🙏
+                        </div>
+
+                        <div>
+
+                            <h3 data-i18n="register.faith_title">
+                                Votre foi
+                            </h3>
+
+                            <p data-i18n="register.faith_description">
+                                Parce que votre foi fait partie de votre histoire.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="denomination">
+
+                                <span data-i18n="register.denomination">
+                                    Dénomination chrétienne
+                                </span>
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <select
+                                id="denomination"
+                                name="denomination"
+                                required
+                            >
+
+                                <option
+                                    value=""
+                                    data-i18n="register.select"
+                                >
+                                    -- Sélectionnez --
+                                </option>
+
+                                <option
+                                    value="Catholique"
+                                    data-i18n="register.catholic"
+                                >
+                                    Catholique
+                                </option>
+
+                                <option
+                                    value="Protestant"
+                                    data-i18n="register.protestant"
+                                >
+                                    Protestant
+                                </option>
+
+                                <option
+                                    value="Évangélique"
+                                    data-i18n="register.evangelical"
+                                >
+                                    Évangélique
+                                </option>
+
+                                <option
+                                    value="Pentecôtiste"
+                                    data-i18n="register.pentecostal"
+                                >
+                                    Pentecôtiste
+                                </option>
+
+                                <option
+                                    value="Orthodoxe"
+                                    data-i18n="register.orthodox"
+                                >
+                                    Orthodoxe
+                                </option>
+
+                                <option
+                                    value="Autre"
+                                    data-i18n="register.other"
+                                >
+                                    Autre
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="churchFrequency">
+
+                                <span data-i18n="register.church_frequency">
+                                    Fréquence à l'église
+                                </span>
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <select
+                                id="churchFrequency"
+                                name="churchFrequency"
+                                required
+                            >
+
+                                <option
+                                    value=""
+                                    data-i18n="register.select"
+                                >
+                                    -- Sélectionnez --
+                                </option>
+
+                                <option
+                                    value="Chaque semaine"
+                                    data-i18n="register.every_week"
+                                >
+                                    Chaque semaine
+                                </option>
+
+                                <option
+                                    value="2-3 fois par mois"
+                                    data-i18n="register.two_three_month"
+                                >
+                                    2-3 fois par mois
+                                </option>
+
+                                <option
+                                    value="Une fois par mois"
+                                    data-i18n="register.once_month"
+                                >
+                                    Une fois par mois
+                                </option>
+
+                                <option
+                                    value="Occasionnellement"
+                                    data-i18n="register.occasionally"
+                                >
+                                    Occasionnellement
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group full-width">
+
+                            <label for="faithEngagement">
+
+                                <span data-i18n="register.faith_engagement">
+                                    Niveau d'engagement dans la foi
+                                </span>
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <select
+                                id="faithEngagement"
+                                name="faithEngagement"
+                                required
+                            >
+
+                                <option
+                                    value=""
+                                    data-i18n="register.select"
+                                >
+                                    -- Sélectionnez --
+                                </option>
+
+                                <option
+                                    value="Nouveau croyant"
+                                    data-i18n="register.new_believer"
+                                >
+                                    Nouveau croyant
+                                </option>
+
+                                <option
+                                    value="Engagé"
+                                    data-i18n="register.committed"
+                                >
+                                    Engagé
+                                </option>
+
+                                <option
+                                    value="Très engagé"
+                                    data-i18n="register.very_committed"
+                                >
+                                    Très engagé
+                                </option>
+
+                                <option
+                                    value="Pasteur/Pastrice"
+                                    data-i18n="register.pastor"
+                                >
+                                    Pasteur/Pastrice
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     4. PRESENTATION
+                     ================================================= -->
+
+                <section class="form-section">
+
+                    <div class="form-section-header">
+
+                        <div class="section-icon">
+                            💭
+                        </div>
+
+                        <div>
+
+                            <h3 data-i18n="register.about_title">
+                                Parlez-nous de vous
+                            </h3>
+
+                            <p data-i18n="register.about_description">
+                                Présentez votre personnalité, vos attentes et votre foi.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div class="form-group full-width">
+
+                            <label for="bio">
+
+                                <span data-i18n="register.who_are_you">
+                                    Qui êtes-vous ?
+                                </span>
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <textarea
+                                id="bio"
+                                name="bio"
+                                maxlength="500"
+                                placeholder="Parlez-nous de vous, vos passions, vos intérêts..."
+                                data-i18n-placeholder="register.bio_placeholder"
+                                required
+                            ></textarea>
+
+                            <small data-i18n="register.max_500">
+                                Maximum 500 caractères.
+                            </small>
+
+                        </div>
+
+
+                        <div class="form-group full-width">
+
+                            <label for="lookingFor">
+
+                                <span data-i18n="register.looking_for">
+                                    Qu'est-ce que vous recherchez ?
+                                </span>
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <textarea
+                                id="lookingFor"
+                                name="lookingFor"
+                                maxlength="500"
+                                placeholder="Décrivez la personne que vous recherchez et vos attentes..."
+                                data-i18n-placeholder="register.looking_for_placeholder"
+                                required
+                            ></textarea>
+
+                            <small data-i18n="register.max_500">
+                                Maximum 500 caractères.
+                            </small>
+
+                        </div>
+
+
+                        <div class="form-group full-width">
+
+                            <label
+                                for="favoriteVerse"
+                                data-i18n="register.favorite_verse"
+                            >
+                                Verset biblique préféré
+                            </label>
+
+                            <input
+                                type="text"
+                                id="favoriteVerse"
+                                name="favoriteVerse"
+                                placeholder="Ex : Jean 3:16"
+                                data-i18n-placeholder="register.favorite_verse_placeholder"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     5. PREFERENCES
+                     ================================================= -->
+
+                <section class="form-section">
+
+                    <div class="form-section-header">
+
+                        <div class="section-icon">
+                            ❤️
+                        </div>
+
+                        <div>
+
+                            <h3 data-i18n="register.preferences_title">
+                                Vos préférences
+                            </h3>
+
+                            <p data-i18n="register.preferences_description">
+                                Indiquez le type de rencontre que vous souhaitez.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="searchGender">
+
+                                <span data-i18n="register.search_gender">
+                                    Genre recherché
+                                </span>
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <select
+                                id="searchGender"
+                                name="searchGender"
+                                required
+                            >
+
+                                <option
+                                    value=""
+                                    data-i18n="register.select"
+                                >
+                                    -- Sélectionnez --
+                                </option>
+
+                                <option
+                                    value="Homme"
+                                    data-i18n="register.male"
+                                >
+                                    Homme
+                                </option>
+
+                                <option
+                                    value="Femme"
+                                    data-i18n="register.female"
+                                >
+                                    Femme
+                                </option>
+
+                                <option
+                                    value="Peu importe"
+                                    data-i18n="register.any"
+                                >
+                                    Peu importe
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="searchDistance">
+
+                                <span data-i18n="register.max_distance">
+                                    Distance maximale
+                                </span>
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input
+                                type="number"
+                                id="searchDistance"
+                                name="searchDistance"
+                                min="1"
+                                max="1000"
+                                placeholder="50"
+                                data-i18n-placeholder="register.distance_placeholder"
+                                required
+                            >
+
+                            <small data-i18n="register.distance_help">
+                                Distance en kilomètres.
+                            </small>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="searchMinAge">
+
+                                <span data-i18n="register.min_age">
+                                    Âge minimum recherché
+                                </span>
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input
+                                type="number"
+                                id="searchMinAge"
+                                name="searchMinAge"
+                                min="18"
+                                max="100"
+                                placeholder="18"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="searchMaxAge">
+
+                                <span data-i18n="register.max_age">
+                                    Âge maximum recherché
+                                </span>
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input
+                                type="number"
+                                id="searchMaxAge"
+                                name="searchMaxAge"
+                                min="18"
+                                max="100"
+                                placeholder="60"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     6. CONDITIONS
+                     ================================================= -->
+
+                <section class="form-section">
+
+                    <div class="form-section-header">
+
+                        <div class="section-icon">
+                            🔒
+                        </div>
+
+                        <div>
+
+                            <h3 data-i18n="register.final_step">
+                                Dernière étape
+                            </h3>
+
+                            <p data-i18n="register.final_description">
+                                Confirmez votre inscription à Alliance Chrétienne.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="terms-box">
+
+                        <input
+                            type="checkbox"
+                            id="agreeTerms"
+                            name="agreeTerms"
+                            required
+                        >
+
+                        <label for="agreeTerms">
+
+                            <span data-i18n="register.accept_terms_start">
+                                J'accepte les
+                            </span>
+
+                            <a
+                                href="conditions.html"
+                                data-i18n="register.terms"
+                            >
+                                conditions d'utilisation
+                            </a>
+
+                            <span data-i18n="register.and_privacy">
+                                et la
+                            </span>
+
+                            <a
+                                href="confidentialite.html"
+                                data-i18n="register.privacy"
+                            >
+                                politique de confidentialité
+                            </a>.
+
+                            <span class="required">*</span>
+
+                        </label>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     BOUTON
+                     ================================================= -->
+
+                <button
+                    type="submit"
+                    class="register-submit"
+                    data-i18n="register.create_account"
+                >
+                    Créer mon compte 💕
+                </button>
+
+
+                <p class="login-bottom">
+
+                    <span data-i18n="register.already_account">
+                        Vous avez déjà un compte ?
+                    </span>
+
+                    <a
+                        href="login.html"
+                        data-i18n="register.login_now"
+                    >
+                        Connectez-vous
+                    </a>
+
+                </p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+
+<footer>
+
+    <div class="footer-links">
+
+        <a href="aide.html" data-i18n="register.footer_help">
+            Aide
+        </a>
+
+        <a href="blog.html" data-i18n="register.footer_blog">
+            Blog
+        </a>
+
+        <a href="faq.html" data-i18n="register.footer_faq">
+            FAQ
+        </a>
+
+        <a href="confidentialite.html" data-i18n="register.footer_privacy">
+            Confidentialité
+        </a>
+
+        <a href="conditions.html" data-i18n="register.footer_terms">
+            Conditions
+        </a>
+
+        <a href="securite.html" data-i18n="register.footer_security">
+            Sécurité
+        </a>
+
+        <a href="a-propos.html" data-i18n="register.footer_about">
+            À propos
+        </a>
+
+        <a href="contact.html" data-i18n="register.footer_contact">
+            Contact
+        </a>
+
+        <a href="temoignages.html" data-i18n="register.footer_testimonials">
+            Témoignages
+        </a>
+
+        <a href="eglises.html" data-i18n="register.footer_churches">
+            Églises & communautés
+        </a>
+
+        <a href="signaler.html" data-i18n="register.footer_report">
+            Signaler un problème
+        </a>
+
+        <a href="tarifs.html" data-i18n="register.footer_certification">
+            Certification
+        </a>
+
+        <a href="conseils-securite.html" data-i18n="register.footer_safety">
+            Conseils sécurité
+        </a>
+
+        <a href="communaute.html" data-i18n="register.footer_community">
+            Communauté
+        </a>
+
+        <a href="partenaires.html" data-i18n="register.footer_partner">
+            Devenir partenaire
+        </a>
+
+    </div>
+
+    <p>
+        &copy; 2026
+        <span data-i18n="register.platform_name">
+            Alliance Chrétienne
+        </span>.
+        <span data-i18n="register.all_rights_reserved">
+            Tous droits réservés.
+        </span>
+    </p>
+
+    <p data-i18n="register.made_with_love">
+        Fait avec ❤️ pour la communauté chrétienne.
+    </p>
+
+</footer>
+
+
+<!-- =========================================================
+     SCRIPTS
+     ========================================================= -->
+
+<script>
+
+    /* =========================================================
+       AFFICHAGE MOT DE PASSE
+       ========================================================= */
+
+    document
+        .querySelectorAll('.toggle-password')
+        .forEach(button => {
+
+            button.addEventListener('click', () => {
+
+                const targetId =
+                    button.dataset.target;
+
+                const input =
+                    document.getElementById(targetId);
+
+                if (!input) return;
+
+                if (input.type === 'password') {
+
+                    input.type = 'text';
+
+                    button.textContent = '🙈';
+
+                } else {
+
+                    input.type = 'password';
+
+                    button.textContent = '👁️';
+
+                }
+
+            });
+
+        });
+
+
+    /* =========================================================
+       VALIDATION AGE
+       ========================================================= */
+
+    const birthDate =
+        document.getElementById('birthDate');
+
+    if (birthDate) {
+
+        const today = new Date();
+
+        const maxDate = new Date(
+            today.getFullYear() - 18,
+            today.getMonth(),
+            today.getDate()
+        );
+
+        birthDate.max =
+            maxDate.toISOString().split('T')[0];
+
+    }
+
+
+    /* =========================================================
+       VALIDATION AGE RECHERCHE
+       ========================================================= */
+
+    const minAge =
+        document.getElementById('searchMinAge');
+
+    const maxAge =
+        document.getElementById('searchMaxAge');
+
+    if (minAge && maxAge) {
+
+        function checkAges() {
+
+            if (
+                minAge.value &&
+                maxAge.value &&
+                Number(maxAge.value) < Number(minAge.value)
+            ) {
+
+                maxAge.setCustomValidity(
+                    typeof t === 'function'
+                        ? t(
+                            'register.age_validation',
+                            "L'âge maximum doit être supérieur ou égal à l'âge minimum."
+                        )
+                        : "L'âge maximum doit être supérieur ou égal à l'âge minimum."
+                );
+
+            } else {
+
+                maxAge.setCustomValidity('');
+
+            }
+
+        }
+
+        minAge.addEventListener(
+            'input',
+            checkAges
+        );
+
+        maxAge.addEventListener(
+            'input',
+            checkAges
+        );
+
+    }
+
+</script>
+
+
+<!-- =========================================================
+     AUTHENTIFICATION EXISTANTE
+     ========================================================= -->
+
+<script src="js/supabase-config.js"></script>
+
+<script src="js/auth.js"></script>
+
+</body>
+</html>

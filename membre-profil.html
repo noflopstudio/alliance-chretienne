@@ -1,0 +1,2164 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title data-i18n="profile.page_title">Mon profil - Alliance Chrétienne</title>
+
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<style>
+
+:root {
+    --primary: #f43f5e;
+    --primary-dark: #f43f5e;
+    --pink: #f43f5e;
+    --pink-dark: #e11d48;
+    --purple: #7c3aed;
+
+    --dark: #172033;
+    --text: #475569;
+    --muted: #94a3b8;
+
+    --bg: #f8fafc;
+    --white: #ffffff;
+    --border: #e5e7eb;
+
+    --shadow:
+        0 10px 30px rgba(15, 23, 42, .07);
+
+    --shadow-hover:
+        0 18px 45px rgba(37, 99, 235, .12);
+
+    --gradient:
+        linear-gradient(
+            135deg,
+            #f43f5e 0%,
+            #7c3aed 50%,
+            #f43f5e 100%
+        );
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(37, 99, 235, .06),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(244, 63, 94, .06),
+            transparent 30%
+        ),
+        #f8fafc;
+
+    color: var(--text);
+
+    font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea,
+select {
+    font-family: inherit;
+}
+
+.container {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+}
+
+/* ==========================================================
+   NAVBAR
+   ========================================================== */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar {
+    min-height: 72px;
+
+    background: rgba(255, 255, 255, .92);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border-bottom: 1px solid rgba(226, 232, 240, .8);
+
+    box-shadow:
+        0 4px 20px rgba(15, 23, 42, .04);
+}
+
+.navbar .container {
+    min-height: 72px;
+
+    display: flex;
+    align-items: center;
+}
+
+.logo h1 {
+    margin: 0;
+
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+
+    font-size: 1.3rem;
+    font-weight: 850;
+    letter-spacing: -.5px;
+}
+
+/* ==========================================================
+   CONTENU
+   ========================================================== */
+
+section {
+    padding: 2.5rem 0 !important;
+    min-height: calc(100vh - 150px);
+}
+
+#alertContainer {
+    margin-bottom: 1.25rem;
+}
+
+/* ==========================================================
+   HEADER PROFIL
+   ========================================================== */
+
+.profile-header {
+    position: relative;
+    overflow: hidden;
+
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    align-items: center;
+
+    gap: 1.7rem;
+
+    min-height: 230px;
+
+    padding: 2rem;
+
+    margin-bottom: 1.5rem;
+
+    border-radius: 28px;
+
+    color: white;
+
+    background:
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(255,255,255,.20),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 10% 90%,
+            rgba(255,255,255,.10),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #f43f5e ,
+            #7c3aed 55%,
+            #f43f5e
+        );
+
+    box-shadow:
+        0 20px 45px rgba(37, 99, 235, .18);
+}
+
+.profile-header::before {
+    content: "";
+
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    right: -140px;
+    top: -150px;
+
+    border-radius: 50%;
+
+    border: 45px solid rgba(255,255,255,.07);
+}
+
+.profile-header::after {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    left: -90px;
+    bottom: -100px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.06);
+}
+
+.profile-avatar {
+    position: relative;
+    z-index: 2;
+
+    width: 140px;
+    height: 140px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    border: 5px solid rgba(255,255,255,.95);
+
+    background: rgba(255,255,255,.15);
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.25);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.profile-avatar:hover {
+    transform: scale(1.04);
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,.30);
+}
+
+.profile-header-info {
+    position: relative;
+    z-index: 2;
+
+    min-width: 0;
+}
+
+.profile-header-info h2 {
+    margin: 0 0 .7rem;
+
+    color: white;
+
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+
+    line-height: 1.1;
+
+    font-weight: 850;
+
+    letter-spacing: -.9px;
+}
+
+.profile-header-info p {
+    display: flex;
+    align-items: center;
+
+    gap: .5rem;
+
+    margin: .4rem 0;
+
+    color: rgba(255,255,255,.95);
+
+    font-size: .95rem;
+}
+
+/* ==========================================================
+   CERTIFICATION
+   ========================================================== */
+
+#certificationSection {
+    margin-bottom: 1.5rem !important;
+
+    padding: 1.4rem !important;
+
+    background: rgba(255,255,255,.92);
+
+    border: 1px solid var(--border) !important;
+
+    border-radius: 22px !important;
+
+    box-shadow: var(--shadow);
+
+    backdrop-filter: blur(10px);
+}
+
+#certificationSection h3 {
+    display: flex;
+    align-items: center;
+
+    gap: .55rem;
+
+    margin: 0 0 1rem;
+
+    color: var(--dark);
+
+    font-size: 1.05rem;
+
+    font-weight: 800;
+}
+
+/* ==========================================================
+   ONGLETS
+   ========================================================== */
+
+.profile-tabs {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: .5rem;
+
+    padding: .45rem;
+
+    margin-bottom: 1.5rem;
+
+    background: rgba(255,255,255,.95);
+
+    border: 1px solid var(--border);
+
+    border-radius: 18px;
+
+    box-shadow: var(--shadow);
+
+    position: sticky;
+
+    top: 88px;
+
+    z-index: 50;
+
+    backdrop-filter: blur(14px);
+}
+
+.profile-tab {
+    border: none;
+
+    background: transparent;
+
+    color: var(--text);
+
+    padding: .9rem 1rem;
+
+    border-radius: 13px;
+
+    font-size: .9rem;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        background .25s ease,
+        color .25s ease,
+        transform .2s ease;
+}
+
+.profile-tab:hover:not(.active) {
+    background: #eff6ff;
+
+    color: var(--primary);
+}
+
+.profile-tab.active {
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--purple)
+        );
+
+    box-shadow:
+        0 8px 20px rgba(37,99,235,.20);
+}
+
+.profile-tab:active {
+    transform: scale(.98);
+}
+
+/* ==========================================================
+   CONTENU DES ONGLETS
+   ========================================================== */
+
+.tab-content {
+    display: none;
+
+    animation:
+        profileFade .3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes profileFade {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================
+   CARTES
+   ========================================================== */
+
+.profile-section {
+    margin-bottom: 1.25rem;
+
+    padding: 1.5rem;
+
+    background: rgba(255,255,255,.96);
+
+    border: 1px solid var(--border);
+
+    border-radius: 22px;
+
+    box-shadow: var(--shadow);
+
+    transition:
+        box-shadow .25s ease,
+        transform .25s ease;
+}
+
+.profile-section:hover {
+    box-shadow: var(--shadow-hover);
+}
+
+.profile-section h3 {
+    display: flex;
+    align-items: center;
+
+    gap: .55rem;
+
+    margin: 0 0 1.25rem;
+
+    padding-bottom: .9rem;
+
+    border-bottom: 1px solid #eef2f7;
+
+    color: var(--dark);
+
+    font-size: 1.08rem;
+
+    font-weight: 850;
+}
+
+/* ==========================================================
+   GALERIE
+   ========================================================== */
+
+#profilePhotosGallery {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(145px, 1fr));
+
+    gap: 14px;
+}
+
+#profilePhotosGallery img,
+#profilePhotosGallery .profile-photo-item {
+    width: 100%;
+    height: 155px;
+
+    object-fit: cover;
+
+    border-radius: 17px;
+
+    border: 2px solid transparent;
+
+    background: #f1f5f9;
+
+    box-shadow:
+        0 6px 18px rgba(15,23,42,.07);
+
+    transition:
+        transform .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
+}
+
+#profilePhotosGallery img:hover,
+#profilePhotosGallery .profile-photo-item:hover {
+    transform: translateY(-5px);
+
+    border-color: var(--primary);
+
+    box-shadow:
+        0 14px 28px rgba(37,99,235,.16);
+}
+
+/* ==========================================================
+   INFORMATIONS
+   ========================================================== */
+
+.profile-info-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(210px, 1fr));
+
+    gap: 1rem;
+}
+
+.profile-info-item {
+    padding: 1rem;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f8fafc
+        );
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 16px;
+
+    transition:
+        transform .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+.profile-info-item:hover {
+    transform: translateY(-2px);
+
+    border-color: #bfdbfe;
+
+    box-shadow:
+        0 8px 20px rgba(37,99,235,.07);
+}
+
+.profile-info-label {
+    margin-bottom: .4rem;
+
+    color: var(--muted);
+
+    font-size: .7rem;
+
+    text-transform: uppercase;
+
+    letter-spacing: .7px;
+
+    font-weight: 850;
+}
+
+.profile-info-value {
+    color: var(--dark);
+
+    font-size: .96rem;
+
+    font-weight: 750;
+}
+
+.profile-bio {
+    min-height: 70px;
+
+    padding: 1.15rem;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f8fafc,
+            #ffffff
+        );
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 16px;
+
+    color: var(--text);
+
+    font-size: .95rem;
+
+    line-height: 1.7;
+}
+
+/* ==========================================================
+   FORMULAIRE
+   ========================================================== */
+
+.edit-form {
+    padding: 1.5rem;
+
+    background: rgba(255,255,255,.96);
+
+    border: 1px solid var(--border);
+
+    border-radius: 22px;
+
+    box-shadow: var(--shadow);
+}
+
+.edit-form > h3 {
+    margin: 0 0 1.5rem;
+
+    padding-bottom: 1rem;
+
+    border-bottom: 1px solid #edf2f7;
+
+    color: var(--dark);
+
+    font-size: 1.3rem;
+
+    font-weight: 850;
+}
+
+.edit-form h4 {
+    margin-top: 1.6rem;
+
+    color: var(--primary) !important;
+
+    font-size: .96rem;
+
+    font-weight: 850;
+
+    letter-spacing: .1px;
+}
+
+.form-row {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(230px, 1fr));
+
+    gap: 1rem;
+
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    margin-bottom: .9rem;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: .4rem;
+
+    color: var(--dark);
+
+    font-size: .82rem;
+
+    font-weight: 800;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+
+    padding: .9rem 1rem;
+
+    background: #f8fafc;
+
+    border: 1.5px solid #dbe2ea;
+
+    border-radius: 14px;
+
+    color: var(--dark);
+
+    font-size: .93rem;
+
+    outline: none;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+.form-group input:hover,
+.form-group textarea:hover,
+.form-group select:hover {
+    border-color: #bfdbfe;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    background: white;
+
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 4px rgba(37,99,235,.10);
+}
+
+.form-group textarea {
+    min-height: 120px;
+
+    resize: vertical;
+
+    line-height: 1.6;
+}
+
+/* ==========================================================
+   PHOTOS — MODIFICATION
+   ========================================================== */
+
+.edit-form .profile-section {
+    background:
+        linear-gradient(
+            145deg,
+            #f8fafc,
+            #ffffff
+        );
+
+    box-shadow: none;
+
+    border-radius: 18px;
+}
+
+.profile-photos-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(130px, 1fr));
+
+    gap: 12px;
+}
+
+.photo-upload-btn {
+    display: inline-flex !important;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: .8rem 1.2rem;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--purple)
+        );
+
+    color: white;
+
+    font-size: .88rem;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 7px 18px rgba(37,99,235,.18);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.photo-upload-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 24px rgba(37,99,235,.25);
+}
+
+/* ==========================================================
+   BOUTONS
+   ========================================================== */
+
+.btn-group {
+    display: flex;
+
+    gap: .75rem;
+
+    margin-top: 1.8rem;
+}
+
+.btn-group button {
+    flex: 1;
+
+    border: none;
+
+    border-radius: 14px;
+
+    padding: .95rem 1rem;
+
+    font-size: .92rem;
+
+    font-weight: 850;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+}
+
+.btn-save {
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--pink),
+            var(--pink-dark)
+        );
+
+    box-shadow:
+        0 8px 20px rgba(244,63,94,.20);
+}
+
+.btn-save:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 28px rgba(244,63,94,.28);
+}
+
+.btn-cancel {
+    color: var(--text);
+
+    background: #f1f5f9;
+}
+
+.btn-cancel:hover {
+    transform: translateY(-2px);
+
+    background: #e2e8f0;
+}
+
+/* ==========================================================
+   MATCHS
+   ========================================================== */
+
+.matches-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(220px, 1fr));
+
+    gap: 1.1rem;
+}
+
+.match-card {
+    overflow: hidden;
+
+    background: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: 20px;
+
+    box-shadow: var(--shadow);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.match-card:hover {
+    transform: translateY(-5px);
+
+    box-shadow: var(--shadow-hover);
+}
+
+.match-card img {
+    display: block;
+
+    width: 100%;
+    height: 220px;
+
+    object-fit: cover;
+}
+
+.match-card-info {
+    padding: 1rem;
+}
+
+.match-card-name {
+    margin-bottom: .75rem;
+
+    color: var(--dark);
+
+    font-size: 1rem;
+
+    font-weight: 850;
+}
+
+.match-card-actions {
+    display: flex;
+
+    gap: .55rem;
+}
+
+.match-card-actions button {
+    flex: 1;
+
+    padding: .65rem;
+
+    border: none;
+
+    border-radius: 11px;
+
+    cursor: pointer;
+
+    font-weight: 750;
+}
+
+/* ==========================================================
+   FOOTER
+   ========================================================== */
+
+footer {
+    margin-top: 1rem;
+
+    padding: 1.5rem 0;
+
+    background: rgba(255,255,255,.9);
+
+    border-top: 1px solid var(--border);
+
+    text-align: center;
+}
+
+footer p {
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: .84rem;
+}
+
+/* ==========================================================
+   RESPONSIVE — TABLETTE
+   ========================================================== */
+
+@media (max-width: 768px) {
+
+    .container {
+        width: min(100% - 22px, 680px);
+    }
+
+    .navbar,
+    .navbar .container {
+        min-height: 64px;
+    }
+
+    section {
+        padding: 1.25rem 0 !important;
+    }
+
+    .profile-header {
+        grid-template-columns: 1fr;
+
+        text-align: center;
+
+        justify-items: center;
+
+        gap: 1rem;
+
+        padding: 1.75rem 1.25rem;
+
+        border-radius: 22px;
+    }
+
+    .profile-header-info p {
+        justify-content: center;
+    }
+
+    .profile-tabs {
+        top: 70px;
+    }
+
+    .profile-tab {
+        padding: .8rem .45rem;
+
+        font-size: .8rem;
+    }
+
+    .profile-section,
+    .edit-form {
+        padding: 1.25rem;
+
+        border-radius: 19px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+
+        gap: 0;
+    }
+}
+
+/* ==========================================================
+   RESPONSIVE — MOBILE
+   ========================================================== */
+
+@media (max-width: 480px) {
+
+    .container {
+        width: calc(100% - 16px);
+    }
+
+    .logo h1 {
+        font-size: 1rem;
+    }
+
+    section {
+        padding: 1rem 0 !important;
+    }
+
+    .profile-header {
+        min-height: auto;
+
+        padding: 1.5rem 1rem;
+
+        border-radius: 20px;
+    }
+
+    .profile-avatar {
+        width: 110px;
+        height: 110px;
+    }
+
+    .profile-header-info h2 {
+        font-size: 1.55rem;
+    }
+
+    .profile-header-info p {
+        font-size: .86rem;
+    }
+
+    .profile-tabs {
+        grid-template-columns: 1fr;
+
+        position: static;
+
+        border-radius: 16px;
+    }
+
+    .profile-tab {
+        width: 100%;
+    }
+
+    .profile-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #profilePhotosGallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #profilePhotosGallery img,
+    #profilePhotosGallery .profile-photo-item {
+        height: 145px;
+    }
+
+    .profile-photos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .matches-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .btn-group {
+        flex-direction: column;
+    }
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 3px solid rgba(37,99,235,.20);
+
+    outline-offset: 2px;
+}
+
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+
+.profile-back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin-right: 8px;
+    border-radius: 50%;
+    color: var(--dark);
+    background: transparent;
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.profile-back-button:hover {
+    background: #f1f5f9;
+    transform: translateX(-2px);
+}
+
+.profile-back-button:active {
+    transform: scale(.92);
+}
+
+
+</style>
+
+
+</head>
+
+<body>
+
+<div class="animated-bg">
+
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+
+</div>
+
+
+<header>
+    <nav class="navbar">
+      <div class="navbar">
+    <div class="container">
+
+       <a href="javascript:history.back()" class="profile-back-button" aria-label="Retour">
+    ‹
+</a>
+
+        <div class="logo">
+            <a href="index.html" class="register-logo">
+                <img src="images/logo.png" alt="Alliance Chrétienne">
+            </a>
+        </div>
+
+    </div>
+</div>
+</nav>
+
+
+</header>
+
+<section>
+
+
+<div class="container">
+
+    <div id="alertContainer"></div>
+
+    <div class="profile-header" id="profileHeader">
+
+        <img
+            id="profileAvatar"
+            src=""
+            alt="Avatar"
+            class="profile-avatar"
+        >
+
+        <div class="profile-header-info">
+
+            <h2 id="profileName">
+                Chargement...
+            </h2>
+
+            <p id="profileLocation">
+                📍 -
+            </p>
+
+            <p id="profileFaith">
+                🙏 -
+            </p>
+
+            <p id="profileStats">
+                ❤️ -
+            </p>
+
+        </div>
+
+    </div>
+
+    <div
+        id="certificationSection"
+        class="profile-section"
+    >
+
+      <h3 data-i18n="profile.certification_title">
+    🔵 Certification du profil
+</h3>
+
+<div id="certificationContent">
+    <p
+        style="color:var(--text-color);"
+        data-i18n="profile.certification_checking">
+        Vérification de votre statut...
+    </p>
+</div>
+
+    </div>
+
+
+    <!-- ==================================================
+         ONGLETS
+         ================================================== -->
+
+    <div class="profile-tabs">
+<button
+    class="profile-tab active"
+    onclick="switchTab('view')"
+>
+    👁️ <span data-i18n="profile.view_profile">Voir mon profil</span>
+</button>
+
+<button
+    class="profile-tab"
+    onclick="switchTab('edit')"
+>
+    ✏️ <span data-i18n="profile.edit">Modifier</span>
+</button>
+
+<button
+    class="profile-tab"
+    onclick="switchTab('matches')"
+>
+    ❤️ <span data-i18n="profile.matches">Mes matchs</span>
+</button>
+    </div>
+
+
+    <!-- ==================================================
+         TAB — VUE DU PROFIL
+         ================================================== -->
+
+    <div
+        id="view-tab"
+        class="tab-content active"
+    >
+
+        <!-- PHOTOS -->
+
+        <div class="profile-section">
+
+           <h3>
+    📸 <span data-i18n="profile.photos">Photos</span>
+</h3>
+
+            <div
+                id="profilePhotosGallery"
+                class="profile-photos-gallery"
+            >
+            </div>
+
+        </div>
+
+
+        <!-- INFORMATIONS PERSONNELLES -->
+
+        <div class="profile-section">
+<h4>
+    👤 <span data-i18n="profile.personal_info">
+        Informations personnelles
+    </span>
+</h4>
+
+            <div class="profile-info-grid">
+
+                <div class="profile-info-item">
+
+                    <div class="profile-info-label" data-i18n="profile.first_name">
+    Prénom
+</div>
+
+                    <div
+                        class="profile-info-value"
+                        id="viewFirstName"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+
+               <div class="profile-info-item">
+
+    <div class="profile-info-label" data-i18n="profile.age">
+    Âge
+</div>
+
+    <!-- Âge et badge de certification côte à côte -->
+    <div
+        class="profile-info-value"
+        style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;"
+    >
+        <span id="viewAge">-</span>
+        
+        <!-- Le badge de certification s'affichera ici -->
+        <span id="viewVerifiedBadgeContainer"></span>
+    </div>
+
+</div>
+
+
+                <div class="profile-info-item">
+
+                  <div class="profile-info-label" data-i18n="profile.gender">
+    Genre
+</div>
+
+                    <div
+                        class="profile-info-value"
+                        id="viewGender"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="profile-info-item">
+
+                    <div class="profile-info-label" data-i18n="profile.city">
+    Ville
+</div>
+
+                    <div
+                        class="profile-info-value"
+                        id="viewCity"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="profile-info-item">
+
+                    <div class="profile-info-label" data-i18n="profile.country">
+    Pays
+</div>
+
+                    <div
+                        class="profile-info-value"
+                        id="viewCountry"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- FOI -->
+
+        <div class="profile-section">
+
+            <h3>
+                🙏 Votre foi
+            </h3>
+
+            <div class="profile-info-grid">
+
+                <div class="profile-info-item">
+
+                    <div class="profile-info-label" data-i18n="profile.denomination">
+    Dénomination
+</div>
+
+                    <div
+                        class="profile-info-value"
+                        id="viewDenomination"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="profile-info-item">
+<div class="profile-info-label" data-i18n="profile.church_frequency">
+    Fréquence à l'église
+</div>
+
+                    <div
+                        class="profile-info-value"
+                        id="viewChurchFrequency"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="profile-info-item">
+
+                    <div class="profile-info-label" data-i18n="profile.faith_engagement">
+    Engagement
+</div>
+
+                    <div
+                        class="profile-info-value"
+                        id="viewFaithEngagement"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                style="margin-top:1rem;"
+                class="profile-info-item"
+            >
+
+                <div class="profile-info-label" data-i18n="profile.favorite_verse">
+    Verset préféré
+</div>
+
+                <div
+                    class="profile-info-value"
+                    id="viewFavoriteVerse"
+                    style="margin-top:.25rem;"
+                >
+                    -
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- À PROPOS -->
+
+        <div class="profile-section">
+
+     <h4>
+    💭 <span data-i18n="profile.about_you">
+        À propos de vous
+    </span>
+</h4>
+
+            <div
+                class="profile-bio"
+                id="viewBio"
+            >
+                -
+            </div>
+
+        </div>
+
+
+        <!-- RECHERCHE -->
+
+        <div class="profile-section">
+
+            <h3>
+    💕 <span data-i18n="profile.looking_for">
+        Ce que vous recherchez
+    </span>
+</h3>
+
+            <div
+                class="profile-bio"
+                id="viewLookingFor"
+            >
+                -
+            </div>
+
+        </div>
+
+
+        <!-- CRITÈRES -->
+
+        <div class="profile-section">
+
+            <h3>
+    🔍 <span data-i18n="profile.search_criteria">
+        Vos critères de recherche
+    </span>
+</h3>
+
+            <div class="profile-info-grid">
+
+                <div class="profile-info-item">
+
+                   <div class="profile-info-label" data-i18n="profile.search_gender">
+    Genre recherché
+</div>
+
+                    <div
+                        class="profile-info-value"
+                        id="viewSearchGender"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="profile-info-item">
+
+                    <div class="profile-info-label" data-i18n="profile.age">
+    Âge
+</div>
+
+                    <div
+                        class="profile-info-value"
+                        id="viewSearchAge"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="profile-info-item">
+
+                   <div class="profile-info-label" data-i18n="profile.max_distance">
+    Distance maximale
+</div>
+
+                    <div
+                        class="profile-info-value"
+                        id="viewSearchDistance"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div
+        id="edit-tab"
+        class="tab-content"
+    >
+
+        <div class="edit-form">
+
+            <h3>
+    ✏️ <span data-i18n="profile.edit_profile">
+        Modifier mon profil
+    </span>
+</h3>
+
+
+            <!-- PHOTOS -->
+
+            <div
+                class="profile-section"
+                style="
+                    padding:1.4rem;
+                    margin-bottom:1.7rem;
+                "
+            >
+
+                <div
+                    style="
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center;
+                        gap:1rem;
+                        margin-bottom:.6rem;
+                    "
+                >
+
+                   <h3
+    style="
+        margin:0;
+        padding:0;
+        border:0;
+    "
+>
+    📸 <span data-i18n="profile.my_photos">
+        Mes photos
+    </span>
+</h3>
+
+                    <span
+                        id="photoCounter"
+                        style="
+                            color:var(--text-color);
+                            font-size:.8rem;
+                            font-weight:800;
+                        "
+                    >
+                        0 / 4
+                    </span>
+
+                </div>
+
+
+              <p
+    style="
+        color:var(--text-color);
+        opacity:.75;
+        font-size:.88rem;
+        margin-bottom:1rem;
+    "
+>
+<p
+    style="
+        color:var(--text-color);
+        opacity:.75;
+        font-size:.88rem;
+        margin-bottom:1rem;
+    "
+>
+ <span data-i18n="profile.photos_description">
+    Ajoutez vos meilleures photos pour donner envie de découvrir
+    votre profil ❤️
+</span>
+
+<br><br>
+
+🔐
+<strong data-i18n="profile.photos_moderation">
+    Pour protéger notre communauté contre les faux profils,
+    chaque photo ajoutée est vérifiée et approuvée par notre équipe
+    avant d'être visible sur votre profil.
+</strong>
+</p>
+
+
+
+                <div
+                    id="profilePhotosContainer"
+                    class="profile-photos-grid"
+                >
+                </div>
+
+
+                <div
+                    class="photo-upload-box"
+                    style="margin-top:1rem;"
+                >
+
+                    <label
+                        for="photoUploadEdit"
+                        class="photo-upload-btn"
+                    >
+                       📷 <span data-i18n="profile.add_photo">
+    Ajouter une photo
+</span>
+                    </label>
+
+                    <input
+                        type="file"
+                        id="photoUploadEdit"
+                        accept="image/*"
+                        onchange="uploadPhoto(event)"
+                        style="display:none;"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <form id="editForm">
+
+
+                <!-- INFORMATIONS -->
+
+                <h4>
+                    👤 Informations personnelles
+                </h4>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                       <label for="editFirstName" data-i18n="profile.first_name">
+    Prénom
+</label>
+
+                        <input
+                            type="text"
+                            id="editFirstName"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                       <label for="editGender" data-i18n="profile.gender">
+    Genre
+</label>
+
+                        <select
+                            id="editGender"
+                            required
+                        >
+
+                           <option value="Homme" data-i18n="profile.man">
+    Homme
+</option>
+
+<option value="Femme" data-i18n="profile.woman">
+    Femme
+</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                       <label for="editCity" data-i18n="profile.city">
+    Ville
+</label>
+
+                        <input
+                            type="text"
+                            id="editCity"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="editCountry" data-i18n="profile.country">
+    Pays
+</label>
+
+                        <input
+                            type="text"
+                            id="editCountry"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- FOI -->
+
+       <h4>
+    🙏 <span data-i18n="profile.your_faith">
+        Votre foi
+    </span>
+</h4>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                       <label for="editDenomination" data-i18n="profile.denomination">
+    Dénomination
+</label>
+
+                        <select
+                            id="editDenomination"
+                            required
+                        >
+
+                         <option value="Catholique" data-i18n="profile.catholic">
+    Catholique
+</option>
+
+<option value="Protestant" data-i18n="profile.protestant">
+    Protestant
+</option>
+
+<option value="Évangélique" data-i18n="profile.evangelical">
+    Évangélique
+</option>
+
+<option value="Pentecôtiste" data-i18n="profile.pentecostal">
+    Pentecôtiste
+</option>
+
+<option value="Orthodoxe" data-i18n="profile.orthodox">
+    Orthodoxe
+</option>
+
+<option value="Autre" data-i18n="profile.other">
+    Autre
+</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                       <label for="editChurchFrequency" data-i18n="profile.church_frequency">
+    Fréquence à l'église
+</label>
+
+                        <select
+                            id="editChurchFrequency"
+                            required
+                        >
+
+                           <option value="Chaque semaine" data-i18n="profile.every_week">
+    Chaque semaine
+</option>
+
+<option value="2-3 fois par mois" data-i18n="profile.two_three_times_month">
+    2-3 fois par mois
+</option>
+
+<option value="Une fois par mois" data-i18n="profile.once_month">
+    Une fois par mois
+</option>
+
+<option value="Occasionnellement" data-i18n="profile.occasionally">
+    Occasionnellement
+</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="editFaithEngagement" data-i18n="profile.faith_engagement_full">
+    Engagement dans la foi
+</label>
+
+                        <select
+                            id="editFaithEngagement"
+                            required
+                        >
+
+                            <option value="Nouveau croyant">
+                                Nouveau croyant
+                            </option>
+
+                            <option value="Engagé">
+                                Engagé
+                            </option>
+
+                           <option value="Très engagé" data-i18n="profile.very_engaged">
+    Très engagé
+</option>
+
+    <option value="Pasteur/Pasteure" data-i18n="search.pastor">
+    Pasteur/Pasteure
+</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                       <label for="editFavoriteVerse" data-i18n="profile.favorite_verse">
+    Verset préféré
+</label>
+
+                        <input
+                            type="text"
+                            id="editFavoriteVerse"
+                            placeholder="Ex: Jean 3:16"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- À PROPOS -->
+
+                <h4>
+                    💭 À propos de vous
+                </h4>
+
+
+                <div class="form-group">
+
+                    <label for="editBio" data-i18n="profile.who_are_you">
+    Qui êtes-vous ?
+</label>
+
+                    <textarea
+                        id="editBio"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="editLookingFor" data-i18n="profile.what_are_you_looking_for">
+    Qu'est-ce que vous recherchez ?
+</label>
+
+                    <textarea
+                        id="editLookingFor"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <!-- CRITÈRES -->
+<h4>
+    🔍 <span data-i18n="profile.search_criteria">
+        Critères de recherche
+    </span>
+</h4>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="editSearchGender" data-i18n="profile.search_gender">
+    Genre recherché
+</label>
+
+                        <select
+                            id="editSearchGender"
+                            required
+                        >
+
+                            <option value="Homme" data-i18n="profile.man">
+    Homme
+</option>
+
+<option value="Femme" data-i18n="profile.woman">
+    Femme
+</option>
+
+<option value="Peu importe" data-i18n="profile.any">
+    Peu importe
+</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="editSearchMinAge" data-i18n="profile.min_age">
+    Âge minimum
+</label>
+
+                        <input
+                            type="number"
+                            id="editSearchMinAge"
+                            min="18"
+                            max="100"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                      <label for="editSearchMaxAge" data-i18n="profile.max_age">
+    Âge maximum
+</label>
+
+                        <input
+                            type="number"
+                            id="editSearchMaxAge"
+                            min="18"
+                            max="100"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+<label for="editSearchDistance" data-i18n="profile.distance_km">
+    Distance (km)
+</label>
+
+                        <input
+                            type="number"
+                            id="editSearchDistance"
+                            min="1"
+                            max="1000"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- BOUTONS -->
+
+                <div class="btn-group">
+
+                    <button
+    type="submit"
+    class="btn-save"
+>
+    ✅ <span data-i18n="profile.save">
+        Enregistrer
+    </span>
+</button>
+
+<button
+    type="button"
+    class="btn-cancel"
+    onclick="switchTab('view')"
+>
+    ✕ <span data-i18n="profile.cancel">
+        Annuler
+    </span>
+</button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================================
+         TAB — MATCHS
+         ================================================== -->
+
+    <div
+        id="matches-tab"
+        class="tab-content"
+    >
+
+        <div class="profile-section">
+
+           <h3>
+    ❤️ <span data-i18n="profile.matches">
+        Mes matchs
+    </span>
+</h3>
+
+            <div
+                id="matchesContainer"
+                class="matches-grid"
+            >
+
+             <p
+    style="
+        grid-column:1/-1;
+        text-align:center;
+        color:var(--text-color);
+        padding:2rem;
+    "
+    data-i18n="profile.loading"
+>
+    Chargement...
+</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</section>
+
+<footer>
+
+
+<div class="container">
+
+    <p>
+    © 2026 Alliance Chrétienne.
+    <span data-i18n="profile.all_rights_reserved">
+        Tous droits réservés.
+    </span>
+</p>
+
+</div>
+
+
+</footer>
+<script src="js/supabase-config.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/profile.js"></script>
+
+
+<div id="paymentConfirmModal" class="payment-modal-overlay">
+<div class="payment-modal">
+
+
+
+</div>
+
+</body>
+</html>

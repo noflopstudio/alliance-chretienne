@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Devenir partenaire - Alliance Chrétienne</title>
+
+<style>
+    :root {
+        --primary: #2563eb;
+        --pink: #f43f5e;
+        --purple: #7c3aed;
+        --dark: #172033;
+        --text: #475569;
+        --muted: #94a3b8;
+        --white: #ffffff;
+        --border: #e2e8f0;
+        --bg: #fff8f8;
+        --dark-bg: #0f172a;
+        --dark-card: #1e293b;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont,
+            "Segoe UI", Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        transition: background .3s ease, color .3s ease;
+    }
+
+    body.dark-mode {
+        background: var(--dark-bg);
+        color: #e2e8f0;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: rgba(255,255,255,.95);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+    }
+
+    body.dark-mode header {
+        background: rgba(30,41,59,.95);
+        border-bottom-color: rgba(148,163,184,.15);
+    }
+
+    .navbar {
+        max-width: 1200px;
+        margin: auto;
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .logo a {
+        text-decoration: none;
+    }
+
+    .logo h1 {
+        color: var(--dark);
+        font-size: 1.35rem;
+        font-weight: 850;
+    }
+
+    body.dark-mode .logo h1 {
+        color: #f8fafc;
+    }
+
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+    }
+
+    .dark-toggle {
+        width: 42px;
+        height: 42px;
+        border: none;
+        border-radius: 50%;
+        background: #eff6ff;
+        cursor: pointer;
+        font-size: 1.15rem;
+        transition: .25s ease;
+    }
+
+    body.dark-mode .dark-toggle {
+        background: rgba(148,163,184,.12);
+    }
+
+    .dark-toggle:hover {
+        transform: rotate(15deg) scale(1.05);
+    }
+
+    .btn-home {
+        color: white;
+        text-decoration: none;
+        background: linear-gradient(
+            135deg,
+            var(--pink),
+            var(--purple)
+        );
+        padding: .65rem 1.2rem;
+        border-radius: 12px;
+        font-size: .85rem;
+        font-weight: 750;
+        box-shadow: 0 6px 18px rgba(244,63,94,.2);
+    }
+
+    /* =========================
+       PAGE
+    ========================= */
+
+    .page {
+        padding: 2.5rem 1.5rem 4rem;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: auto;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+        text-align: center;
+        padding: 2rem 1rem 2.5rem;
+    }
+
+    .hero-icon {
+        width: 74px;
+        height: 74px;
+        margin: 0 auto 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 22px;
+        font-size: 2rem;
+        color: white;
+        background: linear-gradient(
+            135deg,
+            var(--pink),
+            var(--purple),
+            var(--primary)
+        );
+        box-shadow: 0 12px 30px rgba(244,63,94,.2);
+    }
+
+    .hero h1 {
+        color: var(--dark);
+        font-size: 2.3rem;
+        font-weight: 850;
+        margin-bottom: .7rem;
+    }
+
+    body.dark-mode .hero h1 {
+        color: #f8fafc;
+    }
+
+    .hero h1 span {
+        background: linear-gradient(
+            135deg,
+            var(--pink),
+            var(--purple),
+            var(--primary)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .hero p {
+        max-width: 720px;
+        margin: auto;
+        line-height: 1.7;
+        font-size: 1rem;
+    }
+
+    body.dark-mode .hero p {
+        color: #cbd5e1;
+    }
+
+    /* =========================
+       CARDS
+    ========================= */
+
+    .card {
+        background: rgba(255,255,255,.96);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 1.5rem;
+        margin-bottom: 1.25rem;
+        box-shadow: 0 10px 30px rgba(15,23,42,.07);
+    }
+
+    body.dark-mode .card {
+        background: var(--dark-card);
+        border-color: rgba(148,163,184,.15);
+    }
+
+    .card-header {
+        display: flex;
+        align-items: center;
+        gap: .9rem;
+        margin-bottom: 1.2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #eef2f7;
+    }
+
+    body.dark-mode .card-header {
+        border-bottom-color: rgba(148,163,184,.12);
+    }
+
+    .card-icon {
+        width: 46px;
+        height: 46px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 14px;
+        color: white;
+        font-size: 1.3rem;
+        background: linear-gradient(
+            135deg,
+            var(--pink),
+            var(--purple)
+        );
+        box-shadow: 0 7px 18px rgba(244,63,94,.18);
+    }
+
+    .card h2 {
+        color: var(--dark);
+        font-size: 1.15rem;
+        font-weight: 850;
+    }
+
+    body.dark-mode .card h2 {
+        color: #f8fafc;
+    }
+
+    .card-intro {
+        line-height: 1.7;
+        font-size: .9rem;
+    }
+
+    body.dark-mode .card-intro {
+        color: #cbd5e1;
+    }
+
+    /* =========================
+       PARTENAIRES ACCEPTÉS
+    ========================= */
+
+    .partner-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .partner-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1.15rem;
+        border-radius: 18px;
+        background: linear-gradient(
+            135deg,
+            #fff1f2,
+            #eff6ff
+        );
+        border: 1px solid rgba(244,63,94,.12);
+        transition: .25s ease;
+    }
+
+    body.dark-mode .partner-item {
+        background: linear-gradient(
+            135deg,
+            rgba(244,63,94,.09),
+            rgba(37,99,235,.09)
+        );
+        border-color: rgba(244,63,94,.15);
+    }
+
+    .partner-item:hover {
+        transform: translateY(-3px);
+    }
+
+    .partner-icon {
+        width: 46px;
+        height: 46px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 14px;
+        background: white;
+        font-size: 1.4rem;
+        box-shadow: 0 5px 15px rgba(15,23,42,.07);
+    }
+
+    body.dark-mode .partner-icon {
+        background: rgba(255,255,255,.08);
+    }
+
+    .partner-item h3 {
+        color: var(--dark);
+        font-size: .92rem;
+        margin-bottom: .3rem;
+        font-weight: 800;
+    }
+
+    body.dark-mode .partner-item h3 {
+        color: #f8fafc;
+    }
+
+    .partner-item p {
+        font-size: .8rem;
+        line-height: 1.55;
+    }
+
+    body.dark-mode .partner-item p {
+        color: #cbd5e1;
+    }
+
+    /* =========================
+       REFUS
+    ========================= */
+
+    .not-accepted {
+        border: 1px solid rgba(244,63,94,.2);
+        background: #fff1f2;
+        border-radius: 18px;
+        padding: 1.2rem;
+    }
+
+    body.dark-mode .not-accepted {
+        background: rgba(244,63,94,.08);
+        border-color: rgba(244,63,94,.2);
+    }
+
+    .not-accepted-title {
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+        color: #be123c;
+        font-weight: 850;
+        margin-bottom: .8rem;
+    }
+
+    body.dark-mode .not-accepted-title {
+        color: #fb7185;
+    }
+
+    .not-accepted ul {
+        padding-left: 1.3rem;
+        display: grid;
+        gap: .5rem;
+    }
+
+    .not-accepted li {
+        font-size: .83rem;
+        line-height: 1.5;
+    }
+
+    body.dark-mode .not-accepted li {
+        color: #cbd5e1;
+    }
+
+    /* =========================
+       COMMERCIAL
+    ========================= */
+
+    .commercial-box {
+        padding: 1.25rem;
+        border-radius: 18px;
+        background: linear-gradient(
+            135deg,
+            #eff6ff,
+            #f5f3ff
+        );
+        border: 1px solid rgba(37,99,235,.12);
+    }
+
+    body.dark-mode .commercial-box {
+        background: linear-gradient(
+            135deg,
+            rgba(37,99,235,.09),
+            rgba(124,58,237,.09)
+        );
+    }
+
+    .commercial-box h3 {
+        color: var(--dark);
+        margin-bottom: .5rem;
+        font-size: .95rem;
+    }
+
+    body.dark-mode .commercial-box h3 {
+        color: #f8fafc;
+    }
+
+    .commercial-box p {
+        font-size: .83rem;
+        line-height: 1.65;
+    }
+
+    body.dark-mode .commercial-box p {
+        color: #cbd5e1;
+    }
+
+    /* =========================
+       DEMANDE
+    ========================= */
+
+    .steps {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+
+    .step {
+        text-align: center;
+        padding: 1.2rem;
+        border-radius: 18px;
+        border: 1px solid #eef2f7;
+    }
+
+    body.dark-mode .step {
+        border-color: rgba(148,163,184,.12);
+    }
+
+    .step-number {
+        width: 38px;
+        height: 38px;
+        margin: 0 auto .7rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: white;
+        font-weight: 800;
+        background: linear-gradient(
+            135deg,
+            var(--pink),
+            var(--purple)
+        );
+    }
+
+    .step h3 {
+        color: var(--dark);
+        font-size: .9rem;
+        margin-bottom: .3rem;
+    }
+
+    body.dark-mode .step h3 {
+        color: #f8fafc;
+    }
+
+    .step p {
+        font-size: .78rem;
+        line-height: 1.5;
+    }
+
+    body.dark-mode .step p {
+        color: #cbd5e1;
+    }
+
+    /* =========================
+       CTA
+    ========================= */
+
+    .cta {
+        text-align: center;
+        padding: 2.5rem 1.5rem;
+        border-radius: 24px;
+        color: white;
+        background: linear-gradient(
+            135deg,
+            #1e293b,
+            #0f172a
+        );
+        border-top: 4px solid var(--pink);
+        box-shadow: 0 15px 40px rgba(15,23,42,.15);
+    }
+
+    .cta h2 {
+        font-size: 1.7rem;
+        margin-bottom: .6rem;
+    }
+
+    .cta p {
+        max-width: 680px;
+        margin: 0 auto 1.5rem;
+        color: #cbd5e1;
+        font-size: .9rem;
+        line-height: 1.65;
+    }
+
+    .btn-contact {
+        display: inline-block;
+        padding: .85rem 1.5rem;
+        border-radius: 12px;
+        text-decoration: none;
+        color: white;
+        font-weight: 800;
+        font-size: .85rem;
+        background: linear-gradient(
+            135deg,
+            var(--pink),
+            var(--purple)
+        );
+        box-shadow: 0 8px 22px rgba(244,63,94,.3);
+        transition: .25s ease;
+    }
+
+    .btn-contact:hover {
+        transform: translateY(-2px);
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+        margin-top: 2rem;
+        padding: 2rem 1.5rem;
+        text-align: center;
+        background: #0f172a;
+        color: #94a3b8;
+    }
+
+    footer p {
+        margin: .4rem 0;
+        font-size: .82rem;
+    }
+
+    .footer-links {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1.2rem;
+        margin: 1rem 0;
+    }
+
+    .footer-links a {
+        color: #cbd5e1;
+        text-decoration: none;
+        font-size: .8rem;
+        transition: .2s ease;
+    }
+
+    .footer-links a:hover {
+        color: white;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 800px) {
+        .partner-grid,
+        .steps {
+            grid-template-columns: 1fr;
+        }
+
+        .hero h1 {
+            font-size: 1.9rem;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .page {
+            padding: 1.5rem 1rem 3rem;
+        }
+
+        .navbar {
+            padding: .8rem 1rem;
+        }
+
+        .logo h1 {
+            font-size: 1.05rem;
+        }
+
+        .btn-home {
+            padding: .55rem .8rem;
+            font-size: .75rem;
+        }
+
+        .hero h1 {
+            font-size: 1.6rem;
+        }
+
+        .hero p {
+            font-size: .88rem;
+        }
+
+        .card {
+            padding: 1.1rem;
+            border-radius: 18px;
+        }
+
+        .cta {
+            padding: 2rem 1rem;
+        }
+
+        .cta h2 {
+            font-size: 1.4rem;
+        }
+    }
+
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+</style>
+
+
+</head>
+
+<body>
+
+<header>
+
+
+<nav class="navbar">
+
+    <div class="logo">
+               <a href="index.html" class="register-logo">
+    <img src="images/logo.png" alt="Alliance Chrétienne">
+</a>
+    </div>
+
+    <div class="nav-actions">
+
+        <button
+            id="darkModeToggle"
+            class="dark-toggle"
+            title="Mode sombre">
+            🌙
+        </button>
+
+        <a href="index.html" class="btn-home">
+            Accueil
+        </a>
+
+    </div>
+
+</nav>
+
+</header>
+
+<main class="page">
+
+<div class="container">
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="hero-icon">
+        🤝
+    </div>
+
+    <h1>
+        <span>Devenir partenaire</span>
+    </h1>
+
+    <p>
+        Vous représentez une église, un ministère, une œuvre chrétienne,
+        une association ou une activité compatible avec les valeurs
+        d'Alliance Chrétienne ?
+        Nous pouvons construire ensemble une collaboration utile
+        à notre communauté.
+    </p>
+
+</section>
+
+
+<!-- INTRODUCTION -->
+
+<section class="card">
+
+    <div class="card-header">
+
+        <div class="card-icon">✝️</div>
+
+        <div>
+            <h2>Des partenariats qui ont du sens</h2>
+        </div>
+
+    </div>
+
+    <p class="card-intro">
+        Alliance Chrétienne souhaite développer des partenariats
+        cohérents avec sa mission : favoriser les rencontres sérieuses,
+        la foi chrétienne, la famille, le mariage, l'entraide et
+        l'édification de la communauté.
+    </p>
+
+</section>
+
+
+<!-- PARTENAIRES ACCEPTÉS -->
+
+<section class="card">
+
+    <div class="card-header">
+
+        <div class="card-icon">🤝</div>
+
+        <div>
+            <h2>Quels partenaires recherchons-nous ?</h2>
+        </div>
+
+    </div>
+
+    <div class="partner-grid">
+
+        <div class="partner-item">
+
+            <div class="partner-icon">⛪</div>
+
+            <div>
+                <h3>Églises chrétiennes</h3>
+                <p>
+                    Églises et communautés chrétiennes souhaitant
+                    proposer des activités, rencontres ou initiatives
+                    adaptées à leurs membres.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="partner-item">
+
+            <div class="partner-icon">🙏</div>
+
+            <div>
+                <h3>Ministères & œuvres chrétiennes</h3>
+                <p>
+                    Ministères, missions, associations et œuvres
+                    engagées dans des projets conformes aux valeurs
+                    chrétiennes.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="partner-item">
+
+            <div class="partner-icon">📖</div>
+
+            <div>
+                <h3>Événements chrétiens</h3>
+                <p>
+                    Conférences, séminaires, retraites, conventions,
+                    rencontres de jeunes, activités familiales et
+                    événements d'édification chrétienne.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="partner-item">
+
+            <div class="partner-icon">💍</div>
+
+            <div>
+                <h3>Mariage & famille</h3>
+                <p>
+                    Services, associations et initiatives destinés
+                    à accompagner les couples, les familles et les
+                    personnes préparant leur mariage.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="partner-item">
+
+            <div class="partner-icon">💼</div>
+
+            <div>
+                <h3>Entreprises & commerces compatibles</h3>
+                <p>
+                    Les entreprises et commerces peuvent proposer
+                    des promotions si leurs produits ou services
+                    respectent l'esprit et les valeurs de la plateforme.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="partner-item">
+
+            <div class="partner-icon">❤️</div>
+
+            <div>
+                <h3>Actions solidaires</h3>
+                <p>
+                    Projets humanitaires, actions sociales, œuvres
+                    caritatives et initiatives destinées à aider
+                    les personnes et les familles.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ÉVÉNEMENTS NON ACCEPTÉS -->
+
+<section class="card">
+
+    <div class="card-header">
+
+        <div class="card-icon">🛡️</div>
+
+        <div>
+            <h2>Notre ligne directrice</h2>
+        </div>
+
+    </div>
+
+    <div class="not-accepted">
+
+        <div class="not-accepted-title">
+            ⚠️ Partenariats et promotions non compatibles
+        </div>
+
+        <ul>
+
+            <li>
+                Publicités ou événements contraires aux valeurs
+                chrétiennes défendues par la plateforme.
+            </li>
+
+            <li>
+                Promotions de bars, maquis, soirées alcoolisées
+                ou activités principalement liées à la consommation
+                d'alcool.
+            </li>
+
+            <li>
+                Événements ou concerts qui ne correspondent pas
+                à l'orientation chrétienne de notre communauté.
+            </li>
+
+            <li>
+                Contenus à caractère sexuel, immoral, violent ou
+                susceptibles de mettre les membres en danger.
+            </li>
+
+            <li>
+                Activités trompeuses, escroqueries, systèmes
+                financiers douteux ou demandes d'argent aux membres.
+            </li>
+
+            <li>
+                Toute activité utilisant Alliance Chrétienne pour
+                exploiter ou manipuler les membres de la communauté.
+            </li>
+
+        </ul>
+
+    </div>
+
+</section>
+
+
+<!-- PUBLICITÉ COMMERCIALE -->
+
+<section class="card">
+
+    <div class="card-header">
+
+        <div class="card-icon">📢</div>
+
+        <div>
+            <h2>Les promotions commerciales</h2>
+        </div>
+
+    </div>
+
+    <div class="commercial-box">
+
+        <h3>
+            Les commerces peuvent-ils faire leur promotion ?
+        </h3>
+
+        <p>
+            Oui, certaines promotions commerciales peuvent être
+            acceptées. Toutefois, chaque proposition est examinée
+            avant publication. Le simple fait qu'une entreprise
+            propose une publicité ne signifie pas automatiquement
+            qu'elle sera acceptée.
+            <br><br>
+            Alliance Chrétienne se réserve le droit de refuser
+            toute publicité, promotion ou collaboration qui ne
+            correspond pas à ses valeurs, à son public ou à sa
+            mission chrétienne.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- PROCESSUS -->
+
+<section class="card">
+
+    <div class="card-header">
+
+        <div class="card-icon">📋</div>
+
+        <div>
+            <h2>Comment devenir partenaire ?</h2>
+        </div>
+
+    </div>
+
+    <div class="steps">
+
+        <div class="step">
+
+            <div class="step-number">1</div>
+
+            <h3>Présentez votre projet</h3>
+
+            <p>
+                Expliquez-nous votre église, votre organisation,
+                votre événement ou votre activité.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">2</div>
+
+            <h3>Notre équipe étudie</h3>
+
+            <p>
+                Nous vérifions que votre proposition correspond
+                aux valeurs et à la mission d'Alliance Chrétienne.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">3</div>
+
+            <h3>Collaboration</h3>
+
+            <p>
+                Si votre proposition est acceptée, nous définissons
+                ensemble les modalités du partenariat.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CTA -->
+
+<section class="cta">
+
+    <h2>
+        Vous souhaitez travailler avec nous ? 🤝
+    </h2>
+
+    <p>
+        Présentez-nous votre projet. Chaque demande est étudiée
+        avec attention afin de préserver l'identité, la sécurité
+        et les valeurs chrétiennes d'Alliance Chrétienne.
+    </p>
+
+    <a href="contact.html" class="btn-contact">
+        Nous contacter
+    </a>
+
+</section>
+
+
+</div>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer>
+
+
+<p>
+    © 2026 Alliance Chrétienne. Tous droits réservés.
+</p>
+
+<div class="footer-links">
+
+    <a href="aide.html">Aide</a>
+    <a href="blog.html">Blog</a>
+    <a href="faq.html">FAQ</a>
+    <a href="confidentialite.html">Confidentialité</a>
+    <a href="conditions.html">Conditions</a>
+    <a href="securite.html">Sécurité</a>
+    <a href="a-propos.html">À propos</a>
+    <a href="contact.html">Contact</a>
+    <a href="temoignages.html">Témoignages</a>
+    <a href="eglises.html">Églises & communautés</a>
+    <a href="signaler.html">Signaler un problème</a>
+    <a href="tarifs.html">Tarifs</a>
+    <a href="conseils-securite.html">Conseils sécurité</a>
+    <a href="communaute.html">Communauté</a>
+    <a href="partenaires.html">Devenir partenaire</a>
+
+</div>
+
+<p>
+    Fait avec ❤️ pour la communauté chrétienne
+</p>
+
+
+</footer>
+
+<script>
+
+    const darkModeToggle =
+        document.getElementById("darkModeToggle");
+
+    const isDark =
+        localStorage.getItem("darkMode") === "true";
+
+    if (isDark) {
+
+        document.body.classList.add("dark-mode");
+
+        darkModeToggle.textContent = "☀️";
+
+    }
+
+    darkModeToggle.addEventListener("click", function () {
+
+        const active =
+            document.body.classList.toggle("dark-mode");
+
+        localStorage.setItem("darkMode", active);
+
+        darkModeToggle.textContent =
+            active ? "☀️" : "🌙";
+
+    });
+
+</script>
+
+</body>
+</html>

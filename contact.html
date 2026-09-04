@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Alliance Chrétienne</title>
+    <link rel="stylesheet" href="css/style.css">
+
+<style>
+    :root {
+        --pink: #f43f5e;
+        --purple: #7c3aed;
+        --blue: #2563eb;
+        --dark: #172033;
+        --text: #64748b;
+        --white: #ffffff;
+        --border: #e2e8f0;
+        --whatsapp: #25D366;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont,
+            "Segoe UI", Roboto, sans-serif;
+        background: #fff8f8;
+        color: var(--text);
+        transition: background .3s ease, color .3s ease;
+    }
+
+    body.dark-mode {
+        background: #0f172a;
+        color: #cbd5e1;
+    }
+
+    /* HEADER */
+    header {
+        background: rgba(255,255,255,.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    body.dark-mode header {
+        background: rgba(30,41,59,.95);
+        border-bottom-color: rgba(148,163,184,.2);
+    }
+
+    .navbar {
+        max-width: 1200px;
+        margin: auto;
+        padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo a {
+        text-decoration: none;
+    }
+
+    .logo h1 {
+        margin: 0;
+        color: var(--dark);
+        font-size: 1.5rem;
+        font-weight: 800;
+    }
+
+    body.dark-mode .logo h1 {
+        color: white;
+    }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .dark-mode-toggle {
+        width: 45px;
+        height: 45px;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.2rem;
+        background: #f1f5f9;
+    }
+
+    body.dark-mode .dark-mode-toggle {
+        background: rgba(148,163,184,.2);
+    }
+
+    .btn-register {
+        padding: .65rem 1.3rem;
+        border-radius: .75rem;
+        text-decoration: none;
+        color: white;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--pink), var(--purple));
+        box-shadow: 0 5px 15px rgba(244,63,94,.25);
+    }
+
+    /* PAGE */
+    .contact-page {
+        max-width: 1000px;
+        margin: auto;
+        padding: 2.5rem 1.5rem 4rem;
+    }
+
+    .contact-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        background: rgba(255,255,255,.96);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 10px 30px rgba(15,23,42,.07);
+    }
+
+    body.dark-mode .contact-header,
+    body.dark-mode .contact-card {
+        background: #1e293b;
+        border-color: rgba(148,163,184,.15);
+    }
+
+    .contact-header-icon {
+        width: 58px;
+        height: 58px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 17px;
+        font-size: 1.6rem;
+        color: white;
+        background: linear-gradient(135deg, var(--pink), var(--purple));
+        box-shadow: 0 8px 20px rgba(244,63,94,.2);
+    }
+
+    .contact-header h2 {
+        margin: 0 0 .3rem;
+        color: var(--dark);
+        font-size: 1.8rem;
+    }
+
+    body.dark-mode .contact-header h2 {
+        color: white;
+    }
+
+    .contact-header p {
+        margin: 0;
+        color: #64748b;
+    }
+
+    /* CARD */
+    .contact-card {
+        background: rgba(255,255,255,.96);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 2rem;
+        margin-bottom: 1.25rem;
+        box-shadow: 0 10px 30px rgba(15,23,42,.07);
+    }
+
+    .contact-card h3 {
+        margin: 0 0 .7rem;
+        color: var(--dark);
+        font-size: 1.2rem;
+    }
+
+    body.dark-mode .contact-card h3 {
+        color: white;
+    }
+
+    .contact-card > p {
+        line-height: 1.7;
+        color: var(--text);
+    }
+
+    body.dark-mode .contact-card > p {
+        color: #cbd5e1;
+    }
+
+    /* WHATSAPP */
+    .whatsapp-box {
+        margin-top: 1.5rem;
+        padding: 1.7rem;
+        border-radius: 20px;
+        background: linear-gradient(
+            135deg,
+            rgba(37,211,102,.10),
+            rgba(37,99,235,.06)
+        );
+        border: 1px solid rgba(37,211,102,.25);
+        text-align: center;
+    }
+
+    .whatsapp-icon {
+        width: 65px;
+        height: 65px;
+        margin: 0 auto 1rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--whatsapp);
+        color: white;
+        font-size: 2rem;
+        box-shadow: 0 8px 20px rgba(37,211,102,.25);
+    }
+
+    .whatsapp-box h4 {
+        margin: 0 0 .4rem;
+        color: var(--dark);
+        font-size: 1.15rem;
+    }
+
+    body.dark-mode .whatsapp-box h4 {
+        color: white;
+    }
+
+    .whatsapp-number {
+        display: block;
+        margin: .5rem 0;
+        color: var(--whatsapp);
+        font-size: 1.4rem;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .whatsapp-only {
+        margin: .5rem 0 1.2rem;
+        color: #64748b;
+        font-size: .9rem;
+        font-weight: 600;
+    }
+
+    body.dark-mode .whatsapp-only {
+        color: #cbd5e1;
+    }
+
+    .btn-whatsapp {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: .6rem;
+        padding: .9rem 1.5rem;
+        border-radius: .85rem;
+        background: var(--whatsapp);
+        color: white;
+        text-decoration: none;
+        font-weight: 800;
+        box-shadow: 0 7px 18px rgba(37,211,102,.25);
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .btn-whatsapp:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(37,211,102,.35);
+    }
+
+    /* INFO */
+    .contact-info {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .info-item {
+        padding: 1.2rem;
+        border-radius: 16px;
+        background: #f8fafc;
+        border: 1px solid var(--border);
+    }
+
+    body.dark-mode .info-item {
+        background: rgba(148,163,184,.07);
+        border-color: rgba(148,163,184,.15);
+    }
+
+    .info-item-icon {
+        font-size: 1.4rem;
+        margin-bottom: .5rem;
+    }
+
+    .info-item strong {
+        display: block;
+        color: var(--dark);
+        margin-bottom: .25rem;
+    }
+
+    body.dark-mode .info-item strong {
+        color: white;
+    }
+
+    .info-item span {
+        font-size: .85rem;
+        color: #64748b;
+    }
+
+    body.dark-mode .info-item span {
+        color: #94a3b8;
+    }
+
+    /* FOOTER */
+    footer {
+        background: #0f172a;
+        color: #cbd5e1;
+        text-align: center;
+        padding: 2rem 1.5rem;
+    }
+
+    .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.2rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .footer-links a {
+        color: #cbd5e1;
+        text-decoration: none;
+        font-size: .9rem;
+    }
+
+    .footer-links a:hover {
+        color: white;
+    }
+
+    footer p {
+        margin: .4rem 0;
+        font-size: .85rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 650px) {
+        .contact-page {
+            padding: 1.25rem 1rem 3rem;
+        }
+
+        .contact-header {
+            padding: 1.2rem;
+        }
+
+        .contact-header h2 {
+            font-size: 1.45rem;
+        }
+
+        .contact-card {
+            padding: 1.3rem;
+        }
+
+        .contact-info {
+            grid-template-columns: 1fr;
+        }
+
+        .btn-register {
+            padding: .55rem .9rem;
+            font-size: .8rem;
+        }
+    }
+
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+</style>
+
+
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html" class="register-logo">
+    <img src="images/logo.png" alt="Alliance Chrétienne">
+</a>
+        </div>
+
+
+    <div class="nav-right">
+        <button id="darkModeToggle" class="dark-mode-toggle" title="Mode sombre">
+            🌙
+        </button>
+
+        <a href="register.html" class="btn-register">
+            Inscription
+        </a>
+    </div>
+</nav>
+
+
+</header>
+
+<main class="contact-page">
+
+
+<div class="contact-header">
+    <div class="contact-header-icon">💬</div>
+    <div>
+        <h2>Contactez-nous</h2>
+        <p>Une question, un problème ou besoin d'aide ? Nous sommes là pour vous accompagner.</p>
+    </div>
+</div>
+
+<div class="contact-card">
+
+    <h3>📱 Nous contacter sur WhatsApp</h3>
+
+    <p>
+        Pour toute question concernant Alliance Chrétienne, votre compte,
+        votre profil ou le fonctionnement de la plateforme, vous pouvez
+        nous contacter directement sur WhatsApp.
+    </p>
+
+    <div class="whatsapp-box">
+
+        <div class="whatsapp-icon">💬</div>
+
+        <h4>WhatsApp uniquement</h4>
+
+        <a
+            href="https://wa.me/2250704334852"
+            class="whatsapp-number"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            +225 07 04 33 48 52
+        </a>
+
+        <p class="whatsapp-only">
+            📵 WhatsApp uniquement — pas d'appels téléphoniques
+        </p>
+
+        <a
+            href="https://wa.me/2250704334852?text=Bonjour%20Alliance%20Chr%C3%A9tienne%2C%20je%20souhaite%20obtenir%20des%20informations."
+            class="btn-whatsapp"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            💬 Écrire sur WhatsApp
+        </a>
+
+    </div>
+
+    <div class="contact-info">
+
+        <div class="info-item">
+            <div class="info-item-icon">💬</div>
+            <strong>Canal de contact</strong>
+            <span>WhatsApp uniquement</span>
+        </div>
+
+        <div class="info-item">
+            <div class="info-item-icon">🌍</div>
+            <strong>Communauté</strong>
+            <span>Alliance Chrétienne — Côte d'Ivoire</span>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="contact-card">
+
+    <h3>🙏 Une communauté à votre écoute</h3>
+
+    <p>
+        Alliance Chrétienne souhaite offrir un espace sérieux, respectueux
+        et sécurisé aux célibataires chrétiens. Si vous rencontrez une
+        difficulté ou si vous avez une suggestion pour améliorer la
+        plateforme, n'hésitez pas à nous écrire sur WhatsApp.
+    </p>
+
+</div>
+
+
+</main>
+
+<footer>
+
+
+<div class="footer-links">
+    <a href="aide.html">Aide</a>
+    <a href="blog.html">Blog</a>
+    <a href="faq.html">FAQ</a>
+    <a href="confidentialite.html">Confidentialité</a>
+    <a href="conditions.html">Conditions</a>
+    <a href="securite.html">Sécurité</a>
+    <a href="a-propos.html">À propos</a>
+    <a href="contact.html">Contact</a>
+    <a href="temoignages.html">Témoignages</a>
+    <a href="eglises.html">Églises & communautés</a>
+    <a href="signaler.html">Signaler un problème</a>
+</div>
+
+<p>✝️ Alliance Chrétienne — Rencontres chrétiennes sérieuses</p>
+<p>&copy; 2026 Alliance Chrétienne. Tous droits réservés.</p>
+<p>Fait avec ❤️ pour la communauté chrétienne</p>
+
+
+</footer>
+
+<script>
+    const darkModeToggle = document.getElementById('darkModeToggle');
+
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        darkModeToggle.textContent = '☀️';
+    }
+
+    darkModeToggle.addEventListener('click', () => {
+        const isDark = document.body.classList.toggle('dark-mode');
+
+        localStorage.setItem('darkMode', isDark);
+
+        darkModeToggle.textContent = isDark ? '☀️' : '🌙';
+    });
+</script>
+
+</body>
+</html>

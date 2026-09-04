@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title data-i18n="settings.page_title">Paramètres - Alliance Chrétienne</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="js/i18n.js"></script>
+
+    <style>
+
+        /* =========================================================
+           ALLIANCE CHRÉTIENNE — PARAMÈTRES
+           ========================================================= */
+
+        .settings-page {
+
+            min-height: calc(100vh - 150px);
+
+            padding: 2.5rem 0;
+
+            background:
+
+                radial-gradient(
+
+                    circle at 10% 10%,
+
+                    rgba(244, 63, 94, .05),
+
+                    transparent 30%
+
+                ),
+
+                radial-gradient(
+
+                    circle at 90% 20%,
+
+                    rgba(37, 99, 235, .05),
+
+                    transparent 30%
+
+                );
+
+        }
+
+        .settings-header {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 1rem;
+
+            margin-bottom: 1.5rem;
+
+            padding: 1.5rem;
+
+            background: rgba(255,255,255,.95);
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 22px;
+
+            box-shadow: 0 10px 30px rgba(15,23,42,.07);
+
+            animation: settingsFade .5s ease-out;
+
+        }
+
+        .settings-header-icon {
+
+            width: 58px;
+
+            height: 58px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            border-radius: 17px;
+
+            font-size: 1.6rem;
+
+            color: white;
+
+            background: linear-gradient(
+
+                135deg,
+
+                #f43f5e,
+
+                #7c3aed
+
+            );
+
+            box-shadow: 0 8px 20px rgba(244,63,94,.20);
+
+        }
+
+        .settings-header h1 {
+
+            margin: 0 0 .3rem;
+
+            font-size: 1.8rem;
+
+            font-weight: 850;
+
+            background: linear-gradient(
+
+                135deg,
+
+                #172033,
+
+                #f43f5e
+
+            );
+
+            -webkit-background-clip: text;
+
+            background-clip: text;
+
+            color: transparent;
+
+        }
+
+        .settings-header p {
+
+            margin: 0;
+
+            color: #64748b;
+
+            font-size: .9rem;
+
+        }
+
+        .settings-card {
+
+            margin-bottom: 1.25rem;
+
+            padding: 1.5rem;
+
+            background: rgba(255,255,255,.96);
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 22px;
+
+            box-shadow: 0 10px 30px rgba(15,23,42,.07);
+
+            transition:
+
+                transform .25s ease,
+
+                box-shadow .25s ease;
+
+        }
+
+        .settings-card:hover {
+
+            box-shadow: 0 18px 45px rgba(244,63,94,.10);
+
+        }
+
+        .settings-card-header {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: .9rem;
+
+            padding-bottom: 1.1rem;
+
+            margin-bottom: .5rem;
+
+            border-bottom: 1px solid #eef2f7;
+
+        }
+
+        .settings-card-icon {
+
+            width: 44px;
+
+            height: 44px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background: #fff1f2;
+
+            font-size: 1.25rem;
+
+        }
+
+        .settings-card-header h2 {
+
+            margin: 0 0 .25rem;
+
+            color: #172033;
+
+            font-size: 1.05rem;
+
+            font-weight: 850;
+
+        }
+
+        .settings-card-header p {
+
+            margin: 0;
+
+            color: #94a3b8;
+
+            font-size: .82rem;
+
+        }
+
+        .settings-option {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 1rem;
+
+            padding: 1rem;
+
+            border-bottom: 1px solid #eef2f7;
+
+            transition:
+
+                background .2s ease,
+
+                transform .2s ease;
+
+        }
+
+        .settings-option:last-child {
+
+            border-bottom: none;
+
+        }
+
+        .settings-option:hover {
+
+            background: #fff8f8;
+
+            transform: translateX(3px);
+
+        }
+
+        .settings-option-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            border-radius: 12px;
+
+            background: #f8fafc;
+
+            font-size: 1.15rem;
+
+        }
+
+        .settings-option-content {
+
+            flex: 1;
+
+        }
+
+        .settings-option-content h3 {
+
+            margin: 0 0 .25rem;
+
+            color: #172033;
+
+            font-size: .92rem;
+
+            font-weight: 800;
+
+        }
+
+        .settings-option-content p {
+
+            margin: 0;
+
+            color: #64748b;
+
+            font-size: .82rem;
+
+            line-height: 1.5;
+
+        }
+
+        .settings-status {
+
+            padding: .35rem .7rem;
+
+            border-radius: 999px;
+
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            font-size: .7rem;
+
+            font-weight: 800;
+
+            white-space: nowrap;
+
+        }
+
+        .settings-info {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 1rem;
+
+            padding: 1rem;
+
+            border-bottom: 1px solid #eef2f7;
+
+        }
+
+        .settings-info:last-child {
+
+            border-bottom: none;
+
+        }
+
+        .settings-info > span {
+
+            width: 42px;
+
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background: #f8fafc;
+
+            font-size: 1.1rem;
+
+        }
+
+        .settings-info strong {
+
+            display: block;
+
+            margin-bottom: .2rem;
+
+            color: #172033;
+
+            font-size: .88rem;
+
+        }
+
+        .settings-info p {
+
+            margin: 0;
+
+            color: #94a3b8;
+
+            font-size: .8rem;
+
+        }
+
+        .online-status {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: .4rem;
+
+            color: #059669 !important;
+
+            font-weight: 700;
+
+        }
+
+        .online-status span {
+
+            width: 8px;
+
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #10b981;
+
+            box-shadow: 0 0 0 4px rgba(16,185,129,.10);
+
+        }
+
+        @keyframes settingsFade {
+
+            from {
+
+                opacity: 0;
+
+                transform: translateY(-10px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform: translateY(0);
+
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .settings-page {
+
+                padding: 1.25rem 0;
+
+            }
+
+            .settings-header {
+
+                padding: 1.2rem;
+
+                border-radius: 18px;
+
+            }
+
+            .settings-header-icon {
+
+                width: 48px;
+
+                height: 48px;
+
+                font-size: 1.3rem;
+
+            }
+
+            .settings-header h1 {
+
+                font-size: 1.45rem;
+
+            }
+
+            .settings-card {
+
+                padding: 1rem;
+
+                border-radius: 18px;
+
+            }
+
+            .settings-option {
+
+                align-items: flex-start;
+
+            }
+
+            .settings-status {
+
+                font-size: .65rem;
+
+            }
+
+        }
+
+        /* MODE SOMBRE */
+
+        body.dark-mode .settings-page {
+
+            background:
+
+                radial-gradient(
+
+                    circle at 10% 10%,
+
+                    rgba(244,63,94,.10),
+
+                    transparent 30%
+
+                ),
+
+                #0f172a;
+
+        }
+
+        body.dark-mode .settings-header,
+
+        body.dark-mode .settings-card {
+
+            background: #1e293b;
+
+            border-color: rgba(148,163,184,.15);
+
+        }
+
+        body.dark-mode .settings-header h1 {
+
+            background: linear-gradient(
+
+                135deg,
+
+                #f8fafc,
+
+                #fb7185
+
+            );
+
+            -webkit-background-clip: text;
+
+            background-clip: text;
+
+        }
+
+        body.dark-mode .settings-header p,
+
+        body.dark-mode .settings-card-header p,
+
+        body.dark-mode .settings-option-content p,
+
+        body.dark-mode .settings-info p {
+
+            color: #94a3b8;
+
+        }
+
+        body.dark-mode .settings-card-header h2,
+
+        body.dark-mode .settings-option-content h3,
+
+        body.dark-mode .settings-info strong {
+
+            color: #f8fafc;
+
+        }
+
+        body.dark-mode .settings-card-header,
+
+        body.dark-mode .settings-option,
+
+        body.dark-mode .settings-info {
+
+            border-color: rgba(148,163,184,.12);
+
+        }
+
+        body.dark-mode .settings-option:hover {
+
+            background: #253247;
+
+        }
+
+        body.dark-mode .settings-option-icon,
+
+        body.dark-mode .settings-info > span {
+
+            background: rgba(148,163,184,.10);
+
+        }
+
+        body.dark-mode .settings-status {
+
+            background: rgba(37,99,235,.15);
+
+            color: #93c5fd;
+
+        }
+
+        .register-logo img {
+
+            width: 50px;
+
+            height: auto;
+
+            display: block;
+
+        }
+
+        .profile-back-button {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            width: 42px;
+
+            height: 42px;
+
+            margin-right: 8px;
+
+            border-radius: 50%;
+
+            color: var(--dark);
+
+            background: transparent;
+
+            text-decoration: none;
+
+            font-size: 2rem;
+
+            font-weight: 400;
+
+            line-height: 1;
+
+            transition: background .2s ease, transform .2s ease;
+
+        }
+
+        .profile-back-button:hover {
+
+            background: #f1f5f9;
+
+            transform: translateX(-2px);
+
+        }
+
+        .profile-back-button:active {
+
+            transform: scale(.92);
+
+        }
+
+    </style>
+
+</head>
+
+<div class="animated-bg">
+
+    <div class="floating-shape"></div>
+
+    <div class="floating-shape"></div>
+
+    <div class="floating-shape"></div>
+
+    <div class="floating-shape"></div>
+
+    <div class="floating-shape"></div>
+
+</div>
+
+<body>
+
+    <header>
+
+        <nav class="navbar">
+
+            <div class="navbar">
+
+                <div class="container">
+
+                    <a href="javascript:history.back()" class="profile-back-button" aria-label="Retour">
+
+                        ‹
+
+                    </a>
+
+                    <div class="logo">
+
+                        <a href="index.html" class="register-logo">
+
+                            <img src="images/logo.png" alt="Alliance Chrétienne">
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+    <main>
+
+        <section class="settings-page">
+
+            <div class="container">
+
+                <!-- EN-TÊTE -->
+
+                <div class="settings-header">
+
+                    <div class="settings-header-icon">
+
+                        ⚙️
+
+                    </div>
+
+                    <div>
+
+                        <h1 data-i18n="settings.title">
+
+                            Paramètres
+
+                        </h1>
+
+                        <p data-i18n="settings.description">
+
+                            Gérez les réglages de votre espace Alliance Chrétienne.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- PARAMÈTRES GÉNÉRAUX -->
+
+                <div class="settings-card">
+
+                    <div class="settings-card-header">
+
+                        <div class="settings-card-icon">
+
+                            ⚙️
+
+                        </div>
+
+                        <div>
+
+                            <h2 data-i18n="settings.general_title">
+
+                                Paramètres généraux
+
+                            </h2>
+
+                            <p data-i18n="settings.general_description">
+
+                                Les réglages principaux de votre plateforme.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="settings-option">
+
+                        <div class="settings-option-icon">
+
+                            🌐
+
+                        </div>
+
+                        <div class="settings-option-content">
+
+                            <h3 data-i18n="settings.platform_title">
+
+                                Plateforme
+
+                            </h3>
+
+                            <p data-i18n="settings.platform_description">
+
+                                Les réglages généraux de la plateforme seront disponibles ici.
+
+                            </p>
+
+                        </div>
+
+                        <span class="settings-status" data-i18n="settings.coming_soon">
+
+                            Bientôt
+
+                        </span>
+
+                    </div>
+
+                    <div class="settings-option">
+
+                        <div class="settings-option-icon">
+
+                            🔔
+
+                        </div>
+
+                        <div class="settings-option-content">
+
+                            <h3 data-i18n="settings.notifications_title">
+
+                                Notifications
+
+                            </h3>
+
+                            <p data-i18n="settings.notifications_description">
+
+                                Gérez les préférences liées aux notifications.
+
+                            </p>
+
+                        </div>
+
+                        <span class="settings-status" data-i18n="settings.coming_soon">
+
+                            Bientôt
+
+                        </span>
+
+                    </div>
+
+                    <div class="settings-option">
+
+                        <div class="settings-option-icon">
+
+                            🔒
+
+                        </div>
+
+                        <div class="settings-option-content">
+
+                            <h3 data-i18n="settings.security_title">
+
+                                Sécurité
+
+                            </h3>
+
+                            <p data-i18n="settings.security_description">
+
+                                Les paramètres de sécurité et de confidentialité seront disponibles ici.
+
+                            </p>
+
+                        </div>
+
+                        <span class="settings-status" data-i18n="settings.coming_soon">
+
+                            Bientôt
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <!-- INFORMATIONS -->
+
+                <div class="settings-card">
+
+                    <div class="settings-card-header">
+
+                        <div class="settings-card-icon">
+
+                            ℹ️
+
+                        </div>
+
+                        <div>
+
+                            <h2 data-i18n="settings.information_title">
+
+                                Informations
+
+                            </h2>
+
+                            <p data-i18n="settings.information_description">
+
+                                Informations concernant la plateforme.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="settings-info">
+
+                        <span>
+
+                            ✝️
+
+                        </span>
+
+                        <div>
+
+                            <strong data-i18n="settings.platform_name">
+
+                                Alliance Chrétienne
+
+                            </strong>
+
+                            <p data-i18n="settings.platform_type">
+
+                                Plateforme de rencontres chrétiennes
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="settings-info">
+
+                        <span>
+
+                            🛠️
+
+                        </span>
+
+                        <div>
+
+                            <strong data-i18n="settings.platform_status">
+
+                                État de la plateforme
+
+                            </strong>
+
+                            <p class="online-status">
+
+                                <span></span>
+
+                                <span data-i18n="settings.system_operational">
+
+                                    Système opérationnel
+
+                                </span>
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+
+        <div class="container">
+
+            <p>
+
+                © 2026 Alliance Chrétienne.
+
+                <span data-i18n="settings.all_rights_reserved">
+
+                    Tous droits réservés.
+
+                </span>
+
+            </p>
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>

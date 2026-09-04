@@ -1,0 +1,2091 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Signalements - Administration | Alliance Chrétienne</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #fff8f8;
+            --surface: rgba(255,255,255,.94);
+            --surface-solid: #ffffff;
+
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+
+            --pink: #f43f5e;
+            --pink-light: #fff1f2;
+
+            --text: #1e293b;
+            --muted: #64748b;
+
+            --border: #e2e8f0;
+
+            --danger: #dc2626;
+            --danger-light: #fef2f2;
+
+            --warning: #f59e0b;
+            --warning-light: #fffbeb;
+
+            --success: #10b981;
+            --success-light: #ecfdf5;
+
+            --shadow: 0 8px 30px rgba(15, 23, 42, .06);
+            --shadow-hover: 0 18px 40px rgba(37, 99, 235, .10);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Plus Jakarta Sans", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* =====================================================
+           ARRIÈRE-PLAN
+        ===================================================== */
+
+        .background {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(2px);
+            opacity: .45;
+        }
+
+        .shape-1 {
+            width: 420px;
+            height: 420px;
+            background: rgba(244, 63, 94, .10);
+            top: -180px;
+            right: -100px;
+        }
+
+        .shape-2 {
+            width: 360px;
+            height: 360px;
+            background: rgba(37, 99, 235, .08);
+            bottom: -160px;
+            left: -120px;
+        }
+
+        .shape-3 {
+            width: 220px;
+            height: 220px;
+            background: rgba(244, 63, 94, .06);
+            top: 45%;
+            left: 35%;
+        }
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            height: 78px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 32px;
+
+            background: rgba(255,255,255,.88);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+            border-bottom: 1px solid rgba(226,232,240,.8);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background: linear-gradient(
+                135deg,
+                var(--primary),
+                #60a5fa
+            );
+
+            color: white;
+            font-size: 20px;
+
+            box-shadow: 0 8px 20px rgba(37,99,235,.20);
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .brand-subtitle {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .page-wrapper {
+            position: relative;
+            z-index: 1;
+
+            width: 100%;
+            max-width: 1180px;
+
+            margin: 0 auto;
+
+            padding: 40px 25px 60px;
+        }
+
+        .page-header {
+            margin-bottom: 28px;
+        }
+
+        .page-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 7px 12px;
+
+            background: var(--primary-light);
+            color: var(--primary);
+
+            border-radius: 999px;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: .04em;
+
+            margin-bottom: 12px;
+        }
+
+        .page-header h1 {
+            margin: 0;
+
+            font-size: clamp(26px, 4vw, 36px);
+            line-height: 1.15;
+
+            font-weight: 800;
+            letter-spacing: -.03em;
+        }
+
+        .page-description {
+            margin: 10px 0 0;
+
+            max-width: 700px;
+
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* =====================================================
+           STATISTIQUES
+        ===================================================== */
+
+        .reports-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            position: relative;
+            overflow: hidden;
+
+            padding: 22px;
+
+            background: var(--surface);
+
+            border: 1px solid var(--border);
+            border-radius: 18px;
+
+            box-shadow: var(--shadow);
+
+            transition: .25s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-card::after {
+            content: "";
+
+            position: absolute;
+
+            width: 90px;
+            height: 90px;
+
+            right: -35px;
+            top: -35px;
+
+            border-radius: 50%;
+
+            background: rgba(37,99,235,.06);
+        }
+
+        .stat-card-icon {
+            font-size: 25px;
+            margin-bottom: 12px;
+        }
+
+        .stat-card strong {
+            display: block;
+
+            font-size: 30px;
+            font-weight: 800;
+
+            color: var(--primary);
+
+            margin-bottom: 4px;
+        }
+
+        .stat-card span {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* =====================================================
+           LISTE
+        ===================================================== */
+
+        .reports-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .report-card {
+            background: var(--surface);
+
+            border: 1px solid var(--border);
+            border-radius: 20px;
+
+            padding: 22px;
+
+            box-shadow: var(--shadow);
+
+            transition: .25s;
+        }
+
+        .report-card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            gap: 15px;
+        }
+
+        .report-title {
+            font-size: 15px;
+            font-weight: 800;
+            line-height: 1.5;
+        }
+
+        .report-date {
+            margin-top: 6px;
+
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* =====================================================
+           STATUT
+        ===================================================== */
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+
+            padding: 7px 11px;
+
+            border-radius: 999px;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+        .status-pending {
+            background: var(--warning-light);
+            color: #b45309;
+        }
+
+        .status-reviewed {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .status-rejected {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+
+        /* =====================================================
+           UTILISATEURS
+        ===================================================== */
+
+        .report-users {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            gap: 12px;
+
+            margin-top: 18px;
+        }
+
+        .user-box {
+            padding: 15px;
+
+            background: #f8fafc;
+
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        .user-label {
+            display: block;
+
+            color: var(--muted);
+
+            font-size: 10px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            margin-bottom: 7px;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .user-box small {
+            display: block;
+
+            margin-top: 5px;
+
+            color: var(--muted);
+            font-size: 9px;
+
+            word-break: break-all;
+        }
+
+        /* =====================================================
+           MESSAGE / DETAILS
+        ===================================================== */
+
+        .message-box {
+            margin-top: 14px;
+
+            padding: 15px;
+
+            background: #fafafa;
+
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        .message-box strong {
+            font-size: 12px;
+        }
+
+        .message-content {
+            margin-top: 9px;
+
+            padding: 12px;
+
+            background: white;
+
+            border-radius: 10px;
+
+            color: #475569;
+
+            font-size: 13px;
+            line-height: 1.6;
+
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        /* =====================================================
+           ACTIONS
+        ===================================================== */
+
+        .report-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+
+            margin-top: 18px;
+        }
+
+        .report-button {
+            border: none;
+
+            padding: 10px 14px;
+
+            border-radius: 11px;
+
+            cursor: pointer;
+
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 800;
+
+            transition: .2s;
+        }
+
+        .report-button:hover {
+            transform: translateY(-1px);
+        }
+
+        .warning-button {
+            background: var(--warning-light);
+            color: #b45309;
+        }
+
+        .warning-button:hover {
+            background: #fef3c7;
+        }
+
+        .review-button {
+            background: var(--primary);
+            color: white;
+        }
+
+        .review-button:hover {
+            background: var(--primary-hover);
+        }
+
+        .reject-button {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+
+        .reject-button:hover {
+            background: #fee2e2;
+        }
+
+        /* =====================================================
+           ÉTATS
+        ===================================================== */
+
+        .empty-state {
+            text-align: center;
+
+            padding: 60px 25px;
+
+            background: var(--surface);
+
+            border: 1px solid var(--border);
+            border-radius: 20px;
+
+            box-shadow: var(--shadow);
+
+            color: var(--muted);
+        }
+
+        .empty-icon {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .empty-state h3 {
+            margin: 0 0 7px;
+
+            color: var(--text);
+
+            font-size: 17px;
+        }
+
+        .empty-state p {
+            margin: 0;
+
+            font-size: 13px;
+        }
+
+        .error-state {
+            padding: 20px;
+
+            background: var(--danger-light);
+            color: var(--danger);
+
+            border: 1px solid #fecaca;
+            border-radius: 15px;
+
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           MODAL AVERTISSEMENT
+        ===================================================== */
+
+        .warning-modal-overlay {
+            position: fixed;
+            inset: 0;
+
+            background: rgba(15,23,42,.58);
+
+            display: none;
+
+            align-items: center;
+            justify-content: center;
+
+            z-index: 9999;
+
+            padding: 20px;
+
+            backdrop-filter: blur(5px);
+        }
+
+        .warning-modal-overlay.active {
+            display: flex;
+        }
+
+        .warning-modal {
+            width: 100%;
+            max-width: 500px;
+
+            background: white;
+
+            border-radius: 22px;
+
+            padding: 26px;
+
+            box-shadow: 0 25px 70px rgba(0,0,0,.25);
+
+            animation: modalIn .2s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .warning-modal h2 {
+            margin: 0 0 7px;
+
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .warning-modal-subtitle {
+            color: var(--muted);
+
+            font-size: 12px;
+
+            margin-bottom: 22px;
+        }
+
+        .warning-levels {
+            display: flex;
+            flex-direction: column;
+
+            gap: 10px;
+
+            margin-top: 12px;
+        }
+
+        .warning-level {
+            width: 100%;
+
+            border: 1px solid var(--border);
+
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 14px;
+
+            text-align: left;
+
+            cursor: pointer;
+
+            font-family: inherit;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            color: var(--text);
+
+            transition: .2s;
+        }
+
+        .warning-level:hover {
+            background: var(--primary-light);
+            border-color: #93c5fd;
+        }
+
+        .warning-level.selected {
+            background: var(--primary-light);
+            border: 2px solid var(--primary);
+        }
+
+        .warning-level small {
+            display: block;
+
+            margin-top: 5px;
+
+            color: var(--muted);
+
+            font-size: 10px;
+            font-weight: 500;
+
+            line-height: 1.5;
+        }
+
+        .warning-modal-actions {
+            display: flex;
+            justify-content: flex-end;
+
+            gap: 10px;
+
+            margin-top: 22px;
+        }
+
+        .warning-modal-button {
+            border: none;
+
+            border-radius: 11px;
+
+            padding: 11px 17px;
+
+            cursor: pointer;
+
+            font-family: inherit;
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .warning-cancel {
+            background: #f1f5f9;
+            color: #334155;
+        }
+
+        .warning-confirm {
+            background: var(--primary);
+            color: white;
+        }
+
+        .warning-confirm:disabled {
+            opacity: .45;
+            cursor: not-allowed;
+        }
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer {
+            position: relative;
+            z-index: 1;
+
+            text-align: center;
+
+            padding: 0 20px 30px;
+
+            color: var(--muted);
+
+            font-size: 10px;
+        }
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 800px) {
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .admin-badge {
+                display: none;
+            }
+
+            .page-wrapper {
+                padding: 28px 16px 45px;
+            }
+
+            .reports-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .report-users {
+                grid-template-columns: 1fr;
+            }
+
+            .report-header {
+                flex-direction: column;
+            }
+
+            .status {
+                align-self: flex-start;
+            }
+
+            .report-actions {
+                flex-direction: column;
+            }
+
+            .report-button {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .brand-subtitle {
+                display: none;
+            }
+
+            .brand-title {
+                font-size: 13px;
+            }
+
+    
+            .warning-modal {
+                padding: 20px;
+                border-radius: 18px;
+            }
+
+            .warning-modal-actions {
+                flex-direction: column;
+            }
+
+            .warning-modal-button {
+                width: 100%;
+            }
+        }
+
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+
+.profile-back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin-right: 8px;
+    border-radius: 50%;
+    color: var(--dark);
+    background: transparent;
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.profile-back-button:hover {
+    background: #f1f5f9;
+    transform: translateX(-2px);
+}
+
+.profile-back-button:active {
+    transform: scale(.92);
+}
+
+
+    </style>
+</head>
+
+<body>
+
+<div class="background">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+</div>
+<header class="topbar">
+
+    <a href="javascript:history.back()"
+       class="profile-back-button"
+       aria-label="Retour">
+        ‹
+    </a>
+
+    <div class="brand">
+        <a href="index.html" class="register-logo">
+            <img src="images/logo.png" alt="Alliance Chrétienne">
+        </a>
+    </div>
+
+</header>
+<main class="page-wrapper">
+
+    <div class="page-header">
+
+        <div class="page-kicker">
+            🚨 Modération
+        </div>
+
+        <h1>
+            Signalements
+        </h1>
+
+        <p class="page-description">
+            Consultez et gérez les signalements effectués
+            par les membres de la communauté Alliance Chrétienne.
+        </p>
+
+    </div>
+
+
+    <!-- =================================================
+         STATISTIQUES
+    ================================================= -->
+
+    <div class="reports-stats">
+
+        <div class="stat-card">
+
+            <div class="stat-card-icon">
+                🚨
+            </div>
+
+            <strong id="totalReports">
+                0
+            </strong>
+
+            <span>
+                Total signalements
+            </span>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-card-icon">
+                🟡
+            </div>
+
+            <strong id="pendingReports">
+                0
+            </strong>
+
+            <span>
+                En attente
+            </span>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-card-icon">
+                🔵
+            </div>
+
+            <strong id="processedReports">
+                0
+            </strong>
+
+            <span>
+                Traités
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         SIGNALMENTS
+    ================================================= -->
+
+    <div
+        id="reportsContainer"
+        class="reports-container"
+    >
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                ⏳
+            </div>
+
+            <h3>
+                Chargement des signalements...
+            </h3>
+
+            <p>
+                Veuillez patienter.
+            </p>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer class="footer">
+    © 2026 Alliance Chrétienne · Administration
+</footer>
+
+
+<!-- =====================================================
+     MODAL AVERTISSEMENT
+===================================================== -->
+
+<div
+    id="warningModalOverlay"
+    class="warning-modal-overlay"
+>
+
+    <div
+        class="warning-modal"
+        role="dialog"
+        aria-modal="true"
+    >
+
+        <h2>
+            ⚠️ Avertissement de modération
+        </h2>
+
+        <div
+            id="warningMemberName"
+            class="warning-modal-subtitle"
+        >
+            Membre : —
+        </div>
+
+        <strong>
+            Choisissez le niveau :
+        </strong>
+
+        <div class="warning-levels">
+
+            <button
+                type="button"
+                class="warning-level"
+                data-level="premier_avertissement"
+            >
+                🟡 Premier avertissement
+
+                <small>
+                    Rappel des règles de la communauté.
+                </small>
+            </button>
+
+
+            <button
+                type="button"
+                class="warning-level"
+                data-level="deuxieme_avertissement"
+            >
+                🟠 Deuxième avertissement
+
+                <small>
+                    Nouvelle infraction après un premier avertissement.
+                </small>
+            </button>
+
+
+            <button
+                type="button"
+                class="warning-level"
+                data-level="infraction_grave"
+            >
+                🔴 Infraction grave
+
+                <small>
+                    Infraction importante nécessitant une mesure de modération.
+                </small>
+            </button>
+
+        </div>
+
+
+        <div class="warning-modal-actions">
+
+            <button
+                type="button"
+                id="warningCancelButton"
+                class="warning-modal-button warning-cancel"
+            >
+                Annuler
+            </button>
+
+            <button
+                type="button"
+                id="warningConfirmButton"
+                class="warning-modal-button warning-confirm"
+                disabled
+            >
+                ⚠️ Envoyer l'avertissement
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase-config.js"></script>
+
+<script src="js/auth.js"></script>
+
+<script>
+
+/* =====================================================
+   🚨 SIGNALEMENTS - ADMINISTRATION
+   Table : problem_reports
+===================================================== */
+
+let signalements = [];
+
+
+/* =====================================================
+   PROTECTION ADMIN
+===================================================== */
+
+async function verifierAccesAdmin() {
+
+    try {
+
+        const user = await getCurrentUser();
+
+        if (!user) {
+            window.location.href = 'login.html';
+            return false;
+        }
+
+
+        const estAdmin =
+            await isCurrentUserAdmin(user);
+
+
+        if (!estAdmin) {
+
+            alert(
+                '🚫 Accès réservé aux administrateurs.'
+            );
+
+            window.location.href = 'search.html';
+
+            return false;
+        }
+
+
+        console.log(
+            '👑 Accès administrateur autorisé'
+        );
+
+        return true;
+
+
+    } catch (error) {
+
+        console.error(
+            '❌ Erreur vérification admin :',
+            error
+        );
+
+        window.location.href = 'search.html';
+
+        return false;
+    }
+}
+
+
+/* =====================================================
+   CHARGER LES SIGNALEMENTS
+===================================================== */
+
+async function chargerSignalements() {
+
+    const container =
+        document.getElementById(
+            'reportsContainer'
+        );
+
+
+    container.innerHTML = `
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                ⏳
+            </div>
+
+            <h3>
+                Chargement des signalements...
+            </h3>
+
+            <p>
+                Veuillez patienter.
+            </p>
+
+        </div>
+    `;
+
+
+    try {
+
+        const client =
+            window.supabaseClient;
+
+
+        if (!client) {
+
+            throw new Error(
+                'Client Supabase non disponible.'
+            );
+        }
+
+
+        /* =================================================
+           RÉCUPÉRER LES SIGNALEMENTS
+        ================================================= */
+
+        const {
+            data,
+            error
+        } = await client
+
+            .from('problem_reports')
+
+            .select(`
+                id,
+                user_id,
+                problem_type,
+                description,
+                status,
+                created_at
+            `)
+
+            .order(
+                'created_at',
+                {
+                    ascending: false
+                }
+            );
+
+
+        if (error) {
+            throw error;
+        }
+
+
+        signalements =
+            data || [];
+
+
+        console.log(
+            '🚨 SIGNALEMENTS CHARGÉS :',
+            signalements
+        );
+
+
+        /* =================================================
+           RÉCUPÉRER LES PROFILS
+        ================================================= */
+
+        const userIds = [
+            ...new Set(
+                signalements
+                    .map(
+                        report =>
+                            report.user_id
+                    )
+                    .filter(Boolean)
+            )
+        ];
+
+
+        let profils = [];
+
+
+        if (userIds.length > 0) {
+
+            const {
+                data: profileData,
+                error: profileError
+            } = await client
+
+                .from('profiles')
+
+                .select(`
+                    id,
+                    first_name,
+                    last_name,
+                    photo_url
+                `)
+
+                .in(
+                    'id',
+                    userIds
+                );
+
+
+            if (profileError) {
+
+                console.warn(
+                    '⚠️ Profils non récupérés :',
+                    profileError
+                );
+
+            } else {
+
+                profils =
+                    profileData || [];
+            }
+        }
+
+
+        /* =================================================
+           ASSOCIER LE PROFIL AU SIGNALEMENT
+        ================================================= */
+
+        signalements =
+            signalements.map(
+                report => {
+
+                    const profil =
+                        profils.find(
+                            p =>
+                                p.id ===
+                                report.user_id
+                        );
+
+
+                    return {
+
+                        ...report,
+
+                        profil:
+                            profil || null
+                    };
+                }
+            );
+
+
+        afficherStatistiques();
+
+        afficherSignalements();
+
+
+    } catch (error) {
+
+        console.error(
+            '❌ Erreur chargement signalements :',
+            error
+        );
+
+
+        container.innerHTML = `
+            <div class="error-state">
+
+                ❌ Impossible de charger
+                les signalements.
+
+                <br><br>
+
+                <small>
+                    ${escapeHtml(
+                        error.message || ''
+                    )}
+                </small>
+
+            </div>
+        `;
+    }
+}
+
+
+/* =====================================================
+   STATISTIQUES
+===================================================== */
+
+function afficherStatistiques() {
+
+    const total =
+        signalements.length;
+
+
+    const pending =
+        signalements.filter(
+            report =>
+                report.status === 'nouveau'
+        ).length;
+
+
+    const processed =
+        signalements.filter(
+            report =>
+                report.status === 'en_cours' ||
+                report.status === 'resolu'
+        ).length;
+
+
+    const totalElement =
+        document.getElementById(
+            'totalReports'
+        );
+
+
+    const pendingElement =
+        document.getElementById(
+            'pendingReports'
+        );
+
+
+    const processedElement =
+        document.getElementById(
+            'processedReports'
+        );
+
+
+    if (totalElement) {
+        totalElement.textContent = total;
+    }
+
+
+    if (pendingElement) {
+        pendingElement.textContent = pending;
+    }
+
+
+    if (processedElement) {
+        processedElement.textContent = processed;
+    }
+}
+
+
+/* =====================================================
+   AFFICHER LES SIGNALEMENTS
+===================================================== */
+
+function afficherSignalements() {
+
+    const container =
+        document.getElementById(
+            'reportsContainer'
+        );
+
+
+    if (!signalements.length) {
+
+        container.innerHTML = `
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    🎉
+                </div>
+
+                <h3>
+                    Aucun signalement
+                </h3>
+
+                <p>
+                    Aucun problème n'a encore
+                    été signalé par les membres.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        signalements
+            .map(
+                report =>
+                    creerCarteSignalement(
+                        report
+                    )
+            )
+            .join('');
+}
+
+
+/* =====================================================
+   CRÉER LA CARTE DU SIGNALEMENT
+===================================================== */
+
+function creerCarteSignalement(report) {
+
+    const profil =
+        report.profil;
+
+
+    const prenom =
+        profil?.first_name ||
+        'Membre';
+
+
+    const nom =
+        profil?.last_name ||
+        '';
+
+
+    const nomComplet =
+        `${prenom} ${nom}`.trim();
+
+
+    const initials =
+        `${prenom.charAt(0)}${nom.charAt(0) || ''}`
+            .toUpperCase();
+
+
+    const date =
+        report.created_at
+
+            ? new Date(
+                report.created_at
+            ).toLocaleString(
+                'fr-FR',
+                {
+                    dateStyle:
+                        'short',
+                    timeStyle:
+                        'short'
+                }
+            )
+
+            : '—';
+
+
+    const typeInfo =
+        getProblemTypeInfo(
+            report.problem_type
+        );
+
+
+    /* =================================================
+       STATUT
+    ================================================= */
+
+    let statusText =
+        '🆕 Nouveau';
+
+
+    let statusClass =
+        'status-pending';
+
+
+    if (
+        report.status ===
+        'en_cours'
+    ) {
+
+        statusText =
+            '🔄 En cours';
+
+        statusClass =
+            'status-reviewed';
+    }
+
+
+    if (
+        report.status ===
+        'resolu'
+    ) {
+
+        statusText =
+            '✅ Résolu';
+
+        statusClass =
+            'status-reviewed';
+    }
+
+
+    /* =================================================
+       PHOTO
+    ================================================= */
+
+    const photo =
+        profil?.photo_url
+
+            ? `
+                <img
+                    src="${escapeHtml(
+                        profil.photo_url
+                    )}"
+                    alt="${escapeHtml(
+                        nomComplet
+                    )}"
+                    style="
+                        width:42px;
+                        height:42px;
+                        border-radius:50%;
+                        object-fit:cover;
+                    "
+                >
+            `
+
+            : `
+                <div
+                    style="
+                        width:42px;
+                        height:42px;
+                        border-radius:50%;
+                        background:#eff6ff;
+                        color:#2563eb;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        font-weight:800;
+                        font-size:13px;
+                    "
+                >
+                    ${escapeHtml(
+                        initials
+                    )}
+                </div>
+            `;
+
+
+    /* =================================================
+       ACTIONS
+    ================================================= */
+
+    let actions = '';
+
+
+    if (
+        report.status !==
+        'en_cours'
+    ) {
+
+        actions += `
+
+            <button
+                type="button"
+                class="report-button review-button"
+                onclick="changerStatut(
+                    '${report.id}',
+                    'en_cours'
+                )"
+            >
+                🔄 Prendre en charge
+            </button>
+
+        `;
+    }
+
+
+    if (
+        report.status !==
+        'resolu'
+    ) {
+
+        actions += `
+
+            <button
+                type="button"
+                class="report-button review-button"
+                onclick="changerStatut(
+                    '${report.id}',
+                    'resolu'
+                )"
+            >
+                ✅ Marquer comme résolu
+            </button>
+
+        `;
+    }
+
+
+    if (
+        report.status !==
+        'nouveau'
+    ) {
+
+        actions += `
+
+            <button
+                type="button"
+                class="report-button"
+                style="
+                    background:#f1f5f9;
+                    color:#475569;
+                "
+                onclick="changerStatut(
+                    '${report.id}',
+                    'nouveau'
+                )"
+            >
+                🆕 Remettre en nouveau
+            </button>
+
+        `;
+    }
+
+
+    return `
+
+        <div class="report-card">
+
+
+            <!-- =========================================
+                 EN-TÊTE
+            ========================================== -->
+
+            <div class="report-header">
+
+                <div
+                    style="
+                        display:flex;
+                        align-items:center;
+                        gap:12px;
+                    "
+                >
+
+                    ${photo}
+
+                    <div>
+
+                        <div class="report-title">
+
+                            🚨
+                            ${escapeHtml(
+                                typeInfo.label
+                            )}
+
+                        </div>
+
+
+                        <div
+                            style="
+                                margin-top:3px;
+                                font-size:12px;
+                                font-weight:700;
+                            "
+                        >
+                            ${escapeHtml(
+                                nomComplet
+                            )}
+                        </div>
+
+
+                        <div class="report-date">
+
+                            📅 ${date}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <span
+                    class="status ${statusClass}"
+                >
+                    ${statusText}
+                </span>
+
+            </div>
+
+
+            <!-- =========================================
+                 TYPE
+            ========================================== -->
+
+            <div
+                class="message-box"
+                style="
+                    background:#eff6ff;
+                "
+            >
+
+                <strong>
+                    ${typeInfo.icon}
+                    Type de problème
+                </strong>
+
+
+                <div class="message-content">
+
+                    ${escapeHtml(
+                        typeInfo.label
+                    )}
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================================
+                 DESCRIPTION
+            ========================================== -->
+
+            <div class="message-box">
+
+                <strong>
+                    📝 Description du problème
+                </strong>
+
+
+                <div class="message-content">
+
+                    ${escapeHtml(
+                        report.description
+                    )}
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================================
+                 ID
+            ========================================== -->
+
+            <div
+                style="
+                    margin-top:12px;
+                    color:#94a3b8;
+                    font-size:10px;
+                    word-break:break-all;
+                "
+            >
+
+                ID du signalement :
+                ${escapeHtml(
+                    report.id
+                )}
+
+            </div>
+
+
+            <!-- =========================================
+                 ACTIONS
+            ========================================== -->
+
+            <div class="report-actions">
+
+                ${actions}
+
+            </div>
+
+        </div>
+
+    `;
+}
+
+
+/* =====================================================
+   TYPES DE PROBLÈMES
+===================================================== */
+
+function getProblemTypeInfo(type) {
+
+    const types = {
+
+        compte: {
+            icon: '👤',
+            label: 'Compte'
+        },
+
+        profil: {
+            icon: '🧑',
+            label: 'Profil'
+        },
+
+        messages: {
+            icon: '💬',
+            label: 'Messages'
+        },
+
+        recherche: {
+            icon: '🔎',
+            label: 'Recherche'
+        },
+
+        paiement: {
+            icon: '💳',
+            label: 'Paiement'
+        },
+
+        certification: {
+            icon: '✅',
+            label: 'Certification'
+        },
+
+        securite: {
+            icon: '🛡️',
+            label: 'Sécurité'
+        },
+
+        application: {
+            icon: '📱',
+            label: 'Application'
+        },
+
+        autre: {
+            icon: '📌',
+            label: 'Autre'
+        }
+    };
+
+
+    return types[type] || {
+
+        icon: '🚨',
+
+        label:
+            type ||
+            'Problème'
+    };
+}
+
+
+/* =====================================================
+   CHANGER LE STATUT
+===================================================== */
+
+async function changerStatut(
+    signalementId,
+    nouveauStatut
+) {
+
+    let confirmation;
+
+
+    if (
+        nouveauStatut ===
+        'en_cours'
+    ) {
+
+        confirmation =
+            'Prendre ce signalement en charge ?';
+
+    } else if (
+        nouveauStatut ===
+        'resolu'
+    ) {
+
+        confirmation =
+            'Marquer ce signalement comme résolu ?';
+
+    } else {
+
+        confirmation =
+            'Remettre ce signalement en nouveau ?';
+    }
+
+
+    if (
+        !confirm(
+            confirmation
+        )
+    ) {
+
+        return;
+    }
+
+
+    try {
+
+        const {
+            error
+        } =
+            await window.supabaseClient
+
+                .from(
+                    'problem_reports'
+                )
+
+                .update({
+
+                    status:
+                        nouveauStatut
+
+                })
+
+                .eq(
+                    'id',
+                    signalementId
+                );
+
+
+        if (error) {
+            throw error;
+        }
+
+
+        console.log(
+            '✅ Statut modifié :',
+            nouveauStatut
+        );
+
+
+        await chargerSignalements();
+
+
+    } catch (error) {
+
+        console.error(
+            '❌ Erreur modification statut :',
+            error
+        );
+
+
+        alert(
+            '❌ Impossible de modifier le statut.\n\n' +
+            (
+                error.message ||
+                'Erreur inconnue'
+            )
+        );
+    }
+}
+
+
+/* =====================================================
+   SÉCURITÉ HTML
+===================================================== */
+
+function escapeHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return '';
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            '&amp;'
+        )
+
+        .replace(
+            /</g,
+            '&lt;'
+        )
+
+        .replace(
+            />/g,
+            '&gt;'
+        )
+
+        .replace(
+            /"/g,
+            '&quot;'
+        )
+
+        .replace(
+            /'/g,
+            '&#039;'
+        );
+}
+
+
+
+
+document.addEventListener(
+    'DOMContentLoaded',
+    async function() {
+
+        const accesAdmin =
+            await verifierAccesAdmin();
+
+
+        if (!accesAdmin) {
+            return;
+        }
+
+
+        await chargerSignalements();
+
+    }
+);
+
+</script>
+
+</body>
+</html>

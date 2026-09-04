@@ -1,0 +1,2672 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Messages - Alliance Chrétienne</title>
+
+
+    <style>
+
+        /* =========================================================
+           VARIABLES
+        ========================================================= */
+
+        :root {
+
+            --primary-color: #2563eb;
+            --primary-light: #eff6ff;
+
+            --accent-pink: #f43f5e;
+            --accent-pink-light: #fff1f2;
+
+            --dark-color: #1e293b;
+            --text-color: #475569;
+
+            --white: #ffffff;
+
+            --border-color: #e2e8f0;
+
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+
+            --shadow:
+                0 20px 40px rgba(244, 63, 94, 0.08);
+
+            --shadow-sm:
+                0 4px 12px rgba(0, 0, 0, 0.04);
+
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-text: #e2e8f0;
+
+        }
+
+
+        /* =========================================================
+           RESET
+        ========================================================= */
+
+        * {
+
+            margin: 0;
+            padding: 0;
+
+            box-sizing: border-box;
+
+        }
+
+
+        html {
+
+            scroll-behavior: smooth;
+
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                sans-serif;
+
+            background: #fff8f8;
+
+            color: var(--text-color);
+
+            overflow-x: hidden;
+
+            transition:
+                background-color .3s ease,
+                color .3s ease;
+
+        }
+
+
+        body.dark-mode {
+
+            background: var(--dark-bg);
+
+            color: var(--dark-text);
+
+        }
+
+
+        /* =========================================================
+           FOND ANIMÉ
+        ========================================================= */
+
+        .animated-bg {
+
+            position: fixed;
+
+            inset: 0;
+
+            overflow: hidden;
+
+            z-index: -1;
+
+            pointer-events: none;
+
+        }
+
+
+        .floating-shape {
+
+            position: absolute;
+
+            bottom: -160px;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(244,63,94,.08),
+                    rgba(37,99,235,.06)
+                );
+
+            backdrop-filter: blur(5px);
+
+            animation:
+                floatUp 15s infinite linear;
+
+        }
+
+
+        .floating-shape:nth-child(1) {
+
+            width: 80px;
+            height: 80px;
+
+            left: 10%;
+
+            animation-duration: 12s;
+
+        }
+
+
+        .floating-shape:nth-child(2) {
+
+            width: 120px;
+            height: 120px;
+
+            left: 30%;
+
+            animation-duration: 18s;
+
+            animation-delay: 2s;
+
+        }
+
+
+        .floating-shape:nth-child(3) {
+
+            width: 60px;
+            height: 60px;
+
+            left: 50%;
+
+            animation-duration: 10s;
+
+            animation-delay: 6s;
+
+        }
+
+
+        .floating-shape:nth-child(4) {
+
+            width: 100px;
+            height: 100px;
+
+            left: 75%;
+
+            animation-duration: 14s;
+
+            animation-delay: 1s;
+
+        }
+
+
+        .floating-shape:nth-child(5) {
+
+            width: 70px;
+            height: 70px;
+
+            left: 90%;
+
+            animation-duration: 16s;
+
+            animation-delay: 4s;
+
+        }
+
+
+        body.dark-mode .floating-shape {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(244,63,94,.12),
+                    rgba(37,99,235,.10)
+                );
+
+        }
+
+
+        @keyframes floatUp {
+
+            0% {
+
+                transform:
+                    translateY(0)
+                    rotate(0deg)
+                    scale(1);
+
+                opacity: .8;
+
+            }
+
+            50% {
+
+                opacity: .4;
+
+            }
+
+            100% {
+
+                transform:
+                    translateY(-100vh)
+                    rotate(360deg)
+                    scale(1.2);
+
+                opacity: 0;
+
+            }
+
+        }
+
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
+
+        header {
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+            background:
+                rgba(255,255,255,.95);
+
+            backdrop-filter: blur(12px);
+
+            border-bottom:
+                1px solid
+                var(--border-color);
+
+        }
+
+
+        body.dark-mode header {
+
+            background:
+                rgba(30,41,59,.95);
+
+            border-bottom-color:
+                rgba(148,163,184,.2);
+
+        }
+
+
+        .navbar {
+
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding:
+                1rem
+                1.5rem;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 1rem;
+
+        }
+
+
+        .logo {
+
+            text-decoration: none;
+
+        }
+
+
+        .logo h1 {
+
+            font-size: 1.45rem;
+
+            font-weight: 800;
+
+            color: var(--dark-color);
+
+            display: flex;
+
+            align-items: center;
+
+            gap: .65rem;
+
+        }
+
+
+        body.dark-mode .logo h1 {
+
+            color: white;
+
+        }
+
+
+        .nav-right {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: .8rem;
+
+        }
+
+
+        .admin-badge {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent-pink),
+                    #ec4899
+                );
+
+            color: white;
+
+            padding:
+                .55rem
+                .9rem;
+
+            border-radius: .75rem;
+
+            font-size: .8rem;
+
+            font-weight: 800;
+
+            box-shadow:
+                0 4px 15px
+                rgba(244,63,94,.25);
+
+        }
+
+
+        .dark-mode-toggle {
+
+            width: 45px;
+
+            height: 45px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: #f1f5f9;
+
+            cursor: pointer;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 1.25rem;
+
+            transition: all .3s ease;
+
+        }
+
+
+        body.dark-mode .dark-mode-toggle {
+
+            background:
+                rgba(148,163,184,.18);
+
+        }
+
+
+        .dark-mode-toggle:hover {
+
+            transform:
+                rotate(20deg)
+                scale(1.08);
+
+        }
+
+
+        /* =========================================================
+           CONTENU
+        ========================================================= */
+
+        .container {
+
+            width: 100%;
+
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding:
+                2.5rem
+                1.5rem
+                4rem;
+
+        }
+
+
+        .page-intro {
+
+            text-align: center;
+
+            margin-bottom: 2rem;
+
+            animation:
+                slideInUp
+                .7s ease-out;
+
+        }
+
+
+        .page-intro h2 {
+
+            font-size: 2.35rem;
+
+            font-weight: 800;
+
+            color: var(--dark-color);
+
+            margin-bottom: .65rem;
+
+        }
+
+
+        body.dark-mode .page-intro h2 {
+
+            color: white;
+
+        }
+
+
+        .page-intro h2 span {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent-pink),
+                    #ec4899
+                );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+            background-clip: text;
+
+        }
+
+
+        .page-intro p {
+
+            max-width: 720px;
+
+            margin: auto;
+
+            line-height: 1.6;
+
+            color: var(--text-color);
+
+        }
+
+
+        body.dark-mode .page-intro p {
+
+            color: #cbd5e1;
+
+        }
+
+
+        /* =========================================================
+           STATISTIQUES
+        ========================================================= */
+
+        .stats-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 1.2rem;
+
+            margin-bottom: 2rem;
+
+        }
+
+
+        .stat-card {
+
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+                rgba(255,255,255,.92);
+
+            border:
+                1px solid
+                rgba(244,63,94,.12);
+
+            border-radius:
+                1.25rem;
+
+            padding: 1.25rem;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 1rem;
+
+            box-shadow: var(--shadow-sm);
+
+            backdrop-filter: blur(10px);
+
+            transition: all .3s ease;
+
+            animation:
+                slideInUp
+                .7s ease-out both;
+
+        }
+
+
+        body.dark-mode .stat-card {
+
+            background:
+                rgba(30,41,59,.85);
+
+            border-color:
+                rgba(148,163,184,.15);
+
+        }
+
+
+        .stat-card:nth-child(1) {
+
+            animation-delay: .1s;
+
+        }
+
+
+        .stat-card:nth-child(2) {
+
+            animation-delay: .2s;
+
+        }
+
+
+        .stat-card:nth-child(3) {
+
+            animation-delay: .3s;
+
+        }
+
+
+        .stat-card:nth-child(4) {
+
+            animation-delay: .4s;
+
+        }
+
+
+        .stat-card:hover {
+
+            transform:
+                translateY(-5px);
+
+            box-shadow:
+                0 15px 35px
+                rgba(244,63,94,.12);
+
+        }
+
+
+        .stat-icon {
+
+            width: 52px;
+
+            height: 52px;
+
+            flex-shrink: 0;
+
+            border-radius:
+                1rem;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 1.45rem;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent-pink-light),
+                    var(--primary-light)
+                );
+
+        }
+
+
+        body.dark-mode .stat-icon {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(244,63,94,.12),
+                    rgba(37,99,235,.12)
+                );
+
+        }
+
+
+        .stat-info {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: .2rem;
+
+        }
+
+
+        .stat-info strong {
+
+            font-size: 1.8rem;
+
+            line-height: 1;
+
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary-color),
+                    var(--accent-pink)
+                );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+            background-clip: text;
+
+        }
+
+
+        .stat-info span {
+
+            color: #64748b;
+
+            font-size: .8rem;
+
+            font-weight: 600;
+
+        }
+
+
+        body.dark-mode .stat-info span {
+
+            color: #94a3b8;
+
+        }
+
+
+        /* =========================================================
+           SECTION SIGNALEMENTS
+        ========================================================= */
+
+        .reports-section {
+
+            background:
+                rgba(255,255,255,.92);
+
+            border:
+                1px solid
+                rgba(244,63,94,.12);
+
+            border-radius:
+                1.4rem;
+
+            padding: 1.5rem;
+
+            box-shadow: var(--shadow);
+
+            backdrop-filter: blur(10px);
+
+            animation:
+                slideInUp
+                .8s ease-out;
+
+        }
+
+
+        body.dark-mode .reports-section {
+
+            background:
+                rgba(30,41,59,.86);
+
+            border-color:
+                rgba(148,163,184,.15);
+
+        }
+
+
+        .section-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 1rem;
+
+            margin-bottom: 1.3rem;
+
+        }
+
+
+        .section-title {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: .65rem;
+
+        }
+
+
+        .section-title h2 {
+
+            font-size: 1.35rem;
+
+            font-weight: 800;
+
+            color: var(--dark-color);
+
+        }
+
+
+        body.dark-mode .section-title h2 {
+
+            color: white;
+
+        }
+
+
+        .section-title-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: .8rem;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                var(--accent-pink-light);
+
+            font-size: 1.15rem;
+
+        }
+
+
+        body.dark-mode .section-title-icon {
+
+            background:
+                rgba(244,63,94,.12);
+
+        }
+
+
+        .section-subtitle {
+
+            color: #64748b;
+
+            font-size: .85rem;
+
+            margin-top: .25rem;
+
+        }
+
+
+        body.dark-mode .section-subtitle {
+
+            color: #94a3b8;
+
+        }
+
+
+        /* =========================================================
+           CONTENEUR DES SIGNALEMENTS
+        ========================================================= */
+
+        #reportedMessagesContainer {
+
+            display: grid;
+
+            gap: 1rem;
+
+        }
+
+
+        /* =========================================================
+           CARTE SIGNALEMENT
+        ========================================================= */
+
+        .report-card {
+
+            background:
+                rgba(248,250,252,.85);
+
+            border:
+                1px solid
+                #e5e7eb;
+
+            border-left:
+                4px solid
+                var(--danger-color);
+
+            border-radius:
+                1rem;
+
+            padding: 1.25rem;
+
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease;
+
+            animation:
+                cardAppear
+                .5s ease-out both;
+
+        }
+
+
+        body.dark-mode .report-card {
+
+            background:
+                rgba(15,23,42,.45);
+
+            border-color:
+                rgba(148,163,184,.15);
+
+            border-left-color:
+                var(--danger-color);
+
+        }
+
+
+        .report-card:hover {
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 12px 30px
+                rgba(0,0,0,.08);
+
+        }
+
+
+        .report-header {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            justify-content: space-between;
+
+            gap: 1rem;
+
+            margin-bottom: 1rem;
+
+        }
+
+
+        .report-title {
+
+            font-size: 1rem;
+
+            font-weight: 800;
+
+            color: var(--dark-color);
+
+        }
+
+
+        body.dark-mode .report-title {
+
+            color: white;
+
+        }
+
+
+        .report-date {
+
+            color: #64748b;
+
+            font-size: .8rem;
+
+            margin-top: .35rem;
+
+        }
+
+
+        body.dark-mode .report-date {
+
+            color: #94a3b8;
+
+        }
+
+
+        /* =========================================================
+           STATUT
+        ========================================================= */
+
+        .status {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            white-space: nowrap;
+
+            padding:
+                .45rem
+                .75rem;
+
+            border-radius: 999px;
+
+            font-size: .75rem;
+
+            font-weight: 800;
+
+        }
+
+
+        .status-pending {
+
+            background: #fef3c7;
+
+            color: #92400e;
+
+        }
+
+
+        .status-reviewed {
+
+            background: #dbeafe;
+
+            color: #1e40af;
+
+        }
+
+
+        .status-rejected {
+
+            background: #fee2e2;
+
+            color: #991b1b;
+
+        }
+
+
+        /* =========================================================
+           UTILISATEURS
+        ========================================================= */
+
+        .report-users {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: .75rem;
+
+            margin-bottom: 1rem;
+
+        }
+
+
+        .user-box {
+
+            background: white;
+
+            border:
+                1px solid
+                #edf0f4;
+
+            border-radius: .8rem;
+
+            padding: .85rem;
+
+        }
+
+
+        body.dark-mode .user-box {
+
+            background:
+                rgba(30,41,59,.75);
+
+            border-color:
+                rgba(148,163,184,.12);
+
+        }
+
+
+        .user-label {
+
+            display: block;
+
+            color: #64748b;
+
+            font-size: .72rem;
+
+            font-weight: 600;
+
+            margin-bottom: .3rem;
+
+        }
+
+
+        body.dark-mode .user-label {
+
+            color: #94a3b8;
+
+        }
+
+
+        .user-name {
+
+            color: var(--dark-color);
+
+            font-weight: 800;
+
+            word-break: break-word;
+
+        }
+
+
+        body.dark-mode .user-name {
+
+            color: var(--dark-text);
+
+        }
+
+
+        /* =========================================================
+           DESCRIPTION
+        ========================================================= */
+
+        .report-description {
+
+            background: white;
+
+            border:
+                1px solid
+                #edf0f4;
+
+            border-radius: .8rem;
+
+            padding: 1rem;
+
+            margin-top: .75rem;
+
+            line-height: 1.6;
+
+            color: #475569;
+
+            word-break: break-word;
+
+        }
+
+
+        body.dark-mode .report-description {
+
+            background:
+                rgba(30,41,59,.75);
+
+            border-color:
+                rgba(148,163,184,.12);
+
+            color: #cbd5e1;
+
+        }
+
+
+        .report-description strong {
+
+            color: var(--dark-color);
+
+        }
+
+
+        body.dark-mode .report-description strong {
+
+            color: white;
+
+        }
+
+
+        /* =========================================================
+           ÉTATS VIDES / ERREUR
+        ========================================================= */
+
+        .empty-state {
+
+            background:
+                rgba(248,250,252,.8);
+
+            border:
+                1px solid
+                var(--border-color);
+
+            border-radius:
+                1rem;
+
+            padding: 3rem 1.5rem;
+
+            text-align: center;
+
+            color: #64748b;
+
+        }
+
+
+        body.dark-mode .empty-state {
+
+            background:
+                rgba(15,23,42,.45);
+
+            border-color:
+                rgba(148,163,184,.15);
+
+            color: #94a3b8;
+
+        }
+
+
+        .empty-state h3 {
+
+            margin-bottom: .4rem;
+
+            color: var(--dark-color);
+
+        }
+
+
+        body.dark-mode .empty-state h3 {
+
+            color: white;
+
+        }
+
+
+        .error-state {
+
+            background: #fee2e2;
+
+            border:
+                1px solid
+                #fecaca;
+
+            color: #991b1b;
+
+            border-radius: 1rem;
+
+            padding: 1.5rem;
+
+            text-align: center;
+
+            line-height: 1.6;
+
+        }
+
+
+        body.dark-mode .error-state {
+
+            background:
+                rgba(239,68,68,.10);
+
+            border-color:
+                rgba(239,68,68,.25);
+
+            color: #fca5a5;
+
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        .admin-footer {
+
+            text-align: center;
+
+            padding:
+                1.5rem
+                1rem
+                2rem;
+
+            color: #64748b;
+
+            font-size: .85rem;
+
+        }
+
+
+        body.dark-mode .admin-footer {
+
+            color: #94a3b8;
+
+        }
+
+
+        .admin-footer strong {
+
+            color: var(--accent-pink);
+
+        }
+
+
+        /* =========================================================
+           ALERTES
+        ========================================================= */
+
+        #alertContainer {
+
+            position: fixed;
+
+            top: 85px;
+
+            right: 20px;
+
+            z-index: 99999;
+
+            width:
+                min(
+                    380px,
+                    calc(100vw - 40px)
+                );
+
+        }
+
+
+        .alert {
+
+            padding: .9rem 1rem;
+
+            border-radius: .9rem;
+
+            margin-bottom: .65rem;
+
+            background: white;
+
+            box-shadow:
+                0 10px 30px
+                rgba(0,0,0,.15);
+
+            animation:
+                alertIn
+                .35s ease-out;
+
+        }
+
+
+        body.dark-mode .alert {
+
+            background:
+                #1e293b;
+
+        }
+
+
+        /* =========================================================
+           ANIMATIONS
+        ========================================================= */
+
+        @keyframes slideInUp {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(25px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        @keyframes cardAppear {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(15px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        @keyframes alertIn {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateX(25px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateX(0);
+
+            }
+
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 1000px) {
+
+            .stats-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .container {
+
+                padding:
+                    1.5rem
+                    1rem
+                    3rem;
+
+            }
+
+
+            .navbar {
+
+                padding:
+                    .85rem
+                    1rem;
+
+            }
+
+
+            .logo h1 {
+
+                font-size: 1.1rem;
+
+            }
+
+
+            .admin-badge {
+
+                display: none;
+
+            }
+
+
+            .page-intro {
+
+                text-align: left;
+
+            }
+
+
+            .page-intro h2 {
+
+                font-size: 1.7rem;
+
+            }
+
+
+            .stats-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .reports-section {
+
+                padding: 1rem;
+
+            }
+
+
+            .section-header {
+
+                align-items: flex-start;
+
+            }
+
+
+            .report-users {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .report-header {
+
+                flex-direction: column;
+
+            }
+
+
+            .status {
+
+                align-self: flex-start;
+
+            }
+
+        }
+
+
+        @media (max-width: 400px) {
+
+            .page-intro h2 {
+
+                font-size: 1.45rem;
+
+            }
+
+
+            .stat-card {
+
+                padding: 1rem;
+
+            }
+
+        }
+
+
+        .register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+
+.profile-back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin-right: 8px;
+    border-radius: 50%;
+    color: var(--dark);
+    background: transparent;
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.profile-back-button:hover {
+    background: #f1f5f9;
+    transform: translateX(-2px);
+}
+
+.profile-back-button:active {
+    transform: scale(.92);
+}
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="animated-bg">
+
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+
+    </div>
+
+    <div id="alertContainer"></div>
+
+
+   <header class="topbar">
+
+    <a href="javascript:history.back()"
+       class="profile-back-button"
+       aria-label="Retour">
+        ‹
+    </a>
+
+    <div class="brand">
+    
+    </div>
+
+</header>
+    <main class="container">
+
+
+        <!-- INTRO -->
+
+        <section class="page-intro">
+
+            <h2>
+
+                💬 Gestion des
+                <span>messages</span>
+
+            </h2>
+
+
+            <p>
+
+                Consultez les statistiques des conversations
+                et surveillez les messages signalés par les membres
+                d'Alliance Chrétienne.
+
+            </p>
+
+        </section>
+
+
+        <!-- =====================================================
+             STATISTIQUES
+        ====================================================== -->
+
+        <div class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    💬
+                </div>
+
+
+                <div class="stat-info">
+
+                    <strong id="totalMessages">
+                        0
+                    </strong>
+
+                    <span>
+                        Total messages
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🆕
+                </div>
+
+
+                <div class="stat-info">
+
+                    <strong id="recentMessages">
+                        0
+                    </strong>
+
+                    <span>
+                        Messages récents
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🚨
+                </div>
+
+
+                <div class="stat-info">
+
+                    <strong id="reportedMessages">
+                        0
+                    </strong>
+
+                    <span>
+                        Messages signalés
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ⚠️
+                </div>
+
+
+                <div class="stat-info">
+
+                    <strong id="pendingMessages">
+                        0
+                    </strong>
+
+                    <span>
+                        Signalements en attente
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =====================================================
+             SIGNALEMENTS
+        ====================================================== -->
+
+        <section class="reports-section">
+
+
+            <div class="section-header">
+
+
+                <div>
+
+                    <div class="section-title">
+
+                        <div class="section-title-icon">
+                            🚨
+                        </div>
+
+
+                        <h2>
+                            Messages signalés
+                        </h2>
+
+                    </div>
+
+
+                    <p class="section-subtitle">
+
+                        Les messages signalés par les membres
+                        apparaîtront ici.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div id="reportedMessagesContainer">
+
+                <div class="empty-state">
+
+                    ⏳ Chargement des messages...
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer class="admin-footer">
+
+        <p>
+
+            ✝️
+            <strong>Alliance Chrétienne</strong>
+            — Espace administration
+
+        </p>
+
+
+        <p>
+
+            © 2026 Alliance Chrétienne.
+            Tous droits réservés.
+
+        </p>
+
+    </footer>
+
+
+    <!-- =========================================================
+         DARK MODE
+    ========================================================== -->
+
+    <script>
+
+        const darkModeToggle =
+            document.getElementById(
+                'darkModeToggle'
+            );
+
+
+        const savedDarkMode =
+            localStorage.getItem(
+                'darkMode'
+            ) === 'true';
+
+
+        if (savedDarkMode) {
+
+            document.body.classList.add(
+                'dark-mode'
+            );
+
+            darkModeToggle.textContent =
+                '☀️';
+
+        }
+
+
+        darkModeToggle.addEventListener(
+            'click',
+            function(event) {
+
+                const isDark =
+                    document.body.classList.toggle(
+                        'dark-mode'
+                    );
+
+
+                localStorage.setItem(
+                    'darkMode',
+                    isDark
+                );
+
+
+                darkModeToggle.textContent =
+                    isDark
+                    ? '☀️'
+                    : '🌙';
+
+
+                createParticles(event);
+
+            }
+        );
+
+
+        function createParticles(e) {
+
+            for (
+                let i = 0;
+                i < 5;
+                i++
+            ) {
+
+                const particle =
+                    document.createElement(
+                        'div'
+                    );
+
+
+                particle.style.position =
+                    'fixed';
+
+                particle.style.left =
+                    e.clientX + 'px';
+
+                particle.style.top =
+                    e.clientY + 'px';
+
+                particle.style.pointerEvents =
+                    'none';
+
+                particle.style.zIndex =
+                    '100000';
+
+                particle.textContent =
+                    '✨';
+
+                particle.style.fontSize =
+                    '14px';
+
+
+                const tx =
+                    (Math.random() - .5) * 100;
+
+                const ty =
+                    (Math.random() - .5) * 100;
+
+
+                particle.animate(
+                    [
+                        {
+                            opacity: 1,
+
+                            transform:
+                                'translate(0,0) scale(1)'
+                        },
+
+                        {
+                            opacity: 0,
+
+                            transform:
+                                `translate(${tx}px,${ty}px) scale(0)`
+                        }
+                    ],
+                    {
+                        duration: 1000,
+
+                        easing: 'ease-out'
+                    }
+                );
+
+
+                document.body.appendChild(
+                    particle
+                );
+
+
+                setTimeout(
+                    () =>
+                        particle.remove(),
+                    1100
+                );
+
+            }
+
+        }
+
+    </script>
+
+
+    <!-- =========================================================
+         SUPABASE
+    ========================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
+
+
+    <script src="supabase-config.js"></script>
+
+
+    <!-- =========================================================
+         LOGIQUE EXISTANTE
+    ========================================================== -->
+
+    <script>
+
+        async function chargerMessagesAdmin() {
+
+            try {
+
+                if (!window.supabaseClient) {
+
+                    throw new Error(
+                        'Client Supabase non disponible.'
+                    );
+
+                }
+
+
+                // ==========================================
+                // 💬 CHARGER LES MESSAGES
+                // ==========================================
+
+                const {
+                    data: messages,
+                    error: messagesError
+                } = await window.supabaseClient
+                    .from('messages')
+                    .select(`
+                        id,
+                        sender_id,
+                        receiver_id,
+                        content,
+                        created_at
+                    `)
+                    .order(
+                        'created_at',
+                        {
+                            ascending: false
+                        }
+                    );
+
+
+                if (messagesError) {
+
+                    throw messagesError;
+
+                }
+
+
+                console.log(
+                    '💬 MESSAGES CHARGÉS :',
+                    messages
+                );
+
+
+                // ==========================================
+                // 🚨 CHARGER LES SIGNALEMENTS
+                // ==========================================
+
+                const {
+                    data: signalements,
+                    error: signalementsError
+                } = await window.supabaseClient
+                    .from(
+                        'message_signalements'
+                    )
+                    .select(`
+                        id,
+                        message_id,
+                        membre_id,
+                        motif,
+                        details,
+                        status,
+                        created_at,
+                        processed_at,
+                        admin_note
+                    `)
+                    .order(
+                        'created_at',
+                        {
+                            ascending: false
+                        }
+                    );
+
+
+                if (signalementsError) {
+
+                    throw signalementsError;
+
+                }
+
+
+                console.log(
+                    '🚨 SIGNALEMENTS MESSAGES :',
+                    signalements
+                );
+
+
+                // ==========================================
+                // 👥 RÉCUPÉRER LES IDS
+                // ==========================================
+
+                const ids = [
+
+                    ...(messages || []).map(
+                        message =>
+                            message.sender_id
+                    ),
+
+                    ...(messages || []).map(
+                        message =>
+                            message.receiver_id
+                    ),
+
+                    ...(signalements || []).map(
+                        report =>
+                            report.membre_id
+                    )
+
+                ];
+
+
+                const idsUniques = [
+                    ...new Set(
+                        ids.filter(Boolean)
+                    )
+                ];
+
+
+                let profils = [];
+
+
+                if (idsUniques.length) {
+
+                    const {
+                        data,
+                        error
+                    } = await window.supabaseClient
+                        .from('profiles')
+                        .select(`
+                            id,
+                            first_name,
+                            photo_url
+                        `)
+                        .in(
+                            'id',
+                            idsUniques
+                        );
+
+
+                    if (error) {
+
+                        throw error;
+
+                    }
+
+
+                    profils = data || [];
+
+                }
+
+
+                // ==========================================
+                // 📊 STATISTIQUES
+                // ==========================================
+
+                const total =
+                    messages?.length || 0;
+
+
+                const dateLimite =
+                    new Date();
+
+
+                dateLimite.setDate(
+                    dateLimite.getDate() - 7
+                );
+
+
+                const recent =
+                    (messages || []).filter(
+                        message =>
+                            new Date(
+                                message.created_at
+                            ) >= dateLimite
+                    ).length;
+
+
+                const totalSignales =
+                    signalements?.length || 0;
+
+
+                const pendingSignales =
+                    (signalements || []).filter(
+                        report =>
+                            !report.status ||
+                            report.status ===
+                            'pending'
+                    ).length;
+
+
+                document.getElementById(
+                    'totalMessages'
+                ).textContent =
+                    total;
+
+
+                document.getElementById(
+                    'recentMessages'
+                ).textContent =
+                    recent;
+
+
+                document.getElementById(
+                    'reportedMessages'
+                ).textContent =
+                    totalSignales;
+
+
+                document.getElementById(
+                    'pendingMessages'
+                ).textContent =
+                    pendingSignales;
+
+
+                // ==========================================
+                // 🚨 AFFICHER LES SIGNALEMENTS
+                // ==========================================
+
+                const container =
+                    document.getElementById(
+                        'reportedMessagesContainer'
+                    );
+
+
+                if (!signalements?.length) {
+
+                    container.innerHTML = `
+
+                        <div class="empty-state">
+
+                            <div style="
+                                font-size:40px;
+                                margin-bottom:10px;
+                            ">
+                                ✅
+                            </div>
+
+                            <h3>
+                                Aucun message signalé
+                            </h3>
+
+                            <p>
+                                Les messages signalés par
+                                les membres apparaîtront ici.
+                            </p>
+
+                        </div>
+
+                    `;
+
+                    return;
+
+                }
+
+
+                container.innerHTML =
+                    signalements.map(
+                        report => {
+
+                            const message =
+                                (messages || []).find(
+                                    item =>
+                                        item.id ===
+                                        report.message_id
+                                );
+
+
+                            const membre =
+                                profils.find(
+                                    profile =>
+                                        profile.id ===
+                                        report.membre_id
+                                );
+
+
+                            const sender =
+                                message
+                                ? profils.find(
+                                    profile =>
+                                        profile.id ===
+                                        message.sender_id
+                                )
+                                : null;
+
+
+                            const receiver =
+                                message
+                                ? profils.find(
+                                    profile =>
+                                        profile.id ===
+                                        message.receiver_id
+                                )
+                                : null;
+
+
+                            const senderName =
+                                sender?.first_name ||
+                                'Profil supprimé';
+
+
+                            const receiverName =
+                                receiver?.first_name ||
+                                'Profil supprimé';
+
+
+                            const membreName =
+                                membre?.first_name ||
+                                'Profil supprimé';
+
+
+                            const date =
+                                report.created_at
+                                ? new Date(
+                                    report.created_at
+                                ).toLocaleString(
+                                    'fr-FR',
+                                    {
+                                        dateStyle:
+                                            'short',
+
+                                        timeStyle:
+                                            'short'
+                                    }
+                                )
+                                : '—';
+
+
+                            const messageDate =
+                                message?.created_at
+                                ? new Date(
+                                    message.created_at
+                                ).toLocaleString(
+                                    'fr-FR',
+                                    {
+                                        dateStyle:
+                                            'short',
+
+                                        timeStyle:
+                                            'short'
+                                    }
+                                )
+                                : '—';
+
+
+                            let statusText =
+                                '🟡 En attente';
+
+
+                            let statusClass =
+                                'status-pending';
+
+
+                            if (
+                                report.status ===
+                                'reviewed'
+                            ) {
+
+                                statusText =
+                                    '🔵 Traité';
+
+                                statusClass =
+                                    'status-reviewed';
+
+                            }
+
+
+                            if (
+                                report.status ===
+                                'rejected'
+                            ) {
+
+                                statusText =
+                                    '❌ Rejeté';
+
+                                statusClass =
+                                    'status-rejected';
+
+                            }
+
+
+                            return `
+
+                                <div
+                                    class="report-card"
+                                >
+
+                                    <div
+                                        class="report-header"
+                                    >
+
+                                        <div>
+
+                                            <div
+                                                class="report-title"
+                                            >
+                                                🚨 Message signalé
+                                            </div>
+
+                                            <div
+                                                class="report-date"
+                                            >
+                                                📅 Signalé le
+                                                ${date}
+                                            </div>
+
+                                        </div>
+
+
+                                        <span
+                                            class="
+                                                status
+                                                ${statusClass}
+                                            "
+                                        >
+                                            ${statusText}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div
+                                        class="report-users"
+                                    >
+
+
+                                        <div
+                                            class="user-box"
+                                        >
+
+                                            <span
+                                                class="user-label"
+                                            >
+                                                🚨 Signalé par
+                                            </span>
+
+                                            <div
+                                                class="user-name"
+                                            >
+                                                ${escapeHtml(
+                                                    membreName
+                                                )}
+                                            </div>
+
+                                        </div>
+
+
+                                        <div
+                                            class="user-box"
+                                        >
+
+                                            <span
+                                                class="user-label"
+                                            >
+                                                👤 Expéditeur
+                                            </span>
+
+                                            <div
+                                                class="user-name"
+                                            >
+                                                ${escapeHtml(
+                                                    senderName
+                                                )}
+                                            </div>
+
+                                        </div>
+
+
+                                        <div
+                                            class="user-box"
+                                        >
+
+                                            <span
+                                                class="user-label"
+                                            >
+                                                👤 Destinataire
+                                            </span>
+
+                                            <div
+                                                class="user-name"
+                                            >
+                                                ${escapeHtml(
+                                                    receiverName
+                                                )}
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <div
+                                        class="
+                                            report-description
+                                        "
+                                    >
+
+                                        <strong>
+                                            💬 Message
+                                        </strong>
+
+                                        <br><br>
+
+                                        ${
+                                            message
+                                            ? escapeHtml(
+                                                message.content
+                                            )
+                                            : '⚠️ Message supprimé'
+                                        }
+
+                                    </div>
+
+
+                                    <div
+                                        class="
+                                            report-description
+                                        "
+                                    >
+
+                                        <strong>
+                                            🚨 Motif
+                                        </strong>
+
+                                        <br><br>
+
+                                        ${escapeHtml(
+                                            report.motif
+                                        )}
+
+                                    </div>
+
+
+                                    ${
+                                        report.details
+                                        ? `
+
+                                            <div
+                                                class="
+                                                    report-description
+                                                "
+                                            >
+
+                                                <strong>
+                                                    📝 Détails
+                                                </strong>
+
+                                                <br><br>
+
+                                                ${escapeHtml(
+                                                    report.details
+                                                )}
+
+                                            </div>
+
+                                        `
+                                        : ''
+                                    }
+
+
+                                    <div
+                                        class="report-date"
+                                        style="
+                                            margin-top:12px;
+                                        "
+                                    >
+
+                                        🕐 Message envoyé le
+                                        ${messageDate}
+
+                                    </div>
+
+
+                                </div>
+
+                            `;
+
+                        }
+                    ).join('');
+
+
+                console.log(
+                    '📊 STATISTIQUES MESSAGES :',
+                    {
+                        total,
+                        recent,
+                        totalSignales,
+                        pendingSignales
+                    }
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    '❌ ERREUR MESSAGES ADMIN :',
+                    error
+                );
+
+
+                const container =
+                    document.getElementById(
+                        'reportedMessagesContainer'
+                    );
+
+
+                if (container) {
+
+                    container.innerHTML = `
+
+                        <div
+                            class="error-state"
+                        >
+
+                            ❌ Impossible de charger
+                            les messages signalés.
+
+                            <br><br>
+
+                            <small>
+                                ${escapeHtml(
+                                    error.message || ''
+                                )}
+                            </small>
+
+                        </div>
+
+                    `;
+
+                }
+
+            }
+
+        }
+
+
+        // ======================================================
+        // 🔐 PROTECTION HTML
+        // ======================================================
+
+        function escapeHtml(value) {
+
+            return String(value || '')
+
+                .replace(
+                    /&/g,
+                    '&amp;'
+                )
+
+                .replace(
+                    /</g,
+                    '&lt;'
+                )
+
+                .replace(
+                    />/g,
+                    '&gt;'
+                )
+
+                .replace(
+                    /"/g,
+                    '&quot;'
+                )
+
+                .replace(
+                    /'/g,
+                    '&#039;'
+                );
+
+        }
+
+
+        // ======================================================
+        // 🚀 CHARGEMENT
+        // ======================================================
+
+        document.addEventListener(
+            'DOMContentLoaded',
+            function() {
+
+                chargerMessagesAdmin();
+
+            }
+        );
+
+    </script>
+
+
+</body>
+</html>
+

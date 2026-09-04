@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À propos - Alliance Chrétienne</title>
+    <link rel="stylesheet" href="css/style.css">
+
+<style>
+    :root {
+        --primary: #2563eb;
+        --pink: #f43f5e;
+        --pink-light: #fff1f2;
+        --blue-light: #eff6ff;
+        --dark: #172033;
+        --text: #64748b;
+        --white: #ffffff;
+        --border: #e2e8f0;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: #fff8f8;
+        color: var(--text);
+        transition: background .3s ease, color .3s ease;
+    }
+
+    body.dark-mode {
+        background: #0f172a;
+        color: #cbd5e1;
+    }
+
+    /* HEADER */
+    header {
+        background: rgba(255,255,255,.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    body.dark-mode header {
+        background: rgba(30,41,59,.95);
+        border-bottom-color: rgba(148,163,184,.2);
+    }
+
+    .navbar {
+        max-width: 1200px;
+        margin: auto;
+        padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo a {
+        text-decoration: none;
+    }
+
+    .logo h1 {
+        margin: 0;
+        color: var(--dark);
+        font-size: 1.5rem;
+        font-weight: 800;
+    }
+
+    body.dark-mode .logo h1 {
+        color: white;
+    }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .dark-mode-toggle {
+        width: 45px;
+        height: 45px;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.2rem;
+        background: #f1f5f9;
+    }
+
+    body.dark-mode .dark-mode-toggle {
+        background: rgba(148,163,184,.2);
+    }
+
+    .btn-register {
+        padding: .65rem 1.3rem;
+        border-radius: .75rem;
+        text-decoration: none;
+        color: white;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--pink), #e11d48);
+        box-shadow: 0 5px 15px rgba(244,63,94,.25);
+    }
+
+    /* PAGE */
+    .about-page {
+        max-width: 1100px;
+        margin: auto;
+        padding: 2.5rem 1.5rem 4rem;
+    }
+
+    .about-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        background: rgba(255,255,255,.96);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 10px 30px rgba(15,23,42,.07);
+    }
+
+    body.dark-mode .about-header,
+    body.dark-mode .about-card {
+        background: #1e293b;
+        border-color: rgba(148,163,184,.15);
+    }
+
+    .about-header-icon {
+        width: 58px;
+        height: 58px;
+        border-radius: 17px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        background: linear-gradient(135deg, var(--pink), #7c3aed);
+        box-shadow: 0 8px 20px rgba(244,63,94,.2);
+    }
+
+    .about-header h2 {
+        margin: 0 0 .3rem;
+        font-size: 1.8rem;
+        color: var(--dark);
+    }
+
+    body.dark-mode .about-header h2,
+    body.dark-mode .about-card h3 {
+        color: white;
+    }
+
+    .about-header p {
+        margin: 0;
+        color: #64748b;
+    }
+
+    /* CARDS */
+    .about-card {
+        background: rgba(255,255,255,.96);
+        border: 1px solid #e5e7eb;
+        border-radius: 22px;
+        padding: 1.7rem;
+        margin-bottom: 1.25rem;
+        box-shadow: 0 10px 30px rgba(15,23,42,.07);
+    }
+
+    .about-card h3 {
+        margin: 0 0 .8rem;
+        color: var(--dark);
+        font-size: 1.15rem;
+    }
+
+    .about-card p {
+        margin: 0;
+        line-height: 1.7;
+        color: #64748b;
+    }
+
+    body.dark-mode .about-card p {
+        color: #cbd5e1;
+    }
+
+    .about-intro {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.25rem;
+    }
+
+    .about-feature {
+        padding: 1.4rem;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #fff1f2, #eff6ff);
+        border: 1px solid rgba(244,63,94,.12);
+    }
+
+    body.dark-mode .about-feature {
+        background: linear-gradient(
+            135deg,
+            rgba(244,63,94,.10),
+            rgba(37,99,235,.10)
+        );
+        border-color: rgba(244,63,94,.2);
+    }
+
+    .feature-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        margin-bottom: .8rem;
+        background: linear-gradient(135deg, var(--pink), #7c3aed);
+        color: white;
+    }
+
+    .about-feature h4 {
+        margin: 0 0 .4rem;
+        color: var(--dark);
+        font-size: 1rem;
+    }
+
+    body.dark-mode .about-feature h4 {
+        color: white;
+    }
+
+    .about-feature p {
+        font-size: .88rem;
+        line-height: 1.6;
+    }
+
+    /* VALUES */
+    .values {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .value {
+        text-align: center;
+        padding: 1.3rem 1rem;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: #fafbfc;
+    }
+
+    body.dark-mode .value {
+        background: rgba(148,163,184,.07);
+        border-color: rgba(148,163,184,.15);
+    }
+
+    .value-icon {
+        font-size: 1.8rem;
+        margin-bottom: .5rem;
+    }
+
+    .value strong {
+        display: block;
+        color: var(--dark);
+        margin-bottom: .3rem;
+    }
+
+    body.dark-mode .value strong {
+        color: white;
+    }
+
+    .value span {
+        font-size: .8rem;
+        color: #64748b;
+    }
+
+    /* CTA */
+    .about-cta {
+        text-align: center;
+        padding: 2.5rem 1.5rem;
+        border-radius: 22px;
+        margin-top: 1.5rem;
+        color: white;
+        background: linear-gradient(135deg, #1e293b, #0f172a);
+        border-top: 4px solid var(--pink);
+    }
+
+    .about-cta h3 {
+        margin: 0 0 .7rem;
+        font-size: 1.6rem;
+    }
+
+    .about-cta p {
+        max-width: 650px;
+        margin: 0 auto 1.5rem;
+        color: #cbd5e1;
+        line-height: 1.6;
+    }
+
+    .about-cta a {
+        display: inline-block;
+        padding: .9rem 1.5rem;
+        border-radius: .8rem;
+        background: linear-gradient(135deg, var(--pink), #e11d48);
+        color: white;
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+    /* FOOTER */
+    footer {
+        background: #0f172a;
+        color: #cbd5e1;
+        text-align: center;
+        padding: 2rem 1.5rem;
+    }
+
+    .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.2rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .footer-links a {
+        color: #cbd5e1;
+        text-decoration: none;
+        font-size: .9rem;
+    }
+
+    .footer-links a:hover {
+        color: white;
+    }
+
+    footer p {
+        margin: .4rem 0;
+        font-size: .85rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 700px) {
+        .about-intro,
+        .values {
+            grid-template-columns: 1fr;
+        }
+
+        .about-page {
+            padding: 1.25rem 1rem 3rem;
+        }
+
+        .about-header {
+            padding: 1.2rem;
+        }
+
+        .about-header h2 {
+            font-size: 1.45rem;
+        }
+
+        .btn-register {
+            padding: .55rem .9rem;
+            font-size: .8rem;
+        }
+    }
+
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+
+</style>
+
+
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar">
+        <div class="logo">
+               <a href="index.html" class="register-logo">
+    <img src="images/logo.png" alt="Alliance Chrétienne">
+</a>
+        </div>
+
+
+    <div class="nav-right">
+        <button id="darkModeToggle" class="dark-mode-toggle">🌙</button>
+        <a href="register.html" class="btn-register">Inscription</a>
+    </div>
+</nav>
+
+
+</header>
+
+<main class="about-page">
+
+
+<div class="about-header">
+    <div class="about-header-icon">ℹ️</div>
+    <div>
+        <h2>À propos d'Alliance Chrétienne</h2>
+        <p>Une communauté destinée aux célibataires chrétiens qui souhaitent construire une relation sérieuse.</p>
+    </div>
+</div>
+
+<div class="about-card">
+    <h3>✝️ Notre mission</h3>
+    <p>
+        Alliance Chrétienne a pour mission de créer un espace de rencontres
+        respectueux, sérieux et fondé sur la foi chrétienne. Nous souhaitons
+        permettre à des célibataires partageant les mêmes valeurs de faire
+        connaissance, d'échanger et, lorsque Dieu le permet, de construire
+        une relation durable orientée vers le mariage.
+    </p>
+</div>
+
+<div class="about-intro">
+
+    <div class="about-feature">
+        <div class="feature-icon">❤️</div>
+        <h4>Des rencontres authentiques</h4>
+        <p>
+            Faites connaissance avec des personnes qui partagent votre foi,
+            vos valeurs et votre désir d'une relation sérieuse.
+        </p>
+    </div>
+
+    <div class="about-feature">
+        <div class="feature-icon">🙏</div>
+        <h4>Une communauté fondée sur la foi</h4>
+        <p>
+            La foi chrétienne est au cœur de notre communauté et encourage
+            des relations basées sur le respect, la confiance et l'engagement.
+        </p>
+    </div>
+
+    <div class="about-feature">
+        <div class="feature-icon">🔒</div>
+        <h4>Respect et sécurité</h4>
+        <p>
+            Nous voulons maintenir un environnement accueillant où chacun
+            peut échanger dans le respect et la bienveillance.
+        </p>
+    </div>
+
+    <div class="about-feature">
+        <div class="feature-icon">💍</div>
+        <h4>Vers des relations durables</h4>
+        <p>
+            Notre objectif n'est pas seulement de faire des rencontres,
+            mais de favoriser des relations sérieuses pouvant mener au mariage.
+        </p>
+    </div>
+
+</div>
+
+<div class="about-card">
+    <h3>💎 Nos valeurs</h3>
+
+    <div class="values">
+
+        <div class="value">
+            <div class="value-icon">🙏</div>
+            <strong>Foi</strong>
+            <span>Mettre Dieu au cœur de nos relations.</span>
+        </div>
+
+        <div class="value">
+            <div class="value-icon">❤️</div>
+            <strong>Amour</strong>
+            <span>Encourager des relations sincères et authentiques.</span>
+        </div>
+
+        <div class="value">
+            <div class="value-icon">🤝</div>
+            <strong>Respect</strong>
+            <span>Traiter chaque membre avec dignité.</span>
+        </div>
+
+        <div class="value">
+            <div class="value-icon">🔒</div>
+            <strong>Sécurité</strong>
+            <span>Favoriser une communauté responsable.</span>
+        </div>
+
+        <div class="value">
+            <div class="value-icon">💍</div>
+            <strong>Engagement</strong>
+            <span>Valoriser les relations sérieuses.</span>
+        </div>
+
+        <div class="value">
+            <div class="value-icon">🌍</div>
+            <strong>Communauté</strong>
+            <span>Rassembler les chrétiens du monde entier.</span>
+        </div>
+
+    </div>
+</div>
+
+<div class="about-card">
+    <h3>🌍 Une communauté internationale</h3>
+    <p>
+        Alliance Chrétienne souhaite réunir des célibataires chrétiens
+        provenant de différents pays et cultures. Notre ambition est de
+        créer une communauté internationale où la foi, le respect et
+        l'amour peuvent rapprocher les personnes au-delà des frontières.
+    </p>
+</div>
+
+<div class="about-cta">
+    <h3>Prêt à écrire une nouvelle histoire ? 💕</h3>
+    <p>
+        Rejoignez Alliance Chrétienne et découvrez une communauté de
+        célibataires chrétiens qui souhaitent eux aussi construire
+        une relation sérieuse et durable.
+    </p>
+
+    <a href="register.html">Créer mon compte gratuitement</a>
+</div>
+
+
+</main>
+
+<footer>
+
+
+<div class="footer-links">
+    <a href="aide.html">Aide</a>
+    <a href="blog.html">Blog</a>
+    <a href="faq.html">FAQ</a>
+    <a href="confidentialite.html">Confidentialité</a>
+    <a href="conditions.html">Conditions</a>
+    <a href="securite.html">Sécurité</a>
+    <a href="a-propos.html">À propos</a>
+    <a href="contact.html">Contact</a>
+    <a href="temoignages.html">Témoignages</a>
+    <a href="eglises.html">Églises & communautés</a>
+    <a href="signaler.html">Signaler un problème</a>
+</div>
+
+<p>✝️ Alliance Chrétienne — Rencontres chrétiennes sérieuses</p>
+<p>&copy; 2026 Alliance Chrétienne. Tous droits réservés.</p>
+<p>Fait avec ❤️ pour la communauté chrétienne</p>
+
+
+</footer>
+
+<script>
+    const darkModeToggle = document.getElementById('darkModeToggle');
+
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        darkModeToggle.textContent = '☀️';
+    }
+
+    darkModeToggle.addEventListener('click', () => {
+        const isDark = document.body.classList.toggle('dark-mode');
+
+        localStorage.setItem('darkMode', isDark);
+
+        darkModeToggle.textContent = isDark ? '☀️' : '🌙';
+    });
+</script>
+
+</body>
+</html>

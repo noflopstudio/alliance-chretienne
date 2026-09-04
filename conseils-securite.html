@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conseils de sécurité - Alliance Chrétienne</title>
+
+<style>
+    :root {
+        --primary: #2563eb;
+        --pink: #f43f5e;
+        --purple: #7c3aed;
+        --dark: #172033;
+        --text: #64748b;
+        --light: #f8fafc;
+        --white: #ffffff;
+        --border: #e2e8f0;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: var(--text);
+        background:
+            radial-gradient(circle at 10% 10%, rgba(244,63,94,.05), transparent 30%),
+            radial-gradient(circle at 90% 20%, rgba(37,99,235,.05), transparent 30%),
+            #fff8f8;
+        min-height: 100vh;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+        background: rgba(255,255,255,.95);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .navbar {
+        max-width: 1200px;
+        margin: auto;
+        padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .logo a {
+        text-decoration: none;
+    }
+
+    .logo h1 {
+        margin: 0;
+        color: var(--dark);
+        font-size: 1.4rem;
+        font-weight: 800;
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+    }
+
+    .nav-links a {
+        text-decoration: none;
+        color: var(--text);
+        font-size: .9rem;
+        font-weight: 600;
+        padding: .6rem .9rem;
+        border-radius: 10px;
+        transition: .2s ease;
+    }
+
+    .nav-links a:hover {
+        color: var(--pink);
+        background: #fff1f2;
+    }
+
+    .btn-register {
+        background: linear-gradient(135deg, var(--pink), var(--purple));
+        color: white !important;
+        box-shadow: 0 5px 15px rgba(244,63,94,.2);
+    }
+
+    .btn-register:hover {
+        transform: translateY(-2px);
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+        max-width: 1000px;
+        margin: auto;
+        padding: 4rem 1.5rem 2rem;
+        text-align: center;
+    }
+
+    .hero-icon {
+        width: 72px;
+        height: 72px;
+        margin: auto auto 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 22px;
+        font-size: 2rem;
+        color: white;
+        background: linear-gradient(135deg, var(--pink), var(--purple));
+        box-shadow: 0 12px 30px rgba(244,63,94,.2);
+    }
+
+    .hero h2 {
+        color: var(--dark);
+        font-size: 2.4rem;
+        font-weight: 850;
+        margin-bottom: .8rem;
+    }
+
+    .hero h2 span {
+        background: linear-gradient(135deg, var(--pink), var(--purple));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .hero p {
+        max-width: 700px;
+        margin: auto;
+        line-height: 1.7;
+        font-size: 1rem;
+    }
+
+    /* =========================
+       ALERT IMPORTANT
+    ========================= */
+
+    .security-alert {
+        max-width: 1000px;
+        margin: 1rem auto 2rem;
+        padding: 1.2rem 1.4rem;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #fff7ed, #fffbeb);
+        border: 1px solid #fed7aa;
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .security-alert-icon {
+        font-size: 1.6rem;
+        flex-shrink: 0;
+    }
+
+    .security-alert strong {
+        display: block;
+        color: #9a3412;
+        margin-bottom: .3rem;
+    }
+
+    .security-alert p {
+        color: #7c2d12;
+        font-size: .9rem;
+        line-height: 1.6;
+    }
+
+    /* =========================
+       CONTENT
+    ========================= */
+
+    .security-container {
+        max-width: 1000px;
+        margin: auto;
+        padding: 0 1.5rem 4rem;
+    }
+
+    .security-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.2rem;
+    }
+
+    .security-card {
+        background: rgba(255,255,255,.96);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 1.5rem;
+        box-shadow: 0 10px 30px rgba(15,23,42,.06);
+        transition: .25s ease;
+    }
+
+    .security-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 18px 40px rgba(244,63,94,.1);
+    }
+
+    .security-card-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #fff1f2, #eff6ff);
+        font-size: 1.35rem;
+        margin-bottom: 1rem;
+    }
+
+    .security-card h3 {
+        color: var(--dark);
+        font-size: 1.05rem;
+        margin-bottom: .65rem;
+        font-weight: 800;
+    }
+
+    .security-card p {
+        font-size: .88rem;
+        line-height: 1.65;
+        margin-bottom: .7rem;
+    }
+
+    .security-card ul {
+        padding-left: 1.1rem;
+    }
+
+    .security-card li {
+        margin-bottom: .45rem;
+        font-size: .85rem;
+        line-height: 1.5;
+    }
+
+    /* =========================
+       ARGENT
+    ========================= */
+
+    .money-warning {
+        margin-top: 1.2rem;
+        padding: 1.3rem;
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        border-radius: 18px;
+    }
+
+    .money-warning h3 {
+        color: #b91c1c;
+        margin-bottom: .5rem;
+    }
+
+    .money-warning p,
+    .money-warning li {
+        color: #7f1d1d;
+    }
+
+    /* =========================
+       RENDEZ-VOUS
+    ========================= */
+
+    .meeting-section {
+        margin-top: 1.5rem;
+        background: linear-gradient(135deg, #eff6ff, #fff1f2);
+        border: 1px solid #dbeafe;
+        border-radius: 22px;
+        padding: 1.7rem;
+    }
+
+    .meeting-section h3 {
+        color: var(--dark);
+        margin-bottom: .8rem;
+    }
+
+    .meeting-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .meeting-item {
+        background: rgba(255,255,255,.8);
+        border-radius: 15px;
+        padding: 1rem;
+    }
+
+    .meeting-item strong {
+        display: block;
+        color: var(--dark);
+        margin-bottom: .35rem;
+        font-size: .9rem;
+    }
+
+    .meeting-item span {
+        font-size: .8rem;
+        line-height: 1.5;
+    }
+
+    /* =========================
+       SIGNALER
+    ========================= */
+
+    .report-box {
+        margin-top: 1.5rem;
+        padding: 1.7rem;
+        background: white;
+        border-radius: 22px;
+        border: 1px solid var(--border);
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(15,23,42,.05);
+    }
+
+    .report-box h3 {
+        color: var(--dark);
+        margin-bottom: .5rem;
+    }
+
+    .report-box p {
+        font-size: .9rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+    .report-btn {
+        display: inline-block;
+        text-decoration: none;
+        background: linear-gradient(135deg, var(--pink), var(--purple));
+        color: white;
+        padding: .8rem 1.4rem;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: .9rem;
+        transition: .2s ease;
+    }
+
+    .report-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(244,63,94,.25);
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+        background: #172033;
+        color: #cbd5e1;
+        text-align: center;
+        padding: 2.5rem 1.5rem;
+    }
+
+    .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .footer-links a {
+        color: #cbd5e1;
+        text-decoration: none;
+        font-size: .85rem;
+        transition: .2s ease;
+    }
+
+    .footer-links a:hover {
+        color: white;
+    }
+
+    footer p {
+        margin: .4rem 0;
+        font-size: .8rem;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 750px) {
+        .nav-links a:not(.btn-register) {
+            display: none;
+        }
+
+        .hero {
+            padding-top: 2.5rem;
+        }
+
+        .hero h2 {
+            font-size: 1.8rem;
+        }
+
+        .security-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .meeting-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+</style>
+
+
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar">
+        <div class="logo">
+                <a href="index.html" class="register-logo">
+    <img src="images/logo.png" alt="Alliance Chrétienne">
+</a>
+        </div>
+
+
+    <div class="nav-links">
+        <a href="aide.html">Aide</a>
+        <a href="faq.html">FAQ</a>
+        <a href="securite.html">Sécurité</a>
+        <a href="register.html" class="btn-register">Créer un compte</a>
+    </div>
+</nav>
+
+
+</header>
+
+<section class="hero">
+    <div class="hero-icon">🛡️</div>
+
+
+<h2>Conseils pour <span>rester en sécurité</span></h2>
+
+<p>
+    Votre sécurité et votre tranquillité sont importantes pour Alliance Chrétienne.
+    Prenez le temps de découvrir ces conseils avant de faire connaissance avec une
+    nouvelle personne.
+</p>
+
+
+</section>
+
+<div class="security-container">
+
+
+<div class="security-alert">
+    <div class="security-alert-icon">⚠️</div>
+
+    <div>
+        <strong>Restez vigilant, même lorsque la relation semble sérieuse.</strong>
+
+        <p>
+            Une personne peut utiliser un faux profil ou construire rapidement
+            une relation de confiance avant de demander de l'argent ou des informations
+            personnelles. Ne laissez jamais l'émotion remplacer votre vigilance.
+        </p>
+    </div>
+</div>
+
+<div class="security-grid">
+
+    <div class="security-card">
+        <div class="security-card-icon">🔐</div>
+
+        <h3>Protégez votre compte</h3>
+
+        <p>
+            Votre compte contient des informations personnelles. Protégez-le avec
+            de bonnes habitudes.
+        </p>
+
+        <ul>
+            <li>Utilisez un mot de passe unique et difficile à deviner.</li>
+            <li>Ne communiquez jamais votre mot de passe.</li>
+            <li>Évitez de vous connecter sur un appareil public.</li>
+            <li>Déconnectez-vous lorsque vous utilisez un appareil partagé.</li>
+            <li>Ne partagez jamais vos codes de connexion reçus par email ou SMS.</li>
+        </ul>
+    </div>
+
+    <div class="security-card">
+        <div class="security-card-icon">👤</div>
+
+        <h3>Méfiez-vous des faux profils</h3>
+
+        <p>
+            Même lorsqu'un profil semble parfait, prenez le temps de vérifier
+            que les informations sont cohérentes.
+        </p>
+
+        <ul>
+            <li>Observez attentivement les photos et les informations du profil.</li>
+            <li>Méfiez-vous d'une personne qui tombe rapidement amoureuse.</li>
+            <li>Posez des questions et prenez le temps de connaître la personne.</li>
+            <li>Une personne qui refuse systématiquement les appels vidéo peut être un signal d'alerte.</li>
+            <li>En cas de doute, faites une recherche inversée de la photo.</li>
+        </ul>
+    </div>
+
+    <div class="security-card">
+        <div class="security-card-icon">💳</div>
+
+        <h3>Ne donnez jamais d'argent</h3>
+
+        <p>
+            C'est l'une des règles les plus importantes sur les plateformes
+            de rencontres.
+        </p>
+
+        <div class="money-warning">
+            <h3>🚨 Attention aux demandes d'argent</h3>
+
+            <p>
+                Ne transférez jamais d'argent à une personne rencontrée en ligne,
+                même si son histoire semble urgente ou émouvante.
+            </p>
+
+            <ul>
+                <li>Billet d'avion</li>
+                <li>Frais médicaux</li>
+                <li>Problème familial</li>
+                <li>Investissement ou crypto-monnaie</li>
+                <li>Carte cadeau ou transfert d'argent</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="security-card">
+        <div class="security-card-icon">🔒</div>
+
+        <h3>Protégez vos informations personnelles</h3>
+
+        <p>
+            Ne partagez pas trop rapidement des informations qui pourraient
+            permettre à quelqu'un de vous identifier ou de vous localiser.
+        </p>
+
+        <ul>
+            <li>Adresse personnelle</li>
+            <li>Documents d'identité</li>
+            <li>Informations bancaires</li>
+            <li>Codes de paiement</li>
+            <li>Adresse exacte de votre domicile</li>
+            <li>Informations professionnelles sensibles</li>
+        </ul>
+    </div>
+
+    <div class="security-card">
+        <div class="security-card-icon">📸</div>
+
+        <h3>Faites attention aux photos</h3>
+
+        <p>
+            Réfléchissez avant de publier une photo. Une image peut contenir
+            des informations permettant de vous identifier ou de connaître votre
+            localisation.
+        </p>
+
+        <ul>
+            <li>Évitez les photos montrant votre adresse.</li>
+            <li>Ne publiez pas de documents personnels.</li>
+            <li>Évitez les photos contenant des informations confidentielles.</li>
+            <li>Ne partagez pas de contenu intime sous pression.</li>
+        </ul>
+    </div>
+
+    <div class="security-card">
+        <div class="security-card-icon">💬</div>
+
+        <h3>Prenez votre temps</h3>
+
+        <p>
+            Une relation sérieuse n'a pas besoin d'être précipitée.
+            Apprenez progressivement à connaître la personne.
+        </p>
+
+        <ul>
+            <li>Ne vous laissez pas mettre sous pression.</li>
+            <li>Gardez votre jugement et votre indépendance.</li>
+            <li>Parlez de votre nouvelle relation à une personne de confiance.</li>
+            <li>Si quelque chose vous semble étrange, écoutez votre intuition.</li>
+        </ul>
+    </div>
+
+</div>
+
+<section class="meeting-section">
+
+    <h3>🤝 Si vous décidez de rencontrer quelqu'un</h3>
+
+    <p>
+        Pour une première rencontre, privilégiez toujours votre sécurité.
+        Organisez la rencontre dans un lieu public et informez une personne
+        de confiance de vos plans.
+    </p>
+
+    <div class="meeting-grid">
+
+        <div class="meeting-item">
+            <strong>📍 Lieu public</strong>
+            <span>
+                Choisissez un restaurant, café, centre commercial ou autre
+                endroit fréquenté.
+            </span>
+        </div>
+
+        <div class="meeting-item">
+            <strong>👨‍👩‍👧 Prévenez quelqu'un</strong>
+            <span>
+                Donnez à un proche le lieu et l'heure de votre rendez-vous.
+            </span>
+        </div>
+
+        <div class="meeting-item">
+            <strong>🚗 Transport</strong>
+            <span>
+                Pour une première rencontre, gardez votre propre moyen
+                de transport si possible.
+            </span>
+        </div>
+
+    </div>
+</section>
+
+<div class="report-box">
+
+    <h3>🚨 Vous avez rencontré un problème ?</h3>
+
+    <p>
+        Si vous pensez qu'un profil est faux, qu'une personne vous harcèle,
+        vous demande de l'argent ou enfreint les règles d'Alliance Chrétienne,
+        signalez-le-nous.
+    </p>
+
+    <a href="signaler.html" class="report-btn">
+        Signaler un problème
+    </a>
+
+</div>
+
+
+</div>
+
+<footer>
+
+
+<div class="footer-links">
+    <a href="aide.html">Aide</a>
+    <a href="blog.html">Blog</a>
+    <a href="faq.html">FAQ</a>
+    <a href="confidentialite.html">Confidentialité</a>
+    <a href="conditions.html">Conditions</a>
+    <a href="securite.html">Sécurité</a>
+    <a href="conseils-securite.html">Conseils de sécurité</a>
+    <a href="a-propos.html">À propos</a>
+    <a href="contact.html">Contact</a>
+    <a href="signaler.html">Signaler un problème</a>
+</div>
+
+<p>© 2026 Alliance Chrétienne. Tous droits réservés.</p>
+<p>Fait avec ❤️ pour la communauté chrétienne.</p>
+
+
+</footer>
+
+</body>
+</html>

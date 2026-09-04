@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Paramètres - Alliance Chrétienne</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-light: #eff6ff;
+
+            --accent-pink: #f43f5e;
+            --accent-pink-light: #fff1f2;
+
+            --dark-color: #1e293b;
+            --text-color: #475569;
+            --white: #ffffff;
+
+            --border-color: #e2e8f0;
+            --success-color: #10b981;
+
+            --shadow: 0 20px 40px rgba(244, 63, 94, 0.08);
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03);
+
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-text: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+
+            background: #fff8f8;
+            color: var(--text-color);
+
+            transition:
+                background 0.3s ease,
+                color 0.3s ease;
+
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body.dark-mode {
+            background: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        /* =========================================================
+           FOND ANIMÉ
+           ========================================================= */
+
+        .animated-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .floating-shape {
+            position: absolute;
+
+            bottom: -150px;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(244, 63, 94, 0.08),
+                    rgba(37, 99, 235, 0.06)
+                );
+
+            backdrop-filter: blur(5px);
+
+            animation: floatUp linear infinite;
+        }
+
+        .floating-shape:nth-child(1) {
+            width: 180px;
+            height: 180px;
+            left: 5%;
+            animation-duration: 22s;
+        }
+
+        .floating-shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            left: 25%;
+            animation-duration: 18s;
+            animation-delay: 3s;
+        }
+
+        .floating-shape:nth-child(3) {
+            width: 220px;
+            height: 220px;
+            left: 55%;
+            animation-duration: 25s;
+            animation-delay: 6s;
+        }
+
+        .floating-shape:nth-child(4) {
+            width: 150px;
+            height: 150px;
+            left: 80%;
+            animation-duration: 20s;
+            animation-delay: 2s;
+        }
+
+        body.dark-mode .floating-shape {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(244, 63, 94, 0.13),
+                    rgba(37, 99, 235, 0.10)
+                );
+        }
+
+        @keyframes floatUp {
+
+            0% {
+                opacity: 0;
+                transform:
+                    translateY(0)
+                    rotate(0deg)
+                    scale(1);
+            }
+
+            20% {
+                opacity: 0.8;
+            }
+
+            70% {
+                opacity: 0.4;
+            }
+
+            100% {
+                opacity: 0;
+                transform:
+                    translateY(-100vh)
+                    rotate(360deg)
+                    scale(1.2);
+            }
+        }
+
+        /* =========================================================
+           PARTICULES
+           ========================================================= */
+
+        .particle {
+            position: fixed;
+            pointer-events: none;
+
+            font-size: 18px;
+
+            animation: particleFloat 2s ease-out forwards;
+
+            z-index: 9999;
+        }
+
+        @keyframes particleFloat {
+
+            0% {
+                opacity: 1;
+                transform:
+                    translate(0, 0)
+                    scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform:
+                    translate(
+                        var(--move-x),
+                        var(--move-y)
+                    )
+                    scale(0.2);
+            }
+        }
+
+        /* =========================================================
+           HEADER
+           ========================================================= */
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            background: rgba(255, 255, 255, 0.95);
+
+            backdrop-filter: blur(10px);
+
+            border-bottom:
+                1px solid var(--border-color);
+        }
+
+        body.dark-mode .site-header {
+            background: rgba(30, 41, 59, 0.95);
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: auto;
+
+            padding:
+                1rem 1.5rem;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            text-decoration: none;
+            color: var(--dark-color);
+
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        body.dark-mode .logo {
+            color: var(--dark-text);
+        }
+
+        .logo h1 {
+            margin: 0;
+
+            font-size: 1.5rem;
+            font-weight: 800;
+
+            display: flex;
+            align-items: center;
+
+            gap: 0.75rem;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .dark-mode-toggle {
+            width: 45px;
+            height: 45px;
+
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+
+            background: var(--white);
+
+            cursor: pointer;
+
+            font-size: 1.3rem;
+
+            transition:
+                transform 0.3s ease,
+                background 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover {
+            transform:
+                rotate(15deg)
+                scale(1.05);
+        }
+
+        body.dark-mode .dark-mode-toggle {
+            background: var(--dark-card);
+            border-color: #334155;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            padding:
+                0.6rem 1.5rem;
+
+            border-radius: 0.75rem;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent-pink),
+                    var(--primary-color)
+                );
+
+            color: white;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            box-shadow:
+                0 6px 15px rgba(244, 63, 94, 0.18);
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+        }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 20px rgba(244, 63, 94, 0.25);
+        }
+
+        /* =========================================================
+           CONTENU
+           ========================================================= */
+
+        .settings-container {
+            width: 100%;
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding:
+                3rem 1.5rem 4rem;
+        }
+
+        .page-title {
+            text-align: center;
+
+            margin-bottom: 2.5rem;
+        }
+
+        .page-title h2 {
+            margin: 0 0 0.75rem;
+
+            color: var(--dark-color);
+
+            font-size: 2.5rem;
+            line-height: 1.2;
+            font-weight: 800;
+        }
+
+        body.dark-mode .page-title h2 {
+            color: var(--dark-text);
+        }
+
+        .page-title h2 span {
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent-pink),
+                    var(--primary-color)
+                );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            color: transparent;
+        }
+
+        .page-title p {
+            margin: 0;
+
+            font-size: 1.05rem;
+
+            line-height: 1.6;
+        }
+
+        /* =========================================================
+           CARTES
+           ========================================================= */
+
+        .settings-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 1.5rem;
+        }
+
+        .settings-card {
+            background:
+                rgba(255, 255, 255, 0.95);
+
+            border:
+                1px solid rgba(244, 63, 94, 0.12);
+
+            border-radius: 1.5rem;
+
+            padding: 2rem;
+
+            box-shadow: var(--shadow);
+
+            backdrop-filter: blur(10px);
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+        }
+
+        .settings-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 25px 45px rgba(244, 63, 94, 0.12);
+        }
+
+        body.dark-mode .settings-card {
+            background:
+                rgba(30, 41, 59, 0.95);
+
+            border-color:
+                rgba(148, 163, 184, 0.15);
+        }
+
+        .settings-card-header {
+            display: flex;
+            align-items: center;
+
+            gap: 1rem;
+
+            margin-bottom: 1.5rem;
+        }
+
+        .settings-icon {
+            width: 50px;
+            height: 50px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 1rem;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent-pink-light),
+                    var(--primary-light)
+                );
+
+            font-size: 1.5rem;
+        }
+
+        body.dark-mode .settings-icon {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(244, 63, 94, 0.15),
+                    rgba(37, 99, 235, 0.15)
+                );
+        }
+
+        .settings-card h3 {
+            margin: 0;
+
+            color: var(--dark-color);
+
+            font-size: 1.25rem;
+            font-weight: 800;
+        }
+
+        body.dark-mode .settings-card h3 {
+            color: var(--dark-text);
+        }
+
+        .settings-card-description {
+            margin:
+                0 0 1.5rem;
+
+            font-size: 0.92rem;
+
+            line-height: 1.6;
+
+            opacity: 0.8;
+        }
+
+        /* =========================================================
+           CHAMPS
+           ========================================================= */
+
+        .setting-field {
+            margin-bottom: 1.25rem;
+        }
+
+        .setting-field:last-child {
+            margin-bottom: 0;
+        }
+
+        .setting-field label {
+            display: block;
+
+            margin-bottom: 0.5rem;
+
+            color: var(--dark-color);
+
+            font-weight: 600;
+
+            font-size: 0.9rem;
+        }
+
+        body.dark-mode .setting-field label {
+            color: var(--dark-text);
+        }
+
+        .setting-field input,
+        .setting-field textarea,
+        .setting-field select {
+            width: 100%;
+
+            border:
+                1.5px solid var(--border-color);
+
+            border-radius: 0.85rem;
+
+            padding:
+                0.9rem 1rem;
+
+            font: inherit;
+
+            color: var(--text-color);
+
+            background: #fafbfc;
+
+            outline: none;
+
+            transition:
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+        }
+
+        .setting-field textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .setting-field input:focus,
+        .setting-field textarea:focus,
+        .setting-field select:focus {
+            border-color: var(--accent-pink);
+
+            box-shadow:
+                0 0 0 4px
+                rgba(244, 63, 94, 0.08);
+        }
+
+        body.dark-mode .setting-field input,
+        body.dark-mode .setting-field textarea,
+        body.dark-mode .setting-field select {
+            background: #0f172a;
+
+            color: var(--dark-text);
+
+            border-color: #334155;
+        }
+
+        /* =========================================================
+           TOGGLE
+           ========================================================= */
+
+        .toggle-row {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 1rem;
+
+            padding:
+                1rem 0;
+
+            border-bottom:
+                1px solid var(--border-color);
+        }
+
+        .toggle-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .toggle-row:first-child {
+            padding-top: 0;
+        }
+
+        .toggle-text strong {
+            display: block;
+
+            color: var(--dark-color);
+
+            margin-bottom: 0.25rem;
+        }
+
+        body.dark-mode .toggle-text strong {
+            color: var(--dark-text);
+        }
+
+        .toggle-text small {
+            display: block;
+
+            line-height: 1.5;
+
+            opacity: 0.7;
+        }
+
+        .switch {
+            position: relative;
+
+            width: 52px;
+            height: 30px;
+
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+
+            inset: 0;
+
+            cursor: pointer;
+
+            background: #cbd5e1;
+
+            border-radius: 30px;
+
+            transition: 0.3s;
+        }
+
+        .slider::before {
+            content: "";
+
+            position: absolute;
+
+            width: 22px;
+            height: 22px;
+
+            left: 4px;
+            top: 4px;
+
+            background: white;
+
+            border-radius: 50%;
+
+            transition: 0.3s;
+
+            box-shadow:
+                0 2px 5px rgba(0, 0, 0, 0.15);
+        }
+
+        .switch input:checked + .slider {
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent-pink),
+                    var(--primary-color)
+                );
+        }
+
+        .switch input:checked + .slider::before {
+            transform: translateX(22px);
+        }
+
+        /* =========================================================
+           INFORMATION
+           ========================================================= */
+
+        .info-box {
+            grid-column: 1 / -1;
+
+            padding: 1.5rem;
+
+            border-radius: 1rem;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent-pink-light),
+                    var(--primary-light)
+                );
+
+            border-left:
+                4px solid var(--accent-pink);
+        }
+
+        body.dark-mode .info-box {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(244, 63, 94, 0.10),
+                    rgba(37, 99, 235, 0.10)
+                );
+        }
+
+        .info-box strong {
+            color: var(--dark-color);
+        }
+
+        body.dark-mode .info-box strong {
+            color: var(--dark-text);
+        }
+
+        /* =========================================================
+           BOUTONS
+           ========================================================= */
+
+        .settings-actions {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 1rem;
+
+            margin-top: 2rem;
+        }
+
+        .btn-save {
+            border: none;
+
+            cursor: pointer;
+
+            padding:
+                1rem 2.5rem;
+
+            border-radius: 0.85rem;
+
+            color: white;
+
+            font: inherit;
+            font-weight: 700;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent-pink),
+                    var(--primary-color)
+                );
+
+            box-shadow:
+                0 10px 25px rgba(244, 63, 94, 0.20);
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 14px 30px rgba(244, 63, 94, 0.28);
+        }
+
+        /* =========================================================
+           FOOTER
+           ========================================================= */
+
+        .site-footer {
+            margin-top: auto;
+
+            background: #0f172a;
+
+            color: #94a3b8;
+
+            text-align: center;
+
+            padding: 2rem 1.5rem;
+        }
+
+        .site-footer strong {
+            color: white;
+        }
+
+        /* =========================================================
+           RESPONSIVE
+           ========================================================= */
+
+        @media (max-width: 900px) {
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-box {
+                grid-column: auto;
+            }
+
+            .page-title h2 {
+                font-size: 2.1rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding:
+                    0.8rem 1rem;
+            }
+
+            .logo h1 {
+                font-size: 1.15rem;
+            }
+
+            .btn-back {
+                padding:
+                    0.55rem 0.9rem;
+
+                font-size: 0.85rem;
+            }
+
+            .settings-container {
+                padding:
+                    2rem 1rem 3rem;
+            }
+
+            .page-title h2 {
+                font-size: 1.8rem;
+            }
+
+            .settings-card {
+                padding: 1.4rem;
+            }
+
+            .settings-actions {
+                flex-direction: column;
+            }
+
+            .btn-save {
+                width: 100%;
+            }
+        }
+
+
+.register-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+.profile-back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    color: var(--dark-color);
+    background: transparent;
+
+    text-decoration: none;
+
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1;
+
+    transition: background .2s ease, transform .2s ease;
+}
+
+.profile-back-button:hover {
+    background: #f1f5f9;
+    transform: translateX(-2px);
+}
+
+.profile-back-button:active {
+    transform: scale(.92);
+}
+
+
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================================================
+         FOND ANIMÉ
+         ========================================================= -->
+
+    <div class="animated-bg">
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+    </div>
+
+    <header class="site-header">
+
+        <nav class="navbar">
+
+             <a href="javascript:history.back()"
+               class="profile-back-button"
+               aria-label="Retour">
+                ‹
+            </a>
+
+            <div class="nav-right">
+
+                <button
+                    type="button"
+                    class="dark-mode-toggle"
+                    id="darkModeToggle"
+                    title="Changer le thème"
+                >
+                    🌙
+                </button>
+
+                <a
+                    href="search.html"
+                    class="btn-back"
+                >
+                    ← Search Profil
+                </a>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================================================
+         CONTENU
+         ========================================================= -->
+
+    <main class="settings-container">
+
+        <div class="page-title">
+
+            <h2>
+                ⚙️ <span>Paramètres</span>
+            </h2>
+
+            <p>
+                Gérez les paramètres généraux
+                de votre plateforme Alliance Chrétienne.
+            </p>
+
+        </div>
+
+
+        <div class="settings-grid">
+
+
+            <!-- =================================================
+                 INFORMATIONS GÉNÉRALES
+                 ================================================= -->
+
+            <section class="settings-card">
+
+                <div class="settings-card-header">
+
+                    <div class="settings-icon">
+                        ⚙️
+                    </div>
+
+                    <div>
+                        <h3>Informations générales</h3>
+                    </div>
+
+                </div>
+
+                <p class="settings-card-description">
+                    Informations principales affichées
+                    sur la plateforme.
+                </p>
+
+                <div class="setting-field">
+
+                    <label for="platformName">
+                        Nom de la plateforme
+                    </label>
+
+                    <input
+                        type="text"
+                        id="platformName"
+                        value="Alliance Chrétienne"
+                    >
+
+                </div>
+
+                <div class="setting-field">
+
+                    <label for="platformDescription">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="platformDescription"
+                    >Rencontres chrétiennes sérieuses et authentiques.</textarea>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 CONTACT
+                 ================================================= -->
+
+            <section class="settings-card">
+
+                <div class="settings-card-header">
+
+                    <div class="settings-icon">
+                        📧
+                    </div>
+
+                    <div>
+                        <h3>Contact</h3>
+                    </div>
+
+                </div>
+
+                <p class="settings-card-description">
+                    Coordonnées utilisées pour contacter
+                    l'administration.
+                </p>
+
+                <div class="setting-field">
+
+                    <label for="contactEmail">
+                        Email de contact
+                    </label>
+
+                    <input
+                        type="email"
+                        id="contactEmail"
+                        placeholder="contact@alliance-chretienne.com"
+                    >
+
+                </div>
+
+                <div class="setting-field">
+
+                    <label for="contactPhone">
+                        Téléphone
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="contactPhone"
+                        placeholder="+225 ..."
+                    >
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 MEMBRES
+                 ================================================= -->
+
+            <section class="settings-card">
+
+                <div class="settings-card-header">
+
+                    <div class="settings-icon">
+                        👥
+                    </div>
+
+                    <div>
+                        <h3>Gestion des membres</h3>
+                    </div>
+
+                </div>
+
+                <p class="settings-card-description">
+                    Contrôlez certaines actions liées
+                    aux membres.
+                </p>
+
+                <div class="toggle-row">
+
+                    <div class="toggle-text">
+
+                        <strong>
+                            Autoriser les inscriptions
+                        </strong>
+
+                        <small>
+                            Permettre aux nouveaux membres
+                            de créer un compte.
+                        </small>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            id="allowRegistrations"
+                            checked
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+                <div class="toggle-row">
+
+                    <div class="toggle-text">
+
+                        <strong>
+                            Validation des nouveaux profils
+                        </strong>
+
+                        <small>
+                            Les nouveaux profils peuvent
+                            nécessiter une vérification.
+                        </small>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            id="profileValidation"
+                            checked
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 MODÉRATION
+                 ================================================= -->
+
+            <section class="settings-card">
+
+                <div class="settings-card-header">
+
+                    <div class="settings-icon">
+                        🛡️
+                    </div>
+
+                    <div>
+                        <h3>Modération</h3>
+                    </div>
+
+                </div>
+
+                <p class="settings-card-description">
+                    Protection de la communauté
+                    contre les contenus inappropriés.
+                </p>
+
+                <div class="toggle-row">
+
+                    <div class="toggle-text">
+
+                        <strong>
+                            Validation des photos
+                        </strong>
+
+                        <small>
+                            Chaque nouvelle photo doit être
+                            approuvée par l'administration.
+                        </small>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            id="photoModeration"
+                            checked
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+                <div class="toggle-row">
+
+                    <div class="toggle-text">
+
+                        <strong>
+                            Protection de la communauté
+                        </strong>
+
+                        <small>
+                            Maintenir les contrôles de sécurité
+                            de la plateforme.
+                        </small>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            id="communityProtection"
+                            checked
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 NOTIFICATIONS
+                 ================================================= -->
+
+            <section class="settings-card">
+
+                <div class="settings-card-header">
+
+                    <div class="settings-icon">
+                        🔔
+                    </div>
+
+                    <div>
+                        <h3>Notifications</h3>
+                    </div>
+
+                </div>
+
+                <p class="settings-card-description">
+                    Gestion des notifications destinées
+                    à l'administration.
+                </p>
+
+                <div class="toggle-row">
+
+                    <div class="toggle-text">
+
+                        <strong>
+                            Nouvelles photos
+                        </strong>
+
+                        <small>
+                            Être informé lorsqu'une photo
+                            est envoyée pour validation.
+                        </small>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            id="photoNotifications"
+                            checked
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+                <div class="toggle-row">
+
+                    <div class="toggle-text">
+
+                        <strong>
+                            Nouveaux membres
+                        </strong>
+
+                        <small>
+                            Être informé lorsqu'un nouveau
+                            membre rejoint la plateforme.
+                        </small>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            id="memberNotifications"
+                            checked
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 SÉCURITÉ
+                 ================================================= -->
+
+            <section class="settings-card">
+
+                <div class="settings-card-header">
+
+                    <div class="settings-icon">
+                        🔐
+                    </div>
+
+                    <div>
+                        <h3>Sécurité</h3>
+                    </div>
+
+                </div>
+
+                <p class="settings-card-description">
+                    Paramètres liés à la sécurité
+                    de l'administration.
+                </p>
+
+                <div class="toggle-row">
+
+                    <div class="toggle-text">
+
+                        <strong>
+                            Sessions sécurisées
+                        </strong>
+
+                        <small>
+                            Maintenir les protections
+                            de connexion administrateur.
+                        </small>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            id="secureSessions"
+                            checked
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 INFORMATION
+                 ================================================= -->
+
+            <div class="info-box">
+
+                <strong>
+                    🔐 À propos des paramètres
+                </strong>
+
+                <p style="margin:0.5rem 0 0; line-height:1.6;">
+                    Cette page constitue l'espace central
+                    des paramètres de l'administration.
+                    Les options pourront être connectées
+                    progressivement à Supabase lorsque
+                    leur fonctionnement sera réellement
+                    nécessaire.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             ACTION
+             ===================================================== -->
+
+        <div class="settings-actions">
+
+            <button
+                type="button"
+                class="btn-save"
+                id="saveSettings"
+            >
+                💾 Enregistrer les paramètres
+            </button>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+         ========================================================= -->
+
+    <footer class="site-footer">
+
+        <p>
+            ✝️ <strong>Alliance Chrétienne</strong>
+            — Administration
+        </p>
+
+        <p style="margin-bottom:0;">
+            Gestion sécurisée de la plateforme.
+        </p>
+
+    </footer>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+         ========================================================= -->
+
+    <script>
+
+        /* ========================================================
+           MODE SOMBRE
+           ======================================================== */
+
+        const darkModeToggle =
+            document.getElementById('darkModeToggle');
+
+        function updateThemeIcon() {
+
+            if (document.body.classList.contains('dark-mode')) {
+
+                darkModeToggle.textContent = '☀️';
+
+            } else {
+
+                darkModeToggle.textContent = '🌙';
+
+            }
+        }
+
+        if (localStorage.getItem('darkMode') === 'true') {
+
+            document.body.classList.add('dark-mode');
+
+        }
+
+        updateThemeIcon();
+
+
+        darkModeToggle.addEventListener('click', () => {
+
+            document.body.classList.toggle('dark-mode');
+
+            const enabled =
+                document.body.classList.contains('dark-mode');
+
+            localStorage.setItem(
+                'darkMode',
+                enabled
+            );
+
+            updateThemeIcon();
+
+            createParticles();
+
+        });
+
+
+        /* ========================================================
+           PARTICULES
+           ======================================================== */
+
+        function createParticles() {
+
+            const symbols = ['✨', '💕'];
+
+            for (let i = 0; i < 8; i++) {
+
+                const particle =
+                    document.createElement('div');
+
+                particle.className = 'particle';
+
+                particle.textContent =
+                    symbols[
+                        Math.floor(
+                            Math.random() * symbols.length
+                        )
+                    ];
+
+                particle.style.left =
+                    `${Math.random() * 100}vw`;
+
+                particle.style.top =
+                    `${Math.random() * 100}vh`;
+
+                particle.style.setProperty(
+                    '--move-x',
+                    `${(Math.random() - 0.5) * 180}px`
+                );
+
+                particle.style.setProperty(
+                    '--move-y',
+                    `${(Math.random() - 0.5) * 180}px`
+                );
+
+                document.body.appendChild(particle);
+
+                setTimeout(() => {
+                    particle.remove();
+                }, 2000);
+            }
+        }
+
+
+        /* ========================================================
+           ENREGISTREMENT
+           ======================================================== */
+
+        document
+            .getElementById('saveSettings')
+            .addEventListener('click', () => {
+
+                const settings = {
+
+                    platformName:
+                        document.getElementById(
+                            'platformName'
+                        ).value,
+
+                    platformDescription:
+                        document.getElementById(
+                            'platformDescription'
+                        ).value,
+
+                    contactEmail:
+                        document.getElementById(
+                            'contactEmail'
+                        ).value,
+
+                    contactPhone:
+                        document.getElementById(
+                            'contactPhone'
+                        ).value,
+
+                    allowRegistrations:
+                        document.getElementById(
+                            'allowRegistrations'
+                        ).checked,
+
+                    profileValidation:
+                        document.getElementById(
+                            'profileValidation'
+                        ).checked,
+
+                    photoModeration:
+                        document.getElementById(
+                            'photoModeration'
+                        ).checked,
+
+                    communityProtection:
+                        document.getElementById(
+                            'communityProtection'
+                        ).checked,
+
+                    photoNotifications:
+                        document.getElementById(
+                            'photoNotifications'
+                        ).checked,
+
+                    memberNotifications:
+                        document.getElementById(
+                            'memberNotifications'
+                        ).checked,
+
+                    secureSessions:
+                        document.getElementById(
+                            'secureSessions'
+                        ).checked
+                };
+
+                localStorage.setItem(
+                    'allianceAdminSettings',
+                    JSON.stringify(settings)
+                );
+
+                createParticles();
+
+                alert(
+                    '✅ Les paramètres ont été enregistrés sur cet appareil.'
+                );
+
+            });
+
+
+        /* ========================================================
+           CHARGEMENT DES PARAMÈTRES
+           ======================================================== */
+
+        const savedSettings =
+            localStorage.getItem(
+                'allianceAdminSettings'
+            );
+
+        if (savedSettings) {
+
+            try {
+
+                const settings =
+                    JSON.parse(savedSettings);
+
+                Object.keys(settings).forEach(key => {
+
+                    const element =
+                        document.getElementById(key);
+
+                    if (!element) return;
+
+                    if (element.type === 'checkbox') {
+
+                        element.checked =
+                            settings[key];
+
+                    } else {
+
+                        element.value =
+                            settings[key];
+
+                    }
+
+                });
+
+            } catch (error) {
+
+                console.error(
+                    'Erreur lors du chargement des paramètres :',
+                    error
+                );
+
+            }
+        }
+
+
+        /* ========================================================
+           RACCOURCI ESC
+           ======================================================== */
+
+        document.addEventListener(
+            'keydown',
+            event => {
+
+                if (event.key === 'Escape') {
+
+                    // Rien à fermer pour le moment.
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

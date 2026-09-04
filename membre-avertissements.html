@@ -1,0 +1,1915 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mes avertissements - Alliance Chrétienne</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/i18n.js"></script>
+
+<style>
+    :root {
+        --primary-color: #2563eb;
+        --primary-light: #eff6ff;
+
+        --accent-pink: #f43f5e;
+        --accent-pink-light: #fff1f2;
+
+        --dark-color: #1e293b;
+        --text-color: #475569;
+        --muted-color: #94a3b8;
+
+        --white: #ffffff;
+        --bg-color: #fff8f8;
+        --border-color: #e2e8f0;
+
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --orange-color: #f97316;
+        --danger-color: #dc2626;
+
+        --shadow:
+            0 20px 40px rgba(244, 63, 94, 0.08);
+
+        --shadow-sm:
+            0 4px 12px rgba(0, 0, 0, 0.04);
+
+        --dark-bg: #0f172a;
+        --dark-card: #1e293b;
+        --dark-border: rgba(148, 163, 184, 0.18);
+        --dark-text: #e2e8f0;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        min-height: 100vh;
+        background: var(--bg-color);
+        color: var(--text-color);
+
+        font-family:
+            system-ui,
+            -apple-system,
+            BlinkMacSystemFont,
+            "Segoe UI",
+            Roboto,
+            sans-serif;
+
+        overflow-x: hidden;
+
+        transition:
+            background-color 0.3s ease,
+            color 0.3s ease;
+    }
+
+    /* ==================================================
+       MODE SOMBRE
+       ================================================== */
+
+    body.dark-mode {
+        background: var(--dark-bg);
+        color: var(--dark-text);
+    }
+
+    /* ==================================================
+       FOND ANIMÉ
+       ================================================== */
+
+    .animated-bg {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+
+        overflow: hidden;
+        pointer-events: none;
+
+        z-index: -1;
+    }
+
+    .floating-shape {
+        position: absolute;
+
+        bottom: -180px;
+
+        border-radius: 50%;
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(244, 63, 94, 0.08),
+                rgba(37, 99, 235, 0.06)
+            );
+
+        backdrop-filter: blur(5px);
+
+        animation:
+            floatUp 16s infinite linear;
+    }
+
+    .floating-shape:nth-child(1) {
+        width: 90px;
+        height: 90px;
+        left: 8%;
+        animation-duration: 13s;
+    }
+
+    .floating-shape:nth-child(2) {
+        width: 140px;
+        height: 140px;
+        left: 28%;
+        animation-duration: 18s;
+        animation-delay: 2s;
+    }
+
+    .floating-shape:nth-child(3) {
+        width: 65px;
+        height: 65px;
+        left: 55%;
+        animation-duration: 11s;
+        animation-delay: 5s;
+    }
+
+    .floating-shape:nth-child(4) {
+        width: 110px;
+        height: 110px;
+        left: 75%;
+        animation-duration: 15s;
+        animation-delay: 1s;
+    }
+
+    .floating-shape:nth-child(5) {
+        width: 70px;
+        height: 70px;
+        left: 90%;
+        animation-duration: 12s;
+        animation-delay: 4s;
+    }
+
+    body.dark-mode .floating-shape {
+        background:
+            linear-gradient(
+                135deg,
+                rgba(244, 63, 94, 0.12),
+                rgba(37, 99, 235, 0.10)
+            );
+    }
+
+    @keyframes floatUp {
+
+        0% {
+            transform:
+                translateY(0)
+                rotate(0deg)
+                scale(1);
+
+            opacity: 0;
+        }
+
+        15% {
+            opacity: 0.8;
+        }
+
+        50% {
+            opacity: 0.45;
+        }
+
+        100% {
+            transform:
+                translateY(-110vh)
+                rotate(360deg)
+                scale(1.2);
+
+            opacity: 0;
+        }
+    }
+
+    /* ==================================================
+       HEADER
+       ================================================== */
+
+    header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+
+        background:
+            rgba(255, 255, 255, 0.94);
+
+        backdrop-filter: blur(14px);
+
+        border-bottom:
+            1px solid var(--border-color);
+
+        transition: all 0.3s ease;
+    }
+
+    body.dark-mode header {
+        background:
+            rgba(15, 23, 42, 0.94);
+
+        border-bottom-color:
+            var(--dark-border);
+    }
+
+    .navbar {
+        max-width: 1200px;
+        margin: 0 auto;
+
+        padding:
+            1rem 1.5rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .logo a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .logo h1 {
+        margin: 0;
+
+        color: var(--dark-color);
+
+        font-size: 1.5rem;
+        font-weight: 800;
+
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+
+        transition:
+            transform 0.3s ease;
+    }
+
+    body.dark-mode .logo h1 {
+        color: var(--white);
+    }
+
+    .logo h1:hover {
+        transform: scale(1.03);
+    }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .dark-mode-toggle {
+        width: 44px;
+        height: 44px;
+
+        border: none;
+        border-radius: 50%;
+
+        background: #f1f5f9;
+
+        cursor: pointer;
+
+        font-size: 1.2rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        transition: all 0.3s ease;
+    }
+
+    body.dark-mode .dark-mode-toggle {
+        background:
+            rgba(148, 163, 184, 0.15);
+    }
+
+    .dark-mode-toggle:hover {
+        transform:
+            rotate(15deg)
+            scale(1.08);
+    }
+
+    .btn-home {
+        padding:
+            0.65rem 1.2rem;
+
+        border-radius:
+            0.75rem;
+
+        text-decoration: none;
+
+        font-size: 0.9rem;
+        font-weight: 700;
+
+        color: var(--accent-pink);
+
+        background:
+            var(--accent-pink-light);
+
+        border:
+            1px solid rgba(244, 63, 94, 0.12);
+
+        transition: all 0.3s ease;
+    }
+
+    .btn-home:hover {
+        transform: translateY(-2px);
+
+        background:
+            var(--accent-pink);
+
+        color: white;
+
+        box-shadow:
+            0 6px 18px
+            rgba(244, 63, 94, 0.25);
+    }
+
+    /* ==================================================
+       CONTENU
+       ================================================== */
+
+    .warnings-page {
+        max-width: 1100px;
+        margin: 0 auto;
+
+        padding:
+            3rem 1.5rem 4rem;
+    }
+
+    .page-intro {
+        margin-bottom: 2rem;
+
+        animation:
+            fadeUp 0.7s ease-out;
+    }
+
+    .page-intro h2 {
+        color: var(--dark-color);
+
+        font-size: 2.3rem;
+
+        font-weight: 800;
+
+        letter-spacing: -0.7px;
+
+        margin-bottom: 0.6rem;
+    }
+
+    body.dark-mode .page-intro h2 {
+        color: white;
+    }
+
+    .page-intro h2 span {
+        background:
+            linear-gradient(
+                135deg,
+                var(--accent-pink),
+                #ec4899
+            );
+
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .page-intro p {
+        color: var(--text-color);
+
+        font-size: 1rem;
+
+        line-height: 1.6;
+
+        max-width: 720px;
+    }
+
+    body.dark-mode .page-intro p {
+        color: #cbd5e1;
+    }
+
+    /* ==================================================
+       STATISTIQUES
+       ================================================== */
+
+    .warning-stats {
+        display: grid;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 1rem;
+
+        margin-bottom: 1.5rem;
+    }
+
+    .stat-card {
+        position: relative;
+
+        background:
+            rgba(255, 255, 255, 0.9);
+
+        border:
+            1px solid var(--border-color);
+
+        border-radius:
+            1.2rem;
+
+        padding:
+            1.25rem;
+
+        box-shadow:
+            var(--shadow-sm);
+
+        overflow: hidden;
+
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
+    }
+
+    body.dark-mode .stat-card {
+        background:
+            rgba(30, 41, 59, 0.75);
+
+        border-color:
+            var(--dark-border);
+    }
+
+    .stat-card:hover {
+        transform: translateY(-4px);
+
+        box-shadow:
+            0 12px 28px
+            rgba(244, 63, 94, 0.12);
+    }
+
+    .stat-card::after {
+        content: "";
+
+        position: absolute;
+
+        width: 90px;
+        height: 90px;
+
+        right: -35px;
+        bottom: -40px;
+
+        border-radius: 50%;
+
+        background:
+            rgba(244, 63, 94, 0.06);
+    }
+
+    .stat-icon {
+        width: 42px;
+        height: 42px;
+
+        border-radius: 12px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 1.25rem;
+
+        background:
+            var(--accent-pink-light);
+
+        margin-bottom: 0.8rem;
+    }
+
+    .stat-card:nth-child(2) .stat-icon {
+        background: var(--primary-light);
+    }
+
+    .stat-card:nth-child(3) .stat-icon {
+        background: #ecfdf5;
+    }
+
+    .stat-label {
+        color: var(--muted-color);
+
+        font-size: 0.78rem;
+
+        text-transform: uppercase;
+
+        letter-spacing: 0.5px;
+
+        font-weight: 700;
+
+        margin-bottom: 0.25rem;
+    }
+
+    .stat-value {
+        color: var(--dark-color);
+
+        font-size: 1.45rem;
+
+        font-weight: 800;
+    }
+
+    body.dark-mode .stat-value {
+        color: white;
+    }
+
+    /* ==================================================
+       INFO MODÉRATION
+       ================================================== */
+
+    .moderation-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        padding:
+            1.2rem 1.4rem;
+
+        margin-bottom: 1.5rem;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--accent-pink-light),
+                var(--primary-light)
+            );
+
+        border:
+            1px solid
+            rgba(244, 63, 94, 0.14);
+
+        border-radius:
+            1rem;
+
+        animation:
+            fadeUp 0.7s ease-out 0.1s both;
+    }
+
+    body.dark-mode .moderation-info {
+        background:
+            linear-gradient(
+                135deg,
+                rgba(244, 63, 94, 0.10),
+                rgba(37, 99, 235, 0.10)
+            );
+
+        border-color:
+            rgba(244, 63, 94, 0.2);
+    }
+
+    .moderation-icon {
+        width: 44px;
+        height: 44px;
+
+        flex-shrink: 0;
+
+        border-radius: 50%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--accent-pink),
+                #ec4899
+            );
+
+        color: white;
+
+        font-size: 1.2rem;
+
+        box-shadow:
+            0 6px 15px
+            rgba(244, 63, 94, 0.25);
+    }
+
+    .moderation-info h3 {
+        color: var(--dark-color);
+
+        font-size: 0.95rem;
+
+        margin-bottom: 0.2rem;
+    }
+
+    body.dark-mode .moderation-info h3 {
+        color: white;
+    }
+
+    .moderation-info p {
+        color: var(--text-color);
+
+        font-size: 0.85rem;
+
+        line-height: 1.5;
+    }
+
+    body.dark-mode .moderation-info p {
+        color: #cbd5e1;
+    }
+
+    /* ==================================================
+       CONTENEUR
+       ================================================== */
+
+    .warnings-card {
+        background:
+            rgba(255, 255, 255, 0.94);
+
+        border:
+            1px solid var(--border-color);
+
+        border-radius:
+            1.5rem;
+
+        padding:
+            1.8rem;
+
+        box-shadow:
+            var(--shadow);
+
+        backdrop-filter: blur(10px);
+
+        animation:
+            fadeUp 0.7s ease-out 0.15s both;
+    }
+
+    body.dark-mode .warnings-card {
+        background:
+            rgba(30, 41, 59, 0.82);
+
+        border-color:
+            var(--dark-border);
+    }
+
+    .warnings-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        margin-bottom: 1.4rem;
+
+        padding-bottom: 1rem;
+
+        border-bottom:
+            1px solid var(--border-color);
+    }
+
+    body.dark-mode .warnings-card-header {
+        border-bottom-color:
+            var(--dark-border);
+    }
+
+    .warnings-card-header h3 {
+        color: var(--dark-color);
+
+        font-size: 1.15rem;
+
+        font-weight: 800;
+    }
+
+    body.dark-mode .warnings-card-header h3 {
+        color: white;
+    }
+
+    .security-label {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+
+        font-size: 0.75rem;
+
+        font-weight: 700;
+
+        color:
+            var(--success-color);
+
+        background:
+            #ecfdf5;
+
+        padding:
+            0.45rem 0.7rem;
+
+        border-radius:
+            999px;
+    }
+
+    /* ==================================================
+       LISTE
+       ================================================== */
+
+    #warningsContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    /* ==================================================
+       CARTE AVERTISSEMENT
+       ================================================== */
+
+    .warning-card {
+        position: relative;
+
+        background:
+            var(--white);
+
+        border:
+            1px solid var(--border-color);
+
+        border-radius:
+            1.1rem;
+
+        padding:
+            1.35rem;
+
+        overflow: hidden;
+
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease,
+            border-color 0.3s ease;
+    }
+
+    body.dark-mode .warning-card {
+        background:
+            rgba(15, 23, 42, 0.45);
+
+        border-color:
+            var(--dark-border);
+    }
+
+    .warning-card:hover {
+        transform:
+            translateY(-3px);
+
+        box-shadow:
+            0 12px 30px
+            rgba(0, 0, 0, 0.06);
+
+        border-color:
+            rgba(244, 63, 94, 0.25);
+    }
+
+    .warning-card::before {
+        content: "";
+
+        position: absolute;
+
+        left: 0;
+        top: 0;
+        bottom: 0;
+
+        width: 4px;
+
+        background:
+            linear-gradient(
+                180deg,
+                var(--accent-pink),
+                #ec4899
+            );
+    }
+
+    .warning-header {
+        display: flex;
+
+        justify-content:
+            space-between;
+
+        align-items:
+            flex-start;
+
+        gap: 1rem;
+
+        margin-bottom:
+            1.2rem;
+    }
+
+    .warning-title-wrapper {
+        display: flex;
+        gap: 0.8rem;
+        align-items: flex-start;
+    }
+
+    .warning-main-icon {
+        width: 40px;
+        height: 40px;
+
+        border-radius: 12px;
+
+        background:
+            var(--accent-pink-light);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        flex-shrink: 0;
+
+        font-size: 1.15rem;
+    }
+
+    .warning-title {
+        color:
+            var(--dark-color);
+
+        font-size: 1rem;
+
+        font-weight: 800;
+
+        margin-bottom:
+            0.25rem;
+    }
+
+    body.dark-mode .warning-title {
+        color: white;
+    }
+
+    .warning-date {
+        color:
+            var(--muted-color);
+
+        font-size: 0.8rem;
+    }
+
+    .warning-badge {
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 0.35rem;
+
+        padding:
+            0.5rem 0.75rem;
+
+        border-radius:
+            999px;
+
+        font-size:
+            0.72rem;
+
+        font-weight:
+            800;
+
+        white-space:
+            nowrap;
+    }
+
+    .warning-level-1 {
+        background:
+            #fef3c7;
+
+        color:
+            #92400e;
+    }
+
+    .warning-level-2 {
+        background:
+            #ffedd5;
+
+        color:
+            #c2410c;
+    }
+
+    .warning-level-3 {
+        background:
+            #fee2e2;
+
+        color:
+            #991b1b;
+    }
+
+    /* ==================================================
+       SECTIONS AVERTISSEMENT
+       ================================================== */
+
+    .warning-section {
+        margin-top:
+            1rem;
+    }
+
+    .warning-label {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+
+        color:
+            var(--muted-color);
+
+        font-size:
+            0.72rem;
+
+        font-weight:
+            800;
+
+        text-transform:
+            uppercase;
+
+        letter-spacing:
+            0.5px;
+
+        margin-bottom:
+            0.4rem;
+    }
+
+    .warning-message {
+        background:
+            #f8fafc;
+
+        border:
+            1px solid
+            #f1f5f9;
+
+        border-radius:
+            0.75rem;
+
+        padding:
+            0.85rem 1rem;
+
+        color:
+            var(--text-color);
+
+        font-size:
+            0.9rem;
+
+        line-height:
+            1.55;
+
+        white-space:
+            pre-wrap;
+
+        word-break:
+            break-word;
+    }
+
+    body.dark-mode .warning-message {
+        background:
+            rgba(148, 163, 184, 0.06);
+
+        border-color:
+            rgba(148, 163, 184, 0.1);
+
+        color:
+            #cbd5e1;
+    }
+
+    .warning-status {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+
+        margin-top:
+            1rem;
+
+        padding-top:
+            0.9rem;
+
+        border-top:
+            1px solid
+            var(--border-color);
+
+        font-size:
+            0.78rem;
+
+        font-weight:
+            700;
+    }
+
+    body.dark-mode .warning-status {
+        border-top-color:
+            var(--dark-border);
+    }
+
+    .warning-read {
+        color:
+            var(--success-color);
+    }
+
+    .warning-unread {
+        color:
+            var(--accent-pink);
+    }
+
+    /* ==================================================
+       ÉTAT VIDE
+       ================================================== */
+
+    .empty-state {
+        text-align:
+            center;
+
+        padding:
+            4rem 1.5rem;
+
+        color:
+            var(--text-color);
+    }
+
+    .empty-icon {
+        width: 75px;
+        height: 75px;
+
+        margin:
+            0 auto 1rem;
+
+        border-radius:
+            50%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size:
+            2rem;
+
+        background:
+            #ecfdf5;
+
+        box-shadow:
+            0 10px 25px
+            rgba(16, 185, 129, 0.12);
+    }
+
+    .empty-state strong {
+        display:
+            block;
+
+        color:
+            var(--dark-color);
+
+        font-size:
+            1.1rem;
+
+        margin-bottom:
+            0.4rem;
+    }
+
+    body.dark-mode .empty-state strong {
+        color: white;
+    }
+
+    .empty-state p {
+        color:
+            var(--muted-color);
+
+        font-size:
+            0.9rem;
+    }
+
+    /* ==================================================
+       CHARGEMENT
+       ================================================== */
+
+    .loading {
+        text-align:
+            center;
+
+        padding:
+            3rem;
+
+        color:
+            var(--muted-color);
+    }
+
+    .loading-spinner {
+        width: 38px;
+        height: 38px;
+
+        border:
+            3px solid
+            rgba(244, 63, 94, 0.15);
+
+        border-top-color:
+            var(--accent-pink);
+
+        border-radius:
+            50%;
+
+        margin:
+            0 auto 1rem;
+
+        animation:
+            spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+        to {
+            transform:
+                rotate(360deg);
+        }
+    }
+
+    /* ==================================================
+       ERREUR
+       ================================================== */
+
+    .error {
+        padding:
+            1rem 1.2rem;
+
+        border-radius:
+            0.9rem;
+
+        background:
+            #fef2f2;
+
+        border:
+            1px solid
+            #fecaca;
+
+        color:
+            #991b1b;
+
+        font-size:
+            0.9rem;
+
+        line-height:
+            1.5;
+    }
+
+    /* ==================================================
+       FOOTER
+       ================================================== */
+
+    footer {
+        padding:
+            2rem 1.5rem;
+
+        text-align:
+            center;
+
+        border-top:
+            1px solid
+            var(--border-color);
+
+        color:
+            var(--muted-color);
+
+        font-size:
+            0.85rem;
+
+        background:
+            rgba(255, 255, 255, 0.7);
+    }
+
+    body.dark-mode footer {
+        background:
+            rgba(15, 23, 42, 0.8);
+
+        border-top-color:
+            var(--dark-border);
+    }
+
+    footer p {
+        margin:
+            0.3rem 0;
+    }
+
+    /* ==================================================
+       ANIMATIONS
+       ================================================== */
+
+    @keyframes fadeUp {
+
+        from {
+            opacity: 0;
+            transform:
+                translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform:
+                translateY(0);
+        }
+    }
+
+    /* ==================================================
+       RESPONSIVE
+       ================================================== */
+
+    @media (max-width: 800px) {
+
+        .warning-stats {
+            grid-template-columns:
+                1fr;
+        }
+
+        .page-intro h2 {
+            font-size:
+                2rem;
+        }
+    }
+
+    @media (max-width: 600px) {
+
+        .navbar {
+            padding:
+                0.85rem 1rem;
+        }
+
+        .logo h1 {
+            font-size:
+                1.1rem;
+        }
+
+        .btn-home {
+            display:
+                none;
+        }
+
+        .warnings-page {
+            padding:
+                2rem 1rem 3rem;
+        }
+
+        .page-intro h2 {
+            font-size:
+                1.7rem;
+        }
+
+        .warnings-card {
+            padding:
+                1.1rem;
+        }
+
+        .warnings-card-header {
+            align-items:
+                flex-start;
+        }
+
+        .security-label {
+            font-size:
+                0.68rem;
+        }
+
+        .warning-header {
+            flex-direction:
+                column;
+        }
+
+        .warning-badge {
+            align-self:
+                flex-start;
+        }
+
+        .moderation-info {
+            align-items:
+                flex-start;
+        }
+    }
+
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+.profile-back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin-right: 8px;
+    border-radius: 50%;
+    color: var(--dark);
+    background: transparent;
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.profile-back-button:hover {
+    background: #f1f5f9;
+    transform: translateX(-2px);
+}
+
+.profile-back-button:active {
+    transform: scale(.92);
+}
+
+
+</style>
+
+
+</head>
+
+<body>
+
+<div class="animated-bg">
+
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+
+</div>
+
+<header>
+
+    <nav class="navbar">
+
+       <a href="javascript:history.back()" class="profile-back-button" aria-label="Retour">
+    ‹
+</a>
+
+<div class="logo">
+    <a href="index.html" class="register-logo">
+        <img src="images/logo.png" alt="Alliance Chrétienne">
+    </a>
+</div>
+
+
+    </nav>
+
+</header>
+
+<!-- ==================================================
+     CONTENU
+     ================================================== -->
+
+<main class="warnings-page">
+
+    <section class="page-intro">
+<h2>
+    ⚠️
+    <span data-i18n="warnings.title">
+        Mes avertissements
+    </span>
+</h2>
+
+<p data-i18n="warnings.description">
+    Retrouvez ici les avertissements qui vous ont été adressés
+    par l'équipe de modération d'Alliance Chrétienne.
+    Notre objectif est de maintenir une communauté respectueuse,
+    bienveillante et fidèle à ses valeurs.
+</p>
+</section>
+
+ <section class="warning-stats">
+
+    <div class="stat-card">
+        <div class="stat-icon">⚠️</div>
+
+        <div class="stat-label" data-i18n="warnings.stats.total">
+            Total
+        </div>
+
+        <div class="stat-value" id="totalWarnings">—</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">🛡️</div>
+
+        <div class="stat-label" data-i18n="warnings.stats.current_level">
+            Niveau actuel
+        </div>
+
+        <div class="stat-value" id="currentLevel">—</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">📖</div>
+
+        <div class="stat-label" data-i18n="warnings.stats.status">
+            Statut
+        </div>
+
+        <div class="stat-value" id="warningStatus">—</div>
+    </div>
+
+</section>
+<div class="moderation-info">
+
+    <div class="moderation-icon">
+        🕊️
+    </div>
+
+    <div>
+        <h3 data-i18n="warnings.moderation.title">
+            Une communauté fondée sur le respect
+        </h3>
+
+        <p data-i18n="warnings.moderation.description">
+            Les avertissements servent à vous informer lorsqu'un
+            comportement ou un contenu ne respecte pas les règles
+            de la communauté. Ils ne sont pas destinés à vous juger,
+            mais à préserver un espace sain pour tous.
+        </p>
+    </div>
+
+</div>
+
+  
+   <section class="warnings-card">
+
+    <div class="warnings-card-header">
+
+        <h3 data-i18n="warnings.card.title">
+            Historique de modération
+        </h3>
+
+        <div class="security-label">
+            🔒
+            <span data-i18n="warnings.card.private_space">
+                Espace privé
+            </span>
+        </div>
+
+    </div>
+
+    <div id="warningsContainer">
+
+        <div class="loading">
+
+            <div class="loading-spinner"></div>
+
+            <div data-i18n="warnings.loading">
+                Chargement de vos avertissements...
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+<footer>
+
+    <p data-i18n="warnings.footer.copyright">
+        © 2026 Alliance Chrétienne. Tous droits réservés.
+    </p>
+
+    <p data-i18n="warnings.footer.made_with">
+        Fait avec ❤️ pour une communauté chrétienne respectueuse.
+    </p>
+
+</footer>
+
+<script>
+
+function getWarningLevel(niveau) {
+
+    if (Number(niveau) === 1) {
+        return {
+            title: t('warnings.levels.level1.title'),
+            short: t('warnings.levels.level1.short'),
+            icon: '🟡',
+            className: 'warning-level-1'
+        };
+    }
+
+    if (Number(niveau) === 2) {
+        return {
+            title: t('warnings.levels.level2.title'),
+            short: t('warnings.levels.level2.short'),
+            icon: '🟠',
+            className: 'warning-level-2'
+        };
+    }
+
+    return {
+        title: t('warnings.levels.level3.title'),
+        short: t('warnings.levels.level3.short'),
+        icon: '🔴',
+        className: 'warning-level-3'
+    };
+}
+
+function formatDate(date) {
+
+    if (!date) {
+        return t('warnings.warning.date_unknown');
+    }
+
+    const locale =
+        document.documentElement.lang === 'es'
+            ? 'es-ES'
+            : document.documentElement.lang === 'en'
+                ? 'en-US'
+                : 'fr-FR';
+
+    return new Date(date).toLocaleString(locale, {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
+
+async function chargerAvertissements() {
+
+    const container =
+        document.getElementById('warningsContainer');
+
+    const totalElement =
+        document.getElementById('totalWarnings');
+
+    const levelElement =
+        document.getElementById('currentLevel');
+
+    const statusElement =
+        document.getElementById('warningStatus');
+
+    try {
+
+        const {
+            data: userData,
+            error: userError
+        } = await window.supabaseClient
+            .auth
+            .getUser();
+
+        if (
+            userError ||
+            !userData ||
+            !userData.user
+        ) {
+
+            container.innerHTML = `
+                <div class="error">
+                    ${escapeHtml(
+                        t('warnings.errors.not_connected')
+                    )}
+                </div>
+            `;
+
+            totalElement.textContent = '—';
+            levelElement.textContent = '—';
+            statusElement.textContent = '—';
+
+            return;
+        }
+
+        const membreId =
+            userData.user.id;
+
+        console.log(
+            '🔐 Membre connecté :',
+            membreId
+        );
+
+        const {
+            data,
+            error
+        } = await window.supabaseClient
+            .from('avertissements')
+            .select(`
+                id,
+                niveau,
+                type,
+                motif,
+                message,
+                created_by_nom,
+                created_at,
+                lu
+            `)
+            .eq('membre_id', membreId)
+            .order('created_at', {
+                ascending: false
+            });
+
+        if (error) {
+            throw error;
+        }
+
+        const avertissements =
+            data || [];
+
+        totalElement.textContent =
+            avertissements.length;
+
+        if (avertissements.length === 0) {
+
+            levelElement.textContent =
+                t('warnings.stats.none');
+
+            statusElement.textContent =
+                t('warnings.stats.excellent');
+
+        } else {
+
+            const dernier =
+                avertissements[0];
+
+            const niveau =
+                getWarningLevel(
+                    dernier.niveau
+                );
+
+            levelElement.textContent =
+                niveau.short;
+
+            statusElement.textContent =
+                t('warnings.stats.to_monitor');
+        }
+
+        if (avertissements.length === 0) {
+
+            container.innerHTML = `
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        ✅
+                    </div>
+
+                    <strong>
+                        ${escapeHtml(
+                            t('warnings.empty.title')
+                        )}
+                    </strong>
+
+                    <p>
+                        ${escapeHtml(
+                            t('warnings.empty.description')
+                        )}
+                    </p>
+
+                </div>
+            `;
+
+            return;
+        }
+
+        const avertissementsNonLus =
+            avertissements.filter(
+                a => !a.lu
+            );
+
+        if (
+            avertissementsNonLus.length > 0
+        ) {
+
+            const {
+                error: lectureError
+            } = await window.supabaseClient
+                .from('avertissements')
+                .update({
+                    lu: true
+                })
+                .eq(
+                    'membre_id',
+                    membreId
+                )
+                .eq(
+                    'lu',
+                    false
+                );
+
+            if (lectureError) {
+
+                console.error(
+                    '❌ Impossible de marquer les avertissements comme lus :',
+                    lectureError
+                );
+            }
+        }
+
+        statusElement.textContent =
+            avertissementsNonLus.length > 0
+                ? t('warnings.stats.new')
+                : t('warnings.stats.viewed');
+
+        container.innerHTML =
+            avertissements.map(
+                avertissement => {
+
+                    const niveau =
+                        getWarningLevel(
+                            avertissement.niveau
+                        );
+
+                    return `
+
+                        <article class="warning-card">
+
+                            <div class="warning-header">
+
+                                <div class="warning-title-wrapper">
+
+                                    <div class="warning-main-icon">
+                                        ⚠️
+                                    </div>
+
+                                    <div>
+
+                                        <div class="warning-title">
+                                            ${escapeHtml(
+                                                t('warnings.warning.title')
+                                            )}
+                                        </div>
+
+                                        <div class="warning-date">
+                                            📅
+                                            ${escapeHtml(
+                                                formatDate(
+                                                    avertissement.created_at
+                                                )
+                                            )}
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <span class="warning-badge ${niveau.className}">
+                                    ${niveau.icon}
+                                    ${escapeHtml(
+                                        niveau.title
+                                    )}
+                                </span>
+
+                            </div>
+
+                            ${
+                                avertissement.motif
+                                    ? `
+                                        <div class="warning-section">
+
+                                            <span class="warning-label">
+                                                📌
+                                                ${escapeHtml(
+                                                    t('warnings.warning.reason')
+                                                )}
+                                            </span>
+
+                                            <div class="warning-message">
+                                                ${escapeHtml(
+                                                    avertissement.motif
+                                                )}
+                                            </div>
+
+                                        </div>
+                                    `
+                                    : ''
+                            }
+
+                            ${
+                                avertissement.message
+                                    ? `
+                                        <div class="warning-section">
+
+                                            <span class="warning-label">
+                                                💬
+                                                ${escapeHtml(
+                                                    t('warnings.warning.message')
+                                                )}
+                                            </span>
+
+                                            <div class="warning-message">
+                                                ${escapeHtml(
+                                                    avertissement.message
+                                                )}
+                                            </div>
+
+                                        </div>
+                                    `
+                                    : ''
+                            }
+
+                            ${
+                                avertissement.created_by_nom
+                                    ? `
+                                        <div class="warning-section">
+
+                                            <span class="warning-label">
+                                                👤
+                                                ${escapeHtml(
+                                                    t('warnings.warning.moderator')
+                                                )}
+                                            </span>
+
+                                            <div class="warning-message">
+                                                ${escapeHtml(
+                                                    avertissement.created_by_nom
+                                                )}
+                                            </div>
+
+                                        </div>
+                                    `
+                                    : ''
+                            }
+
+                            <div class="
+                                warning-status
+                                ${
+                                    avertissement.lu
+                                        ? 'warning-read'
+                                        : 'warning-unread'
+                                }
+                            ">
+
+                                ${
+                                    avertissement.lu
+                                        ? '✓ ' +
+                                          escapeHtml(
+                                              t('warnings.warning.read')
+                                          )
+                                        : '● ' +
+                                          escapeHtml(
+                                              t('warnings.warning.unread')
+                                          )
+                                }
+
+                            </div>
+
+                        </article>
+
+                    `;
+                }
+            ).join('');
+
+    } catch (error) {
+
+        console.error(
+            '❌ Erreur avertissements :',
+            error
+        );
+
+        container.innerHTML = `
+            <div class="error">
+
+                ${escapeHtml(
+                    t('warnings.errors.load_failed')
+                )}
+
+                <br>
+
+                <small>
+                    ${escapeHtml(
+                        error.message || ''
+                    )}
+                </small>
+
+            </div>
+        `;
+    }
+}
+
+function escapeHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return '';
+    }
+
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+document.addEventListener(
+    'DOMContentLoaded',
+    async () => {
+
+        if (window.i18nReady) {
+            await window.i18nReady;
+        }
+
+        document.title =
+            t('warnings.page_title');
+
+        await chargerAvertissements();
+    }
+);
+
+window.addEventListener(
+    'languageChanged',
+    async () => {
+
+        document.title =
+            t('warnings.page_title');
+
+        await chargerAvertissements();
+    }
+);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2005 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="favorites.page_title">
+    Mes favoris - Alliance Chrétienne
+</title>
+
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/i18n.js"></script>
+
+<style>
+
+/* =========================================================
+   ALLIANCE CHRÉTIENNE — FAVORIS
+   Même identité visuelle que CONNEXION + NOTIFICATIONS
+   ========================================================= */
+
+:root {
+    --primary-color: #2563eb;
+    --primary-light: #eff6ff;
+
+    --accent-pink: #f43f5e;
+    --accent-pink-light: #fff1f2;
+
+    --dark-color: #1e293b;
+    --text-color: #475569;
+    --muted-color: #94a3b8;
+
+    --white: #ffffff;
+    --border-color: #e2e8f0;
+
+    --success-color: #10b981;
+    --danger-color: #ef4444;
+
+    --light-color: #f8fafc;
+
+    --shadow:
+        0 20px 40px rgba(244, 63, 94, 0.08);
+
+    --shadow-sm:
+        0 4px 12px rgba(0, 0, 0, 0.04);
+
+    --shadow-hover:
+        0 20px 45px rgba(244, 63, 94, 0.14);
+}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(244, 63, 94, 0.05),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(37, 99, 235, 0.05),
+            transparent 30%
+        ),
+        #fff8f8;
+
+    color: var(--text-color);
+
+    font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+/* =========================================================
+   CONTENEUR
+   ========================================================= */
+
+.container {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+}
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar {
+    min-height: 72px;
+
+    background:
+        rgba(255, 255, 255, 0.96);
+
+    border-bottom:
+        1px solid var(--border-color);
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.03);
+
+    backdrop-filter: blur(12px);
+}
+
+.navbar .container {
+    min-height: 72px;
+
+    display: flex;
+    align-items: center;
+}
+
+.logo h1 {
+    margin: 0;
+
+    color: var(--dark-color);
+
+    font-size: 1.25rem;
+    font-weight: 800;
+
+    letter-spacing: -0.4px;
+}
+
+.logo a {
+    text-decoration: none;
+}
+
+/* =========================================================
+   SECTION
+   ========================================================= */
+
+main {
+    min-height: calc(100vh - 145px);
+}
+
+.favorites-section {
+    padding: 2.5rem 0;
+}
+
+/* =========================================================
+   TITRE
+   ========================================================= */
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 800;
+
+    letter-spacing: -0.7px;
+
+    margin:
+        0 0 0.5rem;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--dark-color),
+            var(--accent-pink)
+        );
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    animation:
+        favoriteTitle 0.7s ease-out;
+}
+
+.page-description {
+    margin:
+        0 0 1.7rem;
+
+    color:
+        var(--muted-color);
+
+    font-size:
+        0.95rem;
+
+    line-height:
+        1.6;
+
+    animation:
+        favoriteTitle 0.7s ease-out;
+}
+
+@keyframes favoriteTitle {
+
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================================
+   CARTE PRINCIPALE
+   ========================================================= */
+
+.favorites-container {
+
+    background:
+        rgba(255, 255, 255, 0.96);
+
+    border:
+        1px solid rgba(244, 63, 94, 0.10);
+
+    border-radius:
+        1.35rem;
+
+    box-shadow:
+        var(--shadow);
+
+    overflow:
+        hidden;
+
+    animation:
+        favoritesContainerIn 0.7s ease-out;
+}
+
+@keyframes favoritesContainerIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================================
+   HEADER FAVORIS
+   ========================================================= */
+
+.favorites-header {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    gap:
+        1rem;
+
+    padding:
+        1.35rem 1.5rem;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #fff7f8
+        );
+
+    border-bottom:
+        1px solid var(--border-color);
+}
+
+.favorites-header h2 {
+
+    margin:
+        0;
+
+    color:
+        var(--dark-color);
+
+    font-size:
+        1.15rem;
+
+    font-weight:
+        800;
+}
+
+/* =========================================================
+   COMPTEUR
+   ========================================================= */
+
+.favorite-count {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    min-width:
+        28px;
+
+    height:
+        28px;
+
+    padding:
+        0 8px;
+
+    margin-left:
+        0.5rem;
+
+    border-radius:
+        999px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent-pink),
+            #e11d48
+        );
+
+    color:
+        white;
+
+    font-size:
+        0.75rem;
+
+    font-weight:
+        800;
+
+    box-shadow:
+        0 4px 10px
+        rgba(244, 63, 94, 0.25);
+}
+
+/* =========================================================
+   GRILLE
+   ========================================================= */
+
+.favorites-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap:
+        1.25rem;
+
+    padding:
+        1.5rem;
+}
+
+/* =========================================================
+   CARTE PROFIL
+   ========================================================= */
+
+.favorite-card {
+
+    position:
+        relative;
+
+    overflow:
+        hidden;
+
+    background:
+        var(--white);
+
+    border:
+        1px solid var(--border-color);
+
+    border-radius:
+        1.25rem;
+
+    box-shadow:
+        var(--shadow-sm);
+
+    transition:
+        transform 0.28s ease,
+        box-shadow 0.28s ease,
+        border-color 0.28s ease;
+
+    animation:
+        favoriteCardIn 0.5s ease-out both;
+}
+
+.favorite-card:hover {
+
+    transform:
+        translateY(-6px);
+
+    box-shadow:
+        var(--shadow-hover);
+
+    border-color:
+        rgba(244, 63, 94, 0.20);
+}
+
+@keyframes favoriteCardIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================================
+   PHOTO
+   ========================================================= */
+
+.favorite-photo-wrapper {
+
+    position:
+        relative;
+
+    overflow:
+        hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8fafc,
+            #eef2ff
+        );
+}
+
+.favorite-photo {
+
+    display:
+        block;
+
+    width:
+        100%;
+
+    aspect-ratio:
+        1 / 1;
+
+    object-fit:
+        cover;
+
+    transition:
+        transform 0.4s ease;
+}
+
+.favorite-card:hover .favorite-photo {
+
+    transform:
+        scale(1.045);
+}
+
+/* =========================================================
+   COEUR SUR PHOTO
+   ========================================================= */
+
+.favorite-heart {
+
+    position:
+        absolute;
+
+    top:
+        12px;
+
+    right:
+        12px;
+
+    width:
+        38px;
+
+    height:
+        38px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        50%;
+
+    background:
+        rgba(255,255,255,0.94);
+
+    color:
+        var(--accent-pink);
+
+    font-size:
+        1.05rem;
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,0.12);
+
+    backdrop-filter:
+        blur(8px);
+}
+
+/* =========================================================
+   CONTENU
+   ========================================================= */
+
+.favorite-content {
+
+    padding:
+        1.1rem;
+}
+
+.favorite-name {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    color:
+        var(--dark-color);
+
+    font-size:
+        1.05rem;
+
+    font-weight:
+        800;
+
+    margin-bottom:
+        0.4rem;
+}
+
+.favorite-info {
+
+    color:
+        var(--muted-color);
+
+    font-size:
+        0.85rem;
+
+    line-height:
+        1.55;
+
+    min-height:
+        22px;
+}
+
+/* =========================================================
+   BADGE CERTIFIÉ
+   ========================================================= */
+
+.verified-badge {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    width:
+        19px;
+
+    height:
+        19px;
+
+    margin-left:
+        6px;
+
+    border-radius:
+        50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary-color),
+            #1d4ed8
+        );
+
+    color:
+        white;
+
+    font-size:
+        11px;
+
+    font-weight:
+        800;
+
+    box-shadow:
+        0 3px 8px
+        rgba(37,99,235,0.22);
+}
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.favorite-actions {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:
+        0.55rem;
+
+    margin-top:
+        1rem;
+}
+
+.favorite-actions a,
+.remove-favorite {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    min-height:
+        40px;
+
+    padding:
+        0.6rem 0.55rem;
+
+    border:
+        none;
+
+    border-radius:
+        0.7rem;
+
+    text-decoration:
+        none;
+
+    font-size:
+        0.78rem;
+
+    font-weight:
+        750;
+
+    cursor:
+        pointer;
+
+    transition:
+        all 0.25s ease;
+}
+
+/* Profil */
+
+.profile-btn {
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent-pink),
+            #e11d48
+        );
+
+    color:
+        white;
+
+    box-shadow:
+        0 5px 14px
+        rgba(244,63,94,0.18);
+}
+
+.profile-btn:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(244,63,94,0.28);
+}
+
+/* Message */
+
+.message-btn {
+
+    background:
+        var(--primary-light);
+
+    color:
+        var(--primary-color);
+
+    border:
+        1px solid
+        rgba(37,99,235,0.10) !important;
+}
+
+.message-btn:hover {
+
+    transform:
+        translateY(-2px);
+
+    background:
+        #dbeafe;
+
+    border-color:
+        rgba(37,99,235,0.20) !important;
+}
+
+/* Supprimer */
+
+.remove-favorite {
+
+    grid-column:
+        1 / -1;
+
+    background:
+        var(--accent-pink-light);
+
+    color:
+        var(--danger-color);
+
+    border:
+        1px solid
+        rgba(239,68,68,0.10);
+}
+
+.remove-favorite:hover {
+
+    transform:
+        translateY(-2px);
+
+    background:
+        #fee2e2;
+
+    border-color:
+        rgba(239,68,68,0.20);
+}
+
+/* =========================================================
+   ÉTAT CHARGEMENT
+   ========================================================= */
+
+.loading {
+
+    text-align:
+        center;
+
+    padding:
+        4rem 2rem;
+
+    color:
+        var(--muted-color);
+
+    font-size:
+        0.9rem;
+}
+
+/* =========================================================
+   ÉTAT VIDE
+   ========================================================= */
+
+.empty-state {
+
+    text-align:
+        center;
+
+    padding:
+        4.5rem 2rem;
+
+    color:
+        var(--muted-color);
+
+    background:
+        radial-gradient(
+            circle at center,
+            #fff7f8,
+            #ffffff 65%
+        );
+}
+
+.empty-icon {
+
+    width:
+        76px;
+
+    height:
+        76px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    margin:
+        0 auto 1rem;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--accent-pink-light);
+
+    font-size:
+        2rem;
+
+    box-shadow:
+        0 10px 25px
+        rgba(244,63,94,0.10);
+}
+
+.empty-state strong {
+
+    display:
+        block;
+
+    color:
+        var(--dark-color);
+
+    font-size:
+        1.1rem;
+
+    font-weight:
+        800;
+
+    margin-bottom:
+        0.45rem;
+}
+
+.empty-state p {
+
+    max-width:
+        450px;
+
+    margin:
+        0 auto;
+
+    line-height:
+        1.6;
+
+    font-size:
+        0.9rem;
+}
+
+/* =========================================================
+   ERREUR
+   ========================================================= */
+
+.error-state {
+
+    margin:
+        1.5rem;
+
+    padding:
+        1rem;
+
+    border-radius:
+        0.85rem;
+
+    background:
+        #fee2e2;
+
+    color:
+        #991b1b;
+
+    border:
+        1px solid
+        rgba(239,68,68,0.15);
+
+    font-size:
+        0.9rem;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+
+    padding:
+        1.5rem 0;
+
+    background:
+        rgba(255,255,255,0.90);
+
+    border-top:
+        1px solid var(--border-color);
+
+    text-align:
+        center;
+}
+
+footer p {
+
+    margin:
+        0;
+
+    color:
+        var(--muted-color);
+
+    font-size:
+        0.82rem;
+}
+
+/* =========================================================
+   RESPONSIVE TABLETTE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .favorites-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+}
+
+/* =========================================================
+   RESPONSIVE MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .container {
+
+        width:
+            min(100% - 22px, 680px);
+    }
+
+    .navbar,
+    .navbar .container {
+
+        min-height:
+            64px;
+    }
+
+    .logo h1 {
+
+        font-size:
+            1rem;
+    }
+
+    .favorites-section {
+
+        padding:
+            1.4rem 0;
+    }
+
+    .page-title {
+
+        font-size:
+            1.5rem;
+    }
+
+    .page-description {
+
+        font-size:
+            0.88rem;
+    }
+
+    .favorites-header {
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+
+        padding:
+            1.1rem;
+    }
+
+    .favorites-grid {
+
+        grid-template-columns:
+            1fr;
+
+        padding:
+            1rem;
+
+        gap:
+            1rem;
+    }
+
+    .favorite-actions {
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+}
+
+/* =========================================================
+   DARK MODE
+   Compatible avec la page Connexion / Notifications
+   ========================================================= */
+
+body.dark-mode {
+
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(244,63,94,0.10),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(37,99,235,0.08),
+            transparent 30%
+        ),
+        #0f172a;
+
+    color:
+        #e2e8f0;
+}
+
+body.dark-mode .navbar {
+
+    background:
+        rgba(15,23,42,0.96);
+
+    border-color:
+        rgba(148,163,184,0.15);
+}
+
+body.dark-mode .logo h1 {
+
+    color:
+        #f8fafc;
+}
+
+body.dark-mode .favorites-container {
+
+    background:
+        #1e293b;
+
+    border-color:
+        rgba(148,163,184,0.15);
+}
+
+body.dark-mode .favorites-header {
+
+    background:
+        linear-gradient(
+            135deg,
+            #1e293b,
+            #172033
+        );
+
+    border-color:
+        rgba(148,163,184,0.15);
+}
+
+body.dark-mode .favorites-header h2 {
+
+    color:
+        #f8fafc;
+}
+
+body.dark-mode .favorite-card {
+
+    background:
+        #1e293b;
+
+    border-color:
+        rgba(148,163,184,0.15);
+}
+
+body.dark-mode .favorite-card:hover {
+
+    border-color:
+        rgba(244,63,94,0.30);
+}
+
+body.dark-mode .favorite-name {
+
+    color:
+        #f8fafc;
+}
+
+body.dark-mode .favorite-info {
+
+    color:
+        #94a3b8;
+}
+
+body.dark-mode .message-btn {
+
+    background:
+        rgba(37,99,235,0.12);
+
+    color:
+        #60a5fa;
+
+    border-color:
+        rgba(37,99,235,0.20) !important;
+}
+
+body.dark-mode .message-btn:hover {
+
+    background:
+        rgba(37,99,235,0.20);
+}
+
+body.dark-mode .remove-favorite {
+
+    background:
+        rgba(244,63,94,0.10);
+
+    color:
+        #fb7185;
+
+    border-color:
+        rgba(244,63,94,0.15);
+}
+
+body.dark-mode .empty-state {
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(244,63,94,0.08),
+            #1e293b 70%
+        );
+}
+
+body.dark-mode .empty-state strong {
+
+    color:
+        #f8fafc;
+}
+
+body.dark-mode footer {
+
+    background:
+        #1e293b;
+
+    border-color:
+        rgba(148,163,184,0.15);
+}
+
+
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+.profile-back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin-right: 8px;
+    border-radius: 50%;
+    color: var(--dark);
+    background: transparent;
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.profile-back-button:hover {
+    background: #f1f5f9;
+    transform: translateX(-2px);
+}
+
+.profile-back-button:active {
+    transform: scale(.92);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="animated-bg">
+
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+
+</div>
+
+<header>
+
+<nav class="navbar">
+
+    <div class="navbar">
+    <div class="container">
+
+        <a href="javascript:history.back()" class="profile-back-button" aria-label="Retour">
+            ‹
+        </a>
+
+        <div class="logo">
+            <a href="index.html" class="register-logo">
+                <img src="images/logo.png" alt="Alliance Chrétienne">
+            </a>
+        </div>
+
+    </div>
+</div>
+</nav>
+
+</header>
+
+<main>
+
+<section class="favorites-section">
+
+<div class="container">
+
+<h2 class="page-title" data-i18n="favorites.title">
+    ❤️ Mes favoris
+</h2>
+
+<p class="page-description" data-i18n="favorites.description">
+    Retrouvez les membres que vous avez ajoutés à vos favoris.
+</p>
+
+<div id="favoritesContainer">
+
+    <div class="favorites-container">
+
+        <div class="favorites-header">
+
+            <h2>
+    <span data-i18n="favorites.your_favorites">
+        ❤️ Vos favoris
+    </span>
+
+    <span
+        class="favorite-count"
+        id="favoriteCount"
+    >
+        0
+    </span>
+</h2>
+
+        </div>
+
+        <div
+            class="favorites-grid"
+            id="favoritesGrid"
+        >
+
+           <div
+    class="loading"
+    style="grid-column:1/-1;"
+    data-i18n="favorites.loading"
+>
+    ⏳ Chargement de vos favoris...
+</div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+<footer>
+
+<div class="container">
+
+   <p>
+    © 2026 Alliance Chrétienne.
+    <span data-i18n="favorites.all_rights_reserved">
+        Tous droits réservés.
+    </span>
+</p>
+
+</div>
+
+</footer>
+
+<script>
+
+const client = window.supabaseClient;
+
+const defaultAvatar =
+    'data:image/svg+xml;charset=UTF-8,' +
+    encodeURIComponent(`
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="100"
+            height="100"
+            viewBox="0 0 100 100"
+        >
+            <circle
+                cx="50"
+                cy="50"
+                r="50"
+                fill="#e2e8f0"
+            />
+
+            <text
+                x="50"
+                y="63"
+                text-anchor="middle"
+                font-size="38"
+            >
+                👤
+            </text>
+        </svg>
+    `);
+
+let currentUser = null;
+
+
+function escapeHtml(value) {
+
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+
+}
+
+
+function calculateAge(birthDate) {
+
+    if (!birthDate) return '';
+
+    const today = new Date();
+    const birth = new Date(birthDate);
+
+    let age =
+        today.getFullYear() -
+        birth.getFullYear();
+
+    const month =
+        today.getMonth() -
+        birth.getMonth();
+
+    if (
+        month < 0 ||
+        (
+            month === 0 &&
+            today.getDate() < birth.getDate()
+        )
+    ) {
+        age--;
+    }
+
+    return age;
+}
+
+
+async function chargerFavoris() {
+
+    const container =
+        document.getElementById(
+            'favoritesContainer'
+        );
+
+    try {
+
+        if (!client) {
+
+           throw new Error(
+    t(
+        'favorites.supabase_error',
+        'Client Supabase introuvable. Vérifie supabase-config.js.'
+    )
+);
+
+        }
+
+
+        const {
+            data: userData,
+            error: userError
+        } = await client.auth.getUser();
+
+
+        if (
+            userError ||
+            !userData?.user
+        ) {
+
+            container.innerHTML = `
+                <div class="favorites-container">
+                    <div class="error-state">
+                       ${t(
+    'favorites.login_required',
+    '❌ Vous devez être connecté pour consulter vos favoris.'
+)}
+                    </div>
+                </div>
+            `;
+
+            return;
+        }
+
+
+        currentUser =
+            userData.user;
+
+
+        const {
+            data: favoris,
+            error: favorisError
+        } =
+            await client
+                .from('favoris')
+                .select('*')
+                .eq(
+                    'membre_id',
+                    currentUser.id
+                );
+
+
+        if (favorisError)
+            throw favorisError;
+
+
+        if (
+            !favoris ||
+            !favoris.length
+        ) {
+
+            container.innerHTML = `
+
+                <div class="favorites-container">
+
+                    <div class="favorites-header">
+
+  <h2>
+    <span>
+        ${t(
+            'favorites.your_favorites',
+            '❤️ Vos favoris'
+        )}
+    </span>
+
+    <span class="favorite-count">
+        0
+    </span>
+</h2>
+
+                    </div>
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            ❤️
+                        </div>
+
+                        <strong>
+    ${t('favorites.empty_title', 'Aucun favori')}
+</strong>
+
+                      <p>
+    ${t(
+        'favorites.empty_description',
+        'Vous n\'avez pas encore ajouté de membre à vos favoris.'
+    )}
+</p>
+
+                    </div>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        const ids =
+            favoris
+                .map(
+                    f =>
+                        f.favori_id ||
+                        f.profile_id ||
+                        f.membre_favori_id ||
+                        f.user_id
+                )
+                .filter(Boolean);
+
+
+        if (!ids.length) {
+
+            throw new Error(
+               t(
+    'favorites.id_error',
+    'Impossible de trouver l’identifiant des membres favoris.'
+)
+            );
+
+        }
+
+
+        const {
+            data: profiles,
+            error: profilesError
+        } =
+            await client
+                .from('profiles')
+                .select(
+                    'id,first_name,birth_date,city,country,photo_url,is_verified'
+                )
+                .in('id', ids);
+
+
+        if (profilesError)
+            throw profilesError;
+
+
+        const profileMap =
+            new Map(
+                (profiles || [])
+                    .map(
+                        profile =>
+                            [
+                                profile.id,
+                                profile
+                            ]
+                    )
+            );
+
+
+        const favorisComplets =
+            favoris
+                .map(favori => {
+
+                    const targetId =
+                        favori.favori_id ||
+                        favori.profile_id ||
+                        favori.membre_favori_id ||
+                        favori.user_id;
+
+                    return {
+
+                        relationId:
+                            favori.id,
+
+                        profile:
+                            profileMap.get(
+                                targetId
+                            )
+                    };
+
+                })
+                .filter(
+                    item =>
+                        item.profile
+                );
+
+
+        if (
+            !favorisComplets.length
+        ) {
+
+            container.innerHTML = `
+
+                <div class="favorites-container">
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            ❤️
+                        </div>
+
+                       <strong>
+    ${t(
+        'favorites.empty_profiles_title',
+        'Aucun profil favori'
+    )}
+</strong>
+                       <p>
+    ${t(
+        'favorites.empty_profiles_description',
+        'Les profils favoris ne sont plus disponibles.'
+    )}
+</p>
+
+                    </div>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        container.innerHTML = `
+
+            <div class="favorites-container">
+
+  <div class="favorites-header">
+
+    <h2>
+
+        <span>
+            ${t(
+                'favorites.your_favorites',
+                '❤️ Vos favoris'
+            )}
+        </span>
+
+        <span
+            class="favorite-count"
+            id="favoriteCount"
+        >
+            ${favorisComplets.length}
+        </span>
+
+    </h2>
+
+</div>
+
+                </div>
+
+
+                <div class="favorites-grid">
+
+                    ${favorisComplets
+                        .map(
+                            ({ profile }, index) => {
+
+                                const age =
+                                    calculateAge(
+                                        profile.birth_date
+                                    );
+
+
+                                return `
+
+                                    <article
+                                        class="favorite-card"
+                                        id="fav-${escapeHtml(profile.id)}"
+                                        style="animation-delay:${index * 0.05}s"
+                                    >
+
+                                        <div class="favorite-photo-wrapper">
+
+                                            <img
+                                                src="${escapeHtml(profile.photo_url || defaultAvatar)}"
+                                                class="favorite-photo"
+                                                alt="Photo de ${escapeHtml(profile.first_name || 'Membre')}"
+                                                loading="lazy"
+                                            >
+
+                                            <div class="favorite-heart">
+                                                ❤️
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="favorite-content">
+
+                                            <div class="favorite-name">
+
+                                              ${escapeHtml(
+    profile.first_name ||
+    t('favorites.member', 'Membre')
+)}
+
+                                                ${
+                                                    profile.is_verified
+                                                        ? `
+                                                            <span
+    class="verified-badge"
+    title="${escapeHtml(
+        t('favorites.verified_member', 'Membre certifié')
+    )}"
+>
+    ✓
+</span>
+                                                        `
+                                                        : ''
+                                                }
+
+                                            </div>
+
+
+                                            <div class="favorite-info">
+
+                                                ${
+                                                  age
+    ? escapeHtml(age) +
+      ' ' +
+      t('favorites.years_old', 'ans')
+    : ''
+                                                }
+
+                                                ${
+                                                    age &&
+                                                    profile.city
+                                                        ? ' · '
+                                                        : ''
+                                                }
+
+                                                ${escapeHtml(
+                                                    profile.city || ''
+                                                )}
+
+                                                ${
+                                                    profile.country
+                                                        ? ' · ' +
+                                                          escapeHtml(
+                                                              profile.country
+                                                          )
+                                                        : ''
+                                                }
+
+                                            </div>
+
+
+                                            <div class="favorite-actions">
+
+                                                <a
+                                                    href="membre-profil.html?id=${encodeURIComponent(profile.id)}"
+                                                    class="profile-btn"
+                                                >
+                                                    ${t('favorites.profile', '👤 Profil')}
+                                                </a>
+
+                                                <a
+                                                    href="membre-messages.html?user=${encodeURIComponent(profile.id)}"
+                                                    class="message-btn"
+                                                >
+                                                    ${t('favorites.message', '💬 Message')}
+                                                </a>
+
+                                                <button
+                                                    class="remove-favorite"
+                                                    onclick="supprimerFavori('${escapeHtml(profile.id)}')"
+                                                title="${escapeHtml(
+    t(
+        'favorites.remove',
+        '💔 Retirer des favoris'
+    )
+)}"
+                                                >
+                                                    ${t('favorites.remove', '💔 Retirer des favoris')}
+                                                </button>
+
+                                            </div>
+
+                                        </div>
+
+                                    </article>
+
+                                `;
+
+                            }
+                        )
+                        .join('')}
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            '❌ Erreur favoris :',
+            error
+        );
+
+        container.innerHTML = `
+
+            <div class="favorites-container">
+
+                <div class="error-state">
+
+                   ${t(
+    'favorites.load_error',
+    '❌ Impossible de charger vos favoris.'
+)}
+                    <br>
+
+                    <small>
+                        ${escapeHtml(
+                            error.message || error
+                        )}
+                    </small>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+async function supprimerFavori(profileId) {
+
+    if (
+        !currentUser ||
+        !profileId
+    ) {
+        return;
+    }
+
+
+    if (
+        confirm(
+    t(
+        'favorites.remove_confirm',
+        'Voulez-vous retirer ce membre de vos favoris ?'
+    )
+)
+    ) {
+        return;
+    }
+
+
+    try {
+
+        const {
+            error
+        } =
+            await client
+                .from('favoris')
+                .delete()
+                .eq(
+                    'membre_id',
+                    currentUser.id
+                )
+                .eq(
+                    'favori_id',
+                    profileId
+                );
+
+
+        if (error) {
+
+            const {
+                error: err2
+            } =
+                await client
+                    .from('favoris')
+                    .delete()
+                    .eq(
+                        'membre_id',
+                        currentUser.id
+                    )
+                    .eq(
+                        'profile_id',
+                        profileId
+                    );
+
+
+            if (err2)
+                throw err2;
+
+        }
+
+
+        const card =
+            document.getElementById(
+                `fav-${profileId}`
+            );
+
+
+        if (card) {
+
+            card.style.transition =
+                "all 0.3s ease";
+
+            card.style.opacity = "0";
+
+            card.style.transform =
+                "scale(0.9)";
+
+
+            setTimeout(() => {
+
+                card.remove();
+
+
+                if (
+                    !document.querySelector(
+                        '.favorite-card'
+                    )
+                ) {
+
+                    chargerFavoris();
+
+                }
+
+                else {
+
+                    const count =
+                        document.getElementById(
+                            'favoriteCount'
+                        );
+
+                    if (count) {
+
+                        const current =
+                            parseInt(
+                                count.textContent
+                            ) || 0;
+
+                        count.textContent =
+                            Math.max(
+                                0,
+                                current - 1
+                            );
+
+                    }
+
+                }
+
+            }, 300);
+
+        }
+
+        else {
+
+            chargerFavoris();
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            '❌ Erreur suppression favori :',
+            error
+        );
+
+alert(
+    t(
+        'favorites.remove_error',
+        '❌ Impossible de retirer ce membre des favoris.'
+    ) +
+    '\n\n' +
+    (error.message || error)
+);
+
+    }
+
+}
+
+
+document.addEventListener('DOMContentLoaded', async () => {
+
+    if (window.i18nReady) {
+        await window.i18nReady;
+    }
+
+    chargerFavoris();
+});
+
+</script>
+
+</body>
+</html>

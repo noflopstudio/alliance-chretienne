@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Aide - Alliance Chrétienne</title>
+
+<style>
+    :root {
+        --primary: #2563eb;
+        --pink: #f43f5e;
+        --pink-light: #fff1f2;
+        --blue-light: #eff6ff;
+        --dark: #172033;
+        --text: #475569;
+        --muted: #94a3b8;
+        --white: #ffffff;
+        --border: #e2e8f0;
+        --bg: #fff8f8;
+        --success: #10b981;
+
+        --shadow:
+            0 15px 40px rgba(15, 23, 42, .08);
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family:
+            system-ui,
+            -apple-system,
+            BlinkMacSystemFont,
+            "Segoe UI",
+            Roboto,
+            sans-serif;
+
+        background:
+            radial-gradient(
+                circle at 10% 10%,
+                rgba(244, 63, 94, .07),
+                transparent 30%
+            ),
+            radial-gradient(
+                circle at 90% 20%,
+                rgba(37, 99, 235, .07),
+                transparent 30%
+            ),
+            var(--bg);
+
+        color: var(--text);
+        min-height: 100vh;
+        transition: background .3s ease, color .3s ease;
+    }
+
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+
+        background: rgba(255,255,255,.95);
+        backdrop-filter: blur(12px);
+
+        border-bottom: 1px solid var(--border);
+    }
+
+    .navbar {
+        max-width: 1200px;
+        margin: auto;
+
+        padding: 1rem 1.5rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .logo {
+        text-decoration: none;
+        color: var(--dark);
+
+        font-size: 1.35rem;
+        font-weight: 850;
+    }
+
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+    }
+
+    .home-btn,
+    .dark-toggle {
+        border: none;
+        text-decoration: none;
+
+        cursor: pointer;
+
+        border-radius: 12px;
+
+        padding: .65rem 1rem;
+
+        font-weight: 700;
+        font-size: .85rem;
+
+        transition: .25s ease;
+    }
+
+    .home-btn {
+        background: var(--blue-light);
+        color: var(--primary);
+    }
+
+    .home-btn:hover {
+        transform: translateY(-2px);
+        background: #dbeafe;
+    }
+
+    .dark-toggle {
+        width: 42px;
+        height: 42px;
+
+        padding: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #f8fafc;
+        font-size: 1.15rem;
+    }
+
+    .dark-toggle:hover {
+        transform: rotate(15deg) scale(1.05);
+    }
+
+
+    /* =====================================================
+       HERO
+    ===================================================== */
+
+    .help-hero {
+        max-width: 900px;
+        margin: auto;
+
+        padding: 4rem 1.5rem 2.5rem;
+
+        text-align: center;
+    }
+
+    .help-icon {
+        width: 70px;
+        height: 70px;
+
+        margin: 0 auto 1.25rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 22px;
+
+        font-size: 2rem;
+
+        color: white;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--pink),
+                #7c3aed
+            );
+
+        box-shadow:
+            0 12px 30px rgba(244,63,94,.25);
+    }
+
+    .help-hero h1 {
+        margin-bottom: .75rem;
+
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 900;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--dark),
+                var(--pink)
+            );
+
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .help-hero p {
+        max-width: 650px;
+        margin: auto;
+
+        line-height: 1.7;
+        font-size: 1rem;
+
+        color: var(--text);
+    }
+
+
+    /* =====================================================
+       RECHERCHE
+    ===================================================== */
+
+    .search-box {
+        max-width: 700px;
+
+        margin: 2rem auto 0;
+
+        position: relative;
+    }
+
+    .search-box input {
+        width: 100%;
+
+        padding: 1.1rem 1.25rem 1.1rem 3.2rem;
+
+        border-radius: 16px;
+
+        border: 1px solid var(--border);
+
+        background: white;
+
+        font-size: .95rem;
+
+        outline: none;
+
+        box-shadow: var(--shadow);
+
+        transition: .25s ease;
+    }
+
+    .search-box input:focus {
+        border-color: var(--pink);
+
+        box-shadow:
+            0 0 0 4px rgba(244,63,94,.12),
+            var(--shadow);
+    }
+
+    .search-icon {
+        position: absolute;
+
+        left: 1.1rem;
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        font-size: 1.2rem;
+    }
+
+
+    /* =====================================================
+       CONTENU
+    ===================================================== */
+
+    .help-container {
+        max-width: 1100px;
+        margin: auto;
+
+        padding: 1rem 1.5rem 4rem;
+    }
+
+    .section-title {
+        margin: 2rem 0 1rem;
+
+        color: var(--dark);
+
+        font-size: 1.25rem;
+        font-weight: 850;
+    }
+
+
+    /* =====================================================
+       CARTES
+    ===================================================== */
+
+    .help-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 1rem;
+    }
+
+    .help-card {
+        background: rgba(255,255,255,.96);
+
+        border: 1px solid var(--border);
+
+        border-radius: 20px;
+
+        padding: 1.4rem;
+
+        box-shadow: var(--shadow);
+
+        transition:
+            transform .25s ease,
+            box-shadow .25s ease;
+    }
+
+    .help-card:hover {
+        transform: translateY(-4px);
+
+        box-shadow:
+            0 20px 45px rgba(244,63,94,.12);
+    }
+
+    .help-card-icon {
+        width: 48px;
+        height: 48px;
+
+        margin-bottom: 1rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 14px;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--pink-light),
+                var(--blue-light)
+            );
+
+        font-size: 1.35rem;
+    }
+
+    .help-card h3 {
+        margin-bottom: .45rem;
+
+        color: var(--dark);
+
+        font-size: 1rem;
+        font-weight: 850;
+    }
+
+    .help-card p {
+        font-size: .84rem;
+        line-height: 1.6;
+
+        color: var(--text);
+    }
+
+
+    /* =====================================================
+       FAQ
+    ===================================================== */
+
+    .faq-list {
+        display: grid;
+        gap: .75rem;
+    }
+
+    .faq-item {
+        background: white;
+
+        border: 1px solid var(--border);
+
+        border-radius: 16px;
+
+        overflow: hidden;
+
+        box-shadow: 0 5px 20px rgba(15,23,42,.04);
+    }
+
+    .faq-question {
+        width: 100%;
+
+        padding: 1.1rem 1.2rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+
+        border: none;
+
+        background: transparent;
+
+        color: var(--dark);
+
+        font: inherit;
+        font-weight: 750;
+
+        text-align: left;
+
+        cursor: pointer;
+    }
+
+    .faq-question span:last-child {
+        color: var(--pink);
+
+        font-size: 1.2rem;
+
+        transition: transform .25s ease;
+    }
+
+    .faq-answer {
+        display: none;
+
+        padding: 0 1.2rem 1.2rem;
+
+        color: var(--text);
+
+        font-size: .88rem;
+
+        line-height: 1.7;
+    }
+
+    .faq-item.active .faq-answer {
+        display: block;
+    }
+
+    .faq-item.active .faq-question span:last-child {
+        transform: rotate(45deg);
+    }
+
+
+    /* =====================================================
+       CONTACT
+    ===================================================== */
+
+    .contact-card {
+        margin-top: 2rem;
+
+        padding: 1.8rem;
+
+        border-radius: 22px;
+
+        color: white;
+
+        background:
+            linear-gradient(
+                135deg,
+                #1e293b,
+                #0f172a
+            );
+
+        text-align: center;
+
+        border-top: 4px solid var(--pink);
+    }
+
+    .contact-card h2 {
+        margin-bottom: .6rem;
+
+        font-size: 1.4rem;
+    }
+
+    .contact-card p {
+        color: #cbd5e1;
+
+        line-height: 1.6;
+
+        font-size: .9rem;
+
+        margin-bottom: 1.2rem;
+    }
+
+    .contact-btn {
+        display: inline-block;
+
+        padding: .8rem 1.4rem;
+
+        border-radius: 12px;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--pink),
+                #e11d48
+            );
+
+        color: white;
+
+        text-decoration: none;
+
+        font-weight: 750;
+
+        transition: .25s ease;
+    }
+
+    .contact-btn:hover {
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 8px 25px rgba(244,63,94,.35);
+    }
+
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    footer {
+        margin-top: 2rem;
+
+        padding: 2rem 1.5rem;
+
+        text-align: center;
+
+        background: #0f172a;
+
+        color: #94a3b8;
+    }
+
+    footer p {
+        margin: .4rem 0;
+
+        font-size: .82rem;
+    }
+
+    .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        gap: 1rem 1.5rem;
+
+        margin-bottom: 1.2rem;
+    }
+
+    .footer-links a {
+        color: #cbd5e1;
+
+        text-decoration: none;
+
+        font-size: .82rem;
+
+        transition: .2s ease;
+    }
+
+    .footer-links a:hover {
+        color: white;
+    }
+
+
+    /* =====================================================
+       MODE SOMBRE
+    ===================================================== */
+
+    body.dark-mode {
+        --dark: #f8fafc;
+        --text: #cbd5e1;
+        --muted: #94a3b8;
+        --border: rgba(148,163,184,.15);
+        --bg: #0f172a;
+
+        background:
+            radial-gradient(
+                circle at 10% 10%,
+                rgba(244,63,94,.10),
+                transparent 30%
+            ),
+            #0f172a;
+    }
+
+    body.dark-mode header {
+        background: rgba(30,41,59,.95);
+    }
+
+    body.dark-mode .logo {
+        color: white;
+    }
+
+    body.dark-mode .home-btn {
+        background: rgba(37,99,235,.15);
+        color: #93c5fd;
+    }
+
+    body.dark-mode .dark-toggle {
+        background: rgba(148,163,184,.12);
+    }
+
+    body.dark-mode .help-hero h1 {
+        background:
+            linear-gradient(
+                135deg,
+                #f8fafc,
+                #fb7185
+            );
+
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
+
+    body.dark-mode .search-box input,
+    body.dark-mode .help-card,
+    body.dark-mode .faq-item {
+        background: #1e293b;
+
+        border-color:
+            rgba(148,163,184,.15);
+
+        color: #e2e8f0;
+    }
+
+    body.dark-mode .search-box input {
+        color: white;
+    }
+
+    body.dark-mode .help-card h3,
+    body.dark-mode .faq-question {
+        color: #f8fafc;
+    }
+
+    body.dark-mode .help-card p,
+    body.dark-mode .faq-answer,
+    body.dark-mode .help-hero p {
+        color: #cbd5e1;
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 800px) {
+
+        .help-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+    }
+
+    @media (max-width: 600px) {
+
+        .navbar {
+            padding: .8rem 1rem;
+        }
+
+        .logo {
+            font-size: 1.05rem;
+        }
+
+        .home-btn {
+            padding: .55rem .7rem;
+        }
+
+        .help-hero {
+            padding: 2.5rem 1rem 1.5rem;
+        }
+
+        .help-container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .help-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .footer-links {
+            gap: .8rem 1rem;
+        }
+
+    }
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+    
+</style>
+
+
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar">
+
+                       <a href="index.html" class="register-logo">
+    <img src="images/logo.png" alt="Alliance Chrétienne">
+</a>
+
+        <div class="nav-actions">
+
+            <a href="index.html" class="home-btn">
+                ← Accueil
+            </a>
+
+            <button
+                type="button"
+                id="darkModeToggle"
+                class="dark-toggle"
+                title="Mode sombre"
+            >
+                🌙
+            </button>
+
+        </div>
+
+    </nav>
+</header>
+
+
+<!-- =====================================================
+     HERO
+====================================================== -->
+
+<section class="help-hero">
+
+    <div class="help-icon">
+        ❓
+    </div>
+
+    <h1>Comment pouvons-nous vous aider ?</h1>
+
+    <p>
+        Bienvenue dans le centre d'aide d'Alliance Chrétienne.
+        Retrouvez ici les réponses aux questions les plus fréquentes
+        et les informations nécessaires pour utiliser la plateforme.
+    </p>
+
+    <div class="search-box">
+
+        <span class="search-icon">🔎</span>
+
+        <input
+            type="search"
+            id="helpSearch"
+            placeholder="Rechercher une question ou un sujet..."
+            autocomplete="off"
+        >
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CONTENU
+====================================================== -->
+
+<main class="help-container">
+
+    <h2 class="section-title">
+        📚 Catégories d'aide
+    </h2>
+
+    <div class="help-grid">
+
+        <article class="help-card">
+            <div class="help-card-icon">👤</div>
+
+            <h3>Compte et inscription</h3>
+
+            <p>
+                Créer votre compte, modifier vos informations,
+                vous connecter ou gérer votre profil.
+            </p>
+        </article>
+
+
+        <article class="help-card">
+            <div class="help-card-icon">💬</div>
+
+            <h3>Messages et discussions</h3>
+
+            <p>
+                Découvrez comment envoyer des messages,
+                discuter avec les membres et gérer vos conversations.
+            </p>
+        </article>
+
+
+        <article class="help-card">
+            <div class="help-card-icon">❤️</div>
+
+            <h3>Rencontres</h3>
+
+            <p>
+                Rechercher des profils, découvrir des personnes
+                compatibles et commencer une nouvelle rencontre.
+            </p>
+        </article>
+
+
+        <article class="help-card">
+            <div class="help-card-icon">🛡️</div>
+
+            <h3>Sécurité</h3>
+
+            <p>
+                Conseils pour protéger votre compte,
+                reconnaître un comportement suspect et signaler un profil.
+            </p>
+        </article>
+
+
+        <article class="help-card">
+            <div class="help-card-icon">🔔</div>
+
+            <h3>Notifications</h3>
+
+            <p>
+                Comprendre les notifications et gérer les alertes
+                liées à votre activité.
+            </p>
+        </article>
+
+
+        <article class="help-card">
+            <div class="help-card-icon">⚙️</div>
+
+            <h3>Paramètres</h3>
+
+            <p>
+                Modifier vos préférences, votre confidentialité
+                et les paramètres de votre espace personnel.
+            </p>
+        </article>
+
+    </div>
+
+
+    <!-- =================================================
+         QUESTIONS FRÉQUENTES
+    ================================================== -->
+
+    <h2 class="section-title">
+        ❓ Questions fréquentes
+    </h2>
+
+    <div class="faq-list" id="faqList">
+
+        <div class="faq-item">
+
+            <button class="faq-question">
+                <span>Comment créer un compte ?</span>
+                <span>+</span>
+            </button>
+
+            <div class="faq-answer">
+                Cliquez sur « Inscription » depuis la page d'accueil,
+                remplissez les informations demandées puis suivez
+                les étapes affichées pour terminer votre inscription.
+            </div>
+
+        </div>
+
+
+        <div class="faq-item">
+
+            <button class="faq-question">
+                <span>Comment modifier mon profil ?</span>
+                <span>+</span>
+            </button>
+
+            <div class="faq-answer">
+                Connectez-vous à votre compte puis ouvrez votre espace
+                profil. Vous pourrez modifier les informations que
+                la plateforme vous permet de mettre à jour.
+            </div>
+
+        </div>
+
+
+        <div class="faq-item">
+
+            <button class="faq-question">
+                <span>Comment contacter un autre membre ?</span>
+                <span>+</span>
+            </button>
+
+            <div class="faq-answer">
+                Ouvrez le profil de la personne que vous souhaitez
+                découvrir puis utilisez les fonctionnalités de
+                communication disponibles sur son profil.
+            </div>
+
+        </div>
+
+
+        <div class="faq-item">
+
+            <button class="faq-question">
+                <span>Que faire si je rencontre un comportement suspect ?</span>
+                <span>+</span>
+            </button>
+
+            <div class="faq-answer">
+                Ne communiquez jamais vos informations sensibles.
+                Si un profil vous semble suspect ou enfreint les règles
+                de la plateforme, utilisez la fonction de signalement
+                lorsque celle-ci est disponible.
+            </div>
+
+        </div>
+
+
+        <div class="faq-item">
+
+            <button class="faq-question">
+                <span>Comment protéger mon compte ?</span>
+                <span>+</span>
+            </button>
+
+            <div class="faq-answer">
+                Utilisez un mot de passe unique et suffisamment robuste.
+                Ne partagez jamais votre mot de passe et déconnectez-vous
+                lorsque vous utilisez un appareil partagé.
+            </div>
+
+        </div>
+
+
+        <div class="faq-item">
+
+            <button class="faq-question">
+                <span>Je n'arrive plus à me connecter, que faire ?</span>
+                <span>+</span>
+            </button>
+
+            <div class="faq-answer">
+                Vérifiez d'abord votre adresse email et votre mot de passe.
+                Si le problème persiste, utilisez la procédure de récupération
+                du compte ou contactez notre équipe d'assistance.
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         CONTACT
+    ================================================== -->
+
+    <div class="contact-card">
+
+        <h2>Vous ne trouvez pas votre réponse ?</h2>
+
+        <p>
+            Notre équipe pourra vous aider si votre question
+            ne figure pas encore dans le centre d'aide.
+        </p>
+
+        <a href="contact.html" class="contact-btn">
+            Nous contacter
+        </a>
+
+    </div>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer>
+
+    <div class="footer-links">
+
+        <a href="aide.html">Aide</a>
+        <a href="blog.html">Blog</a>
+        <a href="faq.html">FAQ</a>
+        <a href="confidentialite.html">Confidentialité</a>
+        <a href="conditions.html">Conditions</a>
+        <a href="securite.html">Sécurité</a>
+        <a href="a-propos.html">À propos</a>
+        <a href="contact.html">Contact</a>
+        <a href="temoignages.html">Témoignages</a>
+        <a href="eglises.html">Églises & communautés</a>
+        <a href="signaler.html">Signaler un problème</a>
+        <a href="tarifs.html">Tarifs</a>
+        <a href="conseils-securite.html">Conseils & sécurité</a>
+        <a href="communaute.html">Communauté</a>
+        <a href="partenaires.html">Devenir partenaire</a>
+
+    </div>
+
+    <p>
+        © 2026 Alliance Chrétienne. Tous droits réservés.
+    </p>
+
+    <p>
+        Fait avec ❤️ pour la communauté chrétienne
+    </p>
+
+</footer>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script>
+
+    /* =================================================
+       MODE SOMBRE
+    ================================================== */
+
+    const darkModeToggle =
+        document.getElementById('darkModeToggle');
+
+    const savedDarkMode =
+        localStorage.getItem('darkMode') === 'true';
+
+    if (savedDarkMode) {
+
+        document.body.classList.add('dark-mode');
+
+        darkModeToggle.textContent = '☀️';
+
+    }
+
+
+    darkModeToggle.addEventListener('click', function () {
+
+        const active =
+            document.body.classList.toggle('dark-mode');
+
+        localStorage.setItem('darkMode', active);
+
+        darkModeToggle.textContent =
+            active ? '☀️' : '🌙';
+
+    });
+
+
+    /* =================================================
+       FAQ
+    ================================================== */
+
+    document
+        .querySelectorAll('.faq-question')
+        .forEach(function(button) {
+
+            button.addEventListener('click', function() {
+
+                const item =
+                    button.parentElement;
+
+                item.classList.toggle('active');
+
+            });
+
+        });
+
+
+    /* =================================================
+       RECHERCHE FAQ
+    ================================================== */
+
+    const searchInput =
+        document.getElementById('helpSearch');
+
+    const faqItems =
+        document.querySelectorAll('.faq-item');
+
+    searchInput.addEventListener('input', function() {
+
+        const query =
+            searchInput.value
+                .toLowerCase()
+                .trim();
+
+        faqItems.forEach(function(item) {
+
+            const text =
+                item.textContent.toLowerCase();
+
+            if (!query || text.includes(query)) {
+
+                item.style.display = '';
+
+            } else {
+
+                item.style.display = 'none';
+
+            }
+
+        });
+
+    });
+
+</script>
+
+</body>
+</html>
