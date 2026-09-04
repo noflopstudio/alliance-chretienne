@@ -116,19 +116,7 @@ header {
     width: 100%;
 }
 
-.navbar {
-    width: 100%;
-    min-height: 72px;
 
-    background: rgba(255, 255, 255, .92);
-
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-
-    border-bottom: 1px solid rgba(226, 232, 240, .8);
-
-    box-shadow: 0 4px 20px rgba(15, 23, 42, .04);
-}
 
 .navbar .container {
     min-height: 72px;
@@ -1147,6 +1135,64 @@ select:focus-visible {
         border-radius: 16px;
     }
 }
+@media (max-width: 480px) {
+    .navbar,
+    .navbar .container {
+        min-height: 52px !important;
+        height: 52px !important;
+    }
+
+    .register-logo img {
+        width: 38px !important;
+    }
+
+    .profile-back-button {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 24px !important;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .navbar {
+        border-bottom: none !important;
+        box-shadow: none !important;
+    }
+
+    header {
+        box-shadow: none !important;
+        border: none !important;
+    }
+}
+
+@media (max-width: 480px) {
+    header,
+    header .navbar,
+    header .navbar .container {
+        margin: 0 !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        border: 0 !important;
+        box-shadow: none !important;
+    }
+
+    header {
+        height: 52px !important;
+        min-height: 52px !important;
+    }
+
+    header .navbar {
+        height: 52px !important;
+        min-height: 52px !important;
+    }
+
+    header .navbar .container {
+        height: 52px !important;
+        min-height: 52px !important;
+    }
+}
+
 
 </style>
 
@@ -1168,25 +1214,24 @@ select:focus-visible {
 
 <header>
     <nav class="navbar">
-      <div class="navbar">
-    <div class="container">
+        <div class="container">
 
-       <a href="javascript:history.back()" class="profile-back-button" aria-label="Retour">
-    ‹
-</a>
-
-        <div class="logo">
-            <a href="index.html" class="register-logo">
-                <img src="images/logo.png" alt="Alliance Chrétienne">
+            <a href="javascript:history.back()" class="profile-back-button" aria-label="Retour">
+                ‹
             </a>
+
+            <div class="logo">
+                <a href="index.html" class="register-logo">
+                    <img src="images/logo.png" alt="Alliance Chrétienne">
+                </a>
+            </div>
+
         </div>
-
-    </div>
-</div>
-</nav>
-
-
+    </nav>
 </header>
+
+
+
 
 <section>
 

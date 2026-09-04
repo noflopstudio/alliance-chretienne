@@ -13,350 +13,415 @@
     <meta name="theme-color" content="#2563eb">
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-    
-        body {
-            background-color: #f7f9fc;
-            color: var(--text-color);
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
+  <style>
+:root {
+    /* On suppose que ces variables existent déjà dans ton style global :
+       --primary-color, --secondary-color, --success-color, --text-color, --dark-color, --border-color, --white
+       Si besoin, tu peux les définir dans ton fichier principal. */
+}
 
-        /* En-tête de profil repensé : style bannière immersive avec avatar en surépaisseur */
-        .profile-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: var(--white);
-            padding: 3rem 2.5rem 2rem 2.5rem;
-            border-radius: 1.5rem;
-            margin-bottom: 2.5rem;
-            display: flex;
-            align-items: center;
-            gap: 2.5rem;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
-            position: relative;
-        }
+/* Base / layout général */
 
-        .profile-avatar {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-            cursor: pointer;
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            flex-shrink: 0;
-        }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        .profile-avatar:hover {
-            transform: scale(1.05) rotate(2deg);
-        }
+html {
+    scroll-behavior: smooth;
+    width: 100%;
+    overflow-x: hidden;
+}
 
-        .profile-header-info h2 {
-            font-size: 2.3rem;
-            margin-bottom: 0.5rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
+body {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
 
-        .profile-header-info p {
-            opacity: 0.95;
-            margin-bottom: 0.4rem;
-            font-size: 1.05rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 500;
-        }
+    background-color: #f7f9fc;
+    color: var(--text-color);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
 
-        /* Onglets style "Boutons Flottants Modernes" */
-        .profile-tabs {
-            display: flex;
-            gap: 1rem;
-            background: transparent;
-            border-bottom: none;
-            margin-bottom: 2rem;
-        }
+/* En-tête de profil : bannière immersive */
 
-        .profile-tab {
-            background: var(--white);
-            border: 1px solid var(--border-color);
-            padding: 0.9rem 1.8rem;
-            cursor: pointer;
-            color: var(--text-color);
-            font-weight: 700;
-            font-size: 0.95rem;
-            border-radius: 50px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-            border-bottom: none;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+.profile-header {
+    background: linear-gradient(
+        135deg,
+        var(--primary-color),
+        var(--secondary-color, #4f46e5)
+    );
+    color: var(--white);
 
-        .profile-tab.active {
-            background-color: var(--primary-color);
-            color: var(--white);
-            border-color: var(--primary-color);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
-            transform: translateY(-2px);
-        }
+    padding: 3rem 2.5rem 2rem 2.5rem;
+    border-radius: 1.5rem;
+    margin-bottom: 2.5rem;
 
-        .profile-tab:hover:not(.active) {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-            transform: translateY(-2px);
-        }
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
 
-        .tab-content {
-            display: none;
-            animation: fadeInScale 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+    position: relative;
+}
 
-        .tab-content.active {
-            display: block;
-        }
+.profile-avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
 
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.98) translateY(10px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
+    border: 5px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 
-        /* Sections de profil type "Cards" minimalistes */
-        .profile-section {
-            background-color: var(--white);
-            padding: 2.2rem;
-            border-radius: 1.25rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+    cursor: pointer;
+    flex-shrink: 0;
 
-        .profile-section:hover {
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
-        }
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
 
-        .profile-section h3 {
-            color: var(--dark-color);
-            margin-bottom: 1.5rem;
-            font-size: 1.2rem;
-            font-weight: 800;
-            border-bottom: none;
-            padding-bottom: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            letter-spacing: -0.3px;
-        }
+.profile-avatar:hover {
+    transform: scale(1.05) rotate(2deg);
+}
 
-        .profile-info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.25rem;
-            margin-bottom: 1.5rem;
-        }
+.profile-header-info h2 {
+    font-size: 2.3rem;
+    margin-bottom: 0.5rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
 
-        .profile-info-item {
-            background-color: #fafbfc;
-            padding: 1.2rem;
-            border-radius: 1rem;
-            border: 1px solid #edf2f7;
-            transition: background-color 0.2s ease;
-        }
+.profile-header-info p {
+    opacity: 0.95;
+    margin-bottom: 0.4rem;
+    font-size: 1.05rem;
 
-        .profile-info-item:hover {
-            background-color: #f1f5f9;
-        }
+    display: flex;
+    align-items: center;
+    gap: 10px;
 
-        .profile-info-label {
-            color: #718096;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            font-weight: 700;
-            margin-bottom: 0.4rem;
-        }
+    font-weight: 500;
+}
 
-        .profile-info-value {
-            color: var(--dark-color);
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
+/* Onglets */
 
-        .profile-bio {
-            background-color: #fafbfc;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            line-height: 1.8;
-            color: var(--text-color);
-            border: 1px solid #edf2f7;
-            font-size: 1.05rem;
-        }
+.profile-tabs {
+    display: flex;
+    gap: 1rem;
+    background: transparent;
+    border-bottom: none;
+    margin-bottom: 2rem;
+}
 
-        /* Formulaire de modification élégant */
-        .edit-form {
-            background-color: var(--white);
-            padding: 2.5rem;
-            border-radius: 1.25rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-            border: 1px solid rgba(226, 232, 240, 0.8);
-        }
+.profile-tab {
+    background: var(--white);
+    border: 1px solid var(--border-color);
 
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
+    padding: 0.9rem 1.8rem;
+    border-radius: 50px;
 
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            border-radius: 0.85rem;
-            border: 1.5px solid #e2e8f0;
-            padding: 0.9rem 1.1rem;
-            background-color: #fafbfc;
-            font-size: 1rem;
-            transition: all 0.25s ease;
-        }
+    display: flex;
+    align-items: center;
+    gap: 8px;
 
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            background-color: var(--white);
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-            outline: none;
-        }
+    cursor: pointer;
+    color: var(--text-color);
 
-        .form-group label {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--dark-color);
-            margin-bottom: 0.5rem;
-            display: block;
-        }
+    font-weight: 700;
+    font-size: 0.95rem;
 
-        .btn-group {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2.5rem;
-        }
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    border-bottom: none;
 
-        .btn-group button {
-            flex: 1;
-            padding: 1rem;
-            border: none;
-            border-radius: 0.85rem;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: all 0.25s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-        }
+    transition: all 0.3s ease;
+}
 
-        .btn-save {
-            background-color: var(--success-color);
-            color: var(--white);
-        }
+.profile-tab.active {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
+    transform: translateY(-2px);
+}
 
-        .btn-save:hover {
-            filter: brightness(0.95);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
-        }
+.profile-tab:hover:not(.active) {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
 
-        .btn-cancel {
-            background-color: #edf2f7;
-            color: #4a5568;
-        }
+/* Contenu des onglets */
 
-        .btn-cancel:hover {
-            background-color: #e2e8f0;
-        }
+.tab-content {
+    display: none;
+    animation: fadeInScale 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-        /* Grille de Matchs chic */
-        .matches-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 1.5rem;
-        }
+.tab-content.active {
+    display: block;
+}
 
-        .match-card {
-            background-color: var(--white);
-            border-radius: 1.25rem;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            border: 1px solid #edf2f7;
-        }
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.98) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
 
-        .match-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-        }
+/* Sections de profil (cards) */
 
-        .match-card img {
-            width: 100%;
-            height: 230px;
-            object-fit: cover;
-        }
+.profile-section {
+    background-color: var(--white);
+    padding: 2.2rem;
+    border-radius: 1.25rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-        .match-card-info {
-            padding: 1.25rem;
-        }
+.profile-section:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+}
 
-        .match-card-name {
-            font-weight: 700;
-            color: var(--dark-color);
-            font-size: 1.1rem;
-            margin-bottom: 0.75rem;
-        }
+.profile-section h3 {
+    color: var(--dark-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 800;
 
-        .match-card-actions {
-            display: flex;
-            gap: 0.5rem;
-        }
+    border-bottom: none;
+    padding-bottom: 0;
 
-        .match-card-actions button {
-            flex: 1;
-            padding: 0.7rem;
-            border: none;
-            border-radius: 0.75rem;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: transform 0.2s ease;
-        }
+    display: flex;
+    align-items: center;
+    gap: 10px;
 
-        .match-card-actions button:hover {
-            transform: scale(1.03);
-        }
+    letter-spacing: -0.3px;
+}
 
-        /* Responsive design pour mobile */
-        @media (max-width: 768px) {
-            .profile-header {
-                flex-direction: column;
-                text-align: center;
-                padding: 2.5rem 1.5rem;
-            }
-            .profile-header-info p {
-                justify-content: center;
-            }
-            .profile-tabs {
-                flex-direction: column;
-            }
-        }
+/* Informations de profil */
+
+.profile-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.profile-info-item {
+    background-color: #fafbfc;
+    padding: 1.2rem;
+    border-radius: 1rem;
+    border: 1px solid #edf2f7;
+    transition: background-color 0.2s ease;
+}
+
+.profile-info-item:hover {
+    background-color: #f1f5f9;
+}
+
+.profile-info-label {
+    color: #718096;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+}
+
+.profile-info-value {
+    color: var(--dark-color);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+/* Bio */
+
+.profile-bio {
+    background-color: #fafbfc;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    line-height: 1.8;
+    color: var(--text-color);
+    border: 1px solid #edf2f7;
+    font-size: 1.05rem;
+}
+
+/* Formulaire de modification */
+
+.edit-form {
+    background-color: var(--white);
+    padding: 2.5rem;
+    border-radius: 1.25rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    border-radius: 0.85rem;
+    border: 1.5px solid #e2e8f0;
+    padding: 0.9rem 1.1rem;
+    background-color: #fafbfc;
+    font-size: 1rem;
+    transition: all 0.25s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    background-color: var(--white);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    outline: none;
+}
+
+/* Boutons */
+
+.btn-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2.5rem;
+}
+
+.btn-group button {
+    flex: 1;
+    padding: 1rem;
+    border: none;
+    border-radius: 0.85rem;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+}
+
+.btn-save {
+    background-color: var(--success-color, #10b981);
+    color: var(--white);
+}
+
+.btn-save:hover {
+    filter: brightness(0.95);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+}
+
+.btn-cancel {
+    background-color: #edf2f7;
+    color: #4a5568;
+}
+
+.btn-cancel:hover {
+    background-color: #e2e8f0;
+}
+
+/* Grille de matchs */
+
+.matches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.match-card {
+    background-color: var(--white);
+    border-radius: 1.25rem;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid #edf2f7;
+}
+
+.match-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+.match-card img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+}
+
+.match-card-info {
+    padding: 1.25rem;
+}
+
+.match-card-name {
+    font-weight: 700;
+    color: var(--dark-color);
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+}
+
+.match-card-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.match-card-actions button {
+    flex: 1;
+    padding: 0.7rem;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: transform 0.2s ease;
+}
+
+.match-card-actions button:hover {
+    transform: scale(1.03);
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 2.5rem 1.5rem;
+    }
+
+    .profile-header-info p {
+        justify-content: center;
+    }
+
+    .profile-tabs {
+        flex-direction: column;
+    }
+}
 
 .register-logo img {
     width: 50px;
     height: auto;
     display: block;
 }
-
-    </style>
+</style>
 </head>
 <body>
     <!-- En-tête -->

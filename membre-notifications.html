@@ -805,6 +805,52 @@ body.dark-mode .empty-notifications h3 {
     }
 }
 
+
+/* =========================================================
+   HEADER MOBILE — MÊME RÉGLAGE QUE MESSAGES
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    header {
+        height: 52px !important;
+        min-height: 52px !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .navbar {
+        height: 52px !important;
+        min-height: 52px !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .navbar .container {
+        height: 52px !important;
+        min-height: 52px !important;
+        padding: 0 0.75rem !important;
+        border: none !important;
+    }
+
+    .register-logo img {
+        width: 38px !important;
+    }
+
+    .profile-back-button {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 24px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-back-button,
+    .logo {
+        transform: translateY(-16px);
+    }
+}
+
 </style>
 
 
@@ -824,39 +870,22 @@ body.dark-mode .empty-notifications h3 {
 <!-- =========================================================
      HEADER
      ========================================================= -->
-
 <header>
-
     <nav class="navbar">
-
         <div class="container">
 
-            <a
-                href="javascript:history.back()"
-                class="profile-back-button"
-                aria-label="Retour"
-            >
+            <a href="javascript:history.back()" class="profile-back-button" aria-label="Retour">
                 ‹
             </a>
 
             <div class="logo">
-
-                <a
-                    href="index.html"
-                    class="register-logo"
-                >
-                    <img
-                        src="images/logo.png"
-                        alt="Alliance Chrétienne"
-                    >
+                <a href="index.html" class="register-logo">
+                    <img src="images/logo.png" alt="Alliance Chrétienne">
                 </a>
-
             </div>
 
         </div>
-
     </nav>
-
 </header>
 
 

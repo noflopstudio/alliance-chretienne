@@ -171,17 +171,185 @@ body.dark-mode {
    HEADER
    ========================================================= */
 
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
 header {
     position: sticky;
     top: 0;
     z-index: 1000;
     width: 100%;
-
     background: rgba(255, 255, 255, 0.94);
     backdrop-filter: blur(14px);
+}
 
-    border-bottom: 1px solid var(--border-color);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+body.dark-mode header {
+    background: rgba(30, 41, 59, 0.94);
+    border-bottom: none;
+    box-shadow: none;
+}
+
+.navbar {
+    width: 100%;
+}
+
+.navbar .container {
+    min-height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+.profile-back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin-right: 8px;
+    border-radius: 50%;
+    color: var(--dark-color);
+    background: transparent;
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.profile-back-button:hover {
+    background: #f1f5f9;
+}
+
+body.dark-mode .profile-back-button {
+    color: var(--white);
+}
+
+/* HEADER MOBILE */
+@media (max-width: 480px) {
+
+    header {
+        height: 52px !important;
+        min-height: 52px !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .navbar {
+        height: 52px !important;
+        min-height: 52px !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .navbar .container {
+        height: 52px !important;
+        min-height: 52px !important;
+        padding: 0 0.75rem !important;
+        border: none !important;
+    }
+
+    .register-logo img {
+        width: 38px !important;
+    }
+
+    .profile-back-button {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 24px !important;
+    }
+}
+
+body.dark-mode header {
+    background: rgba(30, 41, 59, 0.94);
+    border-bottom: none;
+    box-shadow: none;
+}
+
+.navbar {
+    width: 100%;
+}
+
+.navbar .container {
+    min-height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+.profile-back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin-right: 8px;
+    border-radius: 50%;
+    color: var(--dark-color);
+    background: transparent;
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.profile-back-button:hover {
+    background: #f1f5f9;
+}
+
+body.dark-mode .profile-back-button {
+    color: var(--white);
+}
+
+/* HEADER MOBILE */
+@media (max-width: 480px) {
+
+    header {
+        height: 52px !important;
+        min-height: 52px !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .navbar {
+        height: 52px !important;
+        min-height: 52px !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .navbar .container {
+        height: 52px !important;
+        min-height: 52px !important;
+        padding: 0 0.75rem !important;
+        border: none !important;
+    }
+
+    .register-logo img {
+        width: 38px !important;
+    }
+
+    .profile-back-button {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 24px !important;
+    }
 }
 
 body.dark-mode header {
@@ -1148,6 +1316,15 @@ body.dark-mode .site-footer {
     }
 }
 
+
+
+@media (max-width: 480px) {
+    .profile-back-button,
+    .logo {
+        transform: translateY(-16px);
+    }
+}
+
 </style>
 </head>
 
@@ -1162,30 +1339,24 @@ body.dark-mode .site-footer {
         <div class="floating-shape"></div>
 
     </div>
-  <header>
-
+<header>
     <nav class="navbar">
-        <div class="navbar">
-    <div class="container">
+        <div class="container">
 
-      <a
-    href="javascript:history.back()"
-    class="profile-back-button"
-    aria-label="Retour"
->
-            ‹
-        </a>
-
-        <div class="logo">
-            <a href="index.html" class="register-logo">
-                <img src="images/logo.png" alt="Alliance Chrétienne">
+            <a href="javascript:history.back()" class="profile-back-button" aria-label="Retour">
+                ‹
             </a>
-        </div>
 
-    </div>
-</div>
+            <div class="logo">
+                <a href="index.html" class="register-logo">
+                    <img src="images/logo.png" alt="Alliance Chrétienne">
+                </a>
+            </div>
+
+        </div>
     </nav>
 </header>
+
 
     <section class="messages-page">
         <div class="container">

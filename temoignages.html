@@ -570,7 +570,64 @@
             transform: scale(.92);
         }
 
-    </style>
+
+/* =========================================================
+   HEADER MOBILE — 52PX + POSITIONNEMENT
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    .navbar .container {
+        width: 100% !important;
+        max-width: none !important;
+        height: 52px !important;
+        min-height: 52px !important;
+        padding: 0 !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
+
+    .profile-back-button {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        transform: translateY(-3px);
+    }
+
+    .logo {
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        transform: translateY(-3px);
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .navbar .container {
+        height: 52px !important;
+        min-height: 52px !important;
+        padding: 0 0.75rem !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
+
+    .profile-back-button {
+        margin-right: 0 !important;
+        transform: translateY(-3px);
+    }
+
+    .logo {
+        margin-left: auto !important;
+        transform: translateY(-3px);
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -584,34 +641,22 @@
 
 
 <header>
-
     <nav class="navbar">
+        <div class="container">
 
-        <a
-            href="javascript:history.back()"
-            class="profile-back-button"
-            aria-label="Retour"
-        >
-            ‹
-        </a>
-
-        <div class="logo">
-
-            <a href="index.html" class="register-logo">
-
-                <img
-                    src="images/logo.png"
-                    alt="Alliance Chrétienne"
-                >
-
+            <a href="javascript:history.back()" class="profile-back-button" aria-label="Retour">
+                ‹
             </a>
 
+            <div class="logo">
+                <a href="index.html" class="register-logo">
+                    <img src="images/logo.png" alt="Alliance Chrétienne">
+                </a>
+            </div>
+
         </div>
-
     </nav>
-
 </header>
-
 
 <section class="hero">
 
