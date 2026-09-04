@@ -13,696 +13,605 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/i18n.js"></script>
 
-    <style>
-        /* =========================================================
-           ALLIANCE CHRÉTIENNE — INSCRIPTION
-           Design moderne / cartes / dégradés
-           ========================================================= */
-
-        :root {
-            --primary: #2563eb;
-            --primary-light: #eff6ff;
-
-            --pink: #f43f5e;
-            --pink-light: #fff1f2;
-
-            --purple: #7c3aed;
-
-            --dark: #172033;
-            --text: #475569;
-            --muted: #94a3b8;
-
-            --white: #ffffff;
-            --border: #e2e8f0;
-
-            --success: #10b981;
-
-            --shadow:
-                0 20px 50px rgba(15, 23, 42, .08);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            min-height: 100vh;
-            background:
-                radial-gradient(
-                    circle at 10% 10%,
-                    rgba(244, 63, 94, .07),
-                    transparent 30%
-                ),
-                radial-gradient(
-                    circle at 90% 20%,
-                    rgba(37, 99, 235, .07),
-                    transparent 30%
-                ),
-                #fff8f8;
-
-            color: var(--text);
-            font-family:
-                system-ui,
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                Roboto,
-                sans-serif;
-        }
-
-        /* =========================================================
-           HEADER
-           ========================================================= */
-
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-
-            background: rgba(255,255,255,.94);
-            backdrop-filter: blur(12px);
-
-            border-bottom: 1px solid var(--border);
-        }
-
-        .register-navbar {
-            max-width: 1200px;
-            margin: auto;
-
-            padding: 1rem 1.5rem;
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .register-logo {
-            text-decoration: none;
-        }
-
-        .register-logo h1 {
-            margin: 0;
-
-            color: var(--dark);
-
-            font-size: 1.4rem;
-            font-weight: 850;
-        }
-
-        .register-login {
-            display: inline-flex;
-            align-items: center;
-
-            padding: .65rem 1.2rem;
-
-            border-radius: 12px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--primary),
-                    #1d4ed8
-                );
-
-            color: white;
-
-            text-decoration: none;
-
-            font-weight: 700;
-            font-size: .9rem;
-
-            box-shadow:
-                0 6px 18px rgba(37,99,235,.22);
-
-            transition: .25s ease;
-        }
-
-        .register-login:hover {
-            transform: translateY(-2px);
-        }
-
-        /* =========================================================
-           PAGE
-           ========================================================= */
-
-        .register-page {
-            padding: 3rem 1rem 4rem;
-        }
-
-        .register-wrapper {
-            width: min(100%, 920px);
-            margin: auto;
-        }
-
-        /* =========================================================
-           HERO
-           ========================================================= */
-
-        .register-intro {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .register-intro-icon {
-            width: 70px;
-            height: 70px;
-
-            margin: 0 auto 1rem;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 22px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--pink),
-                    var(--purple)
-                );
-
-            color: white;
-
-            font-size: 2rem;
-
-            box-shadow:
-                0 12px 30px rgba(244,63,94,.22);
-        }
-
-        .register-intro h2 {
-            margin-bottom: .5rem;
-
-            color: var(--dark);
-
-            font-size: 2rem;
-            font-weight: 850;
-        }
-
-        .register-intro p {
-            color: var(--text);
-
-            max-width: 600px;
-            margin: auto;
-
-            line-height: 1.6;
-        }
-
-        /* =========================================================
-           PROGRESSION
-           ========================================================= */
-
-        .register-progress {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-
-            gap: .6rem;
-
-            margin-bottom: 1.5rem;
-        }
-
-        .progress-step {
-            padding: .75rem .4rem;
-
-            text-align: center;
-
-            border-radius: 12px;
-
-            background: rgba(255,255,255,.8);
-
-            border: 1px solid var(--border);
-
-            color: var(--muted);
-
-            font-size: .72rem;
-            font-weight: 700;
-        }
-
-        .progress-step span {
-            display: block;
-
-            font-size: 1.1rem;
-
-            margin-bottom: .25rem;
-        }
-
-        .progress-step.active {
-            color: var(--pink);
-
-            border-color: rgba(244,63,94,.25);
-
-            background: var(--pink-light);
-        }
-
-        /* =========================================================
-           FORM CARD
-           ========================================================= */
-
-        .register-card {
-            background: rgba(255,255,255,.97);
-
-            border: 1px solid rgba(226,232,240,.9);
-
-            border-radius: 26px;
-
-            padding: 2rem;
-
-            box-shadow: var(--shadow);
-        }
-
-        /* =========================================================
-           SECTION
-           ========================================================= */
-
-        .form-section {
-            padding: 1.5rem;
-
-            margin-bottom: 1.25rem;
-
-            border: 1px solid #edf0f5;
-
-            border-radius: 20px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(255,255,255,.98),
-                    rgba(248,250,252,.8)
-                );
-        }
-
-        .form-section-header {
-            display: flex;
-            align-items: center;
-
-            gap: .9rem;
-
-            padding-bottom: 1rem;
-            margin-bottom: 1.25rem;
-
-            border-bottom: 1px solid #eef2f7;
-        }
-
-        .section-icon {
-            width: 44px;
-            height: 44px;
-
-            flex-shrink: 0;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 13px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--pink-light),
-                    var(--primary-light)
-                );
-
-            font-size: 1.25rem;
-        }
-
-        .form-section-header h3 {
-            color: var(--dark);
-
-            font-size: 1.05rem;
-            font-weight: 850;
-        }
-
-        .form-section-header p {
-            margin-top: .2rem;
-
-            color: var(--muted);
-
-            font-size: .8rem;
-        }
-
-        /* =========================================================
-           GRID
-           ========================================================= */
-
-        .form-grid {
-            display: grid;
-
-            grid-template-columns: repeat(2, 1fr);
-
-            gap: 1rem;
-        }
-
-        .full-width {
-            grid-column: 1 / -1;
-        }
-
-        /* =========================================================
-           FORM
-           ========================================================= */
-
-        .form-group {
-            margin-bottom: .25rem;
-        }
-
-        .form-group label {
-            display: block;
-
-            margin-bottom: .5rem;
-
-            color: var(--dark);
-
-            font-size: .82rem;
-            font-weight: 750;
-        }
-
-        .required {
-            color: var(--pink);
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-
-            padding: .9rem 1rem;
-
-            border: 1.5px solid var(--border);
-
-            border-radius: 12px;
-
-            background: #fafbfc;
-
-            color: var(--dark);
-
-            font-family: inherit;
-            font-size: .92rem;
-
-            outline: none;
-
-            transition: .25s ease;
-        }
-
-        .form-group textarea {
-            min-height: 125px;
-
-            resize: vertical;
-
-            line-height: 1.5;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            background: white;
-
-            border-color: var(--pink);
-
-            box-shadow:
-                0 0 0 4px rgba(244,63,94,.10);
-        }
-
-        .form-group small {
-            display: block;
-
-            margin-top: .4rem;
-
-            color: var(--muted);
-
-            font-size: .72rem;
-        }
-
-        /* =========================================================
-           PASSWORD
-           ========================================================= */
-
-        .password-wrapper {
-            position: relative;
-        }
-
-        .password-wrapper input {
-            padding-right: 3rem;
-        }
-
-        .toggle-password {
-            position: absolute;
-
-            right: .5rem;
-            top: 50%;
-
-            transform: translateY(-50%);
-
-            width: 38px;
-            height: 38px;
-
-            border: none;
-
-            background: transparent;
-
-            cursor: pointer;
-
-            font-size: 1.1rem;
-
-            border-radius: 10px;
-
-            transition: .2s ease;
-        }
-
-        .toggle-password:hover {
-            background: var(--pink-light);
-        }
-
-        /* =========================================================
-           CONDITIONS
-           ========================================================= */
-
-        .terms-box {
-            display: flex;
-            align-items: flex-start;
-
-            gap: .75rem;
-
-            padding: 1rem;
-
-            margin-top: .5rem;
-
-            border-radius: 14px;
-
-            background: #f8fafc;
-
-            border: 1px solid var(--border);
-        }
-
-        .terms-box input {
-            width: 18px !important;
-            height: 18px;
-
-            margin-top: .1rem;
-
-            accent-color: var(--pink);
-
-            flex-shrink: 0;
-        }
-
-        .terms-box label {
-            margin: 0;
-
-            font-size: .8rem;
-
-            font-weight: 500;
-
-            line-height: 1.5;
-
-            color: var(--text);
-        }
-
-        .terms-box a {
-            color: var(--primary);
-
-            font-weight: 700;
-
-            text-decoration: none;
-        }
-
-        /* =========================================================
-           BUTTON
-           ========================================================= */
-
-        .register-submit {
-            width: 100%;
-
-            padding: 1rem 1.5rem;
-
-            border: none;
-
-            border-radius: 14px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--pink),
-                    #e11d48
-                );
-
-            color: white;
-
-            font-size: 1rem;
-            font-weight: 800;
-
-            cursor: pointer;
-
-            box-shadow:
-                0 10px 25px rgba(244,63,94,.25);
-
-            transition: .25s ease;
-        }
-
-        .register-submit:hover {
-            transform: translateY(-2px);
-
-            box-shadow:
-                0 14px 30px rgba(244,63,94,.32);
-        }
-
-        .login-bottom {
-            text-align: center;
-
-            margin-top: 1.5rem;
-
-            color: var(--text);
-
-            font-size: .9rem;
-        }
-
-        .login-bottom a {
-            color: var(--pink);
-
-            font-weight: 800;
-
-            text-decoration: none;
-        }
-
-        /* =========================================================
-           FOOTER
-           ========================================================= */
-
-        footer {
-            padding: 2rem 1rem;
-
-            text-align: center;
-
-            background: #172033;
-
-            color: #cbd5e1;
-        }
-
-        footer p {
-            margin: .35rem 0;
-
-            font-size: .8rem;
-        }
-
-        .footer-links {
-            display: flex;
-
-            justify-content: center;
-
-            flex-wrap: wrap;
-
-            gap: 1.2rem;
-
-            margin-bottom: 1rem;
-        }
-
-        .footer-links a {
-            color: #cbd5e1;
-
-            text-decoration: none;
-
-            font-size: .78rem;
-
-            font-weight: 600;
-
-            transition: .2s ease;
-        }
-
-        .footer-links a:hover {
-            color: white;
-        }
-
-        /* =========================================================
-           RESPONSIVE
-           ========================================================= */
-
-        @media (max-width: 700px) {
-
-            .register-page {
-                padding: 2rem .75rem;
-            }
-
-            .register-card {
-                padding: 1rem;
-
-                border-radius: 20px;
-            }
-
-            .form-section {
-                padding: 1rem;
-
-                border-radius: 16px;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .full-width {
-                grid-column: auto;
-            }
-
-            .register-progress {
-                grid-template-columns: repeat(5, 1fr);
-
-                gap: .3rem;
-            }
-
-            .progress-step {
-                padding: .55rem .2rem;
-
-                font-size: .58rem;
-            }
-
-            .progress-step span {
-                font-size: .95rem;
-            }
-
-            .register-intro h2 {
-                font-size: 1.6rem;
-            }
-
-            .register-navbar {
-                padding: .8rem 1rem;
-            }
-
-            .register-logo h1 {
-                font-size: 1.1rem;
-            }
-
-            .register-login {
-                padding: .55rem .8rem;
-
-                font-size: .78rem;
-            }
-        }
-
-        .register-logo img {
-            width: 50px;
-            height: auto;
-            display: block;
-        }
-
-    </style>
+  <style>
+/* =========================================================
+   ALLIANCE CHRÉTIENNE — INSCRIPTION
+   Design moderne / cartes / dégradés
+   ========================================================= */
+
+:root {
+    --primary: #2563eb;
+    --primary-light: #eff6ff;
+
+    --pink: #f43f5e;
+    --pink-light: #fff1f2;
+
+    --purple: #7c3aed;
+
+    --dark: #172033;
+    --text: #475569;
+    --muted: #94a3b8;
+
+    --white: #ffffff;
+    --border: #e2e8f0;
+
+    --success: #10b981;
+
+    --shadow: 0 20px 50px rgba(15, 23, 42, .08);
+}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(244, 63, 94, .07),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(37, 99, 235, .07),
+            transparent 30%
+        ),
+        #fff8f8;
+
+    color: var(--text);
+
+    font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        sans-serif;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    background: rgba(255,255,255,.94);
+    backdrop-filter: blur(12px);
+
+    border-bottom: 1px solid var(--border);
+}
+
+.register-navbar {
+    max-width: 1200px;
+    margin: auto;
+    padding: 1rem 1.5rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.register-logo {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.register-logo h1 {
+    margin: 0;
+    color: var(--dark);
+    font-size: 1.4rem;
+    font-weight: 850;
+}
+
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+.register-login {
+    display: inline-flex;
+    align-items: center;
+
+    padding: .65rem 1.2rem;
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            #1d4ed8
+        );
+
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: .9rem;
+
+    box-shadow: 0 6px 18px rgba(37,99,235,.22);
+    transition: .25s ease;
+}
+
+.register-login:hover {
+    transform: translateY(-2px);
+}
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.register-page {
+    padding: 3rem 1rem 4rem;
+}
+
+.register-wrapper {
+    width: min(100%, 920px);
+    margin: auto;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.register-intro {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.register-intro-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--pink),
+            var(--purple)
+        );
+
+    color: white;
+    font-size: 2rem;
+
+    box-shadow: 0 12px 30px rgba(244,63,94,.22);
+}
+
+.register-intro h2 {
+    margin-bottom: .5rem;
+    color: var(--dark);
+    font-size: 2rem;
+    font-weight: 850;
+}
+
+.register-intro p {
+    color: var(--text);
+    max-width: 600px;
+    margin: auto;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   PROGRESSION
+   ========================================================= */
+
+.register-progress {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: .6rem;
+    margin-bottom: 1.5rem;
+}
+
+.progress-step {
+    padding: .75rem .4rem;
+    text-align: center;
+    border-radius: 12px;
+    background: rgba(255,255,255,.8);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: .72rem;
+    font-weight: 700;
+}
+
+.progress-step span {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: .25rem;
+}
+
+.progress-step.active {
+    color: var(--pink);
+    border-color: rgba(244,63,94,.25);
+    background: var(--pink-light);
+}
+
+/* =========================================================
+   FORM CARD
+   ========================================================= */
+
+.register-card {
+    background: rgba(255,255,255,.97);
+    border: 1px solid rgba(226,232,240,.9);
+    border-radius: 26px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+}
+
+/* =========================================================
+   SECTION
+   ========================================================= */
+
+.form-section {
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    border: 1px solid #edf0f5;
+    border-radius: 20px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.98),
+            rgba(248,250,252,.8)
+        );
+}
+
+.form-section-header {
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid #eef2f7;
+}
+
+.section-icon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--pink-light),
+            var(--primary-light)
+        );
+
+    font-size: 1.25rem;
+}
+
+.form-section-header h3 {
+    color: var(--dark);
+    font-size: 1.05rem;
+    font-weight: 850;
+}
+
+.form-section-header p {
+    margin-top: .2rem;
+    color: var(--muted);
+    font-size: .8rem;
+}
+
+/* =========================================================
+   GRID
+   ========================================================= */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.form-group {
+    margin-bottom: .25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: .5rem;
+    color: var(--dark);
+    font-size: .82rem;
+    font-weight: 750;
+}
+
+.required {
+    color: var(--pink);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: .9rem 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: #fafbfc;
+    color: var(--dark);
+    font-family: inherit;
+    font-size: .92rem;
+    outline: none;
+    transition: .25s ease;
+}
+
+.form-group textarea {
+    min-height: 125px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    background: white;
+    border-color: var(--pink);
+    box-shadow: 0 0 0 4px rgba(244,63,94,.10);
+}
+
+.form-group small {
+    display: block;
+    margin-top: .4rem;
+    color: var(--muted);
+    font-size: .72rem;
+}
+
+/* =========================================================
+   PASSWORD
+   ========================================================= */
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 3rem;
+}
+
+.toggle-password {
+    position: absolute;
+    right: .5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    transition: .2s ease;
+}
+
+.toggle-password:hover {
+    background: var(--pink-light);
+}
+
+/* =========================================================
+   CONDITIONS
+   ========================================================= */
+
+.terms-box {
+    display: flex;
+    align-items: flex-start;
+    gap: .75rem;
+    padding: 1rem;
+    margin-top: .5rem;
+    border-radius: 14px;
+    background: #f8fafc;
+    border: 1px solid var(--border);
+}
+
+.terms-box input {
+    width: 18px !important;
+    height: 18px;
+    margin-top: .1rem;
+    accent-color: var(--pink);
+    flex-shrink: 0;
+}
+
+.terms-box label {
+    margin: 0;
+    font-size: .8rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text);
+}
+
+.terms-box a {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* =========================================================
+   BUTTON
+   ========================================================= */
+
+.register-submit {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: 14px;
+    background:
+        linear-gradient(
+            135deg,
+            var(--pink),
+            #e11d48
+        );
+    color: white;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(244,63,94,.25);
+    transition: .25s ease;
+}
+
+.register-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(244,63,94,.32);
+}
+
+.login-bottom {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: var(--text);
+    font-size: .9rem;
+}
+
+.login-bottom a {
+    color: var(--pink);
+    font-weight: 800;
+    text-decoration: none;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+    padding: 2rem 1rem;
+    text-align: center;
+    background: #172033;
+    color: #cbd5e1;
+}
+
+footer p {
+    margin: .35rem 0;
+    font-size: .8rem;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.footer-links a {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: .78rem;
+    font-weight: 600;
+    transition: .2s ease;
+}
+
+.footer-links a:hover {
+    color: white;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 700px) {
+    .register-page {
+        padding: 2rem .75rem;
+    }
+
+    .register-wrapper {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .register-card {
+        padding: 1rem;
+        border-radius: 20px;
+    }
+
+    .form-section {
+        padding: 1rem;
+        border-radius: 16px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full-width {
+        grid-column: auto;
+    }
+
+    .register-progress {
+        grid-template-columns: repeat(5, 1fr);
+        gap: .3rem;
+    }
+
+    .progress-step {
+        padding: .55rem .2rem;
+        font-size: .58rem;
+    }
+
+    .progress-step span {
+        font-size: .95rem;
+    }
+
+    .register-intro h2 {
+        font-size: 1.6rem;
+    }
+
+    .register-navbar {
+        padding: .8rem 1rem;
+    }
+
+    .register-logo h1 {
+        font-size: 1.1rem;
+    }
+
+    .register-login {
+        padding: .55rem .8rem;
+        font-size: .78rem;
+    }
+}
+
+/* Petit ajustement pour très petits écrans */
+@media (max-width: 480px) {
+    .register-page {
+        padding: 1.75rem .5rem 3rem;
+    }
+
+    .register-card {
+        border-radius: 18px;
+    }
+}
+</style>
 </head>
 
 <body>

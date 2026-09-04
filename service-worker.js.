@@ -1,0 +1,100 @@
+const CACHE_NAME = 'alliance-chretienne-v2';
+
+const FILES_TO_CACHE = [
+    '/',
+    '/index.html',
+    '/search.html'
+];
+
+/* ==========================================================
+   INSTALLATION
+   ========================================================== */
+
+self.addEventListener('install', event => {
+
+    event.waitUntil(
+        caches.open(CACHE_NAME)
+            .then(cache => cache.addAll(FILES_TO_CACHE))
+            .catch(error => {
+                console.error(
+                    '❌ Erreur lors de la mise en cache :',
+                    error
+                );
+            })
+    );
+
+    self.skipWaiting();
+});
+
+
+/* ==========================================================
+   ACTIVATION
+   ========================================================== */
+
+self.addEventListener('activate', event => {
+
+    event.waitUntil(
+        caches.keys()
+            .then(keys => {
+
+                return Promise.all(
+                    keys
+                        .filter(key => key !== CACHE_NAME)
+                        .map(key => caches.delete(key))
+                );
+
+            })
+            .then(() => self.clients.claim())
+    );
+});
+
+
+/* ==========================================================
+   FETCH
+   ========================================================== */
+
+self.addEventListener('fetch', event => {
+
+    // On ne gère que les requêtes GET
+    if (event.request.method !== 'GET') {
+        return;
+    }
+
+    event.respondWith(
+
+        caches.match(event.request)
+            .then(cachedResponse => {
+
+                // Si le fichier est déjà dans le cache
+                if (cachedResponse) {
+                    return cachedResponse;
+                }
+
+                // Sinon, on demande normalement au réseau
+                return fetch(event.request)
+                    .catch(error => {
+
+                        console.warn(
+                            '⚠️ Ressource non disponible :',
+                            event.request.url
+                        );
+
+                        // Retourne une vraie Response
+                        return new Response(
+                            'Ressource temporairement indisponible.',
+                            {
+                                status: 503,
+                                statusText: 'Service Unavailable',
+                                headers: {
+                                    'Content-Type': 'text/plain; charset=utf-8'
+                                }
+                            }
+                        );
+
+                    });
+
+            })
+
+    );
+
+});

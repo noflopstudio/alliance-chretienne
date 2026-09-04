@@ -1,0 +1,325 @@
+{
+    "header": {
+        "register": "Registrarse"
+    },
+
+    "login": {
+        "title_before": "Encuentra el amor bendecido por",
+        "god": "Dios",
+        "description": "Inicia sesión para acceder a tu espacio y conocer a solteros cristianos comprometidos que buscan relaciones auténticas.",
+
+        "faith_title": "Construido sobre la fe y el compromiso",
+        "faith_description": "Relaciones serias orientadas hacia el matrimonio cristiano y compromisos duraderos.",
+
+        "benefit1": "Explora perfiles compatibles y llenos de fe",
+        "benefit2": "Conecta con personas que comparten tus valores",
+        "benefit3": "Habla en un entorno respetuoso y seguro",
+
+        "form_title": "Iniciar sesión",
+        "email": "Correo electrónico",
+        "password": "Contraseña",
+        "remember": "Recordarme",
+        "forgot_password": "¿Olvidaste tu contraseña?",
+        "submit": "Iniciar sesión",
+        "or": "o",
+        "google": "Continuar con Google",
+        "no_account": "¿Aún no tienes una cuenta?",
+        "create_account": "Crear una cuenta",
+
+        "verse": "\"El amor es paciente, el amor es bondadoso; no tiene envidia, no se jacta, no se envanece.\"",
+        "verse_reference": "— 1 Corintios 13:4",
+
+        "cta_title": "Encuentra tu otra mitad 💕",
+        "cta_description": "Miles de solteros cristianos comparten la misma fe y ya están esperando para escribir una hermosa historia contigo.",
+        "cta_community": "Comunidad cristiana",
+        "cta_marriage": "Proyectos de matrimonio bendecidos",
+        "cta_moderated": "Perfiles moderados y respetuosos",
+        "cta_button": "Únete a nuestra comunidad gratis"
+    },
+
+"search": {
+    "install": "📱 Instala Alliance Chrétienne",
+    "install_button": "Instalar",
+
+    "profile": "Mi perfil",
+    "messages": "Mensajes",
+    "favorites": "Mis favoritos",
+    "notifications": "Notificaciones",
+    "certification": "Solicitud de certificación",
+    "warnings": "Advertencias",
+    "security": "Consejos de seguridad",
+    "report": "Informar de un problema",
+    "testimonials": "Mis testimonios",
+    "settings": "Configuración",
+    "logout": "Cerrar sesión",
+
+    "world_badge": "🌍 Alliance Chrétienne Mundial",
+    "title": "Descubre perfiles cristianos",
+    "title_highlight": "de todo el mundo",
+    "subtitle": "Conoce a hermanos y hermanas que comparten tu fe, tus valores y tu visión de pareja. Conecta, ora juntos y construye relaciones sinceras más allá de las fronteras.",
+
+    "wherever": "Estés donde estés",
+    "more": "✨ Y mucho más...",
+
+    "filter_title": "Refina tu búsqueda",
+    "gender": "Género",
+    "all": "-- Todos --",
+    "man": "Hombre",
+    "woman": "Mujer",
+
+    "min_age": "Edad mínima",
+    "denomination": "Denominación",
+    "all_female": "-- Todas --",
+    "catholic": "Católica",
+    "protestant": "Protestante",
+    "evangelical": "Evangélica",
+    "pentecostal": "Pentecostal",
+    "orthodox": "Ortodoxa",
+    "other": "Otra",
+
+    "city": "Ciudad",
+    "city_placeholder": "Ej.: Abiyán",
+
+    "faith_engagement": "Compromiso con la fe",
+    "new_believer": "Nuevo creyente",
+    "engaged": "Comprometido",
+    "very_engaged": "Muy comprometido",
+    "pastor": "Pastor/Pastora",
+
+    "every_week": "Cada semana",
+"two_three_times_month": "2-3 veces al mes",
+"once_month": "Una vez al mes",
+"occasionally": "Ocasionalmente",
+
+    "search_button": "🔍 Buscar",
+    "reset": "↺ Restablecer",
+
+    "loading": "Cargando perfiles...",
+
+    "no_results": "No se encontró ningún perfil 😔",
+    "no_results_description": "Intenta cambiar tus criterios de búsqueda para encontrar otros solteros cristianos.",
+    "reset_filters": "Restablecer filtros",
+    "cote_ivoire": "Costa de Marfil",
+    "cameroon": "Camerún",
+    "senegal": "Senegal",
+    "benin": "Benín",
+    "togo": "Togo",
+    "drc": "R. D. del Congo",
+    "france": "Francia",
+    "belgium": "Bélgica",
+    "switzerland": "Suiza",
+    "canada": "Canadá",
+    "usa": "Estados Unidos"
+},
+"profile": {
+    "page_title": "Mi perfil - Alliance Chrétienne",
+    "certification_title": "🔵 Certificación del perfil",
+    "certification_checking": "Verificando su estado...",
+    "view_profile": "Ver mi perfil",
+    "edit": "Editar",
+    "matches": "Mis coincidencias",
+    "photos": "Fotos",
+
+    "personal_info": "Información personal",
+    "first_name": "Nombre",
+    "age": "Edad",
+    "gender": "Género",
+    "city": "Ciudad",
+    "country": "País",
+
+    "your_faith": "Su fe",
+    "your_faith_title": "🙏 Su fe",
+    "denomination": "Denominación",
+    "church_frequency": "Frecuencia de asistencia a la iglesia",
+    "faith_engagement": "Compromiso",
+    "faith_engagement_full": "Compromiso con la fe",
+    "favorite_verse": "Versículo bíblico favorito",
+
+    "about_you": "Sobre usted",
+    "looking_for": "Lo que busca",
+
+    "search_criteria": "Sus criterios de búsqueda",
+    "search_gender": "Género buscado",
+    "search_age": "Edad",
+    "max_distance": "Distancia máxima",
+
+    "edit_profile": "Editar mi perfil",
+    "my_photos": "Mis fotos",
+    "photos_description": "Añada sus mejores fotos para que las personas quieran descubrir su perfil ❤️",
+    "photos_moderation": "Para proteger a nuestra comunidad contra los perfiles falsos, cada foto que añada será revisada y aprobada por nuestro equipo antes de aparecer en su perfil.",
+    "add_photo": "Añadir una foto",
+
+    "who_are_you": "¿Quién es usted?",
+    "what_are_you_looking_for": "¿Qué está buscando?",
+
+    "man": "Hombre",
+    "woman": "Mujer",
+    "any": "Cualquiera",
+
+    "catholic": "Católica",
+    "protestant": "Protestante",
+    "evangelical": "Evangélica",
+    "pentecostal": "Pentecostal",
+    "orthodox": "Ortodoxa",
+    "other": "Otra",
+
+    "new_believer": "Nuevo creyente",
+    "engaged": "Comprometido",
+    "very_engaged": "Muy comprometido",
+    "pastor": "Pastor/Pastora",
+
+    "every_week": "Cada semana",
+    "two_three_times_month": "2-3 veces al mes",
+    "once_month": "Una vez al mes",
+    "occasionally": "Ocasionalmente",
+
+    "min_age": "Edad mínima",
+    "max_age": "Edad máxima",
+    "distance_km": "Distancia (km)",
+
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "loading": "Cargando...",
+
+    "certified_profile": "🔵 Perfil verificado",
+    "certified_description": "Tu perfil ha sido verificado por el equipo de Alliance Chrétienne.",
+    "no_liked_profiles": "Todavía no has dado 'Me gusta' a ningún perfil.",
+
+    "all_rights_reserved": "Todos los derechos reservados."
+},
+"messages": {
+    "page_title": "Mensajes - Alliance Chrétienne",
+    "title": "Tus mensajes",
+    "conversations": "💕 Conversaciones",
+    "loading_conversations": "⏳ Cargando tus conversaciones...",
+    "empty_title": "Tu espacio de conversación",
+    "empty_description": "Selecciona una conversación para comenzar a intercambiar mensajes en un entorno respetuoso y cristiano.",
+
+    "certified_profile": "Perfil verificado",
+    "no_conversations": "Todavía no hay conversaciones.",
+    "no_message": "Sin mensaje",
+    "loading_messages": "⏳ Cargando mensajes...",
+    "error_loading_conversations": "Error al cargar las conversaciones",
+    "error_loading_messages": "No se pueden cargar los mensajes",
+    "no_messages": "No hay mensajes. ¡Comienza la conversación!",
+
+    "online": "En línea",
+    "offline": "Desconectado",
+
+    "just_now": "Ahora mismo",
+    "minutes_ago": "Hace {count} min",
+    "hours_ago": "Hace {count} h",
+    "days_ago": "Hace {count} días",
+    "months_ago": "Hace {count} meses",
+    "year_ago": "Hace {count} año",
+    "years_ago": "Hace {count} años",
+
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "report_message": "Denunciar este mensaje",
+    "message_reported": "Mensaje ya denunciado",
+
+    "edit_error": "No se puede editar este mensaje",
+    "edit_mode": "Modo de edición activado ✏️",
+    "message_updated": "Mensaje actualizado correctamente ✅",
+
+    "login_required": "Debe iniciar sesión.",
+    "supabase_unavailable": "Conexión con Supabase no disponible.",
+    "select_conversation": "Seleccione una conversación",
+
+    "report_title": "🚨 Denunciar este mensaje",
+    "close": "Cerrar",
+    "report_question": "¿Por qué desea denunciar este mensaje?",
+    "report_inappropriate": "🚫 Contenido inapropiado",
+    "report_harassment": "😡 Acoso",
+    "report_spam": "📢 Spam",
+    "report_fake_profile": "👤 Perfil falso",
+    "report_other": "📝 Otro",
+    "report_details_placeholder": "Especifique el motivo...",
+    "cancel": "Cancelar",
+    "report": "🚨 Denunciar",
+
+    "select_reason": "Seleccione un motivo.",
+    "specify_reason": "Especifique el motivo.",
+    "sending": "⏳ Enviando...",
+    "report_check_error": "No se puede verificar la denuncia.",
+    "already_reported": "Ya ha denunciado este mensaje.",
+    "report_save_error": "No se puede guardar la denuncia.",
+    "report_success": "Mensaje denunciado correctamente 🚨",
+    "report_save_error_prefix": "Error al guardar la denuncia:",
+    "delete_error": "Error al eliminar el mensaje...",
+    "delete_success": "Mensaje eliminado correctamente 🗑️",
+
+    "send_empty": "El mensaje no puede estar vacío",
+    "send_error": "Error al enviar el mensaje",
+
+    "new_message_notification": "Nuevo mensaje de {name}: {message}",
+
+    "call_login_required": "Debe iniciar sesión.",
+    "call_select_conversation": "Seleccione una conversación.",
+    "call_already_in_progress": "Ya hay una llamada en curso.",
+    "unknown_member": "Un miembro",
+
+    "incoming_video_call": "🎥 Llamada de vídeo entrante",
+    "incoming_audio_call": "📞 Llamada de audio entrante",
+
+    "video_call_in_progress": "🟢 Videollamada en curso",
+    "audio_call_in_progress": "🟢 Llamada en curso",
+    "call_in_progress": "📞 Llamada en curso...",
+
+    "connection_interrupted": "⚠️ Conexión interrumpida",
+    "call_ended": "📴 Llamada terminada",
+    "connecting": "Conectando...",
+    "call_rejected": "Llamada rechazada.",
+    "call_finished": "La llamada ha terminado.",
+
+    "camera_unavailable": "📷 Cámara no disponible. La llamada continuará con audio.",
+    "microphone_unavailable": "🎤 No se puede acceder al micrófono.",
+
+    "incoming_video_badge": "🎥 VIDEOLLAMADA",
+    "incoming_audio_badge": "📞 LLAMADA DE AUDIO",
+    "incoming_video_description": "Desea realizar una videollamada con usted",
+    "incoming_audio_description": "Desea llamarle",
+
+    "accept": "Aceptar",
+    "reject": "Rechazar",
+
+    "microphone": "Micrófono",
+    "camera": "Cámara",
+    "hang_up": "Colgar",
+
+    "message_placeholder": "Escriba su mensaje...",
+
+    "all_rights_reserved": "Todos los derechos reservados.",
+    "footer_made_with_love": "Hecho con ❤️ para una comunidad fundada en la fe."
+
+},
+    "favorites": {
+    "page_title": "Mis favoritos - Alliance Chrétienne",
+    "title": "❤️ Mis favoritos",
+    "description": "Encuentra a los miembros que has añadido a tus favoritos.",
+    "your_favorites": "❤️ Tus favoritos",
+    "loading": "⏳ Cargando tus favoritos...",
+    "empty_title": "No hay favoritos",
+    "empty_description": "Aún no has añadido ningún miembro a tus favoritos.",
+    "empty_profiles_title": "No hay perfiles favoritos",
+    "empty_profiles_description": "Los perfiles favoritos ya no están disponibles.",
+    "verified_member": "Miembro verificado",
+    "member": "Miembro",
+    "years_old": "años",
+    "profile": "👤 Perfil",
+    "message": "💬 Mensaje",
+    "remove": "💔 Eliminar de favoritos",
+    "remove_confirm": "¿Desea eliminar a este miembro de sus favoritos?",
+    "login_required": "❌ Debe iniciar sesión para consultar sus favoritos.",
+    "load_error": "❌ No se pueden cargar sus favoritos.",
+    "remove_error": "❌ No se puede eliminar a este miembro de sus favoritos.",
+    "supabase_error": "Cliente de Supabase no encontrado. Compruebe supabase-config.js.",
+    "id_error": "No se puede encontrar el identificador de los miembros favoritos.",
+    "all_rights_reserved": "Todos los derechos reservados."
+
+},
+
+"notifications": {
+    "page_title": "Notificaciones - Alliance Chrétienne",
+  "supabase_unavailable": "Error: Supaba                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 

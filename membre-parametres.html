@@ -656,6 +656,276 @@
 
         }
 
+
+/* 📱 SEARCH — largeur maximale sur téléphone */
+@media (max-width: 600px) {
+
+  .main-content {
+    width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+    .main-content > .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+    }
+
+    .ads-section,
+    .discover-section,
+    .search-header,
+    #profilesContainer,
+    #loadingContainer,
+    #noResultsContainer {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .discover-section {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+
+    .search-header {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    .profile-grid {
+        width: 100% !important;
+        max-width: 100% !important;
+        grid-template-columns: 1fr !important;
+    }
+
+    .profile-card {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+/* 📱 PROFIL — LARGEUR MAXIMALE SUR MOBILE */
+@media (max-width: 480px) {
+
+    .container,
+    .profile-container,
+    .profile-header,
+    .profile-tabs,
+    .tab-content,
+    .profile-section,
+    .edit-form,
+    #certificationSection {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box;
+    }
+
+    .profile-header,
+    .profile-section,
+    .edit-form {
+        border-radius: 0 !important;
+    }
+}
+
+
+
+/* =========================================================
+   PLEIN ÉCRAN MOBILE (100% LARGEUR)
+   ========================================================= */
+
+@media (max-width: 600px) {
+    /* Supprime les marges de l'élément html et body */
+    html, body {
+        width: 100% !important;
+        overflow-x: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+   /* PLEINE LARGEUR ABSOLUE SUR TOUS LES ÉCRANS */
+.container,
+.settings-page,
+.profile-container,
+.warnings-page,
+.certification-container,
+.report-grid {
+    max-width: 100vw !important;
+    width: 100vw !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+    /* Cartes et sections étirées bord à bord avec un léger arrondi */
+    .settings-card,
+    .certification-card,
+    .settings-header {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+        border-radius: 12px !important;
+    }
+}
+/* =========================================================
+   FORCER PLEINE LARGEUR SUR TOUS LES ÉCRANS
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+body {
+    min-height: 100vh;
+}
+
+/* Containers principaux en pleine largeur */
+.container,
+.main-content,
+.settings-page,
+.profile-container,
+.warnings-page,
+.certification-container,
+.report-grid {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+/* Header en pleine largeur */
+header,
+.navbar {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+}
+
+/* Cartes et sections en pleine largeur */
+.settings-card,
+.settings-header,
+.profile-card,
+.warning-card,
+.certification-card,
+.form-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* =========================================================
+   MOBILE : ZÉRO PADDING SUR LES CÔTÉS
+========================================================= */
+
+@media (max-width: 768px) {
+    
+    body {
+        padding: 0 !important;
+    }
+
+    .container,
+    .main-content,
+    .settings-page,
+    .profile-container,
+    .warnings-page,
+    .certification-container,
+    .report-grid,
+    .navbar {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+
+    .settings-card,
+    .settings-header,
+    .profile-card,
+    .warning-card,
+    .certification-card,
+    .form-card {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        border-radius: 16px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    
+    .container,
+    .main-content,
+    .settings-page,
+    .profile-container,
+    .warnings-page,
+    .certification-container,
+    .report-grid,
+    .navbar {
+        padding-left: 0.25rem !important;
+        padding-right: 0.25rem !important;
+    }
+
+    .settings-card,
+    .settings-header,
+    .profile-card,
+    .warning-card,
+    .certification-card,
+    .form-card {
+        border-radius: 12px !important;
+    }
+}
+
+/* =========================================================
+   GRILLES EN PLEINE LARGEUR
+========================================================= */
+
+@media (max-width: 900px) {
+    
+    .report-grid,
+    .profile-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+}
+
+@media (max-width: 600px) {
+    
+    .profile-grid {
+        grid-template-columns: 1fr !important;
+        padding: 0 !important;
+    }
+
+    .profile-card {
+        width: 100% !important;
+    }
+}
+
+/* =========================================================
+   SUPPRIMER LES CONTRAINTES DE LARGEUR MAXIMALE
+========================================================= */
+
+@media (min-width: 1201px) {
+    
+    /* Sur grand écran, garder une largeur raisonnable */
+    .container,
+    .settings-page,
+    .profile-container,
+    .warnings-page,
+    .certification-container {
+        max-width: 1400px !important;
+        margin: 0 auto !important;
+    }
+}
     </style>
 
 </head>

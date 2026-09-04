@@ -13,6 +13,10 @@
 
 <style>
 
+/* =========================================================
+   VARIABLES
+   ========================================================= */
+
 :root {
     --primary: #f43f5e;
     --primary-dark: #f43f5e;
@@ -28,31 +32,35 @@
     --white: #ffffff;
     --border: #e5e7eb;
 
-    --shadow:
-        0 10px 30px rgba(15, 23, 42, .07);
+    --shadow: 0 10px 30px rgba(15, 23, 42, .07);
+    --shadow-hover: 0 18px 45px rgba(37, 99, 235, .12);
 
-    --shadow-hover:
-        0 18px 45px rgba(37, 99, 235, .12);
-
-    --gradient:
-        linear-gradient(
-            135deg,
-            #f43f5e 0%,
-            #7c3aed 50%,
-            #f43f5e 100%
-        );
+    --gradient: linear-gradient(135deg, #f43f5e 0%, #7c3aed 50%, #f43f5e 100%);
 }
+
+/* =========================================================
+   RESET & BASE
+   ========================================================= */
 
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 html {
     scroll-behavior: smooth;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 body {
+    width: 100%;
+    min-height: 100vh;
     margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+
     background:
         radial-gradient(
             circle at 10% 10%,
@@ -86,22 +94,30 @@ select {
     font-family: inherit;
 }
 
+/* =========================================================
+   CONTAINER (DESKTOP)
+   ========================================================= */
+
 .container {
-    width: min(1180px, calc(100% - 32px));
+    width: 100%;
+    max-width: 1280px;
     margin: 0 auto;
+    padding: 0 1.5rem;
 }
 
-/* ==========================================================
+/* =========================================================
    NAVBAR
-   ========================================================== */
+   ========================================================= */
 
 header {
     position: sticky;
     top: 0;
     z-index: 100;
+    width: 100%;
 }
 
 .navbar {
+    width: 100%;
     min-height: 72px;
 
     background: rgba(255, 255, 255, .92);
@@ -111,13 +127,11 @@ header {
 
     border-bottom: 1px solid rgba(226, 232, 240, .8);
 
-    box-shadow:
-        0 4px 20px rgba(15, 23, 42, .04);
+    box-shadow: 0 4px 20px rgba(15, 23, 42, .04);
 }
 
 .navbar .container {
     min-height: 72px;
-
     display: flex;
     align-items: center;
 }
@@ -135,12 +149,45 @@ header {
     letter-spacing: -.5px;
 }
 
-/* ==========================================================
+.register-logo img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+.profile-back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin-right: 8px;
+    border-radius: 50%;
+    color: var(--dark);
+    background: transparent;
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.profile-back-button:hover {
+    background: #f1f5f9;
+    transform: translateX(-2px);
+}
+
+.profile-back-button:active {
+    transform: scale(.92);
+}
+
+/* =========================================================
    CONTENU
-   ========================================================== */
+   ========================================================= */
 
 section {
-    padding: 2.5rem 0 !important;
+    width: 100%;
+    padding: 2.5rem 0;
     min-height: calc(100vh - 150px);
 }
 
@@ -148,9 +195,9 @@ section {
     margin-bottom: 1.25rem;
 }
 
-/* ==========================================================
+/* =========================================================
    HEADER PROFIL
-   ========================================================== */
+   ========================================================= */
 
 .profile-header {
     position: relative;
@@ -185,18 +232,16 @@ section {
         ),
         linear-gradient(
             135deg,
-            #f43f5e ,
+            #f43f5e,
             #7c3aed 55%,
             #f43f5e
         );
 
-    box-shadow:
-        0 20px 45px rgba(37, 99, 235, .18);
+    box-shadow: 0 20px 45px rgba(37, 99, 235, .18);
 }
 
 .profile-header::before {
     content: "";
-
     position: absolute;
 
     width: 300px;
@@ -212,7 +257,6 @@ section {
 
 .profile-header::after {
     content: "";
-
     position: absolute;
 
     width: 180px;
@@ -241,8 +285,7 @@ section {
 
     background: rgba(255,255,255,.15);
 
-    box-shadow:
-        0 15px 35px rgba(0,0,0,.25);
+    box-shadow: 0 15px 35px rgba(0,0,0,.25);
 
     transition:
         transform .25s ease,
@@ -251,15 +294,12 @@ section {
 
 .profile-avatar:hover {
     transform: scale(1.04);
-
-    box-shadow:
-        0 20px 45px rgba(0,0,0,.30);
+    box-shadow: 0 20px 45px rgba(0,0,0,.30);
 }
 
 .profile-header-info {
     position: relative;
     z-index: 2;
-
     min-width: 0;
 }
 
@@ -290,20 +330,20 @@ section {
     font-size: .95rem;
 }
 
-/* ==========================================================
+/* =========================================================
    CERTIFICATION
-   ========================================================== */
+   ========================================================= */
 
 #certificationSection {
-    margin-bottom: 1.5rem !important;
+    margin-bottom: 1.5rem;
 
-    padding: 1.4rem !important;
+    padding: 1.4rem;
 
     background: rgba(255,255,255,.92);
 
-    border: 1px solid var(--border) !important;
+    border: 1px solid var(--border);
 
-    border-radius: 22px !important;
+    border-radius: 22px;
 
     box-shadow: var(--shadow);
 
@@ -325,9 +365,9 @@ section {
     font-weight: 800;
 }
 
-/* ==========================================================
+/* =========================================================
    ONGLETS
-   ========================================================== */
+   ========================================================= */
 
 .profile-tabs {
     display: grid;
@@ -382,37 +422,28 @@ section {
 
 .profile-tab:hover:not(.active) {
     background: #eff6ff;
-
     color: var(--primary);
 }
 
 .profile-tab.active {
     color: white;
 
-    background:
-        linear-gradient(
-            135deg,
-            var(--primary),
-            var(--purple)
-        );
+    background: linear-gradient(135deg, var(--primary), var(--purple));
 
-    box-shadow:
-        0 8px 20px rgba(37,99,235,.20);
+    box-shadow: 0 8px 20px rgba(37,99,235,.20);
 }
 
 .profile-tab:active {
     transform: scale(.98);
 }
 
-/* ==========================================================
+/* =========================================================
    CONTENU DES ONGLETS
-   ========================================================== */
+   ========================================================= */
 
 .tab-content {
     display: none;
-
-    animation:
-        profileFade .3s ease;
+    animation: profileFade .3s ease;
 }
 
 .tab-content.active {
@@ -431,9 +462,9 @@ section {
     }
 }
 
-/* ==========================================================
+/* =========================================================
    CARTES
-   ========================================================== */
+   ========================================================= */
 
 .profile-section {
     margin-bottom: 1.25rem;
@@ -476,15 +507,14 @@ section {
     font-weight: 850;
 }
 
-/* ==========================================================
+/* =========================================================
    GALERIE
-   ========================================================== */
+   ========================================================= */
 
 #profilePhotosGallery {
     display: grid;
 
-    grid-template-columns:
-        repeat(auto-fill, minmax(145px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
 
     gap: 14px;
 }
@@ -502,8 +532,7 @@ section {
 
     background: #f1f5f9;
 
-    box-shadow:
-        0 6px 18px rgba(15,23,42,.07);
+    box-shadow: 0 6px 18px rgba(15,23,42,.07);
 
     transition:
         transform .25s ease,
@@ -517,19 +546,17 @@ section {
 
     border-color: var(--primary);
 
-    box-shadow:
-        0 14px 28px rgba(37,99,235,.16);
+    box-shadow: 0 14px 28px rgba(37,99,235,.16);
 }
 
-/* ==========================================================
+/* =========================================================
    INFORMATIONS
-   ========================================================== */
+   ========================================================= */
 
 .profile-info-grid {
     display: grid;
 
-    grid-template-columns:
-        repeat(auto-fit, minmax(210px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
 
     gap: 1rem;
 }
@@ -537,12 +564,7 @@ section {
 .profile-info-item {
     padding: 1rem;
 
-    background:
-        linear-gradient(
-            145deg,
-            #ffffff,
-            #f8fafc
-        );
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
 
     border: 1px solid #e5e7eb;
 
@@ -559,8 +581,7 @@ section {
 
     border-color: #bfdbfe;
 
-    box-shadow:
-        0 8px 20px rgba(37,99,235,.07);
+    box-shadow: 0 8px 20px rgba(37,99,235,.07);
 }
 
 .profile-info-label {
@@ -590,12 +611,7 @@ section {
 
     padding: 1.15rem;
 
-    background:
-        linear-gradient(
-            145deg,
-            #f8fafc,
-            #ffffff
-        );
+    background: linear-gradient(145deg, #f8fafc, #ffffff);
 
     border: 1px solid #e5e7eb;
 
@@ -608,9 +624,9 @@ section {
     line-height: 1.7;
 }
 
-/* ==========================================================
+/* =========================================================
    FORMULAIRE
-   ========================================================== */
+   ========================================================= */
 
 .edit-form {
     padding: 1.5rem;
@@ -641,7 +657,7 @@ section {
 .edit-form h4 {
     margin-top: 1.6rem;
 
-    color: var(--primary) !important;
+    color: var(--primary);
 
     font-size: .96rem;
 
@@ -653,8 +669,7 @@ section {
 .form-row {
     display: grid;
 
-    grid-template-columns:
-        repeat(auto-fit, minmax(230px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
 
     gap: 1rem;
 
@@ -715,8 +730,7 @@ section {
 
     border-color: var(--primary);
 
-    box-shadow:
-        0 0 0 4px rgba(37,99,235,.10);
+    box-shadow: 0 0 0 4px rgba(37,99,235,.10);
 }
 
 .form-group textarea {
@@ -727,17 +741,12 @@ section {
     line-height: 1.6;
 }
 
-/* ==========================================================
+/* =========================================================
    PHOTOS — MODIFICATION
-   ========================================================== */
+   ========================================================= */
 
 .edit-form .profile-section {
-    background:
-        linear-gradient(
-            145deg,
-            #f8fafc,
-            #ffffff
-        );
+    background: linear-gradient(145deg, #f8fafc, #ffffff);
 
     box-shadow: none;
 
@@ -747,14 +756,13 @@ section {
 .profile-photos-grid {
     display: grid;
 
-    grid-template-columns:
-        repeat(auto-fill, minmax(130px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
 
     gap: 12px;
 }
 
 .photo-upload-btn {
-    display: inline-flex !important;
+    display: inline-flex;
 
     align-items: center;
     justify-content: center;
@@ -763,12 +771,7 @@ section {
 
     border-radius: 13px;
 
-    background:
-        linear-gradient(
-            135deg,
-            var(--primary),
-            var(--purple)
-        );
+    background: linear-gradient(135deg, var(--primary), var(--purple));
 
     color: white;
 
@@ -778,8 +781,7 @@ section {
 
     cursor: pointer;
 
-    box-shadow:
-        0 7px 18px rgba(37,99,235,.18);
+    box-shadow: 0 7px 18px rgba(37,99,235,.18);
 
     transition:
         transform .2s ease,
@@ -789,13 +791,12 @@ section {
 .photo-upload-btn:hover {
     transform: translateY(-2px);
 
-    box-shadow:
-        0 10px 24px rgba(37,99,235,.25);
+    box-shadow: 0 10px 24px rgba(37,99,235,.25);
 }
 
-/* ==========================================================
+/* =========================================================
    BOUTONS
-   ========================================================== */
+   ========================================================= */
 
 .btn-group {
     display: flex;
@@ -829,22 +830,15 @@ section {
 .btn-save {
     color: white;
 
-    background:
-        linear-gradient(
-            135deg,
-            var(--pink),
-            var(--pink-dark)
-        );
+    background: linear-gradient(135deg, var(--pink), var(--pink-dark));
 
-    box-shadow:
-        0 8px 20px rgba(244,63,94,.20);
+    box-shadow: 0 8px 20px rgba(244,63,94,.20);
 }
 
 .btn-save:hover {
     transform: translateY(-2px);
 
-    box-shadow:
-        0 12px 28px rgba(244,63,94,.28);
+    box-shadow: 0 12px 28px rgba(244,63,94,.28);
 }
 
 .btn-cancel {
@@ -859,15 +853,14 @@ section {
     background: #e2e8f0;
 }
 
-/* ==========================================================
+/* =========================================================
    MATCHS
-   ========================================================== */
+   ========================================================= */
 
 .matches-grid {
     display: grid;
 
-    grid-template-columns:
-        repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 
     gap: 1.1rem;
 }
@@ -937,11 +930,12 @@ section {
     font-weight: 750;
 }
 
-/* ==========================================================
+/* =========================================================
    FOOTER
-   ========================================================== */
+   ========================================================= */
 
 footer {
+    width: 100%;
     margin-top: 1rem;
 
     padding: 1.5rem 0;
@@ -961,14 +955,27 @@ footer p {
     font-size: .84rem;
 }
 
-/* ==========================================================
-   RESPONSIVE — TABLETTE
-   ========================================================== */
+/* =========================================================
+   FOCUS VISIBLE
+   ========================================================= */
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 3px solid rgba(37,99,235,.20);
+
+    outline-offset: 2px;
+}
+
+/* =========================================================
+   RESPONSIVE — TABLETTE (768px)
+   ========================================================= */
 
 @media (max-width: 768px) {
 
     .container {
-        width: min(100% - 22px, 680px);
+        padding: 0 1rem;
     }
 
     .navbar,
@@ -977,7 +984,7 @@ footer p {
     }
 
     section {
-        padding: 1.25rem 0 !important;
+        padding: 1.5rem 0;
     }
 
     .profile-header {
@@ -1022,14 +1029,23 @@ footer p {
     }
 }
 
-/* ==========================================================
-   RESPONSIVE — MOBILE
-   ========================================================== */
+/* =========================================================
+   RESPONSIVE — MOBILE (480px et moins)
+   ========================================================= */
 
 @media (max-width: 480px) {
 
+    /* Pleine largeur sur mobile */
+    html, body {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
     .container {
-        width: calc(100% - 16px);
+        width: 100%;
+        max-width: 100%;
+        padding: 0 0.75rem;
+        margin: 0;
     }
 
     .logo h1 {
@@ -1037,15 +1053,17 @@ footer p {
     }
 
     section {
-        padding: 1rem 0 !important;
+        width: 100%;
+        padding: 1rem 0;
     }
 
     .profile-header {
         min-height: auto;
-
+        width: 100%;
         padding: 1.5rem 1rem;
-
         border-radius: 20px;
+        margin-left: 0;
+        margin-right: 0;
     }
 
     .profile-avatar {
@@ -1061,11 +1079,20 @@ footer p {
         font-size: .86rem;
     }
 
+    #certificationSection,
+    .profile-tabs,
+    .tab-content,
+    .profile-section,
+    .edit-form {
+        width: 100%;
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
     .profile-tabs {
         grid-template-columns: 1fr;
-
         position: static;
-
         border-radius: 16px;
     }
 
@@ -1099,48 +1126,27 @@ footer p {
     }
 }
 
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible {
-    outline: 3px solid rgba(37,99,235,.20);
+/* =========================================================
+   TRÈS PETITS ÉCRANS (360px et moins)
+   ========================================================= */
 
-    outline-offset: 2px;
+@media (max-width: 360px) {
+    
+    .container {
+        padding: 0 0.5rem;
+    }
+
+    .profile-header {
+        padding: 1.25rem 0.75rem;
+        border-radius: 16px;
+    }
+
+    .profile-section,
+    .edit-form {
+        padding: 1rem;
+        border-radius: 16px;
+    }
 }
-
-.register-logo img {
-    width: 50px;
-    height: auto;
-    display: block;
-}
-
-
-.profile-back-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 42px;
-    height: 42px;
-    margin-right: 8px;
-    border-radius: 50%;
-    color: var(--dark);
-    background: transparent;
-    text-decoration: none;
-    font-size: 2rem;
-    font-weight: 400;
-    line-height: 1;
-    transition: background .2s ease, transform .2s ease;
-}
-
-.profile-back-button:hover {
-    background: #f1f5f9;
-    transform: translateX(-2px);
-}
-
-.profile-back-button:active {
-    transform: scale(.92);
-}
-
 
 </style>
 
