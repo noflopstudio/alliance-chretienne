@@ -1,0 +1,28 @@
+{
+  "rewrites": [
+    {
+      "source": "/aide",
+      "destination": "/aide.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/blog.html"
+    },
+    {
+      "source": "/faq",
+      "destination": "/faq.html"
+    },
+    {
+      "source": "/mon-temoignage",
+      "destination": "/mon-temoignage.html"
+    },
+    {
+      "source": "/confidentialite",
+      "destination": "/confidentialite.html"
+    },
+    {
+      "source": "/conditions",
+      "destination": "/conditions.html"
+    }
+  ]
+}
