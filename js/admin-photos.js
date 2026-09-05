@@ -4,7 +4,7 @@
 ========================================================== */
 
 let allPhotos = [];
-
+let currentAdminId = null;
 
 /* ==========================================================
    INITIALISATION
@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             return;
         }
-
-        // Vérifier les droits administrateur
+currentAdminId = user.id;
+      
         const {
             data: profile,
             error: profileError
@@ -142,20 +142,20 @@ async function loadAdminPhotos() {
             error
         } = await window.supabaseClient
             .from('profile_photos')
-            .select(`
-                id,
-                profile_id,
-                photo_url,
-                is_primary,
-                status,
-                created_at,
-                profiles (
-                    id,
-                    first_name,
-                    is_admin,
-                    is_verified
-                )
-            `)
+.select(`
+    id,
+    profile_id,
+    photo_url,
+    is_primary,
+    status,
+    created_at,
+    profiles (
+        id,
+        first_name,
+        is_admin,
+        is_verified
+    )
+`)
             .order('created_at', {
                 ascending: false
             });
@@ -498,6 +498,29 @@ console.log(
     photoId
 );
 
+
+// 🔔 NOTIFIER LE MEMBRE
+const { error: notificationError } = await client
+    .from('notifications')
+    .insert([{
+        recipient_id: photo.profile_id,
+        sender_id: (await client.auth.getUser()).data.user.id,
+        type: 'photo_approved',
+        content: '📷 Votre photo a été approuvée et est maintenant visible sur votre profil.',
+        data: {
+            photo_id: photoId,
+            photo_url: photo.photo_url,
+            status: 'approved'
+        }
+    }]);
+
+if (notificationError) {
+    console.error(
+        '⚠️ Erreur notification approbation photo:',
+        notificationError
+    );
+}
+
         const {
             data: approvedPhotos,
             error: approvedError
@@ -706,6 +729,32 @@ async function rejectPhoto(photoId) {
         if (error) {
             throw error;
         }
+
+// ==================================================
+// NOTIFICATION AU MEMBRE
+// ==================================================
+
+const { error: notificationError } =
+    await window.supabaseClient
+        .from('notifications')
+        .insert([{
+            recipient_id: photo.profile_id,
+           sender_id: (await window.supabaseClient.auth.getUser()).data.user.id,
+            type: 'photo_rejected',
+            content: '📷 Votre photo a été rejetée par l’administration. Veuillez envoyer une nouvelle photo conforme aux règles de la communauté.',
+            data: {
+                photo_id: photoId,
+                photo_url: photo.photo_url,
+                status: 'rejected'
+            }
+        }]);
+
+if (notificationError) {
+    console.error(
+        '⚠️ Erreur notification rejet photo :',
+        notificationError
+    );
+}
 
 
         // Si cette photo était principale,

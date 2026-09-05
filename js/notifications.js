@@ -132,11 +132,29 @@ function displayNotifications() {
         filtered = allNotifications.filter(
             n => !n.is_read
         );
-    } else if (currentFilter !== 'all') {
-        filtered = allNotifications.filter(
-            n => String(n.type || '').toLowerCase() === currentFilter
-        );
-    }
+  } else if (currentFilter !== 'all') {
+
+    filtered = allNotifications.filter(n => {
+
+        const type = String(n.type || '').toLowerCase();
+
+        // 📞 Appels audio
+        if (currentFilter === 'audio_call') {
+            return (
+                type === 'audio_call' ||
+                type === 'call'
+            );
+        }
+
+        // 🎥 Appels vidéo
+        if (currentFilter === 'video_call') {
+            return type === 'video_call';
+        }
+
+        return type === currentFilter;
+    });
+
+}
 
     notificationsList.innerHTML = '';
 
@@ -190,7 +208,7 @@ function createNotificationElement(notification) {
         like: {
             text: t(
                 'notifications.new_like',
-                '❤️ Nouveau like'
+                'Nouveau like'
             ),
             class: 'badge-like'
         },
@@ -198,7 +216,7 @@ function createNotificationElement(notification) {
         match: {
             text: t(
                 'notifications.new_match',
-                '💕 Nouveau match'
+                ' Nouveau match'
             ),
             class: 'badge-match'
         },
@@ -206,7 +224,7 @@ function createNotificationElement(notification) {
         message: {
             text: t(
                 'notifications.new_message',
-                '💬 Nouveau message'
+                'Nouveau message'
             ),
             class: 'badge-message'
         },
@@ -214,7 +232,7 @@ function createNotificationElement(notification) {
         audio_call: {
             text: t(
                 'notifications.incoming_audio_call',
-                '📞 Appel audio entrant'
+                'Appel audio entrant'
             ),
             class: 'badge-message'
         },
@@ -222,7 +240,7 @@ function createNotificationElement(notification) {
         call: {
             text: t(
                 'notifications.incoming_audio_call',
-                '📞 Appel audio entrant'
+                ' Appel audio entrant'
             ),
             class: 'badge-message'
         },
@@ -230,7 +248,7 @@ function createNotificationElement(notification) {
         video_call: {
             text: t(
                 'notifications.incoming_video_call',
-                '🎥 Appel vidéo entrant'
+                ' Appel vidéo entrant'
             ),
             class: 'badge-match'
         },
@@ -238,7 +256,7 @@ function createNotificationElement(notification) {
         problem_report: {
             text: t(
                 'notifications.report',
-                '🚨 Signalement'
+                ' Signalement'
             ),
             class: 'badge-message'
         },
@@ -246,10 +264,20 @@ function createNotificationElement(notification) {
         testimonial_approved: {
             text: t(
                 'notifications.testimonial_approved_badge',
-                '✅ Témoignage approuvé'
+                ' Témoignage approuvé'
             ),
             class: 'badge-match'
         },
+
+       photo_rejected: {
+    text: '❌ Rejetée',
+    class: 'badge-message'
+},
+
+     photo_approved: {
+    text: '✅ Approuvée',
+    class: 'badge-match'
+},
 
         testimonial_rejected: {
             text: t(
@@ -538,6 +566,7 @@ function createNotificationElement(notification) {
 }
 
 function getNotificationText(notification) {
+
     const type = String(
         notification.type || ''
     )
@@ -545,6 +574,37 @@ function getNotificationText(notification) {
         .toLowerCase();
 
     const data = notification.data || {};
+
+    // 📷 Notifications de modération des photos
+
+if (
+    type === 'photo_approved' ||
+    type === 'photo_rejected'
+) {
+    return notification.content ||
+        data.message ||
+        (
+            type === 'photo_approved'
+                ? '✅ Photo approuvée. Elle est maintenant visible.'
+                : '❌ Photo rejetée. Veuillez en envoyer une nouvelle.'
+        );
+}
+
+    if (type === 'like') {
+        return t(
+            'notifications.default_like',
+            'Quelqu’un a aimé votre profil.'
+        );
+    }
+
+    if (type === 'match') {
+        return t(
+            'notifications.default_match',
+            'Vous avez un nouveau match !'
+        );
+    }
+
+    // ...
 
     if (type === 'like') {
         return t(

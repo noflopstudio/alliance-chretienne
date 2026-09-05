@@ -1340,6 +1340,7 @@ let currentCallType = null;
 let currentCallRole = null;
 let pendingOffer = null;
 let iceCandidateQueue = [];
+let currentFacingMode = 'user';
 
 const rtcConfiguration = {
     iceServers: [
@@ -1409,7 +1410,10 @@ async function startCall(type) {
         currentCallRole = 'caller';
 
         console.log('📞 Début appel :', type, currentCallId);
-
+        
+if (type === 'video') {
+    currentFacingMode = 'user';
+}
         localStream = await navigator.mediaDevices.getUserMedia({
             audio: true,
             video: type === 'video'
@@ -1443,9 +1447,9 @@ async function startCall(type) {
             offer: peerConnection.localDescription
         });
 
-  const notificationType = type === 'video'
+const notificationType = type === 'video'
     ? 'video_call'
-    : 'call';
+    : 'audio_call';
 
 const notificationContent = type === 'video'
     ? '🎥 Appel vidéo entrant'
@@ -1603,7 +1607,6 @@ async function handleIncomingCall(payload) {
     console.log('📞 Appel entrant :', currentCallType);
     showIncomingCallModal(payload);
 }
-
 async function acceptIncomingCall() {
     if (!pendingOffer) {
         console.error('❌ Offre WebRTC absente');
@@ -1612,7 +1615,9 @@ async function acceptIncomingCall() {
 
     try {
         closeIncomingCallModal();
-
+if (currentCallType === 'video') {
+    currentFacingMode = 'user';
+}
         // 🎥 APPEL VIDÉO : micro + caméra
         // 📞 APPEL AUDIO : micro uniquement
         try {
@@ -1993,6 +1998,29 @@ function showCallInterface() {
                     </svg>
                 </button>
 
+
+<button
+    type="button"
+    id="switchCameraBtn"
+    onclick="switchCamera()"
+    title="Changer de caméra"
+    style="
+        width: 52px;
+        height: 52px;
+        border: none;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.18);
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    "
+>
+    🔄
+</button>
+
                 <!-- 📞 Raccrocher -->
                 <button
                     type="button"
@@ -2180,6 +2208,12 @@ if (localVideo && videoContainer) {
         if (cameraButton) cameraButton.style.display = 'none';
         if (audioIcon) audioIcon.style.display = 'block';
 
+        const switchCameraButton =
+    document.getElementById('switchCameraBtn');
+
+if (switchCameraButton) {
+    switchCameraButton.style.display = 'none';
+}
     } else {
 
         const remoteVideo = document.getElementById('remoteVideo');
@@ -2189,6 +2223,12 @@ if (localVideo && videoContainer) {
         if (remoteVideo) remoteVideo.style.display = 'block';
         if (localVideoElement) localVideoElement.style.display = 'block';
         if (audioIcon) audioIcon.style.display = 'none';
+        const switchCameraButton =
+    document.getElementById('switchCameraBtn');
+
+if (switchCameraButton) {
+    switchCameraButton.style.display = 'flex';
+}
     }
 }
 
@@ -2687,6 +2727,100 @@ function toggleCamera() {
     }
 }
 
+async function switchCamera() {
+    if (!localStream || currentCallType !== 'video') {
+        return;
+    }
+
+    const videoTracks = localStream.getVideoTracks();
+
+    if (videoTracks.length === 0) {
+        showAlert('📷 Aucune caméra disponible.', 'info');
+        return;
+    }
+
+    try {
+        const nextFacingMode =
+            currentFacingMode === 'user'
+                ? 'environment'
+                : 'user';
+
+        console.log(
+            `📷 Changement de caméra : ${currentFacingMode} → ${nextFacingMode}`
+        );
+
+        const newStream = await navigator.mediaDevices.getUserMedia({
+            audio: false,
+            video: {
+                facingMode: {
+                    ideal: nextFacingMode
+                }
+            }
+        });
+
+        const newVideoTrack = newStream.getVideoTracks()[0];
+
+        if (!newVideoTrack) {
+            throw new Error('Nouvelle caméra indisponible');
+        }
+
+        // 🔄 Chercher la piste vidéo envoyée par WebRTC
+        const videoSender = peerConnection
+            ?.getSenders()
+            .find(sender =>
+                sender.track &&
+                sender.track.kind === 'video'
+            );
+
+        if (videoSender) {
+            await videoSender.replaceTrack(newVideoTrack);
+            console.log('✅ Piste vidéo WebRTC remplacée');
+        }
+
+        // 🛑 Arrêter l'ancienne caméra
+        videoTracks.forEach(track => {
+            track.stop();
+            localStream.removeTrack(track);
+        });
+
+        // ➕ Ajouter la nouvelle caméra au flux local
+        localStream.addTrack(newVideoTrack);
+
+        currentFacingMode = nextFacingMode;
+
+        // 🎥 Mettre à jour l'aperçu local
+        const localVideo = document.getElementById('localVideo');
+
+        if (localVideo) {
+            localVideo.srcObject = localStream;
+
+            // Caméra avant = miroir
+            // Caméra arrière = image normale
+            localVideo.style.transform =
+                currentFacingMode === 'user'
+                    ? 'scaleX(-1)'
+                    : 'scaleX(1)';
+        }
+
+        console.log(
+            `✅ Caméra changée vers : ${currentFacingMode}`
+        );
+
+    } catch (error) {
+
+        console.error(
+            '❌ Impossible de changer de caméra :',
+            error
+        );
+
+        showAlert(
+            '📷 Impossible de changer de caméra.',
+            'error'
+        );
+    }
+}
+
+
 async function endCall(notifyRemote = true) {
     console.log('📴 Fin de l\'appel');
 
@@ -2745,3 +2879,4 @@ window.editMessage = editMessage;
 window.deleteMessage = deleteMessage;
 window.reportMessage = reportMessage;
 window.closeChat = closeChat;
+window.switchCamera = switchCamera;

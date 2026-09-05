@@ -1682,41 +1682,6 @@
 
     <script>
 
-        const darkModeToggle =
-            document.getElementById('darkModeToggle');
-
-        const isDarkMode =
-            localStorage.getItem('darkMode') === 'true';
-
-
-        if (isDarkMode) {
-
-            document.body.classList.add('dark-mode');
-
-            darkModeToggle.textContent = '☀️';
-
-        }
-
-        darkModeToggle.addEventListener('click', function (event) {
-
-            const isCurrentlyDark =
-                document.body.classList.toggle('dark-mode');
-
-            localStorage.setItem(
-                'darkMode',
-                isCurrentlyDark
-            );
-
-            darkModeToggle.textContent =
-                isCurrentlyDark
-                    ? '☀️'
-                    : '🌙';
-
-
-            createParticles(event);
-
-        });
-
         function createParticles(e) {
 
             for (let i = 0; i < 5; i++) {

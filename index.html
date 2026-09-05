@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Mon profil - Alliance Chrétienne</title>
+    <title>Bienvenue - Alliance Chrétienne</title>
+    
+    <link rel="icon" type="image/png" sizes="192x192" href="images/icon-192.png">
+<link rel="apple-touch-icon" href="images/icon-192.png">
 
     <link rel="stylesheet" href="css/style.css">
 
@@ -13,751 +16,1083 @@
     <meta name="theme-color" content="#2563eb">
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-:root {
-    /* On suppose que ces variables existent déjà dans ton style global :
-       --primary-color, --secondary-color, --success-color, --text-color, --dark-color, --border-color, --white
-       Si besoin, tu peux les définir dans ton fichier principal. */
-}
-
-/* Base / layout général */
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html {
-    scroll-behavior: smooth;
-    width: 100%;
-    overflow-x: hidden;
-}
-
-body {
-    width: 100%;
-    min-height: 100vh;
-    overflow-x: hidden;
-
-    background-color: #f7f9fc;
-    color: var(--text-color);
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-/* En-tête de profil : bannière immersive */
-
-.profile-header {
-    background: linear-gradient(
-        135deg,
-        var(--primary-color),
-        var(--secondary-color, #4f46e5)
-    );
-    color: var(--white);
-
-    padding: 3rem 2.5rem 2rem 2.5rem;
-    border-radius: 1.5rem;
-    margin-bottom: 2.5rem;
-
-    display: flex;
-    align-items: center;
-    gap: 2.5rem;
-
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
-    position: relative;
-}
-
-.profile-avatar {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    object-fit: cover;
-
-    border: 5px solid rgba(255, 255, 255, 0.9);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-
-    cursor: pointer;
-    flex-shrink: 0;
-
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.profile-avatar:hover {
-    transform: scale(1.05) rotate(2deg);
-}
-
-.profile-header-info h2 {
-    font-size: 2.3rem;
-    margin-bottom: 0.5rem;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-}
-
-.profile-header-info p {
-    opacity: 0.95;
-    margin-bottom: 0.4rem;
-    font-size: 1.05rem;
-
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    font-weight: 500;
-}
-
-/* Onglets */
-
-.profile-tabs {
-    display: flex;
-    gap: 1rem;
-    background: transparent;
-    border-bottom: none;
-    margin-bottom: 2rem;
-}
-
-.profile-tab {
-    background: var(--white);
-    border: 1px solid var(--border-color);
-
-    padding: 0.9rem 1.8rem;
-    border-radius: 50px;
-
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    cursor: pointer;
-    color: var(--text-color);
-
-    font-weight: 700;
-    font-size: 0.95rem;
-
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-    border-bottom: none;
-
-    transition: all 0.3s ease;
-}
-
-.profile-tab.active {
-    background-color: var(--primary-color);
-    color: var(--white);
-    border-color: var(--primary-color);
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
-    transform: translateY(-2px);
-}
-
-.profile-tab:hover:not(.active) {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-    transform: translateY(-2px);
-}
-
-/* Contenu des onglets */
-
-.tab-content {
-    display: none;
-    animation: fadeInScale 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.tab-content.active {
-    display: block;
-}
-
-@keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: scale(0.98) translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
-}
-
-/* Sections de profil (cards) */
-
-.profile-section {
-    background-color: var(--white);
-    padding: 2.2rem;
-    border-radius: 1.25rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-    margin-bottom: 1.5rem;
-    border: 1px solid rgba(226, 232, 240, 0.8);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.profile-section:hover {
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
-}
-
-.profile-section h3 {
-    color: var(--dark-color);
-    margin-bottom: 1.5rem;
-    font-size: 1.2rem;
-    font-weight: 800;
-
-    border-bottom: none;
-    padding-bottom: 0;
-
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    letter-spacing: -0.3px;
-}
-
-/* Informations de profil */
-
-.profile-info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.25rem;
-    margin-bottom: 1.5rem;
-}
-
-.profile-info-item {
-    background-color: #fafbfc;
-    padding: 1.2rem;
-    border-radius: 1rem;
-    border: 1px solid #edf2f7;
-    transition: background-color 0.2s ease;
-}
-
-.profile-info-item:hover {
-    background-color: #f1f5f9;
-}
-
-.profile-info-label {
-    color: #718096;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    font-weight: 700;
-    margin-bottom: 0.4rem;
-}
-
-.profile-info-value {
-    color: var(--dark-color);
-    font-weight: 700;
-    font-size: 1.1rem;
-}
-
-/* Bio */
-
-.profile-bio {
-    background-color: #fafbfc;
-    padding: 1.5rem;
-    border-radius: 1rem;
-    line-height: 1.8;
-    color: var(--text-color);
-    border: 1px solid #edf2f7;
-    font-size: 1.05rem;
-}
-
-/* Formulaire de modification */
-
-.edit-form {
-    background-color: var(--white);
-    padding: 2.5rem;
-    border-radius: 1.25rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-    border: 1px solid rgba(226, 232, 240, 0.8);
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.form-group label {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--dark-color);
-    margin-bottom: 0.5rem;
-    display: block;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
-    border-radius: 0.85rem;
-    border: 1.5px solid #e2e8f0;
-    padding: 0.9rem 1.1rem;
-    background-color: #fafbfc;
-    font-size: 1rem;
-    transition: all 0.25s ease;
-}
-
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-    background-color: var(--white);
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-    outline: none;
-}
-
-/* Boutons */
-
-.btn-group {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2.5rem;
-}
-
-.btn-group button {
-    flex: 1;
-    padding: 1rem;
-    border: none;
-    border-radius: 0.85rem;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 1rem;
-    transition: all 0.25s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-}
-
-.btn-save {
-    background-color: var(--success-color, #10b981);
-    color: var(--white);
-}
-
-.btn-save:hover {
-    filter: brightness(0.95);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
-}
-
-.btn-cancel {
-    background-color: #edf2f7;
-    color: #4a5568;
-}
-
-.btn-cancel:hover {
-    background-color: #e2e8f0;
-}
-
-/* Grille de matchs */
-
-.matches-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1.5rem;
-}
-
-.match-card {
-    background-color: var(--white);
-    border-radius: 1.25rem;
-    overflow: hidden;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
-    text-align: center;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    border: 1px solid #edf2f7;
-}
-
-.match-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-}
-
-.match-card img {
-    width: 100%;
-    height: 230px;
-    object-fit: cover;
-}
-
-.match-card-info {
-    padding: 1.25rem;
-}
-
-.match-card-name {
-    font-weight: 700;
-    color: var(--dark-color);
-    font-size: 1.1rem;
-    margin-bottom: 0.75rem;
-}
-
-.match-card-actions {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.match-card-actions button {
-    flex: 1;
-    padding: 0.7rem;
-    border: none;
-    border-radius: 0.75rem;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.9rem;
-    transition: transform 0.2s ease;
-}
-
-.match-card-actions button:hover {
-    transform: scale(1.03);
-}
-
-/* Responsive */
-
-@media (max-width: 768px) {
-    .profile-header {
-        flex-direction: column;
-        text-align: center;
-        padding: 2.5rem 1.5rem;
-    }
-
-    .profile-header-info p {
-        justify-content: center;
-    }
-
-    .profile-tabs {
-        flex-direction: column;
-    }
-}
-
-.register-logo img {
-    width: 50px;
-    height: auto;
-    display: block;
-}
-</style>
+
+    <style>
+
+        html,
+        body {
+            width: 100%;
+            min-width: 100%;
+            height: 100%;
+            min-height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        body {
+            font-family:
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                sans-serif;
+
+            background: #0f172a;
+        }
+
+
+        /* =========================================================
+           PAGE PLEIN ÉCRAN
+        ========================================================= */
+
+        .welcome-screen {
+            position: relative;
+
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+
+            min-height: 100vh;
+            min-height: 100dvh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #172554 0%,
+                    #1e3a8a 35%,
+                    #4c1d95 68%,
+                    #831843 100%
+                );
+        }
+
+
+        /* =========================================================
+           LUMIÈRES ANIMÉES
+        ========================================================= */
+
+        .light {
+            position: absolute;
+
+            border-radius: 50%;
+
+            filter: blur(5px);
+
+            pointer-events: none;
+
+            opacity: 0.55;
+
+            animation:
+                floatingLight 10s ease-in-out infinite;
+        }
+
+
+        .light-one {
+            width: 420px;
+            height: 420px;
+
+            top: -180px;
+            left: -120px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(59, 130, 246, 0.7),
+                    transparent 70%
+                );
+        }
+
+
+        .light-two {
+            width: 380px;
+            height: 380px;
+
+            right: -120px;
+            bottom: -140px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(236, 72, 153, 0.65),
+                    transparent 70%
+                );
+
+            animation-delay: -3s;
+        }
+
+
+        .light-three {
+            width: 260px;
+            height: 260px;
+
+            right: 18%;
+            top: 12%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(139, 92, 246, 0.4),
+                    transparent 70%
+                );
+
+            animation-delay: -6s;
+        }
+
+
+        @keyframes floatingLight {
+
+            0%,
+            100% {
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate3d(25px, -25px, 0) scale(1.08);
+            }
+
+        }
+
+
+        /* =========================================================
+           PETITES PARTICULES
+        ========================================================= */
+
+        .particles {
+            position: absolute;
+
+            inset: 0;
+
+            overflow: hidden;
+
+            pointer-events: none;
+        }
+
+
+        .particle {
+            position: absolute;
+
+            width: 5px;
+            height: 5px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.6);
+
+            animation:
+                particleFloat 8s linear infinite;
+        }
+
+
+        .particle:nth-child(1) {
+            left: 12%;
+            bottom: -20px;
+            animation-delay: 0s;
+        }
+
+        .particle:nth-child(2) {
+            left: 28%;
+            bottom: -20px;
+            animation-delay: 2s;
+        }
+
+        .particle:nth-child(3) {
+            left: 48%;
+            bottom: -20px;
+            animation-delay: 4s;
+        }
+
+        .particle:nth-child(4) {
+            left: 68%;
+            bottom: -20px;
+            animation-delay: 1s;
+        }
+
+        .particle:nth-child(5) {
+            left: 84%;
+            bottom: -20px;
+            animation-delay: 5s;
+        }
+
+
+        @keyframes particleFloat {
+
+            0% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+
+            15% {
+                opacity: 0.8;
+            }
+
+            85% {
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: translateY(-110vh);
+                opacity: 0;
+            }
+
+        }
+
+
+        /* =========================================================
+           CONTENU
+        ========================================================= */
+
+        .welcome-content-wrapper {
+            position: relative;
+
+            z-index: 10;
+
+            width: 100%;
+            max-width: 720px;
+
+            padding: 30px;
+
+            display: flex;
+            justify-content: center;
+
+            animation:
+                welcomeAppear 1s
+                cubic-bezier(0.16, 1, 0.3, 1)
+                forwards;
+        }
+
+
+        @keyframes welcomeAppear {
+
+            from {
+                opacity: 0;
+                transform:
+                    translateY(35px)
+                    scale(0.96);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+
+        }
+
+
+        /* =========================================================
+           CARTE
+        ========================================================= */
+
+        .welcome-card {
+
+            position: relative;
+
+            width: 100%;
+
+            padding: 45px 50px;
+
+            text-align: center;
+
+            border-radius: 32px;
+
+            background:
+                rgba(255, 255, 255, 0.93);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.7);
+
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.28);
+
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+
+            overflow: hidden;
+        }
+
+
+        .welcome-card::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+            height: 220px;
+
+            top: -120px;
+            right: -100px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(59, 130, 246, 0.12),
+                    transparent 70%
+                );
+
+        }
+
+
+        .welcome-card::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+            height: 180px;
+
+            bottom: -100px;
+            left: -70px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(236, 72, 153, 0.1),
+                    transparent 70%
+                );
+
+        }
+
+
+        /* =========================================================
+           LOGO
+        ========================================================= */
+
+        .welcome-brand {
+
+            position: relative;
+
+            z-index: 2;
+
+            margin-bottom: 22px;
+
+            font-size: 0.82rem;
+
+            font-weight: 800;
+
+            letter-spacing: 2px;
+
+            text-transform: uppercase;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #2563eb,
+                    #7c3aed,
+                    #db2777
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            background-size: 200% auto;
+
+            animation:
+                brandGradient 4s linear infinite;
+        }
+
+
+        @keyframes brandGradient {
+
+            to {
+                background-position: 200% center;
+            }
+
+        }
+
+
+        /* =========================================================
+           PHOTO
+        ========================================================= */
+
+        .welcome-avatar-wrapper {
+
+            position: relative;
+
+            z-index: 2;
+
+            width: 150px;
+            height: 150px;
+
+            margin: 0 auto 25px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .welcome-avatar-ring {
+
+            position: absolute;
+
+            inset: -7px;
+
+            border-radius: 50%;
+
+            background:
+                conic-gradient(
+                    from 0deg,
+                    #2563eb,
+                    #7c3aed,
+                    #db2777,
+                    #2563eb
+                );
+
+            animation:
+                rotateRing 5s linear infinite;
+        }
+
+
+        @keyframes rotateRing {
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+
+        .welcome-avatar-ring::after {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 3px;
+
+            border-radius: 50%;
+
+            background: #ffffff;
+        }
+
+
+        .welcome-avatar {
+
+            position: relative;
+
+            z-index: 2;
+
+            width: 150px;
+            height: 150px;
+
+            border-radius: 50%;
+
+            object-fit: cover;
+
+            border: 5px solid #ffffff;
+
+            background: #e2e8f0;
+
+            box-shadow:
+                0 15px 35px rgba(0, 0, 0, 0.2);
+
+            display: block;
+        }
+
+
+        /* =========================================================
+           PETIT INDICATEUR
+        ========================================================= */
+
+        .online-dot {
+
+            position: absolute;
+
+            z-index: 5;
+
+            right: 4px;
+            bottom: 7px;
+
+            width: 22px;
+            height: 22px;
+
+            border-radius: 50%;
+
+            background: #22c55e;
+
+            border: 4px solid #ffffff;
+
+            box-shadow:
+                0 0 0 5px rgba(34, 197, 94, 0.15);
+
+            animation:
+                onlinePulse 2s ease-in-out infinite;
+        }
+
+
+        @keyframes onlinePulse {
+
+            0%,
+            100% {
+                box-shadow:
+                    0 0 0 4px rgba(34, 197, 94, 0.15);
+            }
+
+            50% {
+                box-shadow:
+                    0 0 0 9px rgba(34, 197, 94, 0.04);
+            }
+
+        }
+
+
+        /* =========================================================
+           TEXTE
+        ========================================================= */
+
+        .welcome-title {
+
+            position: relative;
+
+            z-index: 2;
+
+            margin: 0;
+
+            color: #0f172a;
+
+            font-size: clamp(
+                2rem,
+                5vw,
+                3rem
+            );
+
+            line-height: 1.15;
+
+            font-weight: 850;
+
+            letter-spacing: -1px;
+        }
+
+
+        .welcome-title span {
+
+            display: inline-block;
+
+            margin-top: 5px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #7c3aed,
+                    #db2777
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            background-size: 200% auto;
+
+            animation:
+                nameGradient 4s ease infinite;
+        }
+
+
+        @keyframes nameGradient {
+
+            0%,
+            100% {
+                background-position: 0% center;
+            }
+
+            50% {
+                background-position: 100% center;
+            }
+
+        }
+
+
+        .welcome-text {
+
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 550px;
+
+            margin: 18px auto 0;
+
+            color: #64748b;
+
+            font-size: 1rem;
+
+            line-height: 1.7;
+        }
+
+
+        /* =========================================================
+           BOUTON
+        ========================================================= */
+
+        .welcome-actions {
+
+            position: relative;
+
+            z-index: 2;
+
+            width: 100%;
+
+            margin-top: 28px;
+        }
+
+
+        .btn-discover {
+
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 10px;
+
+            width: 100%;
+
+            min-height: 58px;
+
+            padding: 1rem 1.5rem;
+
+            border-radius: 17px;
+
+            text-decoration: none;
+
+            color: #ffffff;
+
+            font-size: 1rem;
+
+            font-weight: 750;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #7c3aed,
+                    #db2777
+                );
+
+            background-size: 200% 200%;
+
+            box-shadow:
+                0 12px 30px rgba(99, 102, 241, 0.3);
+
+            overflow: hidden;
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+
+            animation:
+                buttonGradient 5s ease infinite;
+        }
+
+
+        @keyframes buttonGradient {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+        }
+
+
+        .btn-discover::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: -120%;
+
+            width: 70%;
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.28),
+                    transparent
+                );
+
+            transform: skewX(-20deg);
+
+            animation:
+                buttonShine 3.5s ease-in-out infinite;
+        }
+
+
+        @keyframes buttonShine {
+
+            0% {
+                left: -120%;
+            }
+
+            45%,
+            100% {
+                left: 140%;
+            }
+
+        }
+
+
+        .btn-discover:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 18px 40px rgba(99, 102, 241, 0.4);
+        }
+
+
+        .btn-discover:active {
+
+            transform: scale(0.98);
+        }
+
+
+        /* =========================================================
+           PETITE PHRASE
+        ========================================================= */
+
+        .welcome-footer {
+
+            position: relative;
+
+            z-index: 2;
+
+            margin-top: 20px;
+
+            color: #94a3b8;
+
+            font-size: 0.78rem;
+
+            letter-spacing: 0.2px;
+        }
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @media (max-width: 600px) {
+
+            .welcome-content-wrapper {
+
+                padding: 16px;
+            }
+
+
+            .welcome-card {
+
+                padding: 32px 20px;
+
+                border-radius: 26px;
+            }
+
+
+            .welcome-avatar-wrapper {
+
+                width: 125px;
+                height: 125px;
+
+                margin-bottom: 22px;
+            }
+
+
+            .welcome-avatar {
+
+                width: 125px;
+                height: 125px;
+            }
+
+
+            .welcome-title {
+
+                font-size: 2rem;
+            }
+
+
+            .welcome-text {
+
+                font-size: 0.92rem;
+
+                line-height: 1.65;
+
+                margin-top: 14px;
+            }
+
+
+            .welcome-actions {
+
+                margin-top: 23px;
+            }
+
+
+            .btn-discover {
+
+                min-height: 54px;
+
+                font-size: 0.95rem;
+            }
+
+
+            .welcome-brand {
+
+                font-size: 0.72rem;
+
+                margin-bottom: 18px;
+            }
+
+
+            .welcome-footer {
+
+                font-size: 0.72rem;
+            }
+
+        }
+
+
+        /* =========================================================
+           TRÈS PETITS TÉLÉPHONES
+        ========================================================= */
+
+        @media (max-width: 380px) {
+
+            .welcome-content-wrapper {
+
+                padding: 10px;
+            }
+
+
+            .welcome-card {
+
+                padding: 25px 16px;
+
+                border-radius: 22px;
+            }
+
+
+            .welcome-avatar-wrapper {
+
+                width: 105px;
+                height: 105px;
+
+                margin-bottom: 18px;
+            }
+
+
+            .welcome-avatar {
+
+                width: 105px;
+                height: 105px;
+            }
+
+
+            .welcome-title {
+
+                font-size: 1.7rem;
+            }
+
+
+            .welcome-text {
+
+                font-size: 0.86rem;
+            }
+
+        }
+
+
+        /* =========================================================
+           ÉCRANS TRÈS HAUTS
+        ========================================================= */
+
+        @media (min-height: 850px) and (min-width: 601px) {
+
+            .welcome-card {
+
+                padding-top: 55px;
+                padding-bottom: 55px;
+            }
+
+        }
+
+    </style>
 </head>
+
+
 <body>
-    <!-- En-tête -->
-    <header>
-        <nav class="navbar">
-            <div class="container">
-                <div class="logo">
-                          <a href="index.html" class="register-logo">
-    <img src="images/logo.png" alt="Alliance Chrétienne">
-</a>
+
+    <main class="welcome-screen">
+
+        <!-- Lueurs animées -->
+        <div class="light light-one"></div>
+        <div class="light light-two"></div>
+        <div class="light light-three"></div>
+
+
+        <!-- Particules -->
+        <div class="particles">
+
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+
+        </div>
+
+
+        <!-- Contenu -->
+        <div class="welcome-content-wrapper">
+
+            <div class="welcome-card">
+
+
+                <!-- Marque -->
+                <div class="welcome-brand">
+                    ✦ Alliance Chrétienne
                 </div>
-                <div class="nav-links">
-                    <a href="search.html" class="btn-secondary">🔍 Découvrir</a>
-                    <a href="membre-messages.html" class="btn-secondary">💬 Messages</a>
-                    <a href="#" id="logoutBtn" class="btn-secondary" style="background-color: var(--danger-color); border-color: var(--danger-color); color: var(--white);">
-                        Déconnexion
+
+
+                <!-- Photo -->
+                <div class="welcome-avatar-wrapper">
+
+                    <div class="welcome-avatar-ring"></div>
+
+                    <img
+                        id="profileAvatar"
+                        src=""
+                        alt="Photo de profil"
+                        class="welcome-avatar"
+                    >
+
+                    <div class="online-dot"></div>
+
+                </div>
+
+
+                <!-- Texte -->
+                <h1 class="welcome-title">
+
+                    Bienvenue,
+
+                    <br>
+
+                    <span id="profileName">...</span>
+
+                </h1>
+
+
+                <p class="welcome-text">
+
+                    Nous sommes heureux de vous retrouver.
+                    Découvrez de nouvelles personnes, partagez votre foi
+                    et laissez peut-être une belle rencontre commencer.
+
+                </p>
+
+
+                <!-- Action -->
+                <div class="welcome-actions">
+
+                    <a
+                        href="search.html"
+                        class="btn-discover"
+                    >
+                        <span>🔍</span>
+
+                        <span>
+                            Découvrir les membres
+                        </span>
+
+                        <span>→</span>
                     </a>
+
                 </div>
-            </div>
-        </nav>
-    </header>
 
-    <!-- Contenu principal -->
-    <section style="padding: 2.5rem 0;">
-        <div class="container">
-            <!-- Affichage des messages -->
-            <div id="alertContainer"></div>
 
-            <!-- En-tête du profil -->
-            <div class="profile-header" id="profileHeader">
-                <img id="profileAvatar" src="" alt="Avatar" class="profile-avatar">
+                <!-- Petit texte -->
+                <div class="welcome-footer">
 
-                <div class="profile-header-info">
-                    <h2 id="profileName">Chargement...</h2>
-                    <p id="profileLocation">📍 -</p>
-                    <p id="profileFaith">🙏 -</p>
-                    <p id="profileStats">❤️ -</p>
+                    Des rencontres chrétiennes fondées sur la foi et les valeurs.
+
                 </div>
+
             </div>
 
-            <!-- ===== CERTIFICATION DU PROFIL ===== -->
-            <div id="certificationSection" class="profile-section" style="border: 2px dashed var(--primary-color); background-color: rgba(99, 102, 241, 0.02);">
-                <h3>🔵 Certification du profil</h3>
-                <div id="certificationContent">
-                    <p style="color: var(--text-color);">
-                        Vérification de votre statut...
-                    </p>
-                </div>
-            </div>
-
-            <!-- Tabs -->
-            <div class="profile-tabs">
-                <button class="profile-tab active" onclick="switchTab('view')">👁️ Voir mon profil</button>
-                <button class="profile-tab" onclick="switchTab('edit')">✏️ Modifier</button>
-                <button class="profile-tab" onclick="switchTab('matches')">❤️ Mes matchs</button>
-            </div>
-
-            <!-- TAB 1 : VUE DU PROFIL -->
-            <div id="view-tab" class="tab-content active">
-
-                <!-- ===== PHOTOS DU PROFIL ===== -->
-                <div class="profile-section">
-                    <h3>📸 Photos</h3>
-                    <div id="profilePhotosGallery" class="profile-photos-gallery">
-                        <!-- Les photos seront chargées automatiquement par profile.js -->
-                    </div>
-                </div>
-
-                <!-- Informations personnelles -->
-                <div class="profile-section">
-                    <h3 data-i18n="profile.personal_info">
-    👤 Informations personnelles
-</h3>
-                    <div class="profile-info-grid">
-                        <div class="profile-info-item">
-                            <div class="profile-info-label">Prénom</div>
-                            <div class="profile-info-value" id="viewFirstName">-</div>
-                        </div>
-
-                        <div class="profile-info-item">
-                            <div class="profile-info-label">Âge</div>
-                            <div class="profile-info-value" id="viewAge">-</div>
-                        </div>
-
-                        <div class="profile-info-item">
-                            <div class="profile-info-label">Genre</div>
-                            <div class="profile-info-value" id="viewGender">-</div>
-                        </div>
-
-                        <div class="profile-info-item">
-                            <div class="profile-info-label">Ville</div>
-                            <div class="profile-info-value" id="viewCity">-</div>
-                        </div>
-
-                        <div class="profile-info-item">
-                            <div class="profile-info-label">Pays</div>
-                            <div class="profile-info-value" id="viewCountry">-</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Informations spirituelles -->
-                <div class="profile-section">
-                    <h3>🙏 Votre foi</h3>
-                    <div class="profile-info-grid">
-                        <div class="profile-info-item">
-                            <div class="profile-info-label">Dénomination</div>
-                            <div class="profile-info-value" id="viewDenomination">-</div>
-                        </div>
-                        <div class="profile-info-item">
-                            <div class="profile-info-label">Fréquence à l'église</div>
-                            <div class="profile-info-value" id="viewChurchFrequency">-</div>
-                        </div>
-                        <div class="profile-info-item">
-                            <div class="profile-info-label">Engagement</div>
-                            <div class="profile-info-value" id="viewFaithEngagement">-</div>
-                        </div>
-                    </div>
-                    <div style="margin-top: 1.25rem;" class="profile-info-item">
-                        <div class="profile-info-label">Verset préféré</div>
-                        <div class="profile-info-value" id="viewFavoriteVerse" style="margin-top: 0.25rem;">-</div>
-                    </div>
-                </div>
-
-                <!-- À propos -->
-                <div class="profile-section">
-                    <h3>💭 À propos de vous</h3>
-                    <div class="profile-bio" id="viewBio">-</div>
-                </div>
-
-                <!-- Ce que vous recherchez -->
-                <div class="profile-section">
-                    <h3>💕 Ce que vous recherchez</h3>
-                    <div class="profile-bio" id="viewLookingFor">-</div>
-                </div>
-
-                <!-- Critères de recherche -->
-                <div class="profile-section">
-                    <h3>🔍 Vos critères de recherche</h3>
-                    <div class="profile-info-grid">
-                        <div class="profile-info-item">
-                            <div class="profile-info-label">Genre recherché</div>
-                            <div class="profile-info-value" id="viewSearchGender">-</div>
-                        </div>
-                        <div class="profile-info-item">
-                            <div class="profile-info-label">Âge</div>
-                            <div class="profile-info-value" id="viewSearchAge">-</div>
-                        </div>
-                        <div class="profile-info-item">
-                            <div class="profile-info-label">Distance maximale</div>
-                            <div class="profile-info-value" id="viewSearchDistance">-</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB 2 : EDIT / MODIFICATION -->
-            <div id="edit-tab" class="tab-content">
-                <div class="edit-form">
-                    <h3 style="color: var(--dark-color); margin-bottom: 2rem; font-size: 1.4rem;">
-                        ✏️ Modifier mon profil
-                    </h3>
-
-                    <!-- 📸 MES PHOTOS -->
-                    <div class="profile-section" style="box-shadow: none; border: 1.5px solid #edf2f7; padding: 1.5rem; margin-bottom: 2rem;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                            <h3 style="margin-bottom: 0;">📸 Mes photos</h3>
-                            <span id="photoCounter" style="color: var(--text-color); font-size: 0.85rem; font-weight: 700;">0 / 4</span>
-                        </div>
-
-                        <p style="color: var(--text-color); opacity: 0.75; font-size: 0.9rem; margin-bottom: 1rem;">
-                            Ajoutez vos meilleures photos pour donner envie de découvrir votre profil ❤️
-                        </p>
-
-                        <!-- Galerie -->
-                        <div id="profilePhotosContainer" class="profile-photos-grid"></div>
-
-                        <!-- Ajouter -->
-                        <div class="photo-upload-box" style="margin-top: 1rem;">
-                            <label for="photoUploadEdit" class="photo-upload-btn" style="cursor: pointer; display: inline-block;">
-                                📷 Ajouter une photo
-                            </label>
-                            <input type="file" id="photoUploadEdit" accept="image/*" onchange="uploadPhoto(event)" style="display: none;">
-                        </div>
-                    </div>
-
-                    <form id="editForm">
-                        <!-- Informations de base -->
-                        <h4 style="color: var(--primary-color); margin-bottom: 1rem; margin-top: 1.5rem; font-weight: 700;">👤 Informations personnelles</h4>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="editFirstName">Prénom</label>
-                                <input type="text" id="editFirstName" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="editGender">Genre</label>
-                                <select id="editGender" required>
-                                    <option value="Homme">Homme</option>
-                                    <option value="Femme">Femme</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="editCity">Ville</label>
-                                <input type="text" id="editCity" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="editCountry">Pays</label>
-                                <input type="text" id="editCountry" required>
-                            </div>
-                        </div>
-
-                        <!-- Informations spirituelles -->
-                        <h4 style="color: var(--primary-color); margin-bottom: 1rem; margin-top: 2rem; font-weight: 700;">🙏 Votre foi</h4>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="editDenomination">Dénomination</label>
-                                <select id="editDenomination" required>
-                                    <option value="Catholique">Catholique</option>
-                                    <option value="Protestant">Protestant</option>
-                                    <option value="Évangélique">Évangélique</option>
-                                    <option value="Pentecôtiste">Pentecôtiste</option>
-                                    <option value="Orthodoxe">Orthodoxe</option>
-                                    <option value="Autre">Autre</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="editChurchFrequency">Fréquence à l'église</label>
-                                <select id="editChurchFrequency" required>
-                                    <option value="Chaque semaine">Chaque semaine</option>
-                                    <option value="2-3 fois par mois">2-3 fois par mois</option>
-                                    <option value="Une fois par mois">Une fois par mois</option>
-                                    <option value="Occasionnellement">Occasionnellement</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="editFaithEngagement">Engagement dans la foi</label>
-                                <select id="editFaithEngagement" required>
-                                    <option value="Nouveau croyant">Nouveau croyant</option>
-                                    <option value="Engagé">Engagé</option>
-                                    <option value="Très engagé">Très engagé</option>
-                                    <option value="Pasteur/Pastrice">Pasteur/Pastrice</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="editFavoriteVerse">Verset préféré</label>
-                                <input type="text" id="editFavoriteVerse" placeholder="Ex: Jean 3:16">
-                            </div>
-                        </div>
-
-                        <!-- À propos -->
-                        <h4 style="color: var(--primary-color); margin-bottom: 1rem; margin-top: 2rem; font-weight: 700;">💭 À propos de vous</h4>
-                        <div class="form-group" style="margin-bottom: 1.25rem;">
-                            <label for="editBio">Qui êtes-vous ?</label>
-                            <textarea id="editBio" required></textarea>
-                        </div>
-
-                        <div class="form-group" style="margin-bottom: 1.25rem;">
-                            <label for="editLookingFor">Qu'est-ce que vous recherchez ?</label>
-                            <textarea id="editLookingFor" required></textarea>
-                        </div>
-
-                        <!-- Critères -->
-                        <h4 style="color: var(--primary-color); margin-bottom: 1rem; margin-top: 2rem; font-weight: 700;">🔍 Critères de recherche</h4>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="editSearchGender">Genre recherché</label>
-                                <select id="editSearchGender" required>
-                                    <option value="Homme">Homme</option>
-                                    <option value="Femme">Femme</option>
-                                    <option value="Peu importe">Peu importe</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="editSearchMinAge">Âge minimum</label>
-                                <input type="number" id="editSearchMinAge" min="18" max="100" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="editSearchMaxAge">Âge maximum</label>
-                                <input type="number" id="editSearchMaxAge" min="18" max="100" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="editSearchDistance">Distance (km)</label>
-                                <input type="number" id="editSearchDistance" min="1" max="1000" required>
-                            </div>
-                        </div>
-
-                        <!-- Boutons -->
-                        <div class="btn-group">
-                            <button type="submit" class="btn-save">✅ Enregistrer</button>
-                            <button type="button" class="btn-cancel" onclick="switchTab('view')">✕ Annuler</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <!-- TAB 3 : MES MATCHS -->
-            <div id="matches-tab" class="tab-content">
-                <div class="profile-section">
-                    <h3>❤️ Mes matchs</h3>
-                    <div id="matchesContainer" class="matches-grid">
-                        <p style="grid-column: 1 / -1; text-align: center; color: var(--text-color); padding: 2rem;">Chargement...</p>
-                    </div>
-                </div>
-            </div>
         </div>
-    </section>
 
-    <!-- Pied de page -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Alliance Chrétienne. Tous droits réservés.</p>
-        </div>
-    </footer>
+    </main>
 
-   <script src="js/i18n.js"></script>
+
+    <!-- =========================================================
+         SCRIPTS
+    ========================================================= -->
+
+    <script src="js/i18n.js"></script>
+
     <script src="js/supabase-config.js"></script>
+
     <script src="js/profile.js"></script>
 
+
+    <!-- =========================================================
+         SERVICE WORKER
+    ========================================================= -->
+
     <script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/service-worker.js')
-                .then(registration => {
-                    console.log('✅ Service Worker enregistré :', registration.scope);
-                })
-                .catch(error => {
-                    console.error('❌ Erreur Service Worker :', error);
-                });
-        });
-    }
-</script>
+
+        if ('serviceWorker' in navigator) {
+
+            window.addEventListener('load', () => {
+
+                navigator.serviceWorker
+                    .register('/service-worker.js')
+                    .then(registration => {
+
+                        console.log(
+                            '✅ Service Worker enregistré :',
+                            registration.scope
+                        );
+
+                    })
+                    .catch(error => {
+
+                        console.error(
+                            '❌ Erreur Service Worker :',
+                            error
+                        );
+
+                    });
+
+            });
+
+        }
+
+    </script>
+
 </body>
 </html>

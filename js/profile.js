@@ -475,8 +475,8 @@ function displayProfile(profile) {
         </div>
     `;
 
-    document.getElementById('profileLocation').textContent = `📍 ${profile.city}, ${profile.country}`;
-    document.getElementById('profileFaith').textContent = `🙏 ${profile.denomination}`;
+    document.getElementById('profileLocation').textContent = ` ${profile.city}, ${profile.country}`;
+    document.getElementById('profileFaith').textContent = ` ${profile.denomination}`;
     
     // Compter les likes
     countLikes(profile.id);
@@ -627,14 +627,23 @@ async function handleEditForm(e) {
     }
 }
 
+
+
+
 async function uploadPhoto(event) {
 
-    const file = event.target.files[0];
+    
 
+    const file = event.target.files[0];
+console.log('📷 Fichier sélectionné:', file);
+
+console.log('🔵 Début vérification nombre de photos');
+console.log('👤 currentUser:', currentUser);
     if (!file) return;
 
     const client = window.supabaseClient;
 
+    
     if (!client) {
         showAlert('Client Supabase indisponible', 'error');
         return;
@@ -646,13 +655,20 @@ async function uploadPhoto(event) {
         // 1. VÉRIFIER LE NOMBRE DE PHOTOS
         // ==========================================
 
-        const { count, error: countError } = await client
-            .from('profile_photos')
-            .select('*', {
-                count: 'exact',
-                head: true
-            })
-            .eq('profile_id', currentUser.id);
+        console.log('🔵 Requête profile_photos en cours...');
+
+const { count, error: countError } =
+    await client
+        .from('profile_photos')
+        .select('*', {
+            count: 'exact',
+            head: true
+        })
+        .eq('profile_id', currentUser.id);
+
+console.log('🟢 Requête profile_photos terminée');
+console.log('📊 count:', count);
+console.log('❌ countError:', countError);
 
         if (countError) {
             console.error('❌ Erreur comptage photos:', countError);
@@ -695,21 +711,23 @@ async function uploadPhoto(event) {
             return;
         }
 
-        // ==========================================
-        // 4. OUVRIR LE RECADRAGE
-        // ==========================================
+       console.log('🟢 Toutes les vérifications sont passées');
+console.log('🟢 Création du FileReader');
 
         const reader = new FileReader();
 
-        reader.onload = function (e) {
+     reader.onload = function (e) {
 
-            openPhotoCropper(
-                e.target.result,
-                file,
-                count
-            );
+    console.log('🟡 FileReader terminé');
+    console.log('🖼️ Ouverture du recadreur');
 
-        };
+    openPhotoCropper(
+        e.target.result,
+        file,
+        count
+    );
+
+};
 
         reader.readAsDataURL(file);
 
@@ -848,14 +866,24 @@ function openPhotoCropper(imageSrc, originalFile, currentCount) {
 
     document.body.appendChild(modal);
 
-    // Charger Cropper.js si nécessaire
-    loadCropperLibrary(() => {
+  loadCropperLibrary(() => {
 
-        const image = document.getElementById('cropImage');
+    const image = document.getElementById('cropImage');
+
+    if (!image) {
+        console.error('❌ Image de recadrage introuvable');
+        return;
+    }
+
+    image.onload = function () {
+
+        if (window.currentCropper) {
+            window.currentCropper.destroy();
+        }
 
         window.currentCropper = new Cropper(image, {
 
-           aspectRatio: 4 / 5,
+            aspectRatio: 4 / 5,
 
             viewMode: 1,
 
@@ -881,7 +909,17 @@ function openPhotoCropper(imageSrc, originalFile, currentCount) {
 
         });
 
-    });
+        console.log('✅ Recadreur prêt');
+
+    };
+
+    // Si l'image est déjà chargée
+    if (image.complete) {
+        image.onload();
+    }
+
+});
+
 
     window.currentCropOriginalFile = originalFile;
     window.currentCropCount = currentCount;
@@ -1960,13 +1998,13 @@ async function viewMatchProfile(userId) {
                 </div>
 
                 <p style="color: #64748b; margin-bottom: 1.15rem; font-size: 0.9rem; font-weight: 500;">
-                    📍 ${profile.city || 'Ville non renseignée'}, ${profile.country || ''}
+                    ${profile.city || 'Ville non renseignée'}, ${profile.country || ''}
                 </p>
 
                 <!-- Bloc Informations spirituelles -->
                 <div style="background: linear-gradient(135deg, #fff1f2, #eff6ff); padding: 1rem; border-radius: 0.85rem; margin-bottom: 1rem; border: 1px solid rgba(244, 63, 94, 0.15);">
                     <h3 style="color: #f43f5e; margin: 0 0 0.5rem 0; font-size: 0.98rem; display: flex; align-items: center; gap: 0.4rem;">
-                        🙏 Informations spirituelles
+                        Informations spirituelles
                     </h3>
                     <div style="color: #334155; font-size: 0.88rem; line-height: 1.5;">
                         <strong>Dénomination:</strong> ${profile.denomination || 'Non renseigné'}<br>

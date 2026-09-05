@@ -851,6 +851,19 @@ body.dark-mode .empty-notifications h3 {
     }
 }
 
+/* Bouton retour — descendre légèrement */
+.profile-back-button {
+    transform: translateY(20px) !important;
+}
+
+.simple-header {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
+
+
 </style>
 
 
@@ -867,31 +880,11 @@ body.dark-mode .empty-notifications h3 {
     <div class="floating-shape"></div>
 </div>
 
-<!-- =========================================================
-     HEADER
-     ========================================================= -->
-<header>
-    <nav class="navbar">
-        <div class="container">
-
-            <a href="javascript:history.back()" class="profile-back-button" aria-label="Retour">
-                ‹
-            </a>
-
-            <div class="logo">
-                <a href="index.html" class="register-logo">
-                    <img src="images/logo.png" alt="Alliance Chrétienne">
-                </a>
-            </div>
-
-        </div>
-    </nav>
+<header class="simple-header">
+    <a href="javascript:history.back()" class="profile-back-button" aria-label="Retour">
+        ‹
+    </a>
 </header>
-
-
-<!-- =========================================================
-     CONTENU PRINCIPAL
-     ========================================================= -->
 
 <section style="padding: 2rem 0;">
 
@@ -938,7 +931,7 @@ body.dark-mode .empty-notifications h3 {
                     onclick="filterNotifications('all')"
                 >
                     <span data-i18n="notifications.all">
-                        📬 Toutes
+                        Toutes
                     </span>
                 </button>
 
@@ -948,7 +941,7 @@ body.dark-mode .empty-notifications h3 {
                     onclick="filterNotifications('like')"
                 >
                     <span data-i18n="notifications.likes">
-                        ❤️ Likes
+                        Likes
                     </span>
                 </button>
 
@@ -958,7 +951,7 @@ body.dark-mode .empty-notifications h3 {
                     onclick="filterNotifications('match')"
                 >
                     <span data-i18n="notifications.matches">
-                        💕 Matchs
+                        Matchs
                     </span>
                 </button>
 
@@ -968,7 +961,7 @@ body.dark-mode .empty-notifications h3 {
                     onclick="filterNotifications('message')"
                 >
                     <span data-i18n="notifications.messages">
-                        💬 Messages
+                        Messages
                     </span>
                 </button>
 
@@ -978,7 +971,7 @@ body.dark-mode .empty-notifications h3 {
                     onclick="filterNotifications('audio_call')"
                 >
                     <span data-i18n="notifications.audio_calls">
-                        📞 Appels audio
+                        Appels audio
                     </span>
                 </button>
 
@@ -988,7 +981,7 @@ body.dark-mode .empty-notifications h3 {
                     onclick="filterNotifications('video_call')"
                 >
                     <span data-i18n="notifications.video_calls">
-                        🎥 Appels vidéo
+                        Appels vidéo
                     </span>
                 </button>
 
@@ -998,7 +991,7 @@ body.dark-mode .empty-notifications h3 {
                     onclick="filterNotifications('problem_report')"
                 >
                     <span data-i18n="notifications.reports">
-                        🚨 Signalements
+                       🚨 Signalements
                     </span>
                 </button>
 
@@ -1014,11 +1007,6 @@ body.dark-mode .empty-notifications h3 {
                 </button>
 
             </div>
-
-
-            <!-- =================================================
-                 LISTE DES NOTIFICATIONS
-                 ================================================= -->
 
             <div class="notifications-list">
 
@@ -1054,12 +1042,6 @@ body.dark-mode .empty-notifications h3 {
                 </div>
 
 
-                <!-- =================================================
-                     CONTENEUR DYNAMIQUE
-                     notifications.js peut injecter les notifications
-                     ici.
-                     ================================================= -->
-
                 <div id="notificationsList">
 
                     <!-- État vide par défaut -->
@@ -1067,7 +1049,7 @@ body.dark-mode .empty-notifications h3 {
                     <div class="empty-notifications">
 
                         <h3 data-i18n="notifications.empty_title">
-                            📭 Aucune notification
+                            Aucune notification
                         </h3>
 
                         <p data-i18n="notifications.empty_description">

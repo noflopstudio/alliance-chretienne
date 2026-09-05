@@ -1359,6 +1359,18 @@
     }
 
 }
+/* Bouton retour — descendre légèrement */
+.profile-back-button {
+    transform: translateY(20px) !important;
+}
+
+.simple-header {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
+
 
 </style>
 
@@ -1377,28 +1389,11 @@
 
 </div>
 
-<header>
-    <nav class="navbar">
-        <div class="container">
-
-            <a href="javascript:history.back()" class="profile-back-button" aria-label="Retour">
-                ‹
-            </a>
-
-            <div class="logo">
-                <a href="index.html" class="register-logo">
-                    <img src="images/logo.png" alt="Alliance Chrétienne">
-                </a>
-            </div>
-
-        </div>
-    </nav>
+<header class="simple-header">
+    <a href="javascript:history.back()" class="profile-back-button" aria-label="Retour">
+        ‹
+    </a>
 </header>
-
-<!-- ==================================================
-     CONTENU
-     ================================================== -->
-
 <main class="warnings-page">
 
     <section class="page-intro">

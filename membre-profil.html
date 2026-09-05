@@ -1192,6 +1192,17 @@ select:focus-visible {
         min-height: 52px !important;
     }
 }
+/* Bouton retour — descendre légèrement */
+.profile-back-button {
+    transform: translateY(20px) !important;
+}
+
+.simple-header {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
 
 
 </style>
@@ -1212,22 +1223,10 @@ select:focus-visible {
 </div>
 
 
-<header>
-    <nav class="navbar">
-        <div class="container">
-
-            <a href="javascript:history.back()" class="profile-back-button" aria-label="Retour">
-                ‹
-            </a>
-
-            <div class="logo">
-                <a href="index.html" class="register-logo">
-                    <img src="images/logo.png" alt="Alliance Chrétienne">
-                </a>
-            </div>
-
-        </div>
-    </nav>
+<header class="simple-header">
+    <a href="javascript:history.back()" class="profile-back-button" aria-label="Retour">
+        ‹
+    </a>
 </header>
 
 
@@ -1256,15 +1255,15 @@ select:focus-visible {
             </h2>
 
             <p id="profileLocation">
-                📍 -
+                -
             </p>
 
             <p id="profileFaith">
-                🙏 -
+                -
             </p>
 
             <p id="profileStats">
-                ❤️ -
+                 -
             </p>
 
         </div>
@@ -1300,28 +1299,23 @@ select:focus-visible {
     class="profile-tab active"
     onclick="switchTab('view')"
 >
-    👁️ <span data-i18n="profile.view_profile">Voir mon profil</span>
+    <span data-i18n="profile.view_profile">Voir mon profil</span>
 </button>
 
 <button
     class="profile-tab"
     onclick="switchTab('edit')"
 >
-    ✏️ <span data-i18n="profile.edit">Modifier</span>
+    <span data-i18n="profile.edit">Modifier</span>
 </button>
 
 <button
     class="profile-tab"
     onclick="switchTab('matches')"
 >
-    ❤️ <span data-i18n="profile.matches">Mes matchs</span>
+    <span data-i18n="profile.matches">Mes matchs</span>
 </button>
     </div>
-
-
-    <!-- ==================================================
-         TAB — VUE DU PROFIL
-         ================================================== -->
 
     <div
         id="view-tab"
@@ -1333,7 +1327,7 @@ select:focus-visible {
         <div class="profile-section">
 
            <h3>
-    📸 <span data-i18n="profile.photos">Photos</span>
+    <span data-i18n="profile.photos">Photos</span>
 </h3>
 
             <div
@@ -1349,7 +1343,7 @@ select:focus-visible {
 
         <div class="profile-section">
 <h4>
-    👤 <span data-i18n="profile.personal_info">
+    <span data-i18n="profile.personal_info">
         Informations personnelles
     </span>
 </h4>
@@ -1449,7 +1443,7 @@ select:focus-visible {
         <div class="profile-section">
 
             <h3>
-                🙏 Votre foi
+                Votre foi
             </h3>
 
             <div class="profile-info-grid">
@@ -1530,7 +1524,7 @@ select:focus-visible {
         <div class="profile-section">
 
      <h4>
-    💭 <span data-i18n="profile.about_you">
+    <span data-i18n="profile.about_you">
         À propos de vous
     </span>
 </h4>
@@ -1550,7 +1544,7 @@ select:focus-visible {
         <div class="profile-section">
 
             <h3>
-    💕 <span data-i18n="profile.looking_for">
+    <span data-i18n="profile.looking_for">
         Ce que vous recherchez
     </span>
 </h3>
@@ -1570,7 +1564,7 @@ select:focus-visible {
         <div class="profile-section">
 
             <h3>
-    🔍 <span data-i18n="profile.search_criteria">
+    <span data-i18n="profile.search_criteria">
         Vos critères de recherche
     </span>
 </h3>
@@ -1638,7 +1632,7 @@ select:focus-visible {
         <div class="edit-form">
 
             <h3>
-    ✏️ <span data-i18n="profile.edit_profile">
+    <span data-i18n="profile.edit_profile">
         Modifier mon profil
     </span>
 </h3>
@@ -1671,23 +1665,25 @@ select:focus-visible {
         border:0;
     "
 >
-    📸 <span data-i18n="profile.my_photos">
-        Mes photos
+<h3 style="margin:0;padding:0;border:0;display:flex;align-items:center;gap:.5rem;">
+    <span data-i18n="profile.my_photos">
+        📸 Mes photos
     </span>
+
+<span
+    id="photoCounter"
+    style="
+        color:var(--text-color);
+        font-size:.8rem;
+        font-weight:800;
+    "
+>
+    0 / 4
+</span>
+
+
 </h3>
 
-                    <span
-                        id="photoCounter"
-                        style="
-                            color:var(--text-color);
-                            font-size:.8rem;
-                            font-weight:800;
-                        "
-                    >
-                        0 / 4
-                    </span>
-
-                </div>
 
 
               <p
@@ -1708,18 +1704,17 @@ select:focus-visible {
 >
  <span data-i18n="profile.photos_description">
     Ajoutez vos meilleures photos pour donner envie de découvrir
-    votre profil ❤️
+    votre profil.
 </span>
 
 <br><br>
 
-🔐
 <strong data-i18n="profile.photos_moderation">
-    Pour protéger notre communauté contre les faux profils,
-    chaque photo ajoutée est vérifiée et approuvée par notre équipe
-    avant d'être visible sur votre profil.
+    Ces photos sont vos photos de profil. Pour protéger notre communauté
+    contre les faux profils, chaque photo ajoutée est vérifiée et approuvée
+    par notre équipe avant d'être visible sur votre profil.
 </strong>
-</p>
+
 
 
 
@@ -1739,7 +1734,7 @@ select:focus-visible {
                         for="photoUploadEdit"
                         class="photo-upload-btn"
                     >
-                       📷 <span data-i18n="profile.add_photo">
+                       <span data-i18n="profile.add_photo">
     Ajouter une photo
 </span>
                     </label>
@@ -1763,7 +1758,7 @@ select:focus-visible {
                 <!-- INFORMATIONS -->
 
                 <h4>
-                    👤 Informations personnelles
+                    Informations personnelles
                 </h4>
 
 
@@ -1847,7 +1842,7 @@ select:focus-visible {
                 <!-- FOI -->
 
        <h4>
-    🙏 <span data-i18n="profile.your_faith">
+    <span data-i18n="profile.your_faith">
         Votre foi
     </span>
 </h4>
@@ -1983,7 +1978,7 @@ select:focus-visible {
                 <!-- À PROPOS -->
 
                 <h4>
-                    💭 À propos de vous
+                    À propos de vous
                 </h4>
 
 
@@ -2017,7 +2012,7 @@ select:focus-visible {
 
                 <!-- CRITÈRES -->
 <h4>
-    🔍 <span data-i18n="profile.search_criteria">
+    <span data-i18n="profile.search_criteria">
         Critères de recherche
     </span>
 </h4>
@@ -2114,7 +2109,7 @@ select:focus-visible {
     type="submit"
     class="btn-save"
 >
-    ✅ <span data-i18n="profile.save">
+    <span data-i18n="profile.save">
         Enregistrer
     </span>
 </button>
@@ -2137,11 +2132,6 @@ select:focus-visible {
 
     </div>
 
-
-    <!-- ==================================================
-         TAB — MATCHS
-         ================================================== -->
-
     <div
         id="matches-tab"
         class="tab-content"
@@ -2150,7 +2140,7 @@ select:focus-visible {
         <div class="profile-section">
 
            <h3>
-    ❤️ <span data-i18n="profile.matches">
+    <span data-i18n="profile.matches">
         Mes matchs
     </span>
 </h3>
