@@ -1638,121 +1638,125 @@ select:focus-visible {
 </h3>
 
 
-            <!-- PHOTOS -->
+   ```html
+<!-- PHOTOS -->
 
-            <div
-                class="profile-section"
+<div
+    class="profile-section"
+    style="
+        padding:1.4rem;
+        margin-bottom:1.7rem;
+    "
+>
+
+    <!-- EN-TÊTE -->
+    <div
+        style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:1rem;
+            margin-bottom:.6rem;
+        "
+    >
+
+        <h3
+            style="
+                margin:0;
+                padding:0;
+                border:0;
+                display:flex;
+                align-items:center;
+                gap:.5rem;
+                flex-wrap:wrap;
+            "
+        >
+
+            <span data-i18n="profile.my_photos">
+                📸 Mes photos
+            </span>
+
+            <span
+                id="photoCounter"
                 style="
-                    padding:1.4rem;
-                    margin-bottom:1.7rem;
+                    color:var(--text-color);
+                    font-size:.8rem;
+                    font-weight:800;
+                    white-space:nowrap;
                 "
             >
+                0 / 4
+            </span>
 
-                <div
-                    style="
-                        display:flex;
-                        justify-content:space-between;
-                        align-items:center;
-                        gap:1rem;
-                        margin-bottom:.6rem;
-                    "
-                >
+        </h3>
 
-                   <h3
-    style="
-        margin:0;
-        padding:0;
-        border:0;
-    "
->
-<h3 style="margin:0;padding:0;border:0;display:flex;align-items:center;gap:.5rem;">
-    <span data-i18n="profile.my_photos">
-        📸 Mes photos
-    </span>
-
-<span
-    id="photoCounter"
-    style="
-        color:var(--text-color);
-        font-size:.8rem;
-        font-weight:800;
-    "
->
-    0 / 4
-</span>
+    </div>
 
 
-</h3>
+    <!-- DESCRIPTION -->
+    <p
+        style="
+            color:var(--text-color);
+            opacity:.75;
+            font-size:.88rem;
+            margin-bottom:1rem;
+            line-height:1.5;
+        "
+    >
+
+        <span data-i18n="profile.photos_description">
+            Ajoutez vos meilleures photos pour donner envie de découvrir
+            votre profil.
+        </span>
+
+        <br><br>
+
+        <strong data-i18n="profile.photos_moderation">
+            Ces photos sont vos photos de profil. Pour protéger notre communauté
+            contre les faux profils, chaque photo ajoutée est vérifiée et approuvée
+            par notre équipe avant d'être visible sur votre profil.
+        </strong>
+
+    </p>
 
 
-
-              <p
-    style="
-        color:var(--text-color);
-        opacity:.75;
-        font-size:.88rem;
-        margin-bottom:1rem;
-    "
->
-<p
-    style="
-        color:var(--text-color);
-        opacity:.75;
-        font-size:.88rem;
-        margin-bottom:1rem;
-    "
->
- <span data-i18n="profile.photos_description">
-    Ajoutez vos meilleures photos pour donner envie de découvrir
-    votre profil.
-</span>
-
-<br><br>
-
-<strong data-i18n="profile.photos_moderation">
-    Ces photos sont vos photos de profil. Pour protéger notre communauté
-    contre les faux profils, chaque photo ajoutée est vérifiée et approuvée
-    par notre équipe avant d'être visible sur votre profil.
-</strong>
+    <!-- PHOTOS -->
+    <div
+        id="profilePhotosContainer"
+        class="profile-photos-grid"
+    >
+    </div>
 
 
+    <!-- AJOUT PHOTO -->
+    <div
+        class="photo-upload-box"
+        style="margin-top:1rem;"
+    >
+
+        <label
+            for="photoUploadEdit"
+            class="photo-upload-btn"
+        >
+            <span data-i18n="profile.add_photo">
+                Ajouter une photo
+            </span>
+        </label>
+
+        <input
+            type="file"
+            id="photoUploadEdit"
+            accept="image/*"
+            onchange="uploadPhoto(event)"
+            style="display:none;"
+        >
+
+    </div>
+
+</div>
 
 
-                <div
-                    id="profilePhotosContainer"
-                    class="profile-photos-grid"
-                >
-                </div>
-
-
-                <div
-                    class="photo-upload-box"
-                    style="margin-top:1rem;"
-                >
-
-                    <label
-                        for="photoUploadEdit"
-                        class="photo-upload-btn"
-                    >
-                       <span data-i18n="profile.add_photo">
-    Ajouter une photo
-</span>
-                    </label>
-
-                    <input
-                        type="file"
-                        id="photoUploadEdit"
-                        accept="image/*"
-                        onchange="uploadPhoto(event)"
-                        style="display:none;"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <form id="editForm">
+<form id="editForm">
 
 
                 <!-- INFORMATIONS -->
