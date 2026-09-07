@@ -1,14 +1,12 @@
-// ===== VARIABLES GLOBALES =====
 let currentUser = null;
 let currentChatPartner = null;
 let conversations = [];
 let messageSubscription = null;
+let isSendingMessage = false;
 
-// ===== 🟢 PRÉSENCE EN LIGNE =====
 let presenceInterval = null;
 let statusRefreshInterval = null;
 
-// Mettre à jour mon propre last_seen
 async function updateMyLastSeen() {
 
     if (!currentUser || !window.supabaseClient) return;
@@ -585,6 +583,13 @@ async function loadMessages() {
     }
 }
 
+
+
+
+
+
+
+
 // ===== AFFICHER UN MESSAGE =====
 function displayMessage(message) {
     const messagesList = document.getElementById('messagesList');
@@ -627,14 +632,14 @@ function displayMessage(message) {
     if (isSent) {
         actions = `
             <div class="message-actions">
-                <button
-                    type="button"
-                    class="message-action edit-message"
-                    onclick="editMessage('${message.id}')"
-                    title="Modifier"
-                >
-                    ✏️
-                </button>
+             <button
+    type="button"
+    class="message-action edit-message"
+    onclick="editMessage('${message.id}')"
+    title="Modifier"
+>
+    🖊️
+</button>
                 <button
                     type="button"
                     class="message-action delete-message"
@@ -672,6 +677,22 @@ function displayMessage(message) {
 
     messagesList.appendChild(messageDiv);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // ===== MODIFIER UN MESSAGE =====
 async function editMessage(messageId) {
@@ -1179,9 +1200,16 @@ function subscribeToMessages() {
         });
 }
 
-// ===== ENVOYER UN MESSAGE =====
 async function sendMessage() {
+    // 🔒 Empêche un double envoi
+    if (isSendingMessage) {
+        console.log('⚠️ Envoi déjà en cours, deuxième appel ignoré');
+        return;
+    }
+
     const input = document.getElementById('messageInput');
+    if (!input) return;
+
     const content = input.value.trim();
 
     if (!content) {
@@ -1194,10 +1222,20 @@ async function sendMessage() {
         return;
     }
 
-    try {
-        const client = window.supabaseClient;
+    const client = window.supabaseClient;
+    const sendButton = document.querySelector('.send-message-btn');
 
-        // MODIFICATION D'UN MESSAGE EXISTANT
+    // 🔒 Verrouiller immédiatement l'envoi
+    isSendingMessage = true;
+
+    if (sendButton) {
+        sendButton.disabled = true;
+    }
+
+    try {
+        // ==========================================
+        // ✏️ MODIFICATION D'UN MESSAGE EXISTANT
+        // ==========================================
         if (window.editingMessageId) {
             const messageId = window.editingMessageId;
 
@@ -1214,11 +1252,17 @@ async function sendMessage() {
 
             if (error) {
                 console.error('❌ Erreur modification:', error);
-                showAlert('Erreur lors de la modification du message', 'error');
+                showAlert(
+                    'Erreur lors de la modification du message',
+                    'error'
+                );
                 return;
             }
 
-            const oldMessage = document.querySelector(`[data-message-id="${messageId}"]`);
+            const oldMessage = document.querySelector(
+                `[data-message-id="${messageId}"]`
+            );
+
             if (oldMessage) {
                 oldMessage.remove();
             }
@@ -1226,60 +1270,128 @@ async function sendMessage() {
             displayMessage(updatedMessage);
 
             window.editingMessageId = null;
+
             input.value = '';
             input.style.height = 'auto';
             input.focus();
 
-            showAlert('Message modifié avec succès ✅', 'success');
+            showAlert(
+                'Message modifié avec succès ✅',
+                'success'
+            );
+
             return;
         }
 
-        // NOUVEAU MESSAGE
-        const { error } = await client
+        // ==========================================
+        // 💬 NOUVEAU MESSAGE
+        // ==========================================
+
+        console.log('📤 INSERT MESSAGE', {
+            sender: currentUser.id,
+            receiver: currentChatPartner,
+            content: content
+        });
+
+        const { data: insertedMessage, error } = await client
             .from('messages')
             .insert([{
                 sender_id: currentUser.id,
                 receiver_id: currentChatPartner,
                 content: content
-            }]);
+            }])
+            .select()
+            .single();
 
         if (error) {
             console.error('❌ Erreur envoi:', error);
-            showAlert('Erreur lors de l\'envoi du message', 'error');
+
+            showAlert(
+                "Erreur lors de l'envoi du message",
+                'error'
+            );
+
             return;
         }
 
-        // CRÉER UNE NOTIFICATION
-        const { data: senderProfile } = await client
-            .from('profiles')
-            .select('first_name, photo_url')
-            .eq('id', currentUser.id)
-            .single();
+        console.log(
+            '✅ MESSAGE INSÉRÉ UNE FOIS :',
+            insertedMessage.id
+        );
 
-        await client
+        // Vider immédiatement le champ
+        input.value = '';
+        input.style.height = 'auto';
+
+        // ==========================================
+        // 🔔 CRÉER UNE NOTIFICATION
+        // ==========================================
+
+        const { data: senderProfile, error: profileError } =
+            await client
+                .from('profiles')
+                .select('first_name, photo_url')
+                .eq('id', currentUser.id)
+                .single();
+
+        if (profileError) {
+            console.error(
+                '⚠️ Erreur profil notification:',
+                profileError
+            );
+        }
+
+        const { error: notificationError } = await client
             .from('notifications')
             .insert([{
                 recipient_id: currentChatPartner,
                 sender_id: currentUser.id,
                 type: 'message',
-                content: `Nouveau message de ${senderProfile?.first_name} : ${content.substring(0, 50)}${content.length > 50 ? '...' : ''}`,
+                content:
+                    `Nouveau message de ` +
+                    `${senderProfile?.first_name || 'Un membre'} : ` +
+                    `${content.substring(0, 50)}` +
+                    `${content.length > 50 ? '...' : ''}`,
                 data: {
                     sender_id: currentUser.id,
-                    sender_name: senderProfile?.first_name,
-                    avatar: senderProfile?.photo_url
+                    sender_name:
+                        senderProfile?.first_name || null,
+                    avatar:
+                        senderProfile?.photo_url || null,
+                    message_id:
+                        insertedMessage.id
                 }
             }]);
 
-        input.value = '';
-        input.style.height = 'auto';
+        if (notificationError) {
+            console.error(
+                '⚠️ Erreur création notification:',
+                notificationError
+            );
+        }
+
         input.focus();
 
     } catch (error) {
-        console.error('❌ Erreur sendMessage:', error);
-        showAlert('Erreur : ' + error.message, 'error');
+        console.error(
+            '❌ Erreur sendMessage:',
+            error
+        );
+
+        showAlert(
+            'Erreur : ' + (error.message || error),
+            'error'
+        );
+
+    } finally {
+        // 🔓 Autoriser un nouvel envoi
+        isSendingMessage = false;
+
+        if (sendButton) {
+            sendButton.disabled = false;
+        }
     }
 }
-
 // ===== GÉRER LA TOUCHE ENTRÉE =====
 function handleKeyPress(event) {
     if (event.key === 'Enter' && !event.shiftKey) {
