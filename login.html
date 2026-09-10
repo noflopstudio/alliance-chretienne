@@ -1125,7 +1125,7 @@ body.dark-mode .language-selector {
                                 type="password" 
                                 id="loginPassword" 
                                 name="loginPassword" 
-                                placeholder="••••••••••••"
+                               placeholder="Mot de passe"
                                 required
                             >
                             <button type="button" class="toggle-password" id="togglePasswordBtn" aria-label="Afficher le mot de passe">
@@ -1302,73 +1302,175 @@ body.dark-mode .language-selector {
     <!-- SCRIPTS -->
     <script>
         // ===== DARK MODE =====
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const html = document.documentElement;
+const darkModeToggle = document.getElementById('darkModeToggle');
 
-        const isDarkMode = localStorage.getItem('darkMode') === 'true';
-        if (isDarkMode) {
-            document.body.classList.add('dark-mode');
-            darkModeToggle.textContent = '☀️';
-        }
+const isDarkMode =
+    localStorage.getItem('darkMode') === 'true';
 
-        darkModeToggle.addEventListener('click', () => {
-            const isCurrentlyDark = document.body.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', isCurrentlyDark);
-            darkModeToggle.textContent = isCurrentlyDark ? '☀️' : '🌙';
-            
-            // Créer particules au clic
-            createParticles(event);
-        });
+if (isDarkMode) {
+    document.body.classList.add('dark-mode');
 
-        // ===== PARTICULES AU CLIC =====
-        function createParticles(e) {
-            for (let i = 0; i < 5; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.textContent = '✨';
-                particle.style.left = e.pageX + 'px';
-                particle.style.top = e.pageY + 'px';
-                particle.style.setProperty('--tx', (Math.random() - 0.5) * 100 + 'px');
-                particle.style.setProperty('--ty', (Math.random() - 0.5) * 100 + 'px');
-                document.body.appendChild(particle);
-                
-                setTimeout(() => particle.remove(), 3000);
-            }
-        }
+    if (darkModeToggle) {
+        darkModeToggle.textContent = '☀️';
+    }
+}
 
-        // ===== AFFICHAGE MOT DE PASSE =====
-        const togglePasswordBtn = document.getElementById('togglePasswordBtn');
-        const loginPassword = document.getElementById('loginPassword');
+if (darkModeToggle) {
 
-        togglePasswordBtn.addEventListener('click', (e) => {
+    darkModeToggle.addEventListener('click', (event) => {
+
+        const isCurrentlyDark =
+            document.body.classList.toggle('dark-mode');
+
+        localStorage.setItem(
+            'darkMode',
+            isCurrentlyDark
+        );
+
+        darkModeToggle.textContent =
+            isCurrentlyDark ? '☀️' : '🌙';
+
+        createParticles(event);
+    });
+
+}
+
+
+// ===== PARTICULES AU CLIC =====
+function createParticles(e) {
+
+    if (!e) return;
+
+    for (let i = 0; i < 5; i++) {
+
+        const particle =
+            document.createElement('div');
+
+        particle.className = 'particle';
+        particle.textContent = '✨';
+
+        particle.style.left =
+            e.pageX + 'px';
+
+        particle.style.top =
+            e.pageY + 'px';
+
+        particle.style.setProperty(
+            '--tx',
+            (Math.random() - 0.5) * 100 + 'px'
+        );
+
+        particle.style.setProperty(
+            '--ty',
+            (Math.random() - 0.5) * 100 + 'px'
+        );
+
+        document.body.appendChild(particle);
+
+        setTimeout(
+            () => particle.remove(),
+            3000
+        );
+    }
+}
+
+
+// ===== AFFICHAGE MOT DE PASSE =====
+const togglePasswordBtn =
+    document.getElementById('togglePasswordBtn');
+
+const loginPassword =
+    document.getElementById('loginPassword');
+
+if (togglePasswordBtn && loginPassword) {
+
+    togglePasswordBtn.addEventListener(
+        'click',
+        (e) => {
+
             e.preventDefault();
-            if (loginPassword.type === 'password') {
-                loginPassword.type = 'text';
-                togglePasswordBtn.textContent = '🙈';
-            } else {
-                loginPassword.type = 'password';
-                togglePasswordBtn.textContent = '👁️';
-            }
-        });
 
-        // ===== PARTICULES AU CLIC SUBMIT =====
-        document.getElementById('loginForm').addEventListener('submit', (e) => {
-            const button = e.target.querySelector('.btn-submit');
-            const rect = button.getBoundingClientRect();
-            
+            if (loginPassword.type === 'password') {
+
+                loginPassword.type = 'text';
+
+                togglePasswordBtn.textContent =
+                    '🙈';
+
+                togglePasswordBtn.setAttribute(
+                    'aria-label',
+                    'Masquer le mot de passe'
+                );
+
+            } else {
+
+                loginPassword.type = 'password';
+
+                togglePasswordBtn.textContent =
+                    '👁️';
+
+                togglePasswordBtn.setAttribute(
+                    'aria-label',
+                    'Afficher le mot de passe'
+                );
+            }
+        }
+    );
+}
+
+
+// ===== PARTICULES AU CLIC SUBMIT =====
+const loginForm =
+    document.getElementById('loginForm');
+
+if (loginForm) {
+
+    loginForm.addEventListener(
+        'submit',
+        (e) => {
+
+            const button =
+                e.target.querySelector('.btn-submit');
+
+            if (!button) return;
+
+            const rect =
+                button.getBoundingClientRect();
+
             for (let i = 0; i < 10; i++) {
-                const particle = document.createElement('div');
+
+                const particle =
+                    document.createElement('div');
+
                 particle.className = 'particle';
                 particle.textContent = '💕';
-                particle.style.left = (rect.left + rect.width / 2) + 'px';
-                particle.style.top = (rect.top + rect.height / 2) + 'px';
-                particle.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
-                particle.style.setProperty('--ty', (Math.random() - 0.5) * 200 + 'px');
+
+                particle.style.left =
+                    (rect.left + rect.width / 2) + 'px';
+
+                particle.style.top =
+                    (rect.top + rect.height / 2) + 'px';
+
+                particle.style.setProperty(
+                    '--tx',
+                    (Math.random() - 0.5) * 200 + 'px'
+                );
+
+                particle.style.setProperty(
+                    '--ty',
+                    (Math.random() - 0.5) * 200 + 'px'
+                );
+
                 document.body.appendChild(particle);
-                
-                setTimeout(() => particle.remove(), 3000);
+
+                setTimeout(
+                    () => particle.remove(),
+                    3000
+                );
             }
-        });
+        }
+    );
+}
     </script>
 
    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

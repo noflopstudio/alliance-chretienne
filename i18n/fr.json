@@ -746,13 +746,18 @@
     "email_placeholder": "vous@example.com",
     "email_help": "Un email de confirmation pourra vous être envoyé.",
 
-    "password": "Mot de passe",
-    "password_placeholder": "Minimum 8 caractères",
-    "password_help": "Minimum 8 caractères.",
+  "password": "Mot de passe",
+"password_placeholder": "Minimum 8 caractères",
+"password_help": "Minimum 8 caractères.",
+"password_show": "👁️",
+"password_hide": "🙈",
 
-    "confirm_password": "Confirmer le mot de passe",
-    "confirm_password_placeholder": "Confirmez votre mot de passe",
+"confirm_password": "Confirmer le mot de passe",
+"confirm_password_placeholder": "Confirmez votre mot de passe",
+"confirm_password_show": "👁️",
+"confirm_password_hide": "🙈",
 
+    
     "profile_title": "Votre profil",
     "profile_description": "Quelques informations pour mieux vous présenter.",
 
