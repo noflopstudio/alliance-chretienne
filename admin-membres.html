@@ -2465,21 +2465,13 @@ async function verifierConnexionAdmin() {
         }
 
 
-    function signalerMembre(
-    id,
-    nom
-) {
+   function signalerMembre(id, nom) {
 
-    const modal =
-        document.createElement(
-            'div'
-        );
+    const modal = document.createElement('div');
 
-    modal.className =
-        'report-modal';
+    modal.className = 'report-modal';
 
     modal.innerHTML = `
-
         <div class="report-modal-content">
 
             <h2>
@@ -2537,9 +2529,7 @@ async function verifierConnexionAdmin() {
             <div class="report-field">
 
                 <label for="reportDetails">
-
                     Détails
-
                     <span
                         style="
                             color:#94a3b8;
@@ -2548,7 +2538,6 @@ async function verifierConnexionAdmin() {
                     >
                         (facultatif)
                     </span>
-
                 </label>
 
                 <textarea
@@ -2579,41 +2568,27 @@ async function verifierConnexionAdmin() {
             </div>
 
         </div>
-
     `;
 
-    document.body.appendChild(
-        modal
-    );
+    document.body.appendChild(modal);
 
 
-    document.getElementById(
-        'cancelReport'
-    ).onclick = () => {
-
+    document.getElementById('cancelReport').onclick = () => {
         modal.remove();
-
     };
 
 
-    document.getElementById(
-        'confirmReport'
-    ).onclick =
+    document.getElementById('confirmReport').onclick =
         async () => {
 
             const motif =
                 document
-                    .getElementById(
-                        'reportReason'
-                    )
+                    .getElementById('reportReason')
                     .value;
-
 
             const details =
                 document
-                    .getElementById(
-                        'reportDetails'
-                    )
+                    .getElementById('reportDetails')
                     .value
                     .trim();
 
@@ -2625,33 +2600,24 @@ async function verifierConnexionAdmin() {
                 );
 
                 return;
-
             }
 
 
-            const confirmation =
-                confirm(
-                    `🚨 Confirmer le signalement de ${nom} ?\n\n` +
-                    `Le profil ne sera PAS supprimé.`
-                );
+            const confirmation = confirm(
+                `🚨 Confirmer le signalement de ${nom} ?\n\n` +
+                `Le profil ne sera PAS supprimé.`
+            );
 
 
             if (!confirmation) {
-
                 return;
-
             }
 
 
             const bouton =
-                document.getElementById(
-                    'confirmReport'
-                );
+                document.getElementById('confirmReport');
 
-
-            bouton.disabled =
-                true;
-
+            bouton.disabled = true;
 
             bouton.textContent =
                 '⏳ Enregistrement...';
@@ -2659,12 +2625,15 @@ async function verifierConnexionAdmin() {
 
             try {
 
+                // ==========================================
+                // 1️⃣ RÉCUPÉRER L'ADMIN CONNECTÉ
+                // ==========================================
+
                 const {
                     data: userData,
                     error: userError
                 } =
-                    await window
-                        .supabaseClient
+                    await window.supabaseClient
                         .auth
                         .getUser();
 
@@ -2677,7 +2646,6 @@ async function verifierConnexionAdmin() {
                     throw new Error(
                         'Administrateur non connecté.'
                     );
-
                 }
 
 
@@ -2685,35 +2653,26 @@ async function verifierConnexionAdmin() {
                     userData.user.id;
 
 
-                /*
-                 * IMPORTANT :
-                 * Le nom personnel de l'administrateur
-                 * n'est PAS communiqué au membre.
-                 */
+                // ==========================================
+                // 2️⃣ ENREGISTRER LE SIGNALEMENT
+                // ==========================================
 
                 const {
                     data: signalement,
                     error: signalementError
                 } =
-                    await window
-                        .supabaseClient
-                        .from(
-                            'signalements'
-                        )
+                    await window.supabaseClient
+                        .from('signalements')
                         .insert({
 
-                            membre_id:
-                                id,
+                            membre_id: id,
 
-                            membre_nom:
-                                nom,
+                            membre_nom: nom,
 
-                            motif:
-                                motif,
+                            motif: motif,
 
                             details:
-                                details ||
-                                null,
+                                details || null,
 
                             signale_par:
                                 adminId,
@@ -2726,12 +2685,9 @@ async function verifierConnexionAdmin() {
                         .single();
 
 
-                if (
-                    signalementError
-                ) {
+                if (signalementError) {
 
                     throw signalementError;
-
                 }
 
 
@@ -2741,48 +2697,129 @@ async function verifierConnexionAdmin() {
                 );
 
 
-                /*
-                 * IMPORTANT :
-                 * AUCUNE suppression ici.
-                 *
-                 * Le profil reste dans la table profiles.
-                 */
+                // ==========================================
+                // 3️⃣ CRÉER LA NOTIFICATION DU MEMBRE
+                // ==========================================
 
+                const messageNotification =
+                    details ||
+                    `Votre profil a fait l’objet d’un signalement concernant : ${motif}. Notre équipe va examiner la situation.`;
 
-                modal.remove();
+const {
+    data: { user: authUser },
+    error: authError
+} = await window.supabaseClient.auth.getUser();
 
+console.log(
+    '👤 UTILISATEUR SUPABASE AUTH :',
+    authUser?.id
+);
 
-                alert(
-                    `✅ Le signalement de ${nom} a été enregistré.\n\n` +
-                    `Le profil n'a pas été supprimé.`
-                );
+console.log(
+    '👤 ADMIN ID UTILISÉ :',
+    adminId
+);
 
+console.log(
+    '🔐 ERREUR AUTH :',
+    authError
+);
 
-            } catch (error) {
+console.log('📝 DETAILS :', details);
+console.log('📝 MESSAGE NOTIFICATION :', messageNotification);
+console.log('📤 CONTENU ENVOYÉ À SUPABASE :', `🚨 ${messageNotification}`);
 
-                console.error(
-                    '❌ Erreur signalement :',
-                    error
-                );
+// ==========================================
+// 3️⃣ ENVOYER LA NOTIFICATION AU MEMBRE
+// ==========================================
 
+const {
+    data: notification,
+    error: notificationError
+} =
+    await window.supabaseClient.rpc(
+        'create_admin_notification',
+        {
+            p_recipient_id: id,
 
-                bouton.disabled =
-                    false;
+            p_type: 'problem_report',
 
+            p_content:
+                `🚨 ${messageNotification}`,
 
-                bouton.textContent =
-                    '🚨 Confirmer le signalement';
+            p_data: {
+                report_id:
+                    signalement.id,
 
+                motif:
+                    motif,
 
-                alert(
-                    '❌ Impossible d’enregistrer le signalement.\n\n' +
-                    (
-                        error.message ||
-                        error
-                    )
-                );
-
+                sender_name:
+                    'L’équipe d’Alliance Chrétienne'
             }
+        }
+    );
+
+
+if (notificationError) {
+
+    console.error(
+        '❌ Signalement enregistré mais notification impossible :',
+        notificationError
+    );
+
+    throw new Error(
+        'Le signalement a été enregistré, mais la notification n’a pas pu être envoyée : ' +
+        notificationError.message
+    );
+}
+
+
+console.log(
+    '🔔 NOTIFICATION ENVOYÉE :',
+    notification
+);
+
+
+// ==========================================
+// 4️⃣ FERMER LA MODALE
+// ==========================================
+
+modal.remove();
+
+
+alert(
+    `✅ Le signalement de ${nom} a été enregistré.\n\n` +
+    `🔔 Une notification a été envoyée au membre.\n\n` +
+    `Le profil n'a pas été supprimé.`
+);
+
+
+} catch (error) {
+
+    console.error(
+        '❌ Erreur signalement :',
+        error
+    );
+
+
+    bouton.disabled = false;
+
+    bouton.textContent =
+        '🚨 Confirmer le signalement';
+
+
+    alert(
+        '❌ Impossible de terminer le signalement.\n\n' +
+        (
+            error.message ||
+            error
+        )
+    );
+
+}
+
+
 
         };
 

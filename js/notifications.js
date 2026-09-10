@@ -297,26 +297,26 @@ function createNotificationElement(notification) {
             class: ''
         };
 
-    let senderName;
+ let senderName;
 
-    if (
-        type === 'problem_report' ||
-        type === 'testimonial_approved' ||
-        type === 'testimonial_rejected'
-    ) {
-        senderName = t(
-            'notifications.alliance_chretienne',
-            '🚨 Alliance Chrétienne'
+if (
+    type === 'problem_report' ||
+    type === 'testimonial_approved' ||
+    type === 'testimonial_rejected'
+) {
+    senderName = t(
+        'notifications.alliance_chretienne',
+        '🚨 Alliance Chrétienne'
+    );
+} else {
+    senderName =
+        data.sender_name ||
+        notification.sender_name ||
+        t(
+            'notifications.user',
+            'Utilisateur'
         );
-    } else {
-        senderName =
-            data.sender_name ||
-            notification.sender_name ||
-            t(
-                'notifications.user',
-                'Utilisateur'
-            );
-    }
+}
 
     const avatar =
         data.avatar ||
@@ -575,36 +575,25 @@ function getNotificationText(notification) {
 
     const data = notification.data || {};
 
+    // 🚨 Signalement envoyé par l'administration
+    // Le message écrit par l'administrateur est prioritaire.
+    if (type === 'problem_report' && notification.content) {
+        return notification.content;
+    }
+
     // 📷 Notifications de modération des photos
-
-if (
-    type === 'photo_approved' ||
-    type === 'photo_rejected'
-) {
-    return notification.content ||
-        data.message ||
-        (
-            type === 'photo_approved'
-                ? '✅ Photo approuvée. Elle est maintenant visible.'
-                : '❌ Photo rejetée. Veuillez en envoyer une nouvelle.'
-        );
-}
-
-    if (type === 'like') {
-        return t(
-            'notifications.default_like',
-            'Quelqu’un a aimé votre profil.'
-        );
+    if (
+        type === 'photo_approved' ||
+        type === 'photo_rejected'
+    ) {
+        return notification.content ||
+            data.message ||
+            (
+                type === 'photo_approved'
+                    ? '✅ Photo approuvée. Elle est maintenant visible.'
+                    : '❌ Photo rejetée. Veuillez en envoyer une nouvelle.'
+            );
     }
-
-    if (type === 'match') {
-        return t(
-            'notifications.default_match',
-            'Vous avez un nouveau match !'
-        );
-    }
-
-    // ...
 
     if (type === 'like') {
         return t(
@@ -644,11 +633,10 @@ if (
         );
     }
 
+    // 🚨 Signalement sans contenu personnalisé
     if (type === 'problem_report') {
-        return t(
-            'notifications.default_problem_report',
-            'Votre signalement a été traité par l’équipe d’Alliance Chrétienne.'
-        );
+        return data.message ||
+            '🚨 Message de l’équipe d’Alliance Chrétienne.';
     }
 
     if (type === 'testimonial_approved') {
@@ -673,60 +661,6 @@ if (
         'notifications.default',
         'Vous avez une nouvelle notification.'
     );
-}
-
-async function answerCall(notificationId, callType) {
-    try {
-        const notification =
-            allNotifications.find(
-                n => n.id === notificationId
-            );
-
-        if (!notification) return;
-
-        normalizeNotification(notification);
-
-        const callerId =
-            notification.data?.sender_id ||
-            notification.sender_id;
-
-        if (!callerId) {
-            showAlert(
-                t(
-                    'notifications.caller_not_found',
-                    'Impossible de retrouver l’appelant.'
-                ),
-                'error'
-            );
-
-            return;
-        }
-
-        const callerName =
-            notification.data?.sender_name ||
-            notification.sender_name ||
-            '';
-
-        await markAsRead(notificationId);
-
-        const url =
-            `membre-messages.html?user=${encodeURIComponent(callerId)}` +
-            `&name=${encodeURIComponent(callerName)}` +
-            `&call=${encodeURIComponent(callType)}`;
-
-        window.location.href = url;
-
-    } catch (error) {
-        console.error('❌ Erreur réponse appel:', error);
-
-        showAlert(
-            t(
-                'notifications.call_error',
-                'Impossible de répondre à l’appel.'
-            ),
-            'error'
-        );
-    }
 }
 
 async function ignoreCall(notificationId) {
