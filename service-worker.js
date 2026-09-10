@@ -30,9 +30,33 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
+
     event.respondWith(
-        fetch(event.request).catch(() =>
-            caches.match(event.request)
-        )
+
+        fetch(event.request)
+            .then(response => {
+
+                return response;
+
+            })
+            .catch(() => {
+
+                return caches.match(event.request)
+                    .then(cachedResponse => {
+
+                        if (cachedResponse) {
+                            return cachedResponse;
+                        }
+
+                        return new Response('', {
+                            status: 503,
+                            statusText: 'Service Unavailable'
+                        });
+
+                    });
+
+            })
+
     );
+
 });

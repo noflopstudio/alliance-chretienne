@@ -30,10 +30,28 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
+
     event.respondWith(
         caches.match(event.request)
             .then(cachedResponse => {
-                return cachedResponse || fetch(event.request);
+
+                if (cachedResponse) {
+                    return cachedResponse;
+                }
+
+                return fetch(event.request)
+                    .catch(() => {
+
+                        // Si la ressource distante échoue,
+                        // retourner une réponse HTTP valide
+                        return new Response('', {
+                            status: 503,
+                            statusText: 'Service Unavailable'
+                        });
+
+                    });
+
             })
     );
+
 });

@@ -2465,416 +2465,328 @@ async function verifierConnexionAdmin() {
         }
 
 
-        /* =====================================================
-           SIGNALER MEMBRE
-        ===================================================== */
+    function signalerMembre(
+    id,
+    nom
+) {
 
-        function signalerMembre(
-            id,
-            nom
-        ) {
+    const modal =
+        document.createElement(
+            'div'
+        );
 
-            const modal =
-                document.createElement(
-                    'div'
+    modal.className =
+        'report-modal';
+
+    modal.innerHTML = `
+
+        <div class="report-modal-content">
+
+            <h2>
+                🚨 Signaler un membre
+            </h2>
+
+            <div class="report-member-name">
+                👤 ${escapeHtml(nom)}
+            </div>
+
+            <div class="report-field">
+
+                <label for="reportReason">
+                    Motif du signalement
+                </label>
+
+                <select id="reportReason">
+
+                    <option value="">
+                        -- Choisir un motif --
+                    </option>
+
+                    <option value="Profil inapproprié">
+                        🚫 Profil inapproprié
+                    </option>
+
+                    <option value="Photo inappropriée">
+                        🖼️ Photo inappropriée
+                    </option>
+
+                    <option value="Informations fausses">
+                        📝 Informations fausses
+                    </option>
+
+                    <option value="Comportement abusif">
+                        ⚠️ Comportement abusif
+                    </option>
+
+                    <option value="Faux compte">
+                        👤 Faux compte
+                    </option>
+
+                    <option value="Contenu interdit">
+                        🔞 Contenu interdit
+                    </option>
+
+                    <option value="Autre">
+                        ✏️ Autre
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="report-field">
+
+                <label for="reportDetails">
+
+                    Détails
+
+                    <span
+                        style="
+                            color:#94a3b8;
+                            font-weight:500;
+                        "
+                    >
+                        (facultatif)
+                    </span>
+
+                </label>
+
+                <textarea
+                    id="reportDetails"
+                    placeholder="Expliquez le problème..."
+                ></textarea>
+
+            </div>
+
+            <div class="report-actions">
+
+                <button
+                    class="report-cancel"
+                    id="cancelReport"
+                    type="button"
+                >
+                    Annuler
+                </button>
+
+                <button
+                    class="report-confirm"
+                    id="confirmReport"
+                    type="button"
+                >
+                    🚨 Confirmer le signalement
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+    document.body.appendChild(
+        modal
+    );
+
+
+    document.getElementById(
+        'cancelReport'
+    ).onclick = () => {
+
+        modal.remove();
+
+    };
+
+
+    document.getElementById(
+        'confirmReport'
+    ).onclick =
+        async () => {
+
+            const motif =
+                document
+                    .getElementById(
+                        'reportReason'
+                    )
+                    .value;
+
+
+            const details =
+                document
+                    .getElementById(
+                        'reportDetails'
+                    )
+                    .value
+                    .trim();
+
+
+            if (!motif) {
+
+                alert(
+                    '⚠️ Veuillez choisir un motif de signalement.'
+                );
+
+                return;
+
+            }
+
+
+            const confirmation =
+                confirm(
+                    `🚨 Confirmer le signalement de ${nom} ?\n\n` +
+                    `Le profil ne sera PAS supprimé.`
                 );
 
 
-            modal.className =
-                'report-modal';
+            if (!confirmation) {
+
+                return;
+
+            }
 
 
-            modal.innerHTML = `
-
-                <div class="report-modal-content">
-
-                    <h2>
-                        🚨 Signaler un membre
-                    </h2>
-
-                    <div class="report-member-name">
-                        👤 ${escapeHtml(nom)}
-                    </div>
+            const bouton =
+                document.getElementById(
+                    'confirmReport'
+                );
 
 
-                    <div class="report-field">
-
-                        <label
-                            for="reportReason"
-                        >
-                            Motif du signalement
-                        </label>
-
-                        <select
-                            id="reportReason"
-                        >
-
-                            <option value="">
-                                -- Choisir un motif --
-                            </option>
-
-                            <option value="Profil inapproprié">
-                                🚫 Profil inapproprié
-                            </option>
-
-                            <option value="Photo inappropriée">
-                                🖼️ Photo inappropriée
-                            </option>
-
-                            <option value="Informations fausses">
-                                📝 Informations fausses
-                            </option>
-
-                            <option value="Comportement abusif">
-                                ⚠️ Comportement abusif
-                            </option>
-
-                            <option value="Faux compte">
-                                👤 Faux compte
-                            </option>
-
-                            <option value="Contenu interdit">
-                                🔞 Contenu interdit
-                            </option>
-
-                            <option value="Autre">
-                                ✏️ Autre
-                            </option>
-
-                        </select>
-
-                    </div>
+            bouton.disabled =
+                true;
 
 
-                    <div class="report-field">
-
-                        <label
-                            for="reportDetails"
-                        >
-                            Détails
-                            <span
-                                style="
-                                    color:#94a3b8;
-                                    font-weight:500;
-                                "
-                            >
-                                (facultatif)
-                            </span>
-                        </label>
-
-                        <textarea
-                            id="reportDetails"
-                            placeholder="Expliquez le problème..."
-                        ></textarea>
-
-                    </div>
+            bouton.textContent =
+                '⏳ Enregistrement...';
 
 
-                    <div class="report-actions">
+            try {
 
-                        <button
-                            class="report-cancel"
-                            id="cancelReport"
-                        >
-                            Annuler
-                        </button>
-
-                        <button
-                            class="report-confirm"
-                            id="confirmReport"
-                        >
-                            🚨 Signaler et supprimer
-                        </button>
-
-                    </div>
-
-                </div>
-
-            `;
+                const {
+                    data: userData,
+                    error: userError
+                } =
+                    await window
+                        .supabaseClient
+                        .auth
+                        .getUser();
 
 
-            document.body.appendChild(
-                modal
-            );
+                if (
+                    userError ||
+                    !userData.user
+                ) {
+
+                    throw new Error(
+                        'Administrateur non connecté.'
+                    );
+
+                }
 
 
-            document.getElementById(
-                'cancelReport'
-            ).onclick = () => {
+                const adminId =
+                    userData.user.id;
+
+
+                /*
+                 * IMPORTANT :
+                 * Le nom personnel de l'administrateur
+                 * n'est PAS communiqué au membre.
+                 */
+
+                const {
+                    data: signalement,
+                    error: signalementError
+                } =
+                    await window
+                        .supabaseClient
+                        .from(
+                            'signalements'
+                        )
+                        .insert({
+
+                            membre_id:
+                                id,
+
+                            membre_nom:
+                                nom,
+
+                            motif:
+                                motif,
+
+                            details:
+                                details ||
+                                null,
+
+                            signale_par:
+                                adminId,
+
+                            signale_par_nom:
+                                'L’équipe d’Alliance Chrétienne'
+
+                        })
+                        .select()
+                        .single();
+
+
+                if (
+                    signalementError
+                ) {
+
+                    throw signalementError;
+
+                }
+
+
+                console.log(
+                    '🚨 SIGNALEMENT ENREGISTRÉ :',
+                    signalement
+                );
+
+
+                /*
+                 * IMPORTANT :
+                 * AUCUNE suppression ici.
+                 *
+                 * Le profil reste dans la table profiles.
+                 */
+
 
                 modal.remove();
 
-            };
 
+                alert(
+                    `✅ Le signalement de ${nom} a été enregistré.\n\n` +
+                    `Le profil n'a pas été supprimé.`
+                );
 
-            document.getElementById(
-                'confirmReport'
-            ).onclick =
-                async () => {
 
+            } catch (error) {
 
-                    const motif =
-                        document
-                            .getElementById(
-                                'reportReason'
-                            )
-                            .value;
+                console.error(
+                    '❌ Erreur signalement :',
+                    error
+                );
 
 
-                    const details =
-                        document
-                            .getElementById(
-                                'reportDetails'
-                            )
-                            .value
-                            .trim();
+                bouton.disabled =
+                    false;
 
 
-                    if (!motif) {
+                bouton.textContent =
+                    '🚨 Confirmer le signalement';
 
-                        alert(
-                            '⚠️ Veuillez choisir un motif de signalement.'
-                        );
 
-                        return;
+                alert(
+                    '❌ Impossible d’enregistrer le signalement.\n\n' +
+                    (
+                        error.message ||
+                        error
+                    )
+                );
 
-                    }
+            }
 
+        };
 
-                    if (
-                        !confirm(
-                            `🚨 Confirmer le signalement et la suppression de ${nom} ?`
-                        )
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    const bouton =
-                        document.getElementById(
-                            'confirmReport'
-                        );
-
-
-                    bouton.disabled =
-                        true;
-
-
-                    bouton.textContent =
-                        '⏳ Traitement...';
-
-
-                    try {
-
-
-                        /* =================================
-                           UTILISATEUR CONNECTÉ
-                        ================================= */
-
-                        const {
-                            data: userData,
-                            error: userError
-                        } =
-                            await window
-                                .supabaseClient
-                                .auth
-                                .getUser();
-
-
-                        if (
-                            userError ||
-                            !userData.user
-                        ) {
-
-                            throw new Error(
-                                'Administrateur non connecté.'
-                            );
-
-                        }
-
-
-                        const adminId =
-                            userData.user.id;
-
-
-                        /* =================================
-                           PROFIL ADMIN
-                        ================================= */
-
-                        const {
-                            data: adminProfile
-                        } =
-                            await window
-                                .supabaseClient
-
-                                .from('profiles')
-
-                                .select(
-                                    'first_name'
-                                )
-
-                                .eq(
-                                    'id',
-                                    adminId
-                                )
-
-                                .single();
-
-
-                        const adminNom =
-                            adminProfile?.first_name
-                            ||
-                            'Administrateur';
-
-
-                        /* =================================
-                           ENREGISTRER SIGNALEMENT
-                        ================================= */
-
-                        const {
-                            data: signalement,
-                            error:
-                                signalementError
-                        } =
-                            await window
-                                .supabaseClient
-
-                                .from(
-                                    'signalements'
-                                )
-
-                                .insert({
-
-                                    membre_id:
-                                        id,
-
-                                    membre_nom:
-                                        nom,
-
-                                    motif:
-                                        motif,
-
-                                    details:
-                                        details
-                                        ||
-                                        null,
-
-                                    signale_par:
-                                        adminId,
-
-                                    signale_par_nom:
-                                        adminNom
-
-                                })
-
-                                .select()
-
-                                .single();
-
-
-                        console.log(
-                            '🚨 SIGNALEMENT ENREGISTRÉ:',
-                            signalement
-                        );
-
-
-                        if (
-                            signalementError
-                        ) {
-
-                            throw signalementError;
-
-                        }
-
-
-                        /* =================================
-                           SUPPRESSION PROFIL
-                        ================================= */
-
-                        const {
-                            error:
-                                deleteError
-                        } =
-                            await window
-                                .supabaseClient
-
-                                .from(
-                                    'profiles'
-                                )
-
-                                .delete()
-
-                                .eq(
-                                    'id',
-                                    id
-                                );
-
-
-                        if (
-                            deleteError
-                        ) {
-
-                            throw deleteError;
-
-                        }
-
-
-                        membres =
-                            membres.filter(
-                                membre =>
-                                    membre.id !== id
-                            );
-
-
-                        afficherStatistiques();
-
-                        afficherMembres(
-                            membres
-                        );
-
-
-                        modal.remove();
-
-
-                        alert(
-                            '✅ Signalement enregistré et membre supprimé avec succès.'
-                        );
-
-
-                    } catch (error) {
-
-                        console.error(
-                            '❌ Erreur signalement:',
-                            error
-                        );
-
-
-                        bouton.disabled =
-                            false;
-
-
-                        bouton.textContent =
-                            '🚨 Signaler et supprimer';
-
-
-                        alert(
-                            '❌ Erreur lors du traitement : '
-                            +
-                            (
-                                error.message
-                                ||
-                                error
-                            )
-                        );
-
-                    }
-
-                };
-
-        }
-
+}
 
      /* =====================================================
    RECHERCHE EN DIRECT + CHARGEMENT INITIAL

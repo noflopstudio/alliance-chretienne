@@ -261,20 +261,9 @@ function createProfileCard(profile, age) {
     const card = document.createElement('div');
     card.className = 'profile-card';
 
-    // ==========================================
-    // 📸 PHOTO
-    // ==========================================
-
-    const photoUrl =
-        profile.photo_url ||
-        'https://via.placeholder.com/300x400?text=' +
-        encodeURIComponent(profile.first_name || 'Profil');
-
-
-    // ==========================================
-    // 👤 CARTE SIMPLE
-    // ==========================================
-
+ const photoUrl =
+    profile.photo_url ||
+    'images/profil-default.jpeg';
     card.innerHTML = `
 
         <div class="profile-card-image">
@@ -290,7 +279,7 @@ function createProfileCard(profile, age) {
                     display: block;
                 "
                 onerror="
-                    this.src='https://via.placeholder.com/300x400?text=Profil'
+                   this.src='images/profil-default.jpeg'
                 "
             >
 
@@ -859,7 +848,7 @@ try {
     const getPhotoUrl = (index) => {
 
         if (profilePhotos.length === 0) {
-            return 'https://via.placeholder.com/600x800?text=Profil';
+           return 'images/profil-default.jpeg';
         }
 
         return profilePhotos[index].photo_url;
@@ -941,7 +930,7 @@ try {
                                 data-index="${index}"
                                 class="profile-photo-thumbnail ${index === 0 ? 'active' : ''}"
                                 alt="Photo ${index + 1}"
-                                onerror="this.src='https://via.placeholder.com/55x55?text=Photo'"
+                              onerror="this.src='images/profil-default.jpeg'"
                             >
                         `).join('')}
 

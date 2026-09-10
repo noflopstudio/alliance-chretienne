@@ -15,9 +15,6 @@
 
 <style>
 
-/* =========================================================
-   VARIABLES
-   ========================================================= */
 
 :root {
     --primary-color: #2563eb;
@@ -1981,7 +1978,7 @@ body.dark-mode #installBanner {
         <a href="membre-signaler-probleme.html">
              <span data-i18n="search.report">Signaler un problème</span>
         </a>
-        <a href="temoignages.html">
+        <a href="mon-temoignage.html">
             <span data-i18n="search.testimonials">Mes Témoignages</span>
         </a>
         <a href="membre-parametres.html">
@@ -1997,28 +1994,45 @@ body.dark-mode #installBanner {
 
 <main class="main-content">
 
-    <div class="container">
+ <div class="container">
 
-        <div
-            class="ads-section"
-            id="adsContainer">
+    <div class="ads-section" id="adsContainer">
 
-            <img
-                src="images/affiche2.png"
-                class="ad-item active"
-                alt="Publicité"
-                id="adImage">
+        <img
+            src="images/affiche2.png"
+            class="ad-item active"
+            alt="Publicité"
+            id="adImage">
 
-            <video
-                src="videos/video1.mp4"
-                class="ad-item"
-                muted
-                autoplay
-                loop
-                playsinline
-                id="adVideo">
-            </video>
-        </div>
+        <img
+            src="images/affiche3.jpeg"
+            class="ad-item"
+            alt="Publicité"
+            id="adImage2">
+
+        <video
+            src="videos/video1.mp4"
+            class="ad-item"
+            muted
+            autoplay
+            loop
+            playsinline
+            id="adVideo">
+        </video>
+
+        <video
+            src="videos/alliance.mp4"
+            class="ad-item"
+            muted
+            autoplay
+            loop
+            playsinline
+            id="adVideo2">
+        </video>
+
+    </div>
+
+</div>
 
 <div class="discover-section">
     <!-- En-tête de la section -->
@@ -2144,7 +2158,7 @@ body.dark-mode #installBanner {
             <select id="filterGender">
 
                 <option value="" data-i18n="search.all">
-                    -- Tous --
+                    Tous
                 </option>
 
                 <option value="Homme" data-i18n="search.man">
@@ -2185,7 +2199,7 @@ body.dark-mode #installBanner {
             <select id="filterDenomination">
 
                 <option value="" data-i18n="search.all_female">
-                    -- Toutes --
+                    Toutes
                 </option>
 
                 <option value="Catholique" data-i18n="search.catholic">
@@ -2240,7 +2254,7 @@ body.dark-mode #installBanner {
             <select id="filterFaithEngagement">
 
                 <option value="" data-i18n="search.all">
-                    -- Tous --
+                    Tous
                 </option>
 
                 <option value="Nouveau croyant" data-i18n="search.new_believer">
@@ -2452,42 +2466,57 @@ body.dark-mode #installBanner {
     }
 
 
-    const adImage =
-        document.getElementById('adImage');
+const adImage =
+    document.getElementById('adImage');
 
-    const adVideo =
-        document.getElementById('adVideo');
+const adImage2 =
+    document.getElementById('adImage2');
+
+const adVideo =
+    document.getElementById('adVideo');
+
+const adVideo2 =
+    document.getElementById('adVideo2');
 
 
-    if (adImage && adVideo) {
+const ads = [
+    adImage,
+    adImage2,
+    adVideo,
+    adVideo2
+].filter(Boolean);
 
-        setInterval(function() {
 
-            if (
-                adImage.classList.contains('active')
-            ) {
+if (ads.length > 1) {
 
-                adImage.classList.remove('active');
+    let currentAd = 0;
 
-                adVideo.classList.add('active');
+    setInterval(function() {
 
-                adVideo.currentTime = 0;
+        ads[currentAd].classList.remove('active');
 
-                adVideo.play().catch(() => {});
+        if (ads[currentAd].tagName === 'VIDEO') {
+            ads[currentAd].pause();
+        }
 
-            } else {
+        currentAd =
+            (currentAd + 1) % ads.length;
 
-                adVideo.classList.remove('active');
+        ads[currentAd].classList.add('active');
 
-                adImage.classList.add('active');
+        if (ads[currentAd].tagName === 'VIDEO') {
 
-                adVideo.pause();
+            ads[currentAd].currentTime = 0;
 
-            }
+            ads[currentAd]
+                .play()
+                .catch(() => {});
 
-        }, 10000);
+        }
 
-    }
+    }, 10000);
+
+}
 
     const searchBtn =
         document.getElementById('searchBtn');

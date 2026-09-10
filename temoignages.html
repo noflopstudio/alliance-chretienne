@@ -911,270 +911,255 @@
 
 <script>
 
-    async function loadApprovedTestimonials() {
-
-        const grid =
-            document.getElementById("testimonialsGrid");
-
-        if (!grid) return;
-
-        const client =
-            window.supabaseClient;
-
-        if (!client) {
-
-            grid.innerHTML = `
-
-                <div
-                    style="grid-column: 1 / -1; text-align: center; padding: 3rem;"
-                >
-
-                    ${escapeHtml(
-                        t(
-                            "testimonials.load_error",
-                            "Impossible de charger les témoignages."
-                        )
-                    )}
-
-                </div>
-
-            `;
-
-            return;
-
-        }
-
-
-        const { data, error } = await client
-
-            .from("testimonials")
-
-            .select(`
-
-                id,
-                content,
-                published_at,
-                created_at,
-                user_id,
-
-                profiles (
-                    first_name,
-                    city,
-                    country,
-                    photo_url
-                )
-
-            `)
-
-            .eq("status", "approved")
-
-            .order(
-                "published_at",
-                { ascending: false }
-            );
-
-
-        if (error) {
-
-            console.error(
-                "Erreur lors du chargement des témoignages :",
-                error
-            );
-
-            grid.innerHTML = `
-
-                <div
-                    style="grid-column: 1 / -1; text-align: center; padding: 3rem;"
-                >
-
-                    ${escapeHtml(
-                        t(
-                            "testimonials.load_error",
-                            "Impossible de charger les témoignages."
-                        )
-                    )}
-
-                </div>
-
-            `;
-
-            return;
-
-        }
-
-
-        if (!data || data.length === 0) {
-
-            grid.innerHTML = `
-
-                <div
-                    style="grid-column: 1 / -1; text-align: center; padding: 3rem;"
-                >
-
-                    <div
-                        style="font-size: 2.5rem; margin-bottom: 1rem;"
-                    >
-                        💬
-                    </div>
-
-                    <strong>
-                        ${escapeHtml(
-                            t(
-                                "testimonials.empty_title",
-                                "Aucun témoignage publié pour le moment"
-                            )
-                        )}
-                    </strong>
-
-                    <p
-                        style="margin-top: 0.5rem; color: var(--muted);"
-                    >
-                        ${escapeHtml(
-                            t(
-                                "testimonials.empty_description",
-                                "Les témoignages approuvés apparaîtront ici."
-                            )
-                        )}
-                    </p>
-
-                </div>
-
-            `;
-
-            return;
-
-        }
-
-
-        grid.innerHTML = data.map(testimonial => {
-
-            const profile =
-                testimonial.profiles || {};
-
-
-            const firstName =
-                profile.first_name ||
-                t(
-                    "testimonials.member",
-                    "Membre"
-                );
-
-
-            const city =
-                profile.city || "";
-
-
-            const country =
-                profile.country || "";
-
-
-            const location =
-                [city, country]
-                    .filter(Boolean)
-                    .join(", ");
-
-
-            const photoUrl =
-                profile.photo_url || "";
-
-
-            const initial =
-                firstName
-                    .charAt(0)
-                    .toUpperCase();
-
-
-            const avatar = photoUrl
-
-                ? `
-
-                    <img
-
-                        src="${escapeHtml(photoUrl)}"
-
-                        alt="${escapeHtml(firstName)}"
-
-                        style="
-                            width: 46px;
-                            height: 46px;
-                            border-radius: 50%;
-                            object-fit: cover;
-                        "
-
-                    >
-
-                `
-
-                : `
-
-                    <div class="avatar">
-
-                        ${escapeHtml(initial)}
-
-                    </div>
-
-                `;
-
-
-            return `
-
-                <article class="testimonial-card">
-
-                    <div class="quote">
-                        ❝
-                    </div>
-
-                    <p class="testimonial-text">
-
-                        « ${escapeHtml(testimonial.content)} »
-
-                    </p>
-
-                    <div class="member">
-
-                        ${avatar}
-
-                        <div>
-
-                            <strong>
-                                ${escapeHtml(firstName)}
-                            </strong>
-
-                            <span>
-
-                                ${escapeHtml(
-                                    location ||
-                                    t(
-                                        "testimonials.member_of_alliance",
-                                        "Membre d'Alliance Chrétienne"
-                                    )
-                                )}
-
-                            </span>
-
-                        </div>
-
-                        <div class="verified">
-
-                            ${escapeHtml(
-                                t(
-                                    "testimonials.verified_member",
-                                    "✓ Membre"
-                                )
-                            )}
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-            `;
-
-        }).join("");
-
+  async function loadApprovedTestimonials() {
+    const grid = document.getElementById("testimonialsGrid");
+
+    if (!grid) return;
+
+    const client = window.supabaseClient;
+
+    if (!client) {
+        grid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                ${escapeHtml(
+                    t(
+                        "testimonials.load_error",
+                        "Impossible de charger les témoignages."
+                    )
+                )}
+            </div>
+        `;
+        return;
     }
 
+    // ==========================================
+    // 1. CHARGER LES TÉMOIGNAGES APPROUVÉS
+    // ==========================================
+
+    const { data: testimonials, error: testimonialsError } = await client
+        .from("testimonials")
+        .select(`
+            id,
+            content,
+            published_at,
+            created_at,
+            user_id
+        `)
+        .eq("status", "approved")
+        .order("published_at", { ascending: false });
+
+    if (testimonialsError) {
+        console.error(
+            "Erreur lors du chargement des témoignages :",
+            testimonialsError
+        );
+
+        grid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                ${escapeHtml(
+                    t(
+                        "testimonials.load_error",
+                        "Impossible de charger les témoignages."
+                    )
+                )}
+            </div>
+        `;
+
+        return;
+    }
+
+    if (!testimonials || testimonials.length === 0) {
+        grid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">
+                    💬
+                </div>
+
+                <strong>
+                    ${escapeHtml(
+                        t(
+                            "testimonials.empty_title",
+                            "Aucun témoignage publié pour le moment"
+                        )
+                    )}
+                </strong>
+
+                <p style="margin-top: 0.5rem; color: var(--muted);">
+                    ${escapeHtml(
+                        t(
+                            "testimonials.empty_description",
+                            "Les témoignages approuvés apparaîtront ici."
+                        )
+                    )}
+                </p>
+            </div>
+        `;
+
+        return;
+    }
+
+    // ==========================================
+    // 2. RÉCUPÉRER LES ID DES MEMBRES
+    // ==========================================
+
+    const userIds = [
+        ...new Set(
+            testimonials
+                .map(testimonial => testimonial.user_id)
+                .filter(Boolean)
+        )
+    ];
+
+    // ==========================================
+    // 3. CHARGER LES PROFILS SÉPARÉMENT
+    // ==========================================
+
+    let profiles = [];
+
+    if (userIds.length > 0) {
+        const { data: profilesData, error: profilesError } = await client
+            .from("profiles")
+            .select(`
+                id,
+                first_name,
+                city,
+                country,
+                photo_url
+            `)
+            .in("id", userIds);
+
+        if (profilesError) {
+            console.error(
+                "Erreur lors du chargement des profils :",
+                profilesError
+            );
+        } else {
+            profiles = profilesData || [];
+        }
+    }
+
+    // ==========================================
+    // 4. CRÉER UNE TABLE DE CORRESPONDANCE
+    // ==========================================
+
+    const profilesById = {};
+
+    profiles.forEach(profile => {
+        profilesById[profile.id] = profile;
+    });
+
+    // ==========================================
+    // 5. AFFICHER LES TÉMOIGNAGES
+    // ==========================================
+
+    grid.innerHTML = testimonials.map(testimonial => {
+
+        const profile =
+            profilesById[testimonial.user_id] || {};
+
+        const firstName =
+            profile.first_name ||
+            t(
+                "testimonials.member",
+                "Membre"
+            );
+
+        const city =
+            profile.city || "";
+
+        const country =
+            profile.country || "";
+
+        const location = [
+            city,
+            country
+        ]
+            .filter(Boolean)
+            .join(", ");
+
+        const photoUrl =
+            profile.photo_url || "";
+
+        const initial =
+            firstName
+                .charAt(0)
+                .toUpperCase();
+
+        const avatar = photoUrl
+            ? `
+                <img
+                    src="${escapeHtml(photoUrl)}"
+                    alt="${escapeHtml(firstName)}"
+                    style="
+                        width: 46px;
+                        height: 46px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                        display: block;
+                    "
+                    onerror="
+                        this.onerror=null;
+                        this.src='images/profil-default.jpeg';
+                    "
+                >
+            `
+            : `
+                <div class="avatar">
+                    ${escapeHtml(initial)}
+                </div>
+            `;
+
+        return `
+            <article class="testimonial-card">
+
+                <div class="quote">
+                    ❝
+                </div>
+
+                <p class="testimonial-text">
+                    « ${escapeHtml(testimonial.content)} »
+                </p>
+
+                <div class="member">
+
+                    ${avatar}
+
+                    <div>
+
+                        <strong>
+                            ${escapeHtml(firstName)}
+                        </strong>
+
+                        <span>
+                            ${escapeHtml(
+                                location ||
+                                t(
+                                    "testimonials.member_of_alliance",
+                                    "Membre d'Alliance Chrétienne"
+                                )
+                            )}
+                        </span>
+
+                    </div>
+
+                    <div class="verified">
+
+                        ${escapeHtml(
+                            t(
+                                "testimonials.verified_member",
+                                "✓ Membre"
+                            )
+                        )}
+
+                    </div>
+
+                </div>
+
+            </article>
+        `;
+
+    }).join("");
+}
 
     function escapeHtml(value) {
 

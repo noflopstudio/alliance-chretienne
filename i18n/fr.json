@@ -64,14 +64,14 @@
 
     "filter_title": "Affiner votre recherche",
     "gender": "Genre",
-    "all": "-- Tous --",
+    "all": "Tous ",
     "man": "Homme",
     "woman": "Femme",
 
 
     "min_age": "Âge minimum",
     "denomination": "Dénomination",
-    "all_female": "-- Toutes --",
+    "all_female": "Toutes",
     "catholic": "Catholique",
     "protestant": "Protestant",
     "evangelical": "Évangélique",
@@ -93,7 +93,7 @@
 "once_month": "Une fois par mois",
 "occasionally": "Occasionnellement",
 
-    "search_button": "🔍 Rechercher",
+    "search_button": "Rechercher",
     "reset": "↺ Réinitialiser",
 
     "loading": "Chargement des profils...",
@@ -622,23 +622,23 @@
     },
 
     "form": {
-        "title": "🚨 Signaler un problème",
+        "title": "Signaler un problème",
         "description": "Décrivez-nous le problème que vous rencontrez. Plus votre description est précise, plus nous pourrons vous aider rapidement.",
         "type_label": "Type de problème",
         "category": "Sélectionnez une catégorie",
-        "account": "👤 Mon compte",
-        "profile": "📝 Mon profil",
-        "messages": "💬 Messages",
-        "search": "🔎 Recherche / Découverte",
-        "payment": "💳 Paiement",
-        "certification": "✅ Certification",
-        "safety": "🛡️ Sécurité",
-        "application": "📱 Application / Site",
-        "other": "❓ Autre problème",
+        "account": " Mon compte",
+        "profile": " Mon profil",
+        "messages": " Messages",
+        "search": " Recherche / Découverte",
+        "payment": " Paiement",
+        "certification": " Certification",
+        "safety": " Sécurité",
+        "application": " Application / Site",
+        "other": " Autre problème",
         "description_label": "Décrivez votre problème",
         "placeholder": "Expliquez ici ce qui s'est passé...",
-        "submit": "🚨 Envoyer le signalement",
-        "sending": "⏳ Envoi en cours..."
+        "submit": " Envoyer le signalement",
+        "sending": " Envoi en cours..."
     },
 
     "alert": {
