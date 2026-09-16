@@ -232,7 +232,7 @@ function createNotificationElement(notification) {
         audio_call: {
             text: t(
                 'notifications.incoming_audio_call',
-                'Appel audio entrant'
+                'Appel audio entrantss'
             ),
             class: 'badge-message'
         },
@@ -662,6 +662,209 @@ function getNotificationText(notification) {
         'Vous avez une nouvelle notification.'
     );
 }
+
+async function answerCall(notificationId, callType) {
+
+    if (!currentUser || !window.supabaseClient) {
+
+        showAlert(
+            'Vous devez être connecté pour répondre à cet appel.',
+            'error'
+        );
+
+        return;
+    }
+
+    try {
+
+        console.log(
+            '📞 Préparation réponse appel :',
+            notificationId,
+            callType
+        );
+
+        const { data: notification, error } =
+            await window.supabaseClient
+                .from('notifications')
+                .select('*')
+                .eq('id', notificationId)
+                .eq('recipient_id', currentUser.id)
+                .single();
+
+        if (error || !notification) {
+
+            console.error(
+                '❌ Notification d’appel introuvable :',
+                error
+            );
+
+            showAlert(
+                'Cet appel n’est plus disponible.',
+                'error'
+            );
+
+            return;
+        }
+
+        let notificationData =
+            notification.data;
+
+        if (typeof notificationData === 'string') {
+
+            try {
+
+                notificationData =
+                    JSON.parse(notificationData);
+
+            } catch (error) {
+
+                console.error(
+                    '❌ Impossible de lire les données de l’appel.',
+                    error
+                );
+
+                notificationData = {};
+            }
+        }
+
+        if (
+            !notificationData ||
+            typeof notificationData !== 'object'
+        ) {
+
+            notificationData = {};
+        }
+
+        if (!notificationData.offer) {
+
+            console.error(
+                '❌ Offre WebRTC absente de la notification.',
+                notificationData
+            );
+
+            showAlert(
+                'Cet appel n’est plus disponible. Veuillez demander à la personne de rappeler.',
+                'error'
+            );
+
+            return;
+        }
+
+        const senderId =
+            notification.sender_id ||
+            notificationData.sender_id;
+
+        const senderName =
+            notificationData.sender_name ||
+            'Un membre';
+
+        const realCallType =
+            notificationData.call_type ||
+            callType ||
+            'audio';
+
+        const callId =
+            notificationData.call_id;
+
+        if (!senderId || !callId) {
+
+            console.error(
+                '❌ Informations appel incomplètes :',
+                {
+                    senderId,
+                    callId,
+                    realCallType
+                }
+            );
+
+            showAlert(
+                'Les informations de cet appel sont incomplètes.',
+                'error'
+            );
+
+            return;
+        }
+
+        const params =
+            new URLSearchParams();
+
+        params.set(
+            'user',
+            senderId
+        );
+
+        params.set(
+            'name',
+            senderName
+        );
+
+        params.set(
+            'call',
+            'incoming'
+        );
+
+        params.set(
+            'callId',
+            callId
+        );
+
+        params.set(
+            'callType',
+            realCallType
+        );
+
+        params.set(
+            'offer',
+            JSON.stringify(
+                notificationData.offer
+            )
+        );
+
+        params.set(
+            'notificationId',
+            notificationId
+        );
+
+        window.location.href =
+            `membre-messages.html?${params.toString()}`;
+
+    } catch (error) {
+
+        console.error(
+            '❌ Erreur answerCall :',
+            error
+        );
+
+        showAlert(
+            'Impossible de préparer cet appel.',
+            'error'
+        );
+    }
+}
+
+window.answerCall = answerCall;
+
+
+async function ignoreCall(notificationId) {
+
+    await markAsRead(notificationId);
+
+    showAlert(
+
+        t(
+
+            'notifications.call_ignored',
+
+            'Appel ignoré'
+
+        ),
+
+        'info'
+
+    );
+
+}
+
 
 async function ignoreCall(notificationId) {
     await markAsRead(notificationId);

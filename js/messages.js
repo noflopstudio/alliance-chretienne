@@ -7,6 +7,125 @@ let isSendingMessage = false;
 let presenceInterval = null;
 let statusRefreshInterval = null;
 
+let unreadMessageCounts = {};
+let totalUnreadMessages = 0;
+let unreadMessageSubscription = null;
+
+
+// ===== MARQUER UNE CONVERSATION COMME LUE =====
+async function markConversationNotificationsAsRead(partnerId) {
+    if (!currentUser || !window.supabaseClient || !partnerId) {
+        return;
+    }
+
+    try {
+        const { error } = await window.supabaseClient
+            .from('notifications')
+            .update({
+                is_read: true
+            })
+            .eq('recipient_id', currentUser.id)
+            .eq('sender_id', partnerId)
+            .eq('type', 'message')
+            .eq('is_read', false);
+
+        if (error) {
+            console.error(
+                '❌ Erreur marquage conversation comme lue :',
+                error
+            );
+            return;
+        }
+
+        console.log(
+            '✅ Notifications de la conversation marquées comme lues :',
+            partnerId
+        );
+
+    } catch (error) {
+        console.error(
+            '❌ Erreur markConversationNotificationsAsRead:',
+            error
+        );
+    }
+}
+
+// ===== CHARGER LES COMPTEURS DE MESSAGES NON LUS =====
+async function loadUnreadMessageCounts() {
+    if (!currentUser || !window.supabaseClient) {
+        return;
+    }
+
+    try {
+        const { data, error } = await window.supabaseClient
+            .from('notifications')
+            .select('id, sender_id')
+            .eq('recipient_id', currentUser.id)
+            .eq('type', 'message')
+            .eq('is_read', false);
+
+        if (error) {
+            console.error(
+                '❌ Erreur chargement messages non lus :',
+                error
+            );
+            return;
+        }
+
+        unreadMessageCounts = {};
+        totalUnreadMessages = 0;
+
+        (data || []).forEach(notification => {
+            totalUnreadMessages++;
+
+            if (notification.sender_id) {
+                unreadMessageCounts[notification.sender_id] =
+                    (unreadMessageCounts[notification.sender_id] || 0) + 1;
+            }
+        });
+
+        updateUnreadMessageDisplay();
+
+    } catch (error) {
+        console.error(
+            '❌ Erreur loadUnreadMessageCounts:',
+            error
+        );
+    }
+}
+
+
+// ===== AFFICHER LES COMPTEURS NON LUS =====
+function updateUnreadMessageDisplay() {
+
+    // Total général
+    const conversationCount =
+        document.getElementById('conversationCount');
+
+    if (conversationCount) {
+        conversationCount.textContent = totalUnreadMessages;
+    }
+
+    // Compteur de chaque conversation
+    document.querySelectorAll('.conversation-unread-badge')
+        .forEach(badge => {
+
+            const partnerId =
+                badge.dataset.partnerId;
+
+            const unreadCount =
+                unreadMessageCounts[partnerId] || 0;
+
+            if (unreadCount > 0) {
+                badge.textContent = `🔴 ${unreadCount}`;
+                badge.style.display = 'inline-flex';
+            } else {
+                badge.textContent = '';
+                badge.style.display = 'none';
+            }
+        });
+}
+
 async function updateMyLastSeen() {
 
     if (!currentUser || !window.supabaseClient) return;
@@ -115,24 +234,156 @@ document.addEventListener('DOMContentLoaded', async () => {
         messageInput.addEventListener('input', resizeInput);
         resizeInput();
         
-        // ===== GÉRER LA TOUCHE ENTRÉE =====
         messageInput.addEventListener('keydown', handleKeyPress);
     }
 
   currentUser = await requireAuth();
 if (!currentUser) return;
 
+async function handleIncomingCallFromNotification() {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    if (params.get('call') !== 'incoming') {
+        return;
+    }
+
+    const callId =
+        params.get('callId');
+
+    const callType =
+        params.get('callType') || 'audio';
+
+    const senderId =
+        params.get('user');
+
+    const senderName =
+        params.get('name') || 'Un membre';
+
+    const offerString =
+        params.get('offer');
+
+    const notificationId =
+        params.get('notificationId');
+
+    if (
+        !callId ||
+        !senderId ||
+        !offerString
+    ) {
+        console.error(
+            '❌ Informations appel entrant incomplètes.'
+        );
+        return;
+    }
+
+    try {
+
+        const offer =
+            JSON.parse(offerString);
+
+        currentCallId = callId;
+
+        currentCallType = callType;
+
+        currentCallRole = 'callee';
+
+        /*
+         * On conserve l'identifiant de l'appelant
+         * avec l'offre WebRTC.
+         */
+        pendingOffer = {
+            ...offer,
+            senderId: senderId
+        };
+
+        /*
+         * On définit également le partenaire
+         * de conversation.
+         */
+        currentChatPartner = senderId;
+
+        console.log(
+            '📞 Appel entrant récupéré depuis Notifications :',
+            {
+                callId,
+                callType,
+                senderId,
+                senderName
+            }
+        );
+
+        /*
+         * Afficher la fenêtre existante
+         * Accepter / Refuser.
+         */
+        showIncomingCallModal({
+            callId: callId,
+            callType: callType,
+            senderId: senderId,
+            senderName: senderName,
+            offer: offer
+        });
+
+        /*
+         * Marquer la notification comme lue.
+         */
+        if (notificationId) {
+
+            try {
+
+                await window.supabaseClient
+                    .from('notifications')
+                    .update({
+                        is_read: true
+                    })
+                    .eq(
+                        'id',
+                        notificationId
+                    )
+                    .eq(
+                        'recipient_id',
+                        currentUser.id
+                    );
+
+            } catch (notificationError) {
+
+                console.warn(
+                    '⚠️ Impossible de marquer la notification d’appel comme lue :',
+                    notificationError
+                );
+
+            }
+        }
+
+    } catch (error) {
+
+        console.error(
+            '❌ Erreur récupération appel depuis notification :',
+            error
+        );
+
+        showAlert(
+            'Impossible de récupérer cet appel.',
+            'error'
+        );
+    }
+}
+
+
 console.log('👤 Utilisateur connecté :', currentUser.id);
 
-// 🟢 Démarrer le système de présence
 startPresence();
 
 initializeCallChannel();
 
-    // Charger les conversations
+await handleIncomingCallFromNotification();
+
     await loadConversations();
 
-    // Vérifier s'il y a un partenaire dans les paramètres d'URL
     const params = new URLSearchParams(window.location.search);
     const userId = params.get('user');
     const userName = params.get('name');
@@ -141,7 +392,6 @@ initializeCallChannel();
         await selectConversation(userId, userName);
     }
 
-    // Événement de déconnexion
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', (e) => {
@@ -150,7 +400,6 @@ initializeCallChannel();
         });
     }
 
-    // ===== BOUTON D'ENVOI =====
     const sendButton = document.querySelector('.send-message-btn');
     if (messageInput && sendButton) {
         function updateSendButton() {
@@ -168,7 +417,6 @@ initializeCallChannel();
     }
 });
 
-// ===== BADGE PROFIL CERTIFIÉ =====
 function getVerifiedBadge(isVerified) {
     if (!isVerified) return '';
 
@@ -205,12 +453,12 @@ function getVerifiedBadge(isVerified) {
     `;
 }
 
-// ===== CHARGER LES CONVERSATIONS =====
 async function loadConversations() {
     try {
         const client = window.supabaseClient;
 
-        // Récupérer les messages envoyés
+        await loadUnreadMessageCounts();
+
         const { data: sent, error: sentError } = await client
             .from('messages')
             .select('receiver_id, created_at')
@@ -222,7 +470,6 @@ async function loadConversations() {
             throw sentError;
         }
 
-        // Récupérer les messages reçus
         const { data: received, error: receivedError } = await client
             .from('messages')
             .select('sender_id, created_at')
@@ -234,7 +481,6 @@ async function loadConversations() {
             throw receivedError;
         }
 
-        // Récupérer les IDs des partenaires
         const partnerIds = new Set();
 
         if (sent) {
@@ -263,7 +509,6 @@ async function loadConversations() {
     return;
 }
 
-        // Récupérer les profils des partenaires
         const { data: profiles, error: profilesError } = await client
             .from('profiles')
            .select('id, first_name, photo_url, is_verified, last_seen')
@@ -279,7 +524,7 @@ async function loadConversations() {
             conversationsList.innerHTML = '';
 
             for (const profile of profiles) {
-                // Récupérer le dernier message
+          
                 const { data: lastMessages, error: lastMessageError } = await client
                     .from('messages')
                     .select('content, created_at')
@@ -303,24 +548,42 @@ async function loadConversations() {
                     ? lastMessage.content.substring(0, 30) + (lastMessage.content.length > 30 ? '...' : '')
                     : 'Pas de message';
 
-                conversationItem.innerHTML = `
-                    <img
-                        src="${photoUrl}"
-                        alt="${profile.first_name}"
-                        class="conversation-avatar"
-                        onerror="this.src='${getDefaultAvatar()}'"
-                    >
-                    <div class="conversation-info">
-                        <div class="conversation-name">
-                            ${escapeHtml(profile.first_name)}
-                            ${getVerifiedBadge(profile.is_verified)}
-                        </div>
-                        <div class="conversation-preview">
-                            ${escapeHtml(preview)}
-                        </div>
-                    </div>
-                `;
+               const unreadCount =
+    unreadMessageCounts[profile.id] || 0;
 
+conversationItem.innerHTML = `
+    <img
+        src="${photoUrl}"
+        alt="${escapeHtml(profile.first_name)}"
+        class="conversation-avatar"
+        onerror="this.src='${getDefaultAvatar()}'"
+    >
+
+    <div class="conversation-info">
+
+        <div class="conversation-name-row">
+
+            <div class="conversation-name">
+                ${escapeHtml(profile.first_name)}
+                ${getVerifiedBadge(profile.is_verified)}
+            </div>
+
+            <span
+                class="conversation-unread-badge"
+                data-partner-id="${profile.id}"
+                style="${unreadCount > 0 ? 'display:inline-flex;' : 'display:none;'}"
+            >
+                ${unreadCount > 0 ? `🔴 ${unreadCount}` : ''}
+            </span>
+
+        </div>
+
+        <div class="conversation-preview">
+            ${escapeHtml(preview)}
+        </div>
+
+    </div>
+`;
                 conversationsList.appendChild(conversationItem);
             }
         }
@@ -331,11 +594,9 @@ async function loadConversations() {
     }
 }
 
-// ===== SÉLECTIONNER UNE CONVERSATION =====
 async function selectConversation(partnerId, partnerName) {
     currentChatPartner = partnerId;
 
-    // Marquer l'item actif
     document.querySelectorAll('.conversation-item').forEach(item => {
         item.classList.remove('active');
     });
@@ -347,11 +608,9 @@ async function selectConversation(partnerId, partnerName) {
         }
     });
 
-    // Afficher la zone de chat
     document.getElementById('chatContainer').style.display = 'none';
     document.getElementById('chatWindow').style.display = 'flex';
 
-    // ===== RÉCUPÉRER LE PROFIL DU PARTENAIRE =====
     const { data: partnerProfile, error } = await window.supabaseClient
         .from('profiles')
       .select('id, first_name, photo_url, is_verified, last_seen')
@@ -388,26 +647,26 @@ document.getElementById('chatPartnerName').innerHTML = `
 `;
     }
 
-    // Charger les messages
-    await loadMessages();
+ await loadMessages();
 
-    // Se désabonner de l'ancienne souscription
-    if (messageSubscription) {
-        await window.supabaseClient.removeChannel(messageSubscription);
-        messageSubscription = null;
-    }
+await markConversationNotificationsAsRead(partnerId);
 
-    // Écouter les nouveaux messages
-    subscribeToMessages();
+await loadUnreadMessageCounts();
 
-    // Focus input
-    const messageInput = document.getElementById('messageInput');
-    if (messageInput) {
-        messageInput.focus();
-    }
+updateUnreadMessageDisplay();
+
+if (messageSubscription) {
+    await window.supabaseClient.removeChannel(messageSubscription);
+    messageSubscription = null;
 }
 
-// ===== 🔄 ACTUALISER LES STATUTS DES CONVERSATIONS =====
+subscribeToMessages();
+
+const messageInput = document.getElementById('messageInput');
+if (messageInput) {
+    messageInput.focus();
+}
+}
 
 async function refreshConversationStatuses() {
 
@@ -457,7 +716,6 @@ async function refreshConversationStatuses() {
             profilesById[profile.id] = profile;
         });
 
-        // 🔄 Liste des conversations
         statusElements.forEach(statusElement => {
 
             const profile =
@@ -485,7 +743,6 @@ async function refreshConversationStatuses() {
                     : 'Hors ligne';
         });
 
-        // 🔄 Conversation actuellement ouverte
         if (
             chatStatusDot &&
             currentChatPartner &&
@@ -534,7 +791,6 @@ async function refreshConversationStatuses() {
     }
 }
 
-// 🔄 Actualiser les statuts toutes les 30 secondes
 if (!statusRefreshInterval) {
 
     statusRefreshInterval = setInterval(() => {
@@ -543,7 +799,6 @@ if (!statusRefreshInterval) {
 
 }
 
-// ===== CHARGER LES MESSAGES =====
 async function loadMessages() {
     try {
         const client = window.supabaseClient;
@@ -583,14 +838,6 @@ async function loadMessages() {
     }
 }
 
-
-
-
-
-
-
-
-// ===== AFFICHER UN MESSAGE =====
 function displayMessage(message) {
     const messagesList = document.getElementById('messagesList');
     const isSent = message.sender_id === currentUser.id;
@@ -678,23 +925,6 @@ function displayMessage(message) {
     messagesList.appendChild(messageDiv);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ===== MODIFIER UN MESSAGE =====
 async function editMessage(messageId) {
     try {
         const client = window.supabaseClient;
@@ -1573,13 +1803,14 @@ await client
         sender_id: currentUser.id,
         type: notificationType, // ✅ "call" ou "video_call"
         content: notificationContent,
-        data: {
-            sender_id: currentUser.id,
-            sender_name: senderProfile?.first_name || 'Un membre',
-            avatar: senderProfile?.photo_url || null,
-            call_type: type, // ✅ "audio" ou "video"
-            call_id: currentCallId
-        }
+    data: {
+    sender_id: currentUser.id,
+    sender_name: senderProfile?.first_name || 'Un membre',
+    avatar: senderProfile?.photo_url || null,
+    call_type: type,
+    call_id: currentCallId,
+    offer: peerConnection.localDescription
+}
     }]);
 
         console.log(`✅ Notification ${type} créée pour l'utilisateur ${currentChatPartner}`);

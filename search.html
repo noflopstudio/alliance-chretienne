@@ -15,7 +15,6 @@
 
 <style>
 
-
 :root {
     --primary-color: #2563eb;
     --primary-light: #eff6ff;
@@ -39,10 +38,6 @@
     --shadow: 0 20px 40px rgba(244, 63, 94, 0.08);
     --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
-
-/* =========================================================
-   RESET & BASE
-   ========================================================= */
 
 * {
     box-sizing: border-box;
@@ -84,10 +79,6 @@ textarea,
 select {
     font-family: inherit;
 }
-
-/* =========================================================
-   FOND ANIMÉ
-   ========================================================= */
 
 .animated-bg {
     position: fixed;
@@ -270,10 +261,6 @@ body.dark-mode .animated-bg::after {
     background: rgba(37,99,235,0.18);
 }
 
-/* =========================================================
-   PARTICULES
-   ========================================================= */
-
 .particle {
     position: fixed;
     pointer-events: none;
@@ -291,10 +278,6 @@ body.dark-mode .animated-bg::after {
         transform: translate(var(--tx), var(--ty)) scale(0);
     }
 }
-
-/* =========================================================
-   BOUTONS MODE SOMBRE & MENU MOBILE
-   ========================================================= */
 
 .mobile-menu-toggle,
 .dark-mode-toggle {
@@ -376,10 +359,6 @@ body.dark-mode .hamburger-icon span {
 .mobile-menu-toggle.open .hamburger-icon span:nth-child(3) {
     transform: translateY(-7.25px) rotate(-45deg);
 }
-
-/* =========================================================
-   SIDEBAR MOBILE
-   ========================================================= */
 
 .member-sidebar {
     position: fixed;
@@ -529,10 +508,6 @@ body.dark-mode .sidebar-nav a:hover {
     box-shadow: 0 6px 20px rgba(239,68,68,0.22);
 }
 
-/* =========================================================
-   CONTENU PRINCIPAL
-   ========================================================= */
-
 .main-content {
     width: 100%;
     min-height: 100vh;
@@ -545,10 +520,6 @@ body.dark-mode .sidebar-nav a:hover {
     margin: 0 auto;
     padding: 0;
 }
-
-/* =========================================================
-   SECTIONS
-   ========================================================= */
 
 .ads-section {
     position: relative;
@@ -603,10 +574,6 @@ body.dark-mode .sidebar-nav a:hover {
 body.dark-mode .discover-title {
     color: var(--white);
 }
-
-/* =========================================================
-   FILTRES DE RECHERCHE
-   ========================================================= */
 
 .search-header {
     position: relative;
@@ -750,10 +717,6 @@ body.dark-mode .btn-reset {
     transform: translateY(-3px);
     border-color: var(--accent-pink);
 }
-
-/* =========================================================
-   GRILLE DE PROFILS
-   ========================================================= */
 
 #alertContainer {
     margin-bottom: 1rem;
@@ -901,10 +864,6 @@ body.dark-mode .profile-card-content span {
     color: #cbd5e1;
 }
 
-/* =========================================================
-   STATUT EN LIGNE
-   ========================================================= */
-
 .profile-name-with-status {
     display: inline-flex;
     align-items: center;
@@ -929,10 +888,6 @@ body.dark-mode .profile-card-content span {
     background: #ef4444;
     box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
 }
-
-/* =========================================================
-   ÉTATS (LOADING, NO RESULTS)
-   ========================================================= */
 
 .loading {
     padding: 4rem 2rem;
@@ -998,10 +953,6 @@ body.dark-mode .no-results h3 {
 body.dark-mode .no-results p {
     color: #cbd5e1;
 }
-
-/* =========================================================
-   SECTION DÉCOUVERTE (PAYS)
-   ========================================================= */
 
 .discover-section {
     width: 100%;
@@ -1176,10 +1127,6 @@ body.dark-mode .countries-more {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
 }
-
-/* =========================================================
-   MODALE PROFIL
-   ========================================================= */
 
 .profile-modal-overlay {
     position: fixed;
@@ -1558,10 +1505,6 @@ body.dark-mode .profile-photo-thumbnail {
     background: #1e293b;
 }
 
-/* =========================================================
-   BANNIÈRE D'INSTALLATION PWA
-   ========================================================= */
-
 #installBanner {
     position: fixed;
     top: 20px;
@@ -1601,10 +1544,6 @@ body.dark-mode #installBanner {
     color: #f8fafc;
 }
 
-/* =========================================================
-   ANIMATIONS
-   ========================================================= */
-
 @keyframes slideInLeft {
     from {
         opacity: 0;
@@ -1627,10 +1566,6 @@ body.dark-mode #installBanner {
     }
 }
 
-/* =========================================================
-   RESPONSIVE — TABLETTE (900px)
-   ========================================================= */
-
 @media (max-width: 900px) {
     .main-content {
         padding: 4.5rem 1.25rem 3rem;
@@ -1648,11 +1583,6 @@ body.dark-mode #installBanner {
         grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
     }
 }
-
-/* =========================================================
-   RESPONSIVE — MOBILE (600px et moins)
-   ========================================================= */
-
 @media (max-width: 600px) {
     /* Reset total pour pleine largeur */
     html, body {
@@ -1865,10 +1795,6 @@ body.dark-mode #installBanner {
     }
 }
 
-/* =========================================================
-   RESPONSIVE — TRÈS PETITS ÉCRANS (360px)
-   ========================================================= */
-
 @media (max-width: 360px) {
     .main-content {
         padding: 4.5rem 0.5rem 2rem;
@@ -1883,10 +1809,6 @@ body.dark-mode #installBanner {
     }
 }
 
-/* =========================================================
-   ACCESSIBILITÉ : RÉDUIRE LES ANIMATIONS
-   ========================================================= */
-
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -1896,6 +1818,161 @@ body.dark-mode #installBanner {
         transition-duration: 0.01ms !important;
     }
 }
+
+
+/* 🔴 Nouveau message sur le bouton menu */
+.message-unread-dot {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 10px;
+    height: 10px;
+    background: #ef4444;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    display: none;
+    z-index: 10;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+    animation: messageDotPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes messageDotPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+    }
+
+    50% {
+        transform: scale(1.18);
+        box-shadow: 0 0 0 5px rgba(239, 68, 68, 0.08);
+    }
+}
+
+body.dark-mode .message-unread-dot {
+    border-color: #1e293b;
+}
+
+/* Point rouge sur le bouton hamburger */
+.message-unread-dot {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 10px;
+    height: 10px;
+    background: #ef4444;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    display: none;
+    z-index: 20;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+    animation: messageDotPulse 1.8s ease-in-out infinite;
+}
+
+/* Point rouge à côté de Messages */
+.message-menu-dot {
+    width: 9px;
+    height: 9px;
+    min-width: 9px;
+    background: #ef4444;
+    border-radius: 50%;
+    display: none;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.12);
+    animation: messageDotPulse 1.8s ease-in-out infinite;
+}
+
+/* Le lien Messages doit pouvoir placer le point à droite */
+#messagesMenuLink {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+@keyframes messageDotPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.18);
+    }
+}
+
+body.dark-mode .message-unread-dot {
+    border-color: #1e293b;
+}
+
+/* ============================================================
+   🔴 POINT ROUGE NOTIFICATIONS
+   ============================================================ */
+
+/* Point rouge sur le bouton hamburger */
+.notification-unread-dot {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 10px;
+    height: 10px;
+    background: #ef4444;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    display: none;
+    z-index: 20;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+    animation: notificationUnreadDotPulse 1.8s ease-in-out infinite;
+}
+
+/* Point rouge à côté de Notifications */
+.notification-menu-dot {
+    width: 9px;
+    height: 9px;
+    min-width: 9px;
+    margin-left: auto;
+    display: none;
+    flex-shrink: 0;
+
+    background: #ef4444;
+    border-radius: 50%;
+
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.12);
+
+    animation: notificationMenuDotPulse 1.8s ease-in-out infinite;
+}
+
+/* Le lien Notifications */
+#notificationsMenuLink {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Animation du point sur le hamburger */
+@keyframes notificationUnreadDotPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+    }
+
+    50% {
+        transform: scale(1.18);
+        box-shadow: 0 0 0 5px rgba(239, 68, 68, 0.08);
+    }
+}
+
+/* Animation du point dans le menu */
+@keyframes notificationMenuDotPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.18);
+    }
+}
+
+body.dark-mode .notification-unread-dot {
+    border-color: #1e293b;
+}
+
 
 </style>
 
@@ -1927,6 +2004,9 @@ body.dark-mode #installBanner {
     id="menuToggle"
     aria-label="Ouvrir le menu">
 
+    <span id="messageUnreadDot" class="message-unread-dot"></span>
+<span id="notificationUnreadDot" class="notification-unread-dot"></span>
+
     <div class="hamburger-icon">
         <span></span>
         <span></span>
@@ -1957,15 +2037,19 @@ body.dark-mode #installBanner {
         <a href="membre-profil.html">
             <span data-i18n="search.profile">Mon profil</span>
         </a>
-        <a href="membre-messages.html">
-            <span data-i18n="search.messages">Messages</span>
-        </a>
-        <a href="membre-favoris.html">
-            <span data-i18n="search.favorites">Mes favoris</span>
-        </a>
-        <a href="membre-notifications.html">
-            <span data-i18n="search.notifications">Notifications</span>
-        </a>
+   <a href="membre-messages.html" id="messagesMenuLink">
+    <span data-i18n="search.messages">Messages</span>
+    <span id="messageMenuDot" class="message-menu-dot"></span>
+</a>
+
+<a href="membre-favoris.html">
+    <span data-i18n="search.favorites">Mes favoris</span>
+</a>
+
+<a href="membre-notifications.html" id="notificationsMenuLink">
+    <span data-i18n="search.notifications">Notifications</span>
+    <span id="notificationMenuDot" class="notification-menu-dot"></span>
+</a>
         <a href="membre-certification.html">
             <span data-i18n="search.certification">Demande de certification</span>
         </a>
@@ -2066,7 +2150,6 @@ body.dark-mode #installBanner {
 
     </div>
 
-    <!-- Conteneur des drapeaux avec animation -->
     <div class="countries-container fade-in-up delay-3">
         <div class="countries-title">
             <span class="line"></span>
@@ -2148,189 +2231,123 @@ body.dark-mode #installBanner {
     </h3>
 
     <div class="search-filters">
-
         <div class="form-group">
-
             <label for="filterGender" data-i18n="search.gender">
                 Genre
             </label>
-
             <select id="filterGender">
-
                 <option value="" data-i18n="search.all">
                     Tous
                 </option>
-
                 <option value="Homme" data-i18n="search.man">
                     Homme
                 </option>
-
                 <option value="Femme" data-i18n="search.woman">
                     Femme
                 </option>
-
             </select>
-
         </div>
-
-
         <div class="form-group">
-
             <label for="filterMinAge" data-i18n="search.min_age">
                 Âge minimum
             </label>
-
             <input
                 type="number"
                 id="filterMinAge"
                 min="18"
                 max="100"
                 placeholder="18">
-
         </div>
-
-
         <div class="form-group">
-
             <label for="filterDenomination" data-i18n="search.denomination">
                 Dénomination
             </label>
-
             <select id="filterDenomination">
-
                 <option value="" data-i18n="search.all_female">
                     Toutes
                 </option>
-
                 <option value="Catholique" data-i18n="search.catholic">
                     Catholique
                 </option>
-
                 <option value="Protestant" data-i18n="search.protestant">
                     Protestant
                 </option>
-
                 <option value="Évangélique" data-i18n="search.evangelical">
                     Évangélique
                 </option>
-
                 <option value="Pentecôtiste" data-i18n="search.pentecostal">
                     Pentecôtiste
                 </option>
-
                 <option value="Orthodoxe" data-i18n="search.orthodox">
                     Orthodoxe
                 </option>
-
                 <option value="Autre" data-i18n="search.other">
                     Autre
                 </option>
-
             </select>
-
         </div>
-
-
         <div class="form-group">
-
             <label for="filterCity" data-i18n="search.city">
                 Ville
             </label>
-
             <input
                 type="text"
                 id="filterCity"
                 placeholder="Ex : Abidjan"
                 data-i18n-placeholder="search.city_placeholder">
-
         </div>
 
         <div class="form-group">
-
             <label for="filterFaithEngagement" data-i18n="search.faith_engagement">
                 Engagement dans la foi
             </label>
-
             <select id="filterFaithEngagement">
-
                 <option value="" data-i18n="search.all">
                     Tous
                 </option>
-
                 <option value="Nouveau croyant" data-i18n="search.new_believer">
                     Nouveau croyant
                 </option>
-
                 <option value="Engagé" data-i18n="search.engaged">
                     Engagé
                 </option>
-
                 <option value="Très engagé" data-i18n="search.very_engaged">
                     Très engagé
                 </option>
-
                 <option value="Pasteur/Pastrice" data-i18n="search.pastor">
                     Pasteur/Pastrice
                 </option>
-
             </select>
-
         </div>
-
-
         <div class="search-actions">
-
             <button
                 class="btn-search"
                 id="searchBtn"
                 data-i18n="search.search_button">
-
                 Rechercher
-
             </button>
-
             <button
                 class="btn-reset"
                 id="resetBtn"
                 data-i18n="search.reset">
-
                 ↺ Réinitialiser
-
             </button>
-
         </div>
-
     </div>
-
         </div>
-
-
-        <!-- CHARGEMENT -->
-
      <div
     id="loadingContainer"
     class="loading"
     style="display:none;">
-
     <div class="spinner"></div>
-
     <p data-i18n="search.loading">
         Chargement des profils...
     </p>
-
 </div>
-
-
-<!-- PROFILS -->
-
 <div
     id="profilesContainer"
     class="profile-grid">
 </div>
-
-
-<!-- AUCUN RÉSULTAT -->
-
 <div
     id="noResultsContainer"
     class="no-results"
@@ -2339,12 +2356,10 @@ body.dark-mode #installBanner {
     <h3 data-i18n="search.no_results">
         Aucun profil trouvé 😔
     </h3>
-
     <p data-i18n="search.no_results_description">
         Essayez de modifier vos critères de recherche
         pour trouver d'autres célibataires.
     </p>
-
     <button
         class="btn-primary"
         id="resetBtnAlt"
@@ -2357,309 +2372,190 @@ body.dark-mode #installBanner {
             cursor:pointer;
         "
         data-i18n="search.reset_filters">
-
         Réinitialiser les filtres
-
     </button>
-
 </div>
-
     </div>
-
 </main>
-
 <script>
-
     const menuToggle =
         document.getElementById('menuToggle');
-
     const appSidebar =
         document.getElementById('appSidebar');
-
-
     if (menuToggle && appSidebar) {
-
         menuToggle.addEventListener('click', function(e) {
-
             e.stopPropagation();
-
             menuToggle.classList.toggle('open');
-
             appSidebar.classList.toggle('open');
-
             createParticles(e);
-
         });
-
-
         document.addEventListener('click', function(e) {
-
             if (
                 !appSidebar.contains(e.target) &&
                 !menuToggle.contains(e.target)
             ) {
-
                 appSidebar.classList.remove('open');
-
                 menuToggle.classList.remove('open');
-
             }
-
         });
-
     }
-
     function createParticles(e) {
-
         const x =
             e.clientX ||
             window.innerWidth / 2;
-
         const y =
             e.clientY ||
             window.innerHeight / 2;
-
-
         for (let i = 0; i < 7; i++) {
-
             const particle =
                 document.createElement('div');
-
             particle.className = 'particle';
-
             particle.textContent =
                 i % 2 === 0
                 ? '✨'
                 : '💕';
-
-
             particle.style.left =
                 x + 'px';
-
             particle.style.top =
                 y + 'px';
-
-
             particle.style.setProperty(
                 '--tx',
                 (Math.random() - 0.5) * 140 + 'px'
             );
-
             particle.style.setProperty(
                 '--ty',
                 (Math.random() - 0.5) * 140 + 'px'
             );
-
-
             document.body.appendChild(
                 particle
             );
-
-
             setTimeout(
                 () => particle.remove(),
                 3000
             );
-
         }
-
     }
-
-
 const adImage =
     document.getElementById('adImage');
-
 const adImage2 =
     document.getElementById('adImage2');
-
 const adVideo =
     document.getElementById('adVideo');
-
 const adVideo2 =
     document.getElementById('adVideo2');
-
-
 const ads = [
     adImage,
     adImage2,
     adVideo,
     adVideo2
 ].filter(Boolean);
-
-
 if (ads.length > 1) {
-
     let currentAd = 0;
-
     setInterval(function() {
-
         ads[currentAd].classList.remove('active');
-
         if (ads[currentAd].tagName === 'VIDEO') {
             ads[currentAd].pause();
         }
-
         currentAd =
             (currentAd + 1) % ads.length;
-
         ads[currentAd].classList.add('active');
-
         if (ads[currentAd].tagName === 'VIDEO') {
-
             ads[currentAd].currentTime = 0;
-
             ads[currentAd]
                 .play()
                 .catch(() => {});
-
         }
 
     }, 10000);
-
 }
-
     const searchBtn =
         document.getElementById('searchBtn');
-
-
     if (searchBtn) {
-
         searchBtn.addEventListener(
             'click',
             function(e) {
 
                 createParticles(e);
-
             }
         );
-
     }
-
     const resetBtn =
         document.getElementById('resetBtn');
-
-
     if (resetBtn) {
-
         resetBtn.addEventListener(
             'click',
             function(e) {
-
                 createParticles(e);
-
             }
         );
-
     }
-
 const darkModeToggle =
     document.getElementById('darkModeToggle');
-
 function updateDarkModeIcon() {
-
     if (!darkModeToggle) return;
-
     const isDark =
         document.body.classList.contains('dark-mode');
-
     darkModeToggle.textContent =
         isDark ? '☀️' : '🌙';
 }
-
 function loadDarkMode() {
-
     const savedMode =
         localStorage.getItem('darkMode');
-
     if (savedMode === 'true') {
-
         document.body.classList.add('dark-mode');
-
     } else {
-
         document.body.classList.remove('dark-mode');
-
     }
-
     updateDarkModeIcon();
 }
-
 if (darkModeToggle) {
-
     darkModeToggle.addEventListener(
         'click',
         function () {
-
             document.body.classList.toggle('dark-mode');
-
             const isDark =
                 document.body.classList.contains('dark-mode');
-
             localStorage.setItem(
                 'darkMode',
                 isDark ? 'true' : 'false'
             );
-
             updateDarkModeIcon();
         }
     );
 }
-
 loadDarkMode();
-
 let deferredInstallPrompt = null;
-
 const installBanner =
     document.getElementById('installBanner');
-
 const installButton =
     document.getElementById('installButton');
-
 if (installBanner) {
     installBanner.style.display = 'none';
 }
-
 window.addEventListener('beforeinstallprompt', (event) => {
-
     event.preventDefault();
-
     deferredInstallPrompt = event;
-
     if (installBanner) {
         installBanner.style.display = 'flex';
     }
-
 });
-
 if (installButton) {
-
     installButton.addEventListener('click', async () => {
-
         if (!deferredInstallPrompt) return;
-
         deferredInstallPrompt.prompt();
-
         const { outcome } =
             await deferredInstallPrompt.userChoice;
-
         if (outcome === 'accepted') {
             installBanner.style.display = 'none';
         }
-
         deferredInstallPrompt = null;
-
     });
-
 }
-
 window.addEventListener('appinstalled', () => {
-
     if (installBanner) {
         installBanner.style.display = 'none';
     }
-
 });
-
 
 // 📱 Enregistrement du Service Worker
 if ('serviceWorker' in navigator) {
@@ -2673,13 +2569,662 @@ if ('serviceWorker' in navigator) {
             });
     });
 }
-
 </script>
 
 <script src="js/supabase-config.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/search.js"></script>
+
+<script>
+
+let messageNotificationSubscription = null;
+let hasUnreadMessage = false;
+
+function updateMessageNotificationDisplay() {
+
+    const hamburgerDot =
+        document.getElementById('messageUnreadDot');
+
+    const menuDot =
+        document.getElementById('messageMenuDot');
+
+    const menuToggle =
+        document.getElementById('menuToggle');
+
+    const appSidebar =
+        document.getElementById('appSidebar');
+
+    if (!hamburgerDot || !menuDot) {
+        return;
+    }
+
+    const menuIsOpen =
+        menuToggle &&
+        appSidebar &&
+        appSidebar.classList.contains('open');
+
+
+    /* Aucun message non lu */
+    if (!hasUnreadMessage) {
+
+        hamburgerDot.style.display = 'none';
+        menuDot.style.display = 'none';
+
+        return;
+    }
+
+    /* Menu ouvert → point à côté de Messages */
+    if (menuIsOpen) {
+
+        hamburgerDot.style.display = 'none';
+        menuDot.style.display = 'inline-block';
+
+    }
+    /* Menu fermé → point sur le hamburger */
+    else {
+
+        hamburgerDot.style.display = 'block';
+        menuDot.style.display = 'none';
+
+    }
+}
+
+async function updateMessageUnreadDot() {
+
+    if (!window.supabaseClient) {
+        return;
+    }
+
+    try {
+
+        const user = await requireAuth();
+
+        if (!user) {
+
+            hasUnreadMessage = false;
+            updateMessageNotificationDisplay();
+
+            return;
+        }
+
+        const { data, error } =
+            await window.supabaseClient
+                .from('notifications')
+                .select('id')
+                .eq('recipient_id', user.id)
+                .eq('type', 'message')
+                .eq('is_read', false)
+                .limit(1);
+
+        if (error) {
+
+            console.error(
+                '❌ Erreur vérification nouveaux messages :',
+                error
+            );
+
+            return;
+        }
+
+        hasUnreadMessage =
+            Array.isArray(data) &&
+            data.length > 0;
+
+        updateMessageNotificationDisplay();
+
+    } catch (error) {
+
+        console.error(
+            '❌ Erreur indicateur message :',
+            error
+        );
+
+    }
+}
+
+async function subscribeToMessageUnreadIndicator() {
+
+    if (!window.supabaseClient) {
+        return;
+    }
+
+    try {
+
+        const user = await requireAuth();
+
+        if (!user) {
+            return;
+        }
+
+        if (messageNotificationSubscription) {
+
+            try {
+
+                await window.supabaseClient.removeChannel(
+                    messageNotificationSubscription
+                );
+
+            } catch (e) {}
+
+        }
+
+        messageNotificationSubscription =
+            window.supabaseClient
+                .channel(`message_indicator_${user.id}`)
+                .on(
+                    'postgres_changes',
+                    {
+                        event: 'INSERT',
+                        schema: 'public',
+                        table: 'notifications',
+                        filter:
+                            `recipient_id=eq.${user.id}`
+                    },
+                    (payload) => {
+
+                        const notification =
+                            payload.new;
+
+                        if (
+                            notification &&
+                            notification.type === 'message' &&
+                            notification.is_read === false
+                        ) {
+
+                            hasUnreadMessage = true;
+
+                            updateMessageNotificationDisplay();
+
+                            console.log(
+                                '🔴 Nouveau message reçu'
+                            );
+                        }
+                    }
+                )
+                .subscribe((status) => {
+
+                    console.log(
+                        '📡 Indicateur messages :',
+                        status
+                    );
+
+                });
+
+    } catch (error) {
+
+        console.error(
+            '❌ Erreur abonnement indicateur message :',
+            error
+        );
+
+    }
+}
+
+document.addEventListener(
+    'DOMContentLoaded',
+    async () => {
+
+        setTimeout(async () => {
+
+            await updateMessageUnreadDot();
+
+            await subscribeToMessageUnreadIndicator();
+
+        }, 300);
+
+
+        const menuToggle =
+            document.getElementById('menuToggle');
+
+        const appSidebar =
+            document.getElementById('appSidebar');
+
+
+        if (menuToggle && appSidebar) {
+
+            const observer =
+                new MutationObserver(() => {
+
+                    updateMessageNotificationDisplay();
+
+                });
+
+            observer.observe(
+                appSidebar,
+                {
+                    attributes: true,
+                    attributeFilter: ['class']
+                }
+            );
+
+            observer.observe(
+                menuToggle,
+                {
+                    attributes: true,
+                    attributeFilter: ['class']
+                }
+            );
+        }
+
+    }
+);
+
+window.addEventListener(
+    'beforeunload',
+    async () => {
+
+        if (
+            messageNotificationSubscription &&
+            window.supabaseClient
+        ) {
+
+            try {
+
+                await window.supabaseClient.removeChannel(
+                    messageNotificationSubscription
+                );
+
+            } catch (e) {}
+
+        }
+
+    }
+);
+
+
+
+// ============================================================
+// 🔔 INDICATEUR NOTIFICATIONS NON LUES
+// ============================================================
+
+let notificationUnreadSubscription = null;
+let hasUnreadNotification = false;
+
+
+// ============================================================
+// AFFICHAGE DU POINT ROUGE
+// ============================================================
+
+function updateNotificationNotificationDisplay() {
+
+    const hamburgerDot =
+        document.getElementById('notificationUnreadDot');
+
+    const menuDot =
+        document.getElementById('notificationMenuDot');
+
+    const menuToggle =
+        document.getElementById('menuToggle');
+
+    const appSidebar =
+        document.getElementById('appSidebar');
+
+    if (!hamburgerDot || !menuDot) {
+        return;
+    }
+
+    const menuIsOpen =
+        appSidebar &&
+        appSidebar.classList.contains('open');
+
+
+    // --------------------------------------------------------
+    // Aucune notification non lue
+    // --------------------------------------------------------
+
+    if (!hasUnreadNotification) {
+
+        hamburgerDot.style.display = 'none';
+        menuDot.style.display = 'none';
+
+        return;
+    }
+
+
+    // --------------------------------------------------------
+    // MENU OUVERT
+    // → point à côté de Notifications
+    // --------------------------------------------------------
+
+    if (menuIsOpen) {
+
+        hamburgerDot.style.display = 'none';
+
+        menuDot.style.display = 'inline-flex';
+
+    }
+
+
+    // --------------------------------------------------------
+    // MENU FERMÉ
+    // → point sur le bouton hamburger
+    // --------------------------------------------------------
+
+    else {
+
+        hamburgerDot.style.display = 'block';
+
+        menuDot.style.display = 'none';
+
+    }
+}
+
+
+// ============================================================
+// VÉRIFIER LES NOTIFICATIONS NON LUES
+// ============================================================
+
+async function updateNotificationUnreadDot() {
+
+    if (!window.supabaseClient) {
+        return;
+    }
+
+    try {
+
+        const user = await requireAuth();
+
+        if (!user) {
+
+            hasUnreadNotification = false;
+
+            updateNotificationNotificationDisplay();
+
+            return;
+        }
+
+
+        const { data, error } =
+            await window.supabaseClient
+                .from('notifications')
+                .select('id')
+                .eq('recipient_id', user.id)
+                .eq('is_read', false)
+                .limit(1);
+
+
+        if (error) {
+
+            console.error(
+                '❌ Erreur vérification notifications non lues :',
+                error
+            );
+
+            return;
+        }
+
+
+        hasUnreadNotification =
+            Array.isArray(data) &&
+            data.length > 0;
+
+
+        updateNotificationNotificationDisplay();
+
+
+    } catch (error) {
+
+        console.error(
+            '❌ Erreur indicateur notifications :',
+            error
+        );
+    }
+}
+
+
+// ============================================================
+// TEMPS RÉEL : NOUVELLE NOTIFICATION
+// ============================================================
+
+async function subscribeToNotificationUnreadIndicator() {
+
+    if (!window.supabaseClient) {
+        return;
+    }
+
+    try {
+
+        const user = await requireAuth();
+
+        if (!user) {
+            return;
+        }
+
+
+        // ----------------------------------------------------
+        // Supprimer un ancien abonnement
+        // ----------------------------------------------------
+
+        if (notificationUnreadSubscription) {
+
+            try {
+
+                await window.supabaseClient.removeChannel(
+                    notificationUnreadSubscription
+                );
+
+            } catch (error) {
+
+                console.warn(
+                    '⚠️ Impossible de supprimer ancien abonnement notifications :',
+                    error
+                );
+            }
+
+            notificationUnreadSubscription = null;
+        }
+
+
+        // ----------------------------------------------------
+        // Nouvel abonnement
+        // ----------------------------------------------------
+
+        notificationUnreadSubscription =
+            window.supabaseClient
+                .channel(
+                    `notification_indicator_${user.id}`
+                )
+
+
+                // ============================================
+                // 🔔 INSERT : nouvelle notification
+                // ============================================
+
+                .on(
+                    'postgres_changes',
+                    {
+                        event: 'INSERT',
+                        schema: 'public',
+                        table: 'notifications',
+                        filter:
+                            `recipient_id=eq.${user.id}`
+                    },
+                    (payload) => {
+
+                        const notification =
+                            payload.new;
+
+                        if (!notification) {
+                            return;
+                        }
+
+
+                        if (
+                            notification.is_read === false
+                        ) {
+
+                            hasUnreadNotification = true;
+
+                            updateNotificationNotificationDisplay();
+
+                            console.log(
+                                '🔴 Nouvelle notification reçue'
+                            );
+                        }
+                    }
+                )
+
+
+                // ============================================
+                // ✅ UPDATE : notification lue
+                // ============================================
+
+                .on(
+                    'postgres_changes',
+                    {
+                        event: 'UPDATE',
+                        schema: 'public',
+                        table: 'notifications',
+                        filter:
+                            `recipient_id=eq.${user.id}`
+                    },
+                    async (payload) => {
+
+                        const notification =
+                            payload.new;
+
+                        if (!notification) {
+                            return;
+                        }
+
+
+                        await updateNotificationUnreadDot();
+                    }
+                )
+
+
+                .subscribe((status) => {
+
+                    console.log(
+                        '📡 Indicateur notifications :',
+                        status
+                    );
+                });
+
+
+    } catch (error) {
+
+        console.error(
+            '❌ Erreur abonnement indicateur notifications :',
+            error
+        );
+    }
+}
+
+
+// ============================================================
+// INITIALISATION
+// ============================================================
+
+document.addEventListener(
+    'DOMContentLoaded',
+    async () => {
+
+        // ----------------------------------------------------
+        // Vérification initiale
+        // ----------------------------------------------------
+
+        setTimeout(async () => {
+
+            await updateNotificationUnreadDot();
+
+            await subscribeToNotificationUnreadIndicator();
+
+        }, 300);
+
+
+        // ----------------------------------------------------
+        // Surveillance du menu
+        // ----------------------------------------------------
+
+        const menuToggle =
+            document.getElementById('menuToggle');
+
+        const appSidebar =
+            document.getElementById('appSidebar');
+
+
+        if (menuToggle && appSidebar) {
+
+            const observer =
+                new MutationObserver(() => {
+
+                    updateNotificationNotificationDisplay();
+
+                });
+
+
+            observer.observe(
+                appSidebar,
+                {
+                    attributes: true,
+                    attributeFilter: ['class']
+                }
+            );
+
+
+            observer.observe(
+                menuToggle,
+                {
+                    attributes: true,
+                    attributeFilter: ['class']
+                }
+            );
+
+
+            // ------------------------------------------------
+            // Mise à jour immédiate au clic sur ☰
+            // ------------------------------------------------
+
+            menuToggle.addEventListener(
+                'click',
+                () => {
+
+                    setTimeout(() => {
+
+                        updateNotificationNotificationDisplay();
+
+                    }, 10);
+
+                }
+            );
+        }
+
+    }
+);
+
+
+// ============================================================
+// NETTOYAGE
+// ============================================================
+
+window.addEventListener(
+    'beforeunload',
+    async () => {
+
+        if (
+            notificationUnreadSubscription &&
+            window.supabaseClient
+        ) {
+
+            try {
+
+                await window.supabaseClient.removeChannel(
+                    notificationUnreadSubscription
+                );
+
+            } catch (error) {
+
+                console.warn(
+                    '⚠️ Erreur fermeture abonnement notifications :',
+                    error
+                );
+            }
+        }
+    }
+);
+</script>
 
 </body>
 </html>

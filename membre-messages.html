@@ -15,10 +15,6 @@
 
    <style>
 
-/* =========================================================
-   VARIABLES
-   ========================================================= */
-
 :root {
     --primary-color: #2563eb;
     --primary-light: #eff6ff;
@@ -87,10 +83,6 @@ body.dark-mode {
 
     color: var(--dark-text);
 }
-
-/* =========================================================
-   FOND ANIMÉ
-   ========================================================= */
 
 .animated-bg {
     position: fixed;
@@ -166,18 +158,6 @@ body.dark-mode {
         opacity: 0;
     }
 }
-
-/* =========================================================
-   HEADER
-   ========================================================= */
-
-/* =========================================================
-   HEADER
-   ========================================================= */
-
-/* =========================================================
-   HEADER
-   ========================================================= */
 
 header {
     position: sticky;
@@ -469,10 +449,6 @@ body.dark-mode .dark-mode-toggle {
     box-shadow: 0 6px 18px rgba(244, 63, 94, 0.15);
 }
 
-/* =========================================================
-   PAGE MESSAGES
-   ========================================================= */
-
 .messages-page {
     width: 100%;
     padding: 2rem 1rem 3rem;
@@ -514,10 +490,6 @@ body.dark-mode .messages-title {
     margin-bottom: 1rem;
 }
 
-/* =========================================================
-   LAYOUT MESSAGES (DESKTOP)
-   ========================================================= */
-
 .messages-layout {
     display: grid;
     grid-template-columns: 350px minmax(0, 1fr);
@@ -526,10 +498,6 @@ body.dark-mode .messages-title {
     max-width: 1400px;
     margin: 0 auto;
 }
-
-/* =========================================================
-   LISTE DES CONVERSATIONS
-   ========================================================= */
 
 .conversations-list {
     background: rgba(255, 255, 255, 0.94);
@@ -692,10 +660,6 @@ body.dark-mode .conversation-name {
     text-overflow: ellipsis;
 }
 
-/* =========================================================
-   STATUT EN LIGNE
-   ========================================================= */
-
 .online-status-dot {
     width: 9px;
     height: 9px;
@@ -714,10 +678,6 @@ body.dark-mode .conversation-name {
     background: #ef4444;
     box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
 }
-
-/* =========================================================
-   ZONE DE CHAT
-   ========================================================= */
 
 .chat-area {
     background: rgba(255,255,255,0.96);
@@ -747,10 +707,6 @@ body.dark-mode .chat-area {
         transform: translateX(0);
     }
 }
-
-/* =========================================================
-   ÉTAT VIDE
-   ========================================================= */
 
 .empty-state {
     flex: 1;
@@ -805,10 +761,6 @@ body.dark-mode .empty-state h3 {
     line-height: 1.6;
     font-size: 0.95rem;
 }
-
-/* =========================================================
-   FENÊTRE DE CHAT
-   ========================================================= */
 
 #chatWindow {
     display: none;
@@ -921,10 +873,6 @@ body.dark-mode .chat-header-actions button {
     transform: scale(0.92);
 }
 
-/* =========================================================
-   MESSAGES
-   ========================================================= */
-
 .chat-messages {
     flex: 1;
     min-height: 0;
@@ -1022,10 +970,6 @@ body.dark-mode .message.received .message-bubble {
     }
 }
 
-/* =========================================================
-   ZONE DE SAISIE
-   ========================================================= */
-
 .chat-input-area {
     margin: 0.9rem 1rem 1rem;
     padding: 0.45rem 0.5rem 0.45rem 1rem;
@@ -1118,10 +1062,6 @@ body.dark-mode .chat-input-area textarea {
     transform: scale(0.95);
 }
 
-/* =========================================================
-   SCROLLBARS
-   ========================================================= */
-
 .chat-messages::-webkit-scrollbar,
 #conversationsList::-webkit-scrollbar {
     width: 6px;
@@ -1132,10 +1072,6 @@ body.dark-mode .chat-input-area textarea {
     background: #cbd5e1;
     border-radius: 10px;
 }
-
-/* =========================================================
-   FOOTER
-   ========================================================= */
 
 .site-footer {
     padding: 1.5rem 1rem;
@@ -1155,10 +1091,6 @@ body.dark-mode .site-footer {
     font-size: 0.85rem;
 }
 
-/* =========================================================
-   RESPONSIVE — TABLETTE (900px)
-   ========================================================= */
-
 @media (max-width: 900px) {
     .messages-layout {
         grid-template-columns: 290px minmax(0, 1fr);
@@ -1169,10 +1101,6 @@ body.dark-mode .site-footer {
         max-width: 75%;
     }
 }
-
-/* =========================================================
-   RESPONSIVE — MOBILE (768px)
-   ========================================================= */
 
 @media (max-width: 768px) {
     .messages-page {
@@ -1219,10 +1147,6 @@ body.dark-mode .site-footer {
         display: none;
     }
 }
-
-/* =========================================================
-   RESPONSIVE — MOBILE (480px et moins)
-   ========================================================= */
 
 @media (max-width: 480px) {
     /* Pleine largeur sur mobile */
@@ -1297,10 +1221,6 @@ body.dark-mode .site-footer {
     }
 }
 
-/* =========================================================
-   RESPONSIVE — TRÈS PETITS ÉCRANS (360px)
-   ========================================================= */
-
 @media (max-width: 360px) {
     .messages-page {
         padding: 1rem 0.25rem 1.5rem;
@@ -1315,8 +1235,6 @@ body.dark-mode .site-footer {
         margin: 0.5rem;
     }
 }
-
-
 
 @media (max-width: 480px) {
     .profile-back-button,
@@ -1336,6 +1254,40 @@ body.dark-mode .site-footer {
     box-shadow: none !important;
     backdrop-filter: none !important;
 }
+
+
+/* ===== COMPTEUR MESSAGES NON LUS ===== */
+.conversation-unread-badge {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-left: auto;
+    padding: 0.2rem 0.5rem;
+    min-height: 21px;
+    border-radius: 999px;
+    background: #ef4444;
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 800;
+    line-height: 1;
+    white-space: nowrap;
+    box-shadow: 0 3px 8px rgba(239, 68, 68, 0.25);
+}
+
+.conversation-name-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    width: 100%;
+}
+
+.conversation-name-row .conversation-name {
+    min-width: 0;
+    flex: 1;
+}
+
 
 </style>
 </head>
@@ -1502,10 +1454,9 @@ body.dark-mode .site-footer {
         </div>
     </footer>
 
- <script src="js/supabase-config.js"></script>
+<script src="js/supabase-config.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/messages.js"></script>
- 
     <script>
 
         const messageInput =

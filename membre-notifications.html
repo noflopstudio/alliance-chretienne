@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
 <title data-i18n="notifications.page_title">
     Notifications - Alliance Chrétienne
 </title>
@@ -17,10 +16,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
-/* =========================================================
-   VARIABLES
-   ========================================================= */
 
 :root {
     --primary-color: #2563eb;
@@ -40,10 +35,6 @@
     --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.04);
     --shadow-hover: 0 20px 45px rgba(244, 63, 94, 0.14);
 }
-
-/* =========================================================
-   RESET & BASE
-   ========================================================= */
 
 * {
     box-sizing: border-box;
@@ -82,10 +73,6 @@ body.dark-mode {
         #0f172a;
     color: #e2e8f0;
 }
-
-/* =========================================================
-   HEADER & NAVIGATION
-   ========================================================= */
 
 .register-logo img {
     width: 50px;
@@ -127,10 +114,6 @@ body.dark-mode .profile-back-button:hover {
     background: rgba(255,255,255,0.08);
 }
 
-/* =========================================================
-   TITRE PRINCIPAL
-   ========================================================= */
-
 section > .container > h2 {
     font-size: 2rem;
     font-weight: 800;
@@ -156,10 +139,6 @@ section > .container > h2 {
     }
 }
 
-/* =========================================================
-   LAYOUT PRINCIPAL
-   ========================================================= */
-
 #alertContainer {
     margin-bottom: 1rem;
 }
@@ -170,10 +149,6 @@ section > .container > h2 {
     gap: 1.5rem;
     margin-bottom: 2rem;
 }
-
-/* =========================================================
-   FILTRES LATÉRAUX
-   ========================================================= */
 
 .notifications-filters {
     background: linear-gradient(145deg, rgba(255,255,255,0.98), rgba(255,241,242,0.85));
@@ -214,10 +189,6 @@ body.dark-mode .notifications-filters {
 body.dark-mode .notifications-filters h3 {
     color: #f8fafc;
 }
-
-/* =========================================================
-   BOUTONS FILTRES
-   ========================================================= */
 
 .filter-btn {
     position: relative;
@@ -267,10 +238,6 @@ body.dark-mode .filter-btn:hover {
     color: #fb7185;
 }
 
-/* =========================================================
-   LISTE DES NOTIFICATIONS
-   ========================================================= */
-
 .notifications-list {
     background-color: var(--white);
     border-radius: 1.35rem;
@@ -284,10 +251,6 @@ body.dark-mode .notifications-list {
     background: #1e293b;
     border-color: rgba(148,163,184,0.15);
 }
-
-/* =========================================================
-   HEADER NOTIFICATIONS
-   ========================================================= */
 
 .notifications-header {
     padding: 1.35rem 1.5rem;
@@ -315,10 +278,6 @@ body.dark-mode .notifications-header h2 {
     color: #f8fafc;
 }
 
-/* =========================================================
-   COMPTEUR
-   ========================================================= */
-
 .notification-count {
     display: inline-flex;
     align-items: center;
@@ -334,10 +293,6 @@ body.dark-mode .notifications-header h2 {
     font-weight: 800;
     box-shadow: 0 4px 10px rgba(244,63,94,0.25);
 }
-
-/* =========================================================
-   BOUTON TOUT MARQUER
-   ========================================================= */
 
 .mark-all-btn {
     background: linear-gradient(135deg, var(--primary-color), #1d4ed8);
@@ -357,17 +312,9 @@ body.dark-mode .notifications-header h2 {
     box-shadow: 0 8px 20px rgba(37,99,235,0.30);
 }
 
-/* =========================================================
-   CONTENEUR DYNAMIQUE
-   ========================================================= */
-
 #notificationsList {
     width: 100%;
 }
-
-/* =========================================================
-   ITEM NOTIFICATION
-   ========================================================= */
 
 .notification-item {
     padding: 1.35rem 1.5rem;
@@ -397,10 +344,6 @@ body.dark-mode .notification-item {
 body.dark-mode .notification-item:hover {
     background: #253247;
 }
-
-/* =========================================================
-   NOTIFICATION NON LUE
-   ========================================================= */
 
 .notification-item.unread {
     background: linear-gradient(90deg, rgba(244,63,94,0.065), rgba(255,255,255,0.95));
@@ -435,10 +378,6 @@ body.dark-mode .notification-item.unread {
     background: linear-gradient(90deg, rgba(244,63,94,0.12), #1e293b);
 }
 
-/* =========================================================
-   AVATAR
-   ========================================================= */
-
 .notification-avatar {
     width: 52px;
     height: 52px;
@@ -453,10 +392,6 @@ body.dark-mode .notification-item.unread {
 .notification-item:hover .notification-avatar {
     transform: scale(1.06);
 }
-
-/* =========================================================
-   CONTENU
-   ========================================================= */
 
 .notification-content {
     flex: 1;
@@ -493,10 +428,6 @@ body.dark-mode .notification-message {
     opacity: 1;
 }
 
-/* =========================================================
-   BADGES
-   ========================================================= */
-
 .notification-badge {
     display: inline-flex;
     align-items: center;
@@ -525,10 +456,6 @@ body.dark-mode .notification-message {
     color: #059669;
     border-color: rgba(16,185,129,0.15);
 }
-
-/* =========================================================
-   ACTIONS
-   ========================================================= */
 
 .notification-actions {
     display: flex;
@@ -576,10 +503,6 @@ body.dark-mode .btn-action-secondary {
     border-color: rgba(148,163,184,0.20);
 }
 
-/* =========================================================
-   ÉTAT VIDE
-   ========================================================= */
-
 .empty-notifications {
     text-align: center;
     padding: 4rem 2rem;
@@ -609,10 +532,6 @@ body.dark-mode .empty-notifications h3 {
     color: #f8fafc;
 }
 
-/* =========================================================
-   ANIMATIONS
-   ========================================================= */
-
 @keyframes slideLeft {
     from {
         opacity: 0;
@@ -634,10 +553,6 @@ body.dark-mode .empty-notifications h3 {
         transform: translateX(0);
     }
 }
-
-/* =========================================================
-   RESPONSIVE — TABLETTE (900px)
-   ========================================================= */
 
 @media (max-width: 900px) {
     .notifications-container {
@@ -663,10 +578,6 @@ body.dark-mode .empty-notifications h3 {
         white-space: nowrap;
     }
 }
-
-/* =========================================================
-   RESPONSIVE — MOBILE (600px et moins)
-   ========================================================= */
 
 @media (max-width: 600px) {
     /* Pleine largeur sur mobile */
@@ -750,10 +661,6 @@ body.dark-mode .empty-notifications h3 {
     }
 }
 
-/* =========================================================
-   RESPONSIVE — TRÈS PETITS ÉCRANS (480px)
-   ========================================================= */
-
 @media (max-width: 480px) {
     .container {
         width: 100%;
@@ -783,10 +690,6 @@ body.dark-mode .empty-notifications h3 {
     }
 }
 
-/* =========================================================
-   RESPONSIVE — TRÈS PETITS ÉCRANS (360px)
-   ========================================================= */
-
 @media (max-width: 360px) {
     section > .container > h2 {
         font-size: 1.3rem;
@@ -804,11 +707,6 @@ body.dark-mode .empty-notifications h3 {
         font-size: 0.8rem;
     }
 }
-
-
-/* =========================================================
-   HEADER MOBILE — MÊME RÉGLAGE QUE MESSAGES
-   ========================================================= */
 
 @media (max-width: 480px) {
 
@@ -897,24 +795,9 @@ body.dark-mode .empty-notifications h3 {
             🔔 Notifications
         </h2>
 
-
-        <!-- =====================================================
-             ALERTES
-             ===================================================== -->
-
         <div id="alertContainer"></div>
 
-
-        <!-- =====================================================
-             LAYOUT
-             ===================================================== -->
-
         <div class="notifications-container">
-
-
-            <!-- =================================================
-                 FILTRES
-                 ================================================= -->
 
             <div class="notifications-filters">
 
@@ -1069,10 +952,6 @@ body.dark-mode .empty-notifications h3 {
 </section>
 
 
-<!-- =========================================================
-     FOOTER
-     ========================================================= -->
-
 <footer>
 
     <div class="container">
@@ -1091,20 +970,9 @@ body.dark-mode .empty-notifications h3 {
 
 </footer>
 
-
-<!-- =========================================================
-     SCRIPTS
-     ========================================================= -->
-
-<!-- Configuration Supabase -->
 <script src="js/supabase-config.js"></script>
-
-<!-- Traductions AVANT notifications.js -->
 <script src="js/i18n.js"></script>
-
-<!-- Système de notifications -->
 <script src="js/notifications.js"></script>
-
 
 </body>
 
