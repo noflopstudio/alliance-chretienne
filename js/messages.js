@@ -378,11 +378,21 @@ console.log('👤 Utilisateur connecté :', currentUser.id);
 
 startPresence();
 
+console.log('🟢 TEST 1 : après startPresence');
+
 initializeCallChannel();
+
+console.log('🟢 TEST 2 : après initializeCallChannel');
 
 await handleIncomingCallFromNotification();
 
-    await loadConversations();
+console.log('🟢 TEST 3 : après handleIncomingCallFromNotification');
+
+console.log('🟢 TEST 4 : avant loadConversations');
+
+await loadConversations();
+
+console.log('🟢 TEST 5 : après loadConversations');
 
     const params = new URLSearchParams(window.location.search);
     const userId = params.get('user');
@@ -454,10 +464,18 @@ function getVerifiedBadge(isVerified) {
 }
 
 async function loadConversations() {
+    const conversationsList =
+        document.getElementById('conversationsList');
+
+    if (!conversationsList || !currentUser || !window.supabaseClient) {
+        return;
+    }
+
     try {
         const client = window.supabaseClient;
 
-        await loadUnreadMessageCounts();
+        console.log('📨 Chargement des conversations...');
+        console.log('👤 Utilisateur actuel :', currentUser.id);
 
         const { data: sent, error: sentError } = await client
             .from('messages')
@@ -466,7 +484,10 @@ async function loadConversations() {
             .order('created_at', { ascending: false });
 
         if (sentError) {
-            console.error('❌ Erreur messages envoyés:', sentError);
+            console.error(
+                '❌ Erreur messages envoyés :',
+                sentError
+            );
             throw sentError;
         }
 
@@ -475,122 +496,277 @@ async function loadConversations() {
             .select('sender_id, created_at')
             .eq('receiver_id', currentUser.id)
             .order('created_at', { ascending: false });
+            console.log('📩 MESSAGES REÇUS ADMIN :', received);
+console.log('❌ ERREUR MESSAGES REÇUS :', receivedError);
 
         if (receivedError) {
-            console.error('❌ Erreur messages reçus:', receivedError);
+            console.error(
+                '❌ Erreur messages reçus :',
+                receivedError
+            );
             throw receivedError;
         }
 
+        console.log(
+            '📩 Messages reçus :',
+            received?.length || 0
+        );
+
+        console.log(
+            '📤 Messages envoyés :',
+            sent?.length || 0
+        );
+
         const partnerIds = new Set();
 
-        if (sent) {
-            sent.forEach(msg => {
-                if (msg.receiver_id) {
-                    partnerIds.add(msg.receiver_id);
-                }
-            });
+        (sent || []).forEach(message => {
+            if (message.receiver_id) {
+                partnerIds.add(message.receiver_id);
+            }
+        });
+
+        (received || []).forEach(message => {
+            if (message.sender_id) {
+                partnerIds.add(message.sender_id);
+            }
+        });
+
+        console.log(
+            '👥 Interlocuteurs trouvés :',
+            Array.from(partnerIds)
+        );
+
+        if (partnerIds.size === 0) {
+            conversationsList.innerHTML = `
+                <div class="empty-conversations">
+                    <div class="empty-icon">💬</div>
+                    <h3>Aucune conversation</h3>
+                    <p>Vous n'avez pas encore reçu ou envoyé de message.</p>
+                </div>
+            `;
+
+            return;
         }
 
-        if (received) {
-            received.forEach(msg => {
-                if (msg.sender_id) {
-                    partnerIds.add(msg.sender_id);
-                }
-            });
-        }
- if (partnerIds.size === 0) {
-    document.getElementById('conversationsList').innerHTML =
-        `<p style="padding: 1rem; text-align: center; color: var(--text-color);">
-            ${t(
-                'messages.no_conversations',
-                'Aucune conversation pour le moment.'
-            )}
-        </p>`;
-    return;
-}
-
-        const { data: profiles, error: profilesError } = await client
-            .from('profiles')
-           .select('id, first_name, photo_url, is_verified, last_seen')
-            .in('id', Array.from(partnerIds));
+        const { data: profiles, error: profilesError } =
+            await client
+                .from('profiles')
+                .select(
+                    'id, first_name, photo_url, is_verified, last_seen'
+                )
+                .in('id', Array.from(partnerIds));
 
         if (profilesError) {
-            console.error('❌ Erreur profils:', profilesError);
+            console.error(
+                '❌ Erreur récupération profils :',
+                profilesError
+            );
             throw profilesError;
         }
 
-        if (profiles) {
-            const conversationsList = document.getElementById('conversationsList');
-            conversationsList.innerHTML = '';
+        console.log(
+            '👤 Profils trouvés :',
+            profiles?.length || 0
+        );
 
-            for (const profile of profiles) {
-          
-                const { data: lastMessages, error: lastMessageError } = await client
-                    .from('messages')
-                    .select('content, created_at')
-                    .or(
-                        `and(sender_id.eq.${currentUser.id},receiver_id.eq.${profile.id}),and(sender_id.eq.${profile.id},receiver_id.eq.${currentUser.id})`
-                    )
-                    .order('created_at', { ascending: false })
-                    .limit(1);
+
+console.log(
+    '👤 DÉTAIL PROFILS :',
+    profiles
+);
+
+console.log(
+    '👥 DÉTAIL INTERLOCUTEURS :',
+    Array.from(partnerIds)
+);
+
+        const conversationData = [];
+
+        for (const profile of profiles || []) {
+            try {
+                const { data: lastMessages, error: lastMessageError } =
+                    await client
+                        .from('messages')
+                        .select('content, created_at, sender_id, receiver_id')
+                        .or(
+                            `and(sender_id.eq.${currentUser.id},receiver_id.eq.${profile.id}),and(sender_id.eq.${profile.id},receiver_id.eq.${currentUser.id})`
+                        )
+                        .order('created_at', {
+                            ascending: false
+                        })
+                        .limit(1);
 
                 if (lastMessageError) {
-                    console.error('❌ Erreur dernier message:', lastMessageError);
+                    console.error(
+                        `❌ Erreur dernier message de ${profile.first_name}:`,
+                        lastMessageError
+                    );
+                    continue;
                 }
 
-                const lastMessage = lastMessages && lastMessages.length > 0 ? lastMessages[0] : null;
-                const conversationItem = document.createElement('div');
-                conversationItem.className = 'conversation-item';
-                conversationItem.onclick = () => selectConversation(profile.id, profile.first_name);
+                const lastMessage =
+                    lastMessages?.[0] || null;
 
-                const photoUrl = profile.photo_url || getDefaultAvatar();
-                const preview = lastMessage
-                    ? lastMessage.content.substring(0, 30) + (lastMessage.content.length > 30 ? '...' : '')
-                    : 'Pas de message';
+                const unreadCount =
+                    unreadMessageCounts[profile.id] || 0;
 
-               const unreadCount =
-    unreadMessageCounts[profile.id] || 0;
+                conversationData.push({
+                    profile,
+                    lastMessage,
+                    unreadCount
+                });
 
-conversationItem.innerHTML = `
-    <img
-        src="${photoUrl}"
-        alt="${escapeHtml(profile.first_name)}"
-        class="conversation-avatar"
-        onerror="this.src='${getDefaultAvatar()}'"
-    >
-
-    <div class="conversation-info">
-
-        <div class="conversation-name-row">
-
-            <div class="conversation-name">
-                ${escapeHtml(profile.first_name)}
-                ${getVerifiedBadge(profile.is_verified)}
-            </div>
-
-            <span
-                class="conversation-unread-badge"
-                data-partner-id="${profile.id}"
-                style="${unreadCount > 0 ? 'display:inline-flex;' : 'display:none;'}"
-            >
-                ${unreadCount > 0 ? `🔴 ${unreadCount}` : ''}
-            </span>
-
-        </div>
-
-        <div class="conversation-preview">
-            ${escapeHtml(preview)}
-        </div>
-
-    </div>
-`;
-                conversationsList.appendChild(conversationItem);
+            } catch (error) {
+                console.error(
+                    `❌ Erreur conversation ${profile.id}:`,
+                    error
+                );
             }
         }
 
+        conversationData.sort((a, b) => {
+            const dateA =
+                a.lastMessage?.created_at
+                    ? new Date(a.lastMessage.created_at).getTime()
+                    : 0;
+
+            const dateB =
+                b.lastMessage?.created_at
+                    ? new Date(b.lastMessage.created_at).getTime()
+                    : 0;
+
+            return dateB - dateA;
+        });
+
+        conversationsList.innerHTML = '';
+
+        conversationData.forEach(
+            ({ profile, lastMessage, unreadCount }) => {
+
+                const conversationItem =
+                    document.createElement('div');
+
+                conversationItem.className =
+                    'conversation-item';
+
+                conversationItem.dataset.userId =
+                    profile.id;
+
+                const avatar =
+                    profile.photo_url ||
+                    getDefaultAvatar();
+
+                const online =
+                    isProfileOnline(profile);
+
+                const lastMessageText =
+                    lastMessage?.content ||
+                    'Aucun message';
+
+                conversationItem.innerHTML = `
+                    <img
+                        src="${escapeHtml(avatar)}"
+                        alt="${escapeHtml(profile.first_name || 'Utilisateur')}"
+                        class="conversation-avatar"
+                        onerror="this.src='${getDefaultAvatar()}'"
+                    >
+
+                    <div class="conversation-info">
+
+                        <div class="conversation-header">
+
+                            <span class="conversation-name">
+                                ${escapeHtml(
+                                    profile.first_name ||
+                                    'Utilisateur'
+                                )}
+
+                                ${
+                                    profile.is_verified
+                                        ? '<span class="verified-badge">✓</span>'
+                                        : ''
+                                }
+
+                                ${
+                                    online
+                                        ? '<span class="online-dot"></span>'
+                                        : ''
+                                }
+                            </span>
+
+                            ${
+                                unreadCount > 0
+                                    ? `
+                                        <span
+                                            class="conversation-unread-badge"
+                                            data-partner-id="${escapeHtml(profile.id)}"
+                                        >
+                                            🔴 ${unreadCount}
+                                        </span>
+                                    `
+                                    : ''
+                            }
+
+                        </div>
+
+                        <div class="conversation-preview">
+                            ${escapeHtml(
+                                lastMessageText
+                            )}
+                        </div>
+
+                    </div>
+                `;
+
+                conversationItem.addEventListener(
+                    'click',
+                    () => {
+                        selectConversation(
+                            profile.id,
+                            profile.first_name
+                        );
+                    }
+                );
+
+                conversationsList.appendChild(
+                    conversationItem
+                );
+            }
+        );
+
+        // Mettre à jour les badges
+        updateUnreadMessageDisplay();
+
+        console.log(
+            '✅ Conversations affichées :',
+            conversationData.length
+        );
+console.log(
+    '💬 CONVERSATIONS FINALES :',
+    JSON.stringify(
+        conversationData.map(c => ({
+            id: c.profile.id,
+            nom: c.profile.first_name,
+            dernierMessage: c.lastMessage?.content
+        })),
+        null,
+        2
+    )
+);
+
     } catch (error) {
-        console.error('❌ Erreur loadConversations:', error);
-        showAlert('Erreur lors du chargement des conversations', 'error');
+        console.error(
+            '❌ Erreur loadConversations :',
+            error
+        );
+
+        conversationsList.innerHTML = `
+            <div class="empty-conversations">
+                <div class="empty-icon">⚠️</div>
+                <h3>Erreur</h3>
+                <p>Impossible de charger les conversations.</p>
+            </div>
+        `;
     }
 }
 

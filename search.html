@@ -4473,6 +4473,12 @@ async function updateMessageUnreadDot() {
             Array.isArray(data) &&
             data.length > 0;
 
+        console.log(
+            '🔴 Messages non lus détectés :',
+            hasUnreadMessage,
+            data
+        );
+
         updateMessageNotificationDisplay();
 
     } catch (error) {
@@ -4484,7 +4490,6 @@ async function updateMessageUnreadDot() {
 
     }
 }
-
 async function subscribeToMessageUnreadIndicator() {
 
     if (!window.supabaseClient) {
