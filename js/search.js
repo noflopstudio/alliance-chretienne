@@ -2,8 +2,6 @@
 let allProfiles = [];
 let currentUser = null;
 
-// ===== 🟢🟢 STATUT EN LIGNE =====
-
 async function updateMyLastSeen() {
 
     if (!currentUser || !window.supabaseClient) return;
@@ -54,10 +52,106 @@ function startPresence() {
     });
 }
 
+async function loadFloatingProfile() {
+
+    const photoElement = document.getElementById('floatingProfilePhoto');
+    const nameElement = document.getElementById('floatingProfileName');
+
+    if (!photoElement || !nameElement || !currentUser) {
+        console.warn('⚠️ Éléments profil flottant introuvables');
+        return;
+    }
+
+    try {
+
+        console.log('👤 Chargement du profil flottant...');
+        console.log('🆔 Mon ID :', currentUser.id);
+
+        const { data: photos, error: photosError } =
+            await window.supabaseClient
+                .from('profile_photos')
+                .select('photo_url, is_primary, status, created_at')
+                .eq('profile_id', currentUser.id)
+                .eq('status', 'approved')
+                .order('is_primary', {
+                    ascending: false
+                })
+                .order('created_at', {
+                    ascending: true
+                });
+
+        console.log('📸 PHOTOS TROUVÉES :', photos);
+
+        if (photosError) {
+
+            console.error(
+                '❌ Erreur chargement photos flottantes :',
+                photosError
+            );
+
+            return;
+        }
+
+        const primaryPhoto =
+            photos.find(photo => photo.is_primary) ||
+            photos[0];
+
+
+        if (primaryPhoto && primaryPhoto.photo_url) {
+
+            console.log(
+                '⭐ PHOTO PRINCIPALE :',
+                primaryPhoto.photo_url
+            );
+
+            photoElement.src = primaryPhoto.photo_url;
+
+            photoElement.onerror = function () {
+
+                console.error(
+                    '❌ Impossible de charger la photo :',
+                    this.src
+                );
+
+                this.onerror = null;
+
+                if (typeof getDefaultAvatar === 'function') {
+                    this.src = getDefaultAvatar();
+                }
+            };
+
+        } else {
+
+            console.log('📷 Aucune photo approuvée trouvée');
+
+            if (typeof getDefaultAvatar === 'function') {
+                photoElement.src = getDefaultAvatar();
+            }
+        }
+
+        nameElement.textContent = 'Mon profil';
+
+
+        console.log('✅ Profil flottant chargé');
+
+    } catch (error) {
+
+        console.error(
+            '❌ Erreur loadFloatingProfile :',
+            error
+        );
+    }
+}
 document.addEventListener('DOMContentLoaded', async () => {
 
     currentUser = await requireAuth();
-if (!currentUser) return;
+
+    if (!currentUser) return;
+
+    // 👤 Charger ma photo et mon nom dans la capsule
+    await loadFloatingProfile();
+
+    // ⬇️ Ici continue le reste de ton code existant
 
 // 🟢 Démarrer le système de présence
 startPresence();
@@ -282,11 +376,6 @@ function createProfileCard(profile, age) {
                    this.src='images/profil-default.jpeg'
                 "
             >
-
-
-            <!-- =================================
-                 ACTIONS
-            ================================== -->
 
             <div class="profile-card-actions-overlay">
 
@@ -797,9 +886,61 @@ function passProfile(profileId) {
     });
 }
 
+async function recordProfileView(profileId) {
+
+    if (!currentUser || !window.supabaseClient) {
+        return;
+    }
+
+    // 🚫 Ne jamais enregistrer sa propre consultation
+    if (currentUser.id === profileId) {
+        return;
+    }
+
+    try {
+
+        const { error } = await window.supabaseClient
+            .from('profile_views')
+            .upsert(
+                {
+                    viewer_id: currentUser.id,
+                    profile_id: profileId,
+                    viewed_at: new Date().toISOString()
+                },
+                {
+                    onConflict: 'viewer_id,profile_id'
+                }
+            );
+
+        if (error) {
+
+            console.error(
+                '❌ Erreur enregistrement consultation :',
+                error
+            );
+
+            return;
+        }
+
+        console.log(
+            '👀 Consultation enregistrée :',
+            profileId
+        );
+
+    } catch (error) {
+
+        console.error(
+            '❌ Erreur recordProfileView :',
+            error
+        );
+    }
+}
+
 async function viewProfile(userId) {
 
 try {
+
+await recordProfileView(userId);
 
     const { data: profile, error: profileError } =
         await window.supabaseClient
@@ -1292,7 +1433,6 @@ try {
 
 }
 
-
 function startChat(userId, userName) {
     // Rediriger vers la page des messages avec l'ID de l'utilisateur
     window.location.href = `membre-messages.html?user=${userId}&name=${encodeURIComponent(userName)}`;
@@ -1395,5 +1535,94 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+async function loadFloatingProfile() {
+
+    const photoElement = document.getElementById('floatingProfilePhoto');
+    const nameElement = document.getElementById('floatingProfileName');
+
+    if (!photoElement || !nameElement || !currentUser) {
+        return;
+    }
+
+    try {
+
+        console.log('👤 Chargement de ma photo...');
+        console.log('🆔 Mon ID :', currentUser.id);
+
+        const { data: photos, error: photosError } =
+            await window.supabaseClient
+                .from('profile_photos')
+                .select('photo_url, is_primary, status, created_at')
+                .eq('profile_id', currentUser.id)
+                .eq('status', 'approved')
+                .order('is_primary', {
+                    ascending: false
+                })
+                .order('created_at', {
+                    ascending: true
+                });
+
+        console.log('📸 PHOTOS TROUVÉES :', photos);
+
+        if (photosError) {
+
+            console.error(
+                '❌ Erreur chargement photos :',
+                photosError
+            );
+
+            return;
+        }
+
+        const primaryPhoto =
+            photos.find(photo => photo.is_primary) ||
+            photos[0];
+
+        if (primaryPhoto && primaryPhoto.photo_url) {
+
+            console.log(
+                '⭐ Photo principale trouvée :',
+                primaryPhoto.photo_url
+            );
+
+            photoElement.src = primaryPhoto.photo_url;
+
+            photoElement.onerror = function () {
+
+                console.error(
+                    '❌ Impossible de charger cette photo'
+                );
+
+                this.onerror = null;
+
+                if (typeof getDefaultAvatar === 'function') {
+                    this.src = getDefaultAvatar();
+                }
+            };
+
+        } else {
+
+            console.log(
+                '📷 Aucune photo approuvée trouvée'
+            );
+
+            if (typeof getDefaultAvatar === 'function') {
+                photoElement.src = getDefaultAvatar();
+            }
+        }
+
+        nameElement.textContent = 'Mon profil';
+
+        console.log('✅ Capsule profil chargée');
+
+    } catch (error) {
+
+        console.error(
+            '❌ Erreur loadFloatingProfile :',
+            error
+        );
+    }
+}
 
 console.log('✅ search.js chargé avec succès !');

@@ -74,10 +74,6 @@ async function loadProfile() {
     }
 }
 
-// =====================================================
-// CERTIFICATION DU PROFIL
-// =====================================================
-
 async function loadCertificationStatus() {
 
 
@@ -110,10 +106,6 @@ async function loadCertificationStatus() {
             `;
             return;
         }
-
-        // ==========================================
-        // AUCUNE DEMANDE
-        // ==========================================
 
         if (!request) {
 
@@ -167,10 +159,6 @@ async function loadCertificationStatus() {
             return;
         }
 
-        // ==========================================
-        // EN ATTENTE
-        // ==========================================
-
         if (request.status === 'pending') {
 
             container.innerHTML = `
@@ -214,10 +202,6 @@ async function loadCertificationStatus() {
             return;
         }
 
-        // ==========================================
-        // CERTIFIÉ
-        // ==========================================
-
         if (request.status === 'certified') {
 
             container.innerHTML = `
@@ -250,10 +234,6 @@ async function loadCertificationStatus() {
 
             return;
         }
-
-        // ==========================================
-        // REFUSÉ
-        // ==========================================
 
         if (request.status === 'rejected') {
 
@@ -325,11 +305,6 @@ async function loadCertificationStatus() {
     }
 }
 
-
-// =====================================================
-// DEMANDER LA CERTIFICATION + PAIEMENT WAVE
-// =====================================================
-
 async function requestCertification() {
 
     const client = window.supabaseClient;
@@ -340,10 +315,6 @@ async function requestCertification() {
     }
 
     try {
-
-        // ==========================================
-        // 1. VÉRIFIER UNE DEMANDE EXISTANTE
-        // ==========================================
 
         const { data: existingRequest, error: checkError } =
             await client
@@ -369,10 +340,6 @@ async function requestCertification() {
             return;
         }
 
-        // ==========================================
-        // DEMANDE DÉJÀ EN ATTENTE
-        // ==========================================
-
         if (
             existingRequest &&
             existingRequest.status === 'pending'
@@ -385,10 +352,6 @@ async function requestCertification() {
 
             return;
         }
-
-       // ==========================================
-// DÉJÀ CERTIFIÉ
-// ==========================================
 
 if (
     existingRequest &&
@@ -651,10 +614,6 @@ console.log('👤 currentUser:', currentUser);
 
     try {
 
-        // ==========================================
-        // 1. VÉRIFIER LE NOMBRE DE PHOTOS
-        // ==========================================
-
         console.log('🔵 Requête profile_photos en cours...');
 
 const { count, error: countError } =
@@ -687,19 +646,11 @@ console.log('❌ countError:', countError);
             return;
         }
 
-        // ==========================================
-        // 2. VÉRIFIER LE TYPE
-        // ==========================================
-
         if (!file.type.startsWith('image/')) {
             showAlert('Veuillez sélectionner une image', 'error');
             event.target.value = '';
             return;
         }
-
-        // ==========================================
-        // 3. VÉRIFIER LA TAILLE
-        // ==========================================
 
         if (file.size > 5 * 1024 * 1024) {
             showAlert(
@@ -743,11 +694,6 @@ console.log('🟢 Création du FileReader');
         event.target.value = '';
     }
 }
-
-
-// =====================================================
-// OUVRIR LE RECADREUR
-// =====================================================
 
 function openPhotoCropper(imageSrc, originalFile, currentCount) {
 
@@ -925,11 +871,6 @@ function openPhotoCropper(imageSrc, originalFile, currentCount) {
     window.currentCropCount = currentCount;
 }
 
-
-// =====================================================
-// CHARGER CROPPER.JS
-// =====================================================
-
 function loadCropperLibrary(callback) {
 
     if (window.Cropper) {
@@ -963,11 +904,6 @@ function loadCropperLibrary(callback) {
     document.head.appendChild(script);
 }
 
-
-// =====================================================
-// ANNULER LE RECADRAGE
-// =====================================================
-
 function cancelPhotoCrop() {
 
     if (window.currentCropper) {
@@ -992,11 +928,6 @@ function cancelPhotoCrop() {
     }
 }
 
-
-// =====================================================
-// CONFIRMER LE RECADRAGE
-// =====================================================
-
 async function confirmPhotoCrop() {
 
     if (!window.currentCropper) {
@@ -1016,10 +947,6 @@ async function confirmPhotoCrop() {
             'info'
         );
 
-        // ==========================================
-        // CRÉER L'IMAGE RECADRÉE
-        // ==========================================
-
        const canvas =
     window.currentCropper.getCroppedCanvas({
 
@@ -1030,10 +957,6 @@ async function confirmPhotoCrop() {
         imageSmoothingQuality: 'high'
 
     });
-
-        // ==========================================
-        // CONVERTIR EN BLOB
-        // ==========================================
 
         canvas.toBlob(
             async function (blob) {
@@ -1073,11 +996,6 @@ async function confirmPhotoCrop() {
     }
 }
 
-
-// =====================================================
-// ENVOYER LA PHOTO RECADRÉE
-// =====================================================
-
 async function uploadCroppedPhoto(blob, count) {
 
     const client = window.supabaseClient;
@@ -1104,16 +1022,9 @@ async function uploadCroppedPhoto(blob, count) {
             'info'
         );
 
-        // ==========================================
-        // NOM UNIQUE
-        // ==========================================
 
         const fileName =
             `${currentUser.id}/${Date.now()}.jpg`;
-
-        // ==========================================
-        // UPLOAD STORAGE
-        // ==========================================
 
         const { error: uploadError } =
             await client.storage
@@ -1144,10 +1055,6 @@ async function uploadCroppedPhoto(blob, count) {
         }
 
         console.log('✅ Photo recadrée uploadée');
-
-        // ==========================================
-        // URL PUBLIQUE
-        // ==========================================
 
         const { data: publicUrlData } =
             client.storage
@@ -1473,10 +1380,6 @@ if (viewContainer) {
     }
 }
 
-// =====================================================
-// SUPPRIMER UNE PHOTO DU PROFIL
-// =====================================================
-
 async function deleteProfilePhoto(photoId, photoUrl) {
 
     if (!confirm('Voulez-vous vraiment supprimer cette photo ?')) {
@@ -1493,10 +1396,6 @@ async function deleteProfilePhoto(photoId, photoUrl) {
     try {
 
         showAlert('⏳ Suppression de la photo...', 'info');
-
-        // ==========================================
-        // 1. RÉCUPÉRER LA PHOTO
-        // ==========================================
 
         const { data: photo, error: photoError } =
             await client
@@ -1518,9 +1417,6 @@ async function deleteProfilePhoto(photoId, photoUrl) {
             return;
         }
 
-        // ==========================================
-        // 2. SUPPRIMER DE profile_photos
-        // ==========================================
 
         const { error: deleteError } =
             await client
@@ -1544,10 +1440,6 @@ async function deleteProfilePhoto(photoId, photoUrl) {
 
             return;
         }
-
-        // ==========================================
-        // 3. SUPPRIMER DU STORAGE
-        // ==========================================
 
         try {
 
@@ -1601,10 +1493,6 @@ async function deleteProfilePhoto(photoId, photoUrl) {
 
         }
 
-        // ==========================================
-        // 4. VÉRIFIER LES PHOTOS RESTANTES
-        // ==========================================
-
         const { data: remainingPhotos, error: remainingError } =
             await client
                 .from('profile_photos')
@@ -1627,10 +1515,6 @@ async function deleteProfilePhoto(photoId, photoUrl) {
         }
 
         const photosLeft = remainingPhotos || [];
-
-        // ==========================================
-        // 5. SI LA PHOTO SUPPRIMÉE ÉTAIT PRINCIPALE
-        // ==========================================
 
         const wasPrimary = photo.is_primary;
 
@@ -1700,16 +1584,9 @@ async function deleteProfilePhoto(photoId, photoUrl) {
             }
         }
 
-        // ==========================================
-        // 6. RECHARGER LE PROFIL
-        // ==========================================
-
         await loadProfile();
 
-        // ==========================================
-        // 7. RECHARGER LES PHOTOS
-        // ==========================================
-
+  
         await loadProfilePhotos();
 
         showAlert(
@@ -1744,10 +1621,6 @@ async function setPrimaryPhoto(photoId, photoUrl) {
 
         showAlert('⏳ Changement de la photo principale...', 'info');
 
-        // ==========================================
-        // 1. RETIRER "PRINCIPALE" DE TOUTES LES PHOTOS
-        // ==========================================
-
         const { error: resetError } = await client
             .from('profile_photos')
             .update({
@@ -1768,10 +1641,6 @@ async function setPrimaryPhoto(photoId, photoUrl) {
 
             return;
         }
-
-        // ==========================================
-        // 2. DÉFINIR LA NOUVELLE PHOTO PRINCIPALE
-        // ==========================================
 
         const { error: primaryError } = await client
             .from('profile_photos')
@@ -1795,10 +1664,6 @@ async function setPrimaryPhoto(photoId, photoUrl) {
             return;
         }
 
-        // ==========================================
-        // 3. METTRE À JOUR profiles.photo_url
-        // ==========================================
-
         const { error: profileError } = await client
             .from('profiles')
             .update({
@@ -1820,15 +1685,9 @@ async function setPrimaryPhoto(photoId, photoUrl) {
             return;
         }
 
-        // ==========================================
-        // 4. RECHARGER LES PHOTOS
-        // ==========================================
 
         await loadProfilePhotos();
 
-        // ==========================================
-        // 5. RECHARGER LE PROFIL
-        // ==========================================
 
         await loadProfile();
 
@@ -2159,10 +2018,6 @@ function showAlert(message, type = 'info') {
 }
 
 
-// =====================================================
-// MODALE PAIEMENT CERTIFICATION
-// =====================================================
-
 function openCertificationPaymentModal() {
 
     // Éviter plusieurs modales
@@ -2394,10 +2249,6 @@ vos informations et envoyer votre demande.
 
         </div>
     `;
-
-    // =====================================================
-// FERMER AVEC LE BOUTON X
-// =====================================================
 
 const closeBtn = modal.querySelector(
     '#closeCertificationPaymentBtn'
@@ -2707,7 +2558,5 @@ try {
 }
 
 }
-
-
 
 console.log('✅ profile.js chargé avec succès !');

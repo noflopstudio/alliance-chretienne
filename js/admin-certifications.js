@@ -38,10 +38,6 @@ function showAlert(message, type = 'info') {
     }, 5000);
 }
 
-/* ==========================================================
-   PROTECTION HTML
-   ========================================================== */
-
 function escapeHtml(value) {
 
     if (value === null || value === undefined) {
@@ -55,10 +51,6 @@ function escapeHtml(value) {
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
 }
-
-/* ==========================================================
-   FORMAT DATE
-   ========================================================== */
 
 function formatDate(value) {
 
@@ -79,20 +71,12 @@ function formatDate(value) {
     });
 }
 
-/* ==========================================================
-   FORMAT MONTANT
-   ========================================================== */
-
 function formatAmount(value) {
 
     const amount = Number(value || 0);
 
     return amount.toLocaleString('fr-FR') + ' FCFA';
 }
-
-/* ==========================================================
-   AVATAR PAR DÉFAUT
-   ========================================================== */
 
 function getDefaultAvatar() {
 
@@ -125,10 +109,6 @@ function getDefaultAvatar() {
             </svg>
         `);
 }
-
-/* ==========================================================
-   CALCUL ÂGE
-   ========================================================== */
 
 function calculateAge(birthDate) {
 
@@ -382,10 +362,6 @@ window.viewPaymentProof =
         modal.classList.add('show');
     };
 
-/* ==========================================================
-   VOIR LE PROFIL
-   ========================================================== */
-
 window.viewProfile =
     async function(userId) {
 
@@ -547,10 +523,6 @@ window.viewProfile =
         modal.classList.add('show');
     };
 
-/* ==========================================================
-   FERMER LES MODALES
-   ========================================================== */
-
 window.closeModal =
     function(modalId) {
 
@@ -591,10 +563,6 @@ document
             }
         );
     });
-
-/* ==========================================================
-   CERTIFIER LE PROFIL
-   ========================================================== */
 
 window.certifyProfile =
     async function(requestId) {
@@ -642,10 +610,6 @@ window.certifyProfile =
                 'info'
             );
 
-            /* --------------------------------------------------
-               1. CERTIFIER LE PROFIL
-               -------------------------------------------------- */
-
             const {
                 error: profileError
             } = await supabase
@@ -663,10 +627,6 @@ window.certifyProfile =
             if (profileError) {
                 throw profileError;
             }
-
-            /* --------------------------------------------------
-               2. APPROUVER LA DEMANDE
-               -------------------------------------------------- */
 
           const {
     error: requestError
@@ -690,9 +650,6 @@ window.certifyProfile =
 if (requestError) {
     throw requestError;
 }
-            /* --------------------------------------------------
-               3. NOTIFICATION
-               -------------------------------------------------- */
 
             const {
                 error: notificationError
@@ -761,13 +718,6 @@ if (requestError) {
     };
 
 
-
-
-
-    /* ==========================================================
-   ENLEVER LA CERTIFICATION
-   ========================================================== */
-
 window.removeCertification =
     async function(requestId) {
 
@@ -817,10 +767,6 @@ window.removeCertification =
                 'info'
             );
 
-            /* --------------------------------------------------
-               1. RETIRER LA CERTIFICATION DU PROFIL
-               -------------------------------------------------- */
-
             const {
                 error: profileError
             } = await supabase
@@ -838,10 +784,6 @@ window.removeCertification =
             if (profileError) {
                 throw profileError;
             }
-
-            /* --------------------------------------------------
-               2. METTRE À JOUR LA DEMANDE
-               -------------------------------------------------- */
 
 const {
     error: requestError
@@ -1019,10 +961,6 @@ window.rejectCertification =
         }, 100);
     };
 
-/* ==========================================================
-   CONFIRMER REFUS
-   ========================================================== */
-
 async function confirmRejection(
     request,
     reason
@@ -1039,10 +977,6 @@ async function confirmRejection(
     }
 
     try {
-
-        /* --------------------------------------------------
-           1. REFUSER LA DEMANDE
-           -------------------------------------------------- */
 
         const {
     error: requestError
@@ -1072,10 +1006,7 @@ if (requestError) {
             throw requestError;
         }
 
-        /* --------------------------------------------------
-           2. NOTIFICATION
-           -------------------------------------------------- */
-
+    
         const {
             error: notificationError
         } = await supabase
@@ -1146,10 +1077,6 @@ if (requestError) {
         );
     }
 }
-
-/* ==========================================================
-   CHARGER LES DEMANDES DE CERTIFICATION
-   ========================================================== */
 
 async function loadRequests() {
 
@@ -1229,10 +1156,6 @@ renderRequests();
         );
     }
 }
-
-/* ==========================================================
-   METTRE À JOUR LES STATISTIQUES
-   ========================================================== */
 
 function updateStats() {
 
