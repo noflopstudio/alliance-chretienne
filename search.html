@@ -3676,6 +3676,97 @@ body.dark-mode .notification-unread-dot {
 
     padding-bottom: 90px !important;
 }
+
+
+/* ==========================================
+   🎨 BOUTONS DU PROFIL
+   ========================================== */
+
+.profile-modal-actions {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    margin-top: 18px;
+}
+
+.profile-modal-actions button {
+    flex: 1;
+    min-height: 46px;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+/* ❤️ Liker */
+.profile-modal-like {
+    background: #fff1f2;
+    color: #e11d48;
+    border: 1px solid #fecdd3 !important;
+}
+
+.profile-modal-like:hover {
+    background: #ffe4e6;
+    box-shadow: 0 5px 14px rgba(225, 29, 72, 0.16);
+    transform: translateY(-2px);
+}
+
+/* 💬 Message */
+.profile-modal-message {
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe !important;
+}
+
+.profile-modal-message:hover {
+    background: #dbeafe;
+    box-shadow: 0 5px 14px rgba(37, 99, 235, 0.16);
+    transform: translateY(-2px);
+}
+
+/* 👤 Profil */
+.profile-modal-profile {
+    background: #f8fafc;
+    color: #334155;
+    border: 1px solid #cbd5e1 !important;
+}
+
+.profile-modal-profile:hover {
+    background: #f1f5f9;
+    box-shadow: 0 5px 14px rgba(51, 65, 85, 0.14);
+    transform: translateY(-2px);
+}
+
+/* Effet au clic */
+.profile-modal-actions button:active {
+    transform: scale(0.97);
+    box-shadow: none;
+}
+
+/* 📱 Mobile */
+@media (max-width: 480px) {
+
+    .profile-modal-actions {
+        gap: 8px;
+    }
+
+    .profile-modal-actions button {
+        min-height: 44px;
+        padding: 9px 8px;
+        font-size: 0.84rem;
+    }
+}
+
 </style>
 
 </head>
@@ -3733,44 +3824,57 @@ body.dark-mode .notification-unread-dot {
     <div class="sidebar-header">
     </div>
 
-    <nav class="sidebar-nav">
+ <nav class="sidebar-nav">
 
-   <a href="membre-messages.html" id="messagesMenuLink">
-    <span data-i18n="search.messages">Messages</span>
-    <span id="messageMenuDot" class="message-menu-dot"></span>
-</a>
+    <a href="membre-messages.html" id="messagesMenuLink">
+        <span data-i18n="search.messages">Messages</span>
+        <span id="messageMenuDot" class="message-menu-dot"></span>
+    </a>
 
-<a href="membre-favoris.html">
-    <span data-i18n="search.favorites">Mes favoris</span>
-</a>
+    <a href="membre-favoris.html">
+        <span data-i18n="search.favorites">Mes favoris</span>
+    </a>
 
-<a href="membre-notifications.html" id="notificationsMenuLink">
-    <span data-i18n="search.notifications">Notifications</span>
-    <span id="notificationMenuDot" class="notification-menu-dot"></span>
-</a>
-        <a href="membre-certification.html">
-            <span data-i18n="search.certification">Demande de certification</span>
-        </a>
-        <a href="membre-avertissements.html">
-            <span data-i18n="search.warnings">Avertissements</span>
-        </a>
-        <a href="membre-conseils.html">
-            <span data-i18n="search.security">Conseils de sécurité</span>
-        </a>
-        <a href="membre-signaler-probleme.html">
-             <span data-i18n="search.report">Signaler un problème</span>
-        </a>
-        <a href="mon-temoignage.html">
-            <span data-i18n="search.testimonials">Mes Témoignages</span>
-        </a>
-        <a href="membre-parametres.html">
-            <span data-i18n="search.settings">Paramètres</span>
-        </a>
-        <a href="#" id="logoutButton">
-            <span data-i18n="search.logout">Déconnexion</span>
-        </a>
 
-    </nav>
+    <a href="membre-visites.html" id="profileViewsMenuLink">
+        <span>Mes visiteurs</span>
+        <span id="profileViewsMenuDot" class="profile-views-menu-dot"></span>
+    </a>
+
+    <a href="membre-notifications.html" id="notificationsMenuLink">
+        <span data-i18n="search.notifications">Notifications</span>
+        <span id="notificationMenuDot" class="notification-menu-dot"></span>
+    </a>
+
+    <a href="membre-certification.html">
+        <span data-i18n="search.certification">Demande de certification</span>
+    </a>
+
+    <a href="membre-avertissements.html">
+        <span data-i18n="search.warnings">Avertissements</span>
+    </a>
+
+    <a href="membre-conseils.html">
+        <span data-i18n="search.security">Conseils de sécurité</span>
+    </a>
+
+    <a href="membre-signaler-probleme.html">
+        <span data-i18n="search.report">Signaler un problème</span>
+    </a>
+
+    <a href="mon-temoignage.html">
+        <span data-i18n="search.testimonials">Mes Témoignages</span>
+    </a>
+
+    <a href="membre-parametres.html">
+        <span data-i18n="search.settings">Paramètres</span>
+    </a>
+
+    <a href="#" id="logoutButton">
+        <span data-i18n="search.logout">Déconnexion</span>
+    </a>
+
+</nav>
 
 </aside>
 

@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color"
+          content="#2563eb">
+
+    <title>Qui a consulté mon profil ? - Alliance Chrétienne</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="supabase-config.js"></script>
+    <script src="auth.js"></script>
+<style>
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html,
+    body {
+        width: 100%;
+        min-height: 100%;
+    }
+
+    body {
+        font-family:
+            -apple-system,
+            BlinkMacSystemFont,
+            "Segoe UI",
+            Roboto,
+            Arial,
+            sans-serif;
+
+        min-height: 100vh;
+
+        color: #1f2937;
+
+        background:
+            linear-gradient(
+                135deg,
+                #eff6ff 0%,
+                #ffffff 50%,
+                #fff1f2 100%
+            );
+    }
+
+    .page-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+
+        width: 100%;
+        height: 68px;
+
+        display: flex;
+        align-items: center;
+
+        padding: 0 18px;
+
+        background:
+            rgba(255, 255, 255, 0.92);
+
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+
+        border-bottom:
+            1px solid rgba(37, 99, 235, 0.10);
+
+        box-shadow:
+            0 4px 20px rgba(15, 23, 42, 0.06);
+    }
+
+    .header-inner {
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+
+        gap: 14px;
+    }
+
+    .back-button {
+        width: 42px;
+        height: 42px;
+
+        min-width: 42px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+
+        text-decoration: none;
+
+        color: #2563eb;
+
+        background: #eff6ff;
+
+        transition:
+            transform 0.25s ease,
+            background 0.25s ease;
+    }
+
+    .back-button:hover {
+        transform: translateX(-3px);
+
+        background: #dbeafe;
+    }
+
+    .back-button svg {
+        width: 21px;
+        height: 21px;
+    }
+
+    .header-title {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .header-title h1 {
+        font-size: 18px;
+        font-weight: 800;
+
+        color: #111827;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .header-title p {
+        margin-top: 2px;
+
+        font-size: 12px;
+
+        color: #6b7280;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .page-content {
+        width: 100%;
+
+        margin: 0;
+
+        padding:
+            24px
+            24px
+            100px;
+    }
+
+    .intro-card {
+        position: relative;
+
+        width: 100%;
+
+        padding: 22px;
+
+        margin-bottom: 20px;
+
+        border-radius: 22px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #2563eb,
+                #7c3aed,
+                #f43f5e
+            );
+
+        color: white;
+
+        overflow: hidden;
+
+        box-shadow:
+            0 12px 30px
+            rgba(37, 99, 235, 0.20);
+    }
+
+    .intro-card::after {
+        content: "";
+
+        position: absolute;
+
+        width: 150px;
+        height: 150px;
+
+        right: -50px;
+        top: -50px;
+
+        border-radius: 50%;
+
+        background:
+            rgba(255, 255, 255, 0.10);
+    }
+
+    .intro-icon {
+        font-size: 28px;
+
+        margin-bottom: 8px;
+    }
+
+    .intro-card h2 {
+        position: relative;
+        z-index: 2;
+
+        font-size: 19px;
+        font-weight: 800;
+
+        margin-bottom: 6px;
+    }
+
+    .intro-card p {
+        position: relative;
+        z-index: 2;
+
+        font-size: 13px;
+
+        line-height: 1.55;
+
+        color:
+            rgba(255, 255, 255, 0.88);
+    }
+
+    .views-summary {
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        margin-bottom: 14px;
+
+        padding: 0 4px;
+    }
+
+    .views-summary strong {
+        font-size: 15px;
+
+        color: #111827;
+    }
+
+    .views-count {
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        min-width: 30px;
+        height: 30px;
+
+        padding: 0 9px;
+
+        border-radius: 20px;
+
+        color: white;
+
+        background:
+            linear-gradient(
+                135deg,
+                #2563eb,
+                #f43f5e
+            );
+
+        font-size: 12px;
+        font-weight: 800;
+
+        box-shadow:
+            0 5px 15px
+            rgba(37, 99, 235, 0.20);
+    }
+
+    #visitorsList {
+        width: 100%;
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 12px;
+    }
+
+    .visitor-card {
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+
+        gap: 13px;
+
+        padding: 12px 14px;
+
+        border-radius: 19px;
+
+        text-decoration: none;
+
+        color: inherit;
+
+        background:
+            rgba(255, 255, 255, 0.94);
+
+        border:
+            1px solid
+            rgba(37, 99, 235, 0.08);
+
+        box-shadow:
+            0 5px 18px
+            rgba(15, 23, 42, 0.06);
+
+        transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease,
+            border-color 0.25s ease;
+    }
+
+    .visitor-card:hover {
+        transform: translateY(-2px);
+
+        border-color:
+            rgba(37, 99, 235, 0.20);
+
+        box-shadow:
+            0 10px 25px
+            rgba(37, 99, 235, 0.10);
+    }
+
+    .visitor-avatar {
+        position: relative;
+
+        width: 58px;
+        height: 58px;
+
+        min-width: 58px;
+
+        padding: 2px;
+
+        border-radius: 50%;
+
+        background:
+            linear-gradient(
+                135deg,
+                #2563eb,
+                #f43f5e
+            );
+    }
+
+    .visitor-avatar img {
+        width: 100%;
+        height: 100%;
+
+        display: block;
+
+        object-fit: cover;
+
+        border-radius: 50%;
+
+        border:
+            2px solid white;
+
+        background: #e5e7eb;
+    }
+
+    .online-dot {
+        position: absolute;
+
+        right: 1px;
+        bottom: 1px;
+
+        width: 14px;
+        height: 14px;
+
+        border-radius: 50%;
+
+        background: #22c55e;
+
+        border:
+            2px solid white;
+
+        box-shadow:
+            0 0 0 2px
+            rgba(34, 197, 94, 0.18);
+    }
+
+    .online-dot.offline {
+        background: #9ca3af;
+
+        box-shadow: none;
+    }
+
+    .visitor-info {
+        flex: 1;
+
+        min-width: 0;
+    }
+
+    .visitor-name {
+        display: flex;
+
+        align-items: center;
+
+        gap: 5px;
+
+        margin-bottom: 4px;
+
+        font-size: 15px;
+
+        font-weight: 800;
+
+        color: #111827;
+    }
+
+    .verified-badge {
+        width: 16px;
+        height: 16px;
+
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+
+        background: #2563eb;
+
+        color: white;
+
+        font-size: 9px;
+
+        font-weight: 900;
+    }
+
+    .visitor-details {
+        font-size: 12px;
+
+        color: #6b7280;
+
+        white-space: nowrap;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+    }
+
+    .visitor-time {
+        margin-top: 4px;
+
+        font-size: 10px;
+
+        color: #9ca3af;
+    }
+
+    .visitor-arrow {
+        width: 32px;
+        height: 32px;
+
+        min-width: 32px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+
+        color: #2563eb;
+
+        background: #eff6ff;
+    }
+
+    .loading-state,
+    .empty-state,
+    .error-state {
+        width: 100%;
+
+        text-align: center;
+
+        padding: 45px 20px;
+
+        border-radius: 20px;
+
+        background:
+            rgba(255, 255, 255, 0.90);
+
+        border:
+            1px solid
+            rgba(37, 99, 235, 0.07);
+    }
+
+    .loading-spinner {
+        width: 34px;
+        height: 34px;
+
+        margin: 0 auto 14px;
+
+        border-radius: 50%;
+
+        border:
+            3px solid #dbeafe;
+
+        border-top-color:
+            #2563eb;
+
+        animation:
+            spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+
+        to {
+            transform: rotate(360deg);
+        }
+
+    }
+
+    .empty-icon {
+        font-size: 38px;
+
+        margin-bottom: 12px;
+    }
+
+    .empty-state h3,
+    .error-state h3 {
+        font-size: 16px;
+
+        color: #111827;
+
+        margin-bottom: 6px;
+    }
+
+    .empty-state p,
+    .error-state p {
+        font-size: 13px;
+
+        line-height: 1.5;
+
+        color: #6b7280;
+    }
+
+    .back-home {
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        margin-top: 18px;
+
+        padding: 11px 18px;
+
+        border-radius: 12px;
+
+        color: white;
+
+        background: #2563eb;
+
+        text-decoration: none;
+
+        font-size: 13px;
+
+        font-weight: 700;
+    }
+
+    @media (max-width: 600px) {
+
+        .page-header {
+            height: 62px;
+
+            padding:
+                0 12px;
+        }
+
+        .back-button {
+            width: 40px;
+            height: 40px;
+
+            min-width: 40px;
+        }
+
+        .header-title h1 {
+            font-size: 16px;
+        }
+
+        .header-title p {
+            font-size: 10px;
+        }
+
+        .page-content {
+            padding:
+                18px
+                12px
+                90px;
+        }
+
+        .intro-card {
+            padding: 19px;
+
+            border-radius: 19px;
+        }
+
+        .intro-card h2 {
+            font-size: 17px;
+        }
+
+        .visitor-card {
+            padding:
+                10px
+                11px;
+        }
+
+        .visitor-avatar {
+            width: 53px;
+            height: 53px;
+
+            min-width: 53px;
+        }
+
+        .visitor-name {
+            font-size: 14px;
+        }
+
+        .visitor-details {
+            font-size: 11px;
+        }
+
+    }
+
+    @media (prefers-color-scheme: dark) {
+
+        body {
+            color: #f9fafb;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0f172a,
+                    #111827,
+                    #1f1720
+                );
+        }
+
+        .page-header {
+            background:
+                rgba(17, 24, 39, 0.92);
+
+            border-bottom-color:
+                rgba(255, 255, 255, 0.06);
+        }
+
+        .header-title h1 {
+            color: #f9fafb;
+        }
+
+        .header-title p {
+            color: #9ca3af;
+        }
+
+        .back-button {
+            background:
+                rgba(37, 99, 235, 0.15);
+        }
+
+        .visitor-card,
+        .loading-state,
+        .empty-state,
+        .error-state {
+            background:
+                rgba(17, 24, 39, 0.88);
+
+            border-color:
+                rgba(255, 255, 255, 0.06);
+        }
+
+        .visitor-name,
+        .empty-state h3,
+        .error-state h3,
+        .views-summary strong {
+            color: #f9fafb;
+        }
+
+        .visitor-details {
+            color: #9ca3af;
+        }
+
+        .visitor-time {
+            color: #6b7280;
+        }
+
+    }
+
+</style>
+</head>
+
+<body>
+
+   <header class="page-header">
+
+    <div class="header-inner">
+
+        <a
+            href="javascript:history.back()"
+            class="profile-back-button"
+            aria-label="Retour"
+        >
+            ‹
+        </a>
+
+    </div>
+
+</header>
+    <main class="page-content">
+
+        <!-- INTRO -->
+
+        <section class="intro-card">
+
+            <div class="intro-icon">
+                👀
+            </div>
+
+            <h2>
+                Vos visiteurs
+            </h2>
+
+            <p>
+                Voici les membres qui ont récemment consulté votre
+                profil sur Alliance Chrétienne.
+            </p>
+
+        </section>
+
+
+        <!-- COMPTEUR -->
+
+        <div class="views-summary">
+
+            <strong>
+                Consultations de votre profil
+            </strong>
+
+            <span
+                id="viewsCount"
+                class="views-count"
+            >
+                0
+            </span>
+
+        </div>
+
+
+        <!-- LISTE -->
+
+        <div id="visitorsList">
+
+            <div class="loading-state">
+
+                <div class="loading-spinner"></div>
+
+                <p>
+                    Chargement de vos visiteurs...
+                </p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+
+        let currentUser = null;
+
+        function getVisitorDefaultAvatar() {
+
+            return `
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 100 100"
+                >
+                    <rect
+                        width="100"
+                        height="100"
+                        fill="#e5e7eb"
+                    />
+
+                    <circle
+                        cx="50"
+                        cy="38"
+                        r="18"
+                        fill="#9ca3af"
+                    />
+
+                    <path
+                        d="M20 88
+                           C20 67 34 56 50 56
+                           C66 56 80 67 80 88Z"
+                        fill="#9ca3af"
+                    />
+                </svg>
+            `;
+        }
+
+        function formatVisitDate(dateString) {
+
+            if (!dateString) {
+                return '';
+            }
+
+            const date = new Date(dateString);
+
+            if (Number.isNaN(date.getTime())) {
+                return '';
+            }
+
+            const now = new Date();
+
+            const diff =
+                now.getTime() -
+                date.getTime();
+
+            const minutes =
+                Math.floor(diff / 60000);
+
+            if (minutes < 1) {
+                return 'À l’instant';
+            }
+
+            if (minutes < 60) {
+                return `Il y a ${minutes} min`;
+            }
+
+            const hours =
+                Math.floor(minutes / 60);
+
+            if (hours < 24) {
+                return `Il y a ${hours} h`;
+            }
+
+            const days =
+                Math.floor(hours / 24);
+
+            if (days === 1) {
+                return 'Hier';
+            }
+
+            if (days < 7) {
+                return `Il y a ${days} jours`;
+            }
+
+            return date.toLocaleDateString(
+                'fr-FR',
+                {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                }
+            );
+        }
+
+        function isProfileOnline(profile) {
+
+            if (!profile || !profile.last_seen) {
+                return false;
+            }
+
+            const lastSeen =
+                new Date(profile.last_seen).getTime();
+
+            const now =
+                Date.now();
+
+            return (
+                now - lastSeen
+                <
+                2 * 60 * 1000
+            );
+        }
+
+        async function loadProfileVisitors() {
+
+            const list =
+                document.getElementById(
+                    'visitorsList'
+                );
+
+            const count =
+                document.getElementById(
+                    'viewsCount'
+                );
+
+            if (!list || !currentUser) {
+                return;
+            }
+
+            try {
+
+                console.log(
+                    '👀 Chargement des visiteurs...'
+                );
+
+                const {
+                    data: views,
+                    error: viewsError
+                } =
+                    await window.supabaseClient
+                        .from('profile_views')
+                        .select(
+                            'viewer_id, viewed_at'
+                        )
+                        .eq(
+                            'profile_id',
+                            currentUser.id
+                        )
+                        .order(
+                            'viewed_at',
+                            {
+                                ascending: false
+                            }
+                        );
+
+                if (viewsError) {
+
+                    console.error(
+                        '❌ Erreur profile_views :',
+                        viewsError
+                    );
+
+                    throw viewsError;
+                }
+
+                if (!views || views.length === 0) {
+
+                    count.textContent = '0';
+
+                    list.innerHTML = `
+
+                        <div class="empty-state">
+
+                            <div class="empty-icon">
+                                👀
+                            </div>
+
+                            <h3>
+                                Aucune visite pour le moment
+                            </h3>
+
+                            <p>
+                                Lorsque quelqu’un consultera
+                                votre profil, cette personne
+                                apparaîtra ici.
+                            </p>
+
+                        </div>
+
+                    `;
+
+                    return;
+                }
+
+                const viewerIds = [
+                    ...new Set(
+                        views.map(
+                            view =>
+                                view.viewer_id
+                        )
+                    )
+                ];
+
+
+                const {
+                    data: profiles,
+                    error: profilesError
+                } =
+                    await window.supabaseClient
+                        .from('profiles')
+                        .select(`
+                            id,
+                            first_name,
+                            birth_date,
+                            city,
+                            country,
+                            denomination,
+                            photo_url,
+                            last_seen,
+                            is_verified
+                        `)
+                        .in(
+                            'id',
+                            viewerIds
+                        );
+
+
+                if (profilesError) {
+
+                    console.error(
+                        '❌ Erreur profils :',
+                        profilesError
+                    );
+
+                    throw profilesError;
+                }
+
+                const profileMap =
+                    new Map(
+                        (profiles || []).map(
+                            profile => [
+                                profile.id,
+                                profile
+                            ]
+                        )
+                    );
+
+
+                const visitors =
+                    views
+                        .map(view => {
+
+                            const profile =
+                                profileMap.get(
+                                    view.viewer_id
+                                );
+
+                            if (!profile) {
+                                return null;
+                            }
+
+                            return {
+                                ...profile,
+                                viewed_at:
+                                    view.viewed_at
+                            };
+
+                        })
+                        .filter(Boolean);
+
+
+                count.textContent =
+                    visitors.length;
+
+                if (visitors.length === 0) {
+
+                    list.innerHTML = `
+
+                        <div class="empty-state">
+
+                            <div class="empty-icon">
+                                👀
+                            </div>
+
+                            <h3>
+                                Aucune visite pour le moment
+                            </h3>
+
+                            <p>
+                                Les visites de votre profil
+                                apparaîtront ici.
+                            </p>
+
+                        </div>
+
+                    `;
+
+                    return;
+                }
+
+
+                list.innerHTML =
+                    visitors
+                        .map(visitor => {
+
+                            const online =
+                                isProfileOnline(
+                                    visitor
+                                );
+
+                            const age =
+                                calculateAge(
+                                    visitor.birth_date
+                                );
+
+                            const location =
+                                [
+                                    visitor.city,
+                                    visitor.country
+                                ]
+                                .filter(Boolean)
+                                .join(', ');
+
+
+                            const photo =
+                                visitor.photo_url ||
+                                '';
+
+
+                            return `
+
+                                <a
+                                    href="membre-profil.html?id=${encodeURIComponent(visitor.id)}"
+                                    class="visitor-card"
+                                >
+
+                                    <div
+                                        class="visitor-avatar"
+                                    >
+
+                                        <img
+                                            src="${escapeHtml(photo)}"
+                                            alt="${escapeHtml(visitor.first_name || 'Profil')}"
+                                            onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,${encodeURIComponent(getVisitorDefaultAvatar())}'"
+                                        >
+
+                                        <span
+                                            class="online-dot ${online ? '' : 'offline'}"
+                                        ></span>
+
+                                    </div>
+
+
+                                    <div
+                                        class="visitor-info"
+                                    >
+
+                                        <div
+                                            class="visitor-name"
+                                        >
+
+                                            <span>
+                                                ${escapeHtml(
+                                                    visitor.first_name ||
+                                                    'Membre'
+                                                )}
+                                            </span>
+
+                                            ${
+                                                visitor.is_verified
+                                                ?
+                                                `
+                                                    <span
+                                                        class="verified-badge"
+                                                        title="Profil vérifié"
+                                                    >
+                                                        ✓
+                                                    </span>
+                                                `
+                                                :
+                                                ''
+                                            }
+
+                                        </div>
+
+
+                                        <div
+                                            class="visitor-details"
+                                        >
+
+                                            ${
+                                                age
+                                                ?
+                                                `${age} ans`
+                                                :
+                                                ''
+                                            }
+
+                                            ${
+                                                age && location
+                                                ?
+                                                ' • '
+                                                :
+                                                ''
+                                            }
+
+                                            ${
+                                                location ||
+                                                'Lieu non indiqué'
+                                            }
+
+                                        </div>
+
+
+                                        <div
+                                            class="visitor-time"
+                                        >
+
+                                            👀
+                                            ${formatVisitDate(
+                                                visitor.viewed_at
+                                            )}
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div
+                                        class="visitor-arrow"
+                                    >
+
+                                        <svg
+                                            width="17"
+                                            height="17"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2.5"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        >
+
+                                            <path
+                                                d="M9 18l6-6-6-6"
+                                            ></path>
+
+                                        </svg>
+
+                                    </div>
+
+                                </a>
+
+                            `;
+
+                        })
+                        .join('');
+
+
+                console.log(
+                    '✅ Visiteurs chargés :',
+                    visitors.length
+                );
+
+            } catch (error) {
+
+                console.error(
+                    '❌ Erreur loadProfileVisitors :',
+                    error
+                );
+
+                list.innerHTML = `
+
+                    <div class="error-state">
+
+                        <div class="empty-icon">
+                            ⚠️
+                        </div>
+
+                        <h3>
+                            Impossible de charger les visites
+                        </h3>
+
+                        <p>
+                            Une erreur est survenue
+                            lors du chargement des visiteurs.
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+        function calculateAge(
+            birthDate
+        ) {
+
+            if (!birthDate) {
+                return null;
+            }
+
+            const birth =
+                new Date(birthDate);
+
+            if (Number.isNaN(
+                birth.getTime()
+            )) {
+                return null;
+            }
+
+            const today =
+                new Date();
+
+            let age =
+                today.getFullYear() -
+                birth.getFullYear();
+
+            const month =
+                today.getMonth() -
+                birth.getMonth();
+
+            if (
+                month < 0 ||
+                (
+                    month === 0 &&
+                    today.getDate() <
+                    birth.getDate()
+                )
+            ) {
+                age--;
+            }
+
+            return age >= 0
+                ? age
+                : null;
+        }
+
+        function escapeHtml(value) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+                return '';
+            }
+
+            return String(value)
+                .replace(
+                    /&/g,
+                    '&amp;'
+                )
+                .replace(
+                    /</g,
+                    '&lt;'
+                )
+                .replace(
+                    />/g,
+                    '&gt;'
+                )
+                .replace(
+                    /"/g,
+                    '&quot;'
+                )
+                .replace(
+                    /'/g,
+                    '&#039;'
+                );
+        }
+
+        document.addEventListener(
+            'DOMContentLoaded',
+            async () => {
+
+                console.log(
+                    '👀 membre-visites.html chargé'
+                );
+
+                try {
+
+                    currentUser =
+                        await requireAuth();
+
+                    if (!currentUser) {
+                        return;
+                    }
+
+                    console.log(
+                        '👤 Utilisateur connecté :',
+                        currentUser.id
+                    );
+
+                    await loadProfileVisitors();
+
+                } catch (error) {
+
+                    console.error(
+                        '❌ Erreur initialisation :',
+                        error
+                    );
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

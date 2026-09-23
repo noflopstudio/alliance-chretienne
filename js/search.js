@@ -892,39 +892,36 @@ async function recordProfileView(profileId) {
         return;
     }
 
-    // 🚫 Ne jamais enregistrer sa propre consultation
+    // 🚫 Ne pas enregistrer sa propre consultation
     if (currentUser.id === profileId) {
         return;
     }
 
     try {
 
-        const { error } = await window.supabaseClient
-            .from('profile_views')
-            .upsert(
+        console.log('========== VISITE ==========');
+        console.log('currentUser.id :', currentUser.id);
+        console.log('profileId :', profileId);
+        console.log('============================');
+
+        const { error } =
+            await window.supabaseClient.rpc(
+                'record_profile_view',
                 {
-                    viewer_id: currentUser.id,
-                    profile_id: profileId,
-                    viewed_at: new Date().toISOString()
-                },
-                {
-                    onConflict: 'viewer_id,profile_id'
+                    p_profile_id: profileId
                 }
             );
 
         if (error) {
-
             console.error(
-                '❌ Erreur enregistrement consultation :',
+                '❌ Erreur RPC consultation :',
                 error
             );
-
             return;
         }
 
         console.log(
-            '👀 Consultation enregistrée :',
-            profileId
+            '👀 Consultation enregistrée avec succès'
         );
 
     } catch (error) {
@@ -935,7 +932,6 @@ async function recordProfileView(profileId) {
         );
     }
 }
-
 async function viewProfile(userId) {
 
 try {
@@ -1194,27 +1190,33 @@ await recordProfileView(userId);
                 : ''
             }
 
-            <div class="profile-modal-actions">
+          <div class="profile-modal-actions">
 
-                <button
-                    type="button"
-                    class="profile-modal-like"
-                    id="modalLikeButton"
-                >
-                    ❤️ Liker
-                </button>
+    <button
+        type="button"
+        class="profile-modal-like"
+        id="modalLikeButton"
+    >
+        ❤️ Liker
+    </button>
 
-                <button
-                    type="button"
-                    class="profile-modal-message"
-                    id="modalMessageButton"
-                >
-                    💬 Message
-                </button>
+    <button
+        type="button"
+        class="profile-modal-message"
+        id="modalMessageButton"
+    >
+        💬 Message
+    </button>
 
-            </div>
+    <button
+        type="button"
+        class="profile-modal-profile"
+        id="modalProfileButton"
+    >
+        👤 Profil
+    </button>
 
-        </div>
+</div>
     `;
 
 
@@ -1357,6 +1359,26 @@ await recordProfileView(userId);
 
         }
     );
+
+const profileButton =
+    modal.querySelector('#modalProfileButton');
+
+if (profileButton) {
+
+    profileButton.addEventListener(
+        'click',
+        function() {
+
+            modal.remove();
+
+            window.location.href =
+                `membre-profil.html?id=${encodeURIComponent(profile.id)}`;
+
+        }
+    );
+
+}
+
 
     function handleKeyboard(event) {
 

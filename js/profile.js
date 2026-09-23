@@ -52,48 +52,150 @@ document.addEventListener('DOMContentLoaded', async () => {
 // ===== CHARGER LE PROFIL =====
 async function loadProfile() {
     try {
-        const { data: profile, error } = await window.supabaseClient
-    .from('profiles')
-            .select('*')
-            .eq('id', currentUser.id)
-            .single();
+
+        const urlParams = new URLSearchParams(
+            window.location.search
+        );
+
+        const profileId =
+            urlParams.get('id') || currentUser.id;
+
+        console.log('👤 ID du profil demandé :', profileId);
+        console.log('👤 ID utilisateur connecté :', currentUser.id);
+
+        const { data: profile, error } =
+            await window.supabaseClient
+                .from('profiles')
+                .select('*')
+                .eq('id', profileId)
+                .single();
 
         if (error) {
-            console.error('Erreur:', error);
-            showAlert('Erreur lors du chargement du profil', 'error');
+
+            console.error(
+                '❌ Erreur chargement profil :',
+                error
+            );
+
+            showAlert(
+                'Erreur lors du chargement du profil',
+                'error'
+            );
+
             return;
         }
 
-        currentProfile = profile;
-        displayProfile(profile);
-        populateEditForm(profile);
+        console.log(
+            '✅ Profil chargé :',
+            profile.first_name,
+            profile.id
+        );
+currentProfile = profile;
 
+displayProfile(profile);
+
+const isOwnProfile = profileId === currentUser.id;
+
+// ==================================================
+// 👤 PROFIL D'UN AUTRE MEMBRE
+// ==================================================
+
+if (!isOwnProfile) {
+
+    // ❌ Cacher complètement les onglets personnels
+    const profileTabs =
+        document.querySelector('.profile-tabs');
+
+    if (profileTabs) {
+        profileTabs.style.display = 'none';
+    }
+
+    // ❌ Ne jamais charger le formulaire de modification
+    // ❌ Ne jamais charger les photos personnelles
+    // ❌ Ne jamais charger les matchs personnels
+
+} else {
+
+    // ==================================================
+    // 👤 MON PROPRE PROFIL
+    // ==================================================
+
+    populateEditForm(profile);
+}
     } catch (error) {
-        console.error('Erreur:', error);
-        showAlert('Erreur: ' + error.message, 'error');
+
+        console.error(
+            '❌ Erreur loadProfile:',
+            error
+        );
+
+        showAlert(
+            'Erreur : ' + error.message,
+            'error'
+        );
     }
 }
 
+// ===== CHARGER LE STATUT DE CERTIFICATION =====
 async function loadCertificationStatus() {
 
+    const container =
+        document.getElementById('certificationContent');
 
-    
-    const container = document.getElementById('certificationContent');
+    const section =
+        document.getElementById('certificationSection');
 
-    if (!container || !currentUser) return;
+    if (!container || !currentUser) {
+        return;
+    }
 
     try {
 
-        const { data: request, error } = await window.supabaseClient
-            .from('verification_requests')
-            .select('*')
-            .eq('user_id', currentUser.id)
-            .order('created_at', { ascending: false })
-            .limit(1)
-            .maybeSingle();
+        // 🔎 Déterminer le profil affiché
+        const urlParams =
+            new URLSearchParams(window.location.search);
+
+        const profileId =
+            urlParams.get('id') || currentUser.id;
+
+        const isOwnProfile =
+            profileId === currentUser.id;
+
+        console.log(
+            '🔵 Vérification certification du profil :',
+            profileId
+        );
+
+        // 🔵 Chercher la certification DU PROFIL AFFICHÉ
+        const { data: request, error } =
+            await window.supabaseClient
+                .from('verification_requests')
+                .select('*')
+                .eq('user_id', profileId)
+                .order('created_at', {
+                    ascending: false
+                })
+                .limit(1)
+                .maybeSingle();
 
         if (error) {
-            console.error('❌ Erreur certification:', error);
+
+            console.error(
+                '❌ Erreur certification:',
+                error
+            );
+
+            // Pour le profil d'un autre membre,
+            // on ne montre pas une erreur personnelle.
+            if (!isOwnProfile) {
+
+                if (section) {
+                    section.style.display = 'none';
+                }
+
+                return;
+            }
+
             container.innerHTML = `
                 <div style="
                     padding: 15px;
@@ -104,8 +206,67 @@ async function loadCertificationStatus() {
                     Impossible de charger le statut de certification.
                 </div>
             `;
+
             return;
         }
+
+        // ==================================================
+        // 👤 PROFIL D'UN AUTRE MEMBRE
+        // ==================================================
+
+        if (!isOwnProfile) {
+
+            // ✅ Le membre est certifié
+            if (
+                request &&
+                request.status === 'certified'
+            ) {
+
+                if (section) {
+                    section.style.display = 'block';
+                }
+
+                container.innerHTML = `
+                    <div style="
+                        padding: 20px;
+                        background: #eff6ff;
+                        border: 1px solid #93c5fd;
+                        border-radius: 15px;
+                    ">
+                        <div style="
+                            font-size: 1.3rem;
+                            font-weight: 800;
+                            color: #1d4ed8;
+                            margin-bottom: 8px;
+                        ">
+                            🔵 Profil certifié
+                        </div>
+
+                        <p style="
+                            margin: 0;
+                            color: #374151;
+                        ">
+                            Ce profil a été vérifié par
+                            l'équipe Alliance Chrétienne.
+                        </p>
+                    </div>
+                `;
+
+            } else {
+
+                // ❌ Pas certifié :
+                // on cache complètement la section.
+                if (section) {
+                    section.style.display = 'none';
+                }
+            }
+
+            return;
+        }
+
+        // ==================================================
+        // 👤 MON PROPRE PROFIL
+        // ==================================================
 
         if (!request) {
 
@@ -116,7 +277,6 @@ async function loadCertificationStatus() {
                     border-radius: 15px;
                     border: 1px solid #bfdbfe;
                 ">
-
                     <div style="
                         font-size: 1.2rem;
                         font-weight: 700;
@@ -152,12 +312,15 @@ async function loadCertificationStatus() {
                     >
                         🛡️ Demander la certification — 5 000 FCFA
                     </button>
-
                 </div>
             `;
 
             return;
         }
+
+        // ==================================================
+        // ⏳ DEMANDE EN COURS
+        // ==================================================
 
         if (request.status === 'pending') {
 
@@ -168,7 +331,6 @@ async function loadCertificationStatus() {
                     border: 1px solid #fed7aa;
                     border-radius: 15px;
                 ">
-
                     <div style="
                         font-size: 1.2rem;
                         font-weight: 700;
@@ -195,12 +357,15 @@ async function loadCertificationStatus() {
                         La vérification peut prendre jusqu'à 3 jours
                         en cas de contrôle approfondi.
                     </p>
-
                 </div>
             `;
 
             return;
         }
+
+        // ==================================================
+        // 🔵 CERTIFIÉ
+        // ==================================================
 
         if (request.status === 'certified') {
 
@@ -211,7 +376,6 @@ async function loadCertificationStatus() {
                     border: 1px solid #93c5fd;
                     border-radius: 15px;
                 ">
-
                     <div style="
                         font-size: 1.3rem;
                         font-weight: 800;
@@ -228,18 +392,21 @@ async function loadCertificationStatus() {
                         Votre profil a été vérifié par
                         l'équipe Alliance Chrétienne.
                     </p>
-
                 </div>
             `;
 
             return;
         }
 
+        // ==================================================
+        // ❌ REFUSÉ
+        // ==================================================
+
         if (request.status === 'rejected') {
 
-            const reason = request.rejection_reason
-                ? request.rejection_reason
-                : 'Les informations fournies n’ont pas pu être validées.';
+            const reason =
+                request.rejection_reason ||
+                'Les informations fournies n’ont pas pu être validées.';
 
             container.innerHTML = `
                 <div style="
@@ -248,7 +415,6 @@ async function loadCertificationStatus() {
                     border: 1px solid #fecaca;
                     border-radius: 15px;
                 ">
-
                     <div style="
                         font-size: 1.2rem;
                         font-weight: 700;
@@ -291,7 +457,6 @@ async function loadCertificationStatus() {
                     >
                         🔄 Nouvelle demande — 5 000 FCFA
                     </button>
-
                 </div>
             `;
 
@@ -300,8 +465,10 @@ async function loadCertificationStatus() {
 
     } catch (error) {
 
-        console.error('❌ Erreur loadCertificationStatus:', error);
-
+        console.error(
+            '❌ Erreur loadCertificationStatus:',
+            error
+        );
     }
 }
 
@@ -383,6 +550,61 @@ return;
     }
 }
 
+// ===== CHARGER LA PHOTO PRINCIPALE DU PROFIL =====
+async function loadProfileMainPhoto(profileId) {
+
+    const avatar = document.getElementById('profileAvatar');
+
+    if (!avatar) return;
+
+    try {
+
+        const { data: photos, error } =
+            await window.supabaseClient
+                .from('profile_photos')
+                .select('photo_url, is_primary, created_at')
+                .eq('profile_id', profileId)
+                .eq('status', 'approved')
+                .order('is_primary', {
+                    ascending: false
+                })
+                .order('created_at', {
+                    ascending: true
+                });
+
+        if (error) {
+            console.error(
+                '❌ Erreur photo profil :',
+                error
+            );
+            return;
+        }
+
+        const primaryPhoto =
+            photos?.find(photo => photo.is_primary) ||
+            photos?.[0];
+
+        if (primaryPhoto?.photo_url) {
+
+            avatar.src = primaryPhoto.photo_url;
+
+        } else {
+
+            avatar.src =
+                'images/profil-default.jpeg';
+        }
+
+    } catch (error) {
+
+        console.error(
+            '❌ Erreur loadProfileMainPhoto :',
+            error
+        );
+
+    }
+}
+
+
 // ===== AFFICHER LE PROFIL =====
 function displayProfile(profile) {
     const age = calculateAge(profile.birth_date);
@@ -390,17 +612,9 @@ function displayProfile(profile) {
     // En-tête
     const avatar = document.getElementById('profileAvatar');
 
-    if (profile.photo_url) {
-        avatar.src = profile.photo_url;
-    } else {
-        avatar.src = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-            <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150">
-                <rect width="150" height="150" rx="75" fill="#e5e7eb"/>
-                <circle cx="75" cy="58" r="28" fill="#9ca3af"/>
-                <path d="M30 130c5-28 22-42 45-42s40 14 45 42" fill="#9ca3af"/>
-            </svg>
-        `);
-    }
+    avatar.src = 'images/profil-default.jpeg';
+
+    loadProfileMainPhoto(profile.id);
 
     // Affichage du nom et du badge de certification côte à côte
     document.getElementById('profileName').innerHTML = `
@@ -438,9 +652,12 @@ function displayProfile(profile) {
         </div>
     `;
 
-    document.getElementById('profileLocation').textContent = ` ${profile.city}, ${profile.country}`;
-    document.getElementById('profileFaith').textContent = ` ${profile.denomination}`;
-    
+    document.getElementById('profileLocation').textContent =
+        ` ${profile.city}, ${profile.country}`;
+
+    document.getElementById('profileFaith').textContent =
+        ` ${profile.denomination}`;
+
     // Compter les likes
     countLikes(profile.id);
 
@@ -1157,57 +1374,201 @@ function getDefaultAvatar() {
 
 // ===== CHARGER LES PHOTOS DU PROFIL =====
 async function loadProfilePhotos() {
+
     try {
-        const { data: photos, error } = await window.supabaseClient
-            .from('profile_photos')
-            .select('*')
-            .eq('profile_id', currentUser.id)
-            .order('is_primary', { ascending: false })
-            .order('created_at', { ascending: true });
+
+        const urlParams =
+            new URLSearchParams(window.location.search);
+
+        const profileId =
+            urlParams.get('id') || currentUser.id;
+
+        const isOwnProfile =
+            profileId === currentUser.id;
+
+        console.log(
+            '📸 Chargement des photos du profil :',
+            profileId
+        );
+
+        const { data: photos, error } =
+            await window.supabaseClient
+                .from('profile_photos')
+                .select('*')
+                .eq('profile_id', profileId)
+                .order('is_primary', {
+                    ascending: false
+                })
+                .order('created_at', {
+                    ascending: true
+                });
 
         if (error) {
-            console.error('❌ Erreur chargement photos:', error);
+
+            console.error(
+                '❌ Erreur chargement photos:',
+                error
+            );
+
             return;
         }
 
-        const editContainer = document.getElementById('profilePhotosContainer');
-        const viewContainer = document.getElementById('profilePhotosGallery');
-        const counter = document.getElementById('photoCounter');
-        const avatar = document.getElementById('profileAvatar');
+        const allPhotos = photos || [];
 
-       
-        if (counter) {
-            counter.textContent = `${photos.length} / 4`;
+        // Seulement les photos approuvées sont visibles
+        const approvedPhotos =
+            allPhotos.filter(
+                photo => photo.status === 'approved'
+            );
+
+        const editContainer =
+            document.getElementById(
+                'profilePhotosContainer'
+            );
+
+        const viewContainer =
+            document.getElementById(
+                'profilePhotosGallery'
+            );
+
+        const counter =
+            document.getElementById(
+                'photoCounter'
+            );
+
+        // ==================================================
+        // 👤 PROFIL D'UN AUTRE MEMBRE
+        // ==================================================
+
+        if (!isOwnProfile) {
+
+            // 🚫 Ne pas afficher "Mes photos"
+            if (editContainer) {
+                editContainer.innerHTML = '';
+                editContainer.style.display = 'none';
+            }
+
+            // 🚫 Ne pas afficher le compteur personnel
+            if (counter) {
+                const counterParent =
+                    counter.closest('.profile-section');
+
+                if (counterParent) {
+                    counterParent.style.display = 'none';
+                } else {
+                    counter.style.display = 'none';
+                }
+            }
+
+            // 👩 Afficher uniquement les photos approuvées
+            // du membre consulté
+            if (viewContainer) {
+
+                viewContainer.innerHTML = '';
+
+                if (approvedPhotos.length === 0) {
+
+                    viewContainer.innerHTML = `
+                        <p style="
+                            color: var(--text-color);
+                            text-align: center;
+                            padding: 1rem;
+                        ">
+                            Aucune photo ajoutée 📷
+                        </p>
+                    `;
+
+                } else {
+
+                    approvedPhotos.forEach(
+                        (photo, index) => {
+
+                            const image =
+                                document.createElement('img');
+
+                            image.src =
+                                photo.photo_url;
+
+                            image.alt =
+                                `Photo ${index + 1}`;
+
+                            image.style.cssText = `
+                                width: 100%;
+                                height: 220px;
+                                object-fit: cover;
+                                border-radius: 12px;
+                                cursor: pointer;
+                            `;
+
+                            image.onerror =
+                                function () {
+                                    this.src =
+                                        getDefaultAvatar();
+                                };
+
+                            viewContainer.appendChild(
+                                image
+                            );
+                        }
+                    );
+                }
+            }
+
+            // ⚠️ Très important :
+            // ne pas modifier profileAvatar ici.
+            // loadProfileMainPhoto() s'en occupe.
+
+            return;
         }
 
-const approvedPhotos = photos.filter(
-    photo => photo.status === 'approved'
-);
+        // ==================================================
+        // 👤 MON PROPRE PROFIL
+        // ==================================================
 
-const approvedPhotosForView = photos.filter(
-    photo => photo.status === 'approved'
-);
+        if (counter) {
+            counter.textContent =
+                `${allPhotos.length} / 4`;
+        }
 
-const primaryApprovedPhoto =
-    approvedPhotos.find(photo => photo.is_primary) ||
-    approvedPhotos[0];
+        const primaryApprovedPhoto =
+            approvedPhotos.find(
+                photo => photo.is_primary
+            ) ||
+            approvedPhotos[0];
 
-if (avatar) {
-    if (primaryApprovedPhoto) {
-        avatar.src = primaryApprovedPhoto.photo_url;
-    } else {
-        avatar.src = getDefaultAvatar();
-    }
+        // Avatar de mon propre profil
+        const avatar =
+            document.getElementById(
+                'profileAvatar'
+            );
 
-    avatar.onerror = function () {
-        this.src = getDefaultAvatar();
-    };
-}
+        if (avatar) {
 
+            if (primaryApprovedPhoto) {
+
+                avatar.src =
+                    primaryApprovedPhoto.photo_url;
+
+            } else {
+
+                avatar.src =
+                    getDefaultAvatar();
+            }
+
+            avatar.onerror =
+                function () {
+                    this.src =
+                        getDefaultAvatar();
+                };
+        }
+
+        // Photos dans "Mes photos"
         if (editContainer) {
+
             editContainer.innerHTML = '';
 
-            if (approvedPhotosForView.length === 0) {
+            if (approvedPhotos.length === 0) {
+
                 editContainer.innerHTML = `
                     <p style="
                         color: var(--text-color);
@@ -1217,129 +1578,120 @@ if (avatar) {
                         Aucune photo pour le moment 📷
                     </p>
                 `;
+
             } else {
-               approvedPhotosForView.forEach((photo, index) => {
 
-                    const photoBox = document.createElement('div');
+                approvedPhotos.forEach(
+                    (photo, index) => {
 
-                    photoBox.style.cssText = `
-                        position: relative;
-                        width: 150px;
-                        height: 150px;
-                        border-radius: 12px;
-                        overflow: hidden;
-                        background: #f3f4f6;
-                    `;
+                        const photoBox =
+                            document.createElement('div');
 
-                    photoBox.innerHTML = `
-                        <img
-                            src="${photo.photo_url}"
-                            alt="Photo ${index + 1}"
-                            style="
-                                width: 100%;
-                                height: 100%;
-                                object-fit: cover;
-                            "
-                            onerror="this.src=getDefaultAvatar()"
-                        >
+                        photoBox.style.cssText = `
+                            position: relative;
+                            width: 150px;
+                            height: 150px;
+                            border-radius: 12px;
+                            overflow: hidden;
+                            background: #f3f4f6;
+                        `;
 
-                      ${photo.status === 'pending' ? `
-    <span style="
-        position: absolute;
-        top: 8px;
-        left: 8px;
-        background: #f59e0b;
-        color: white;
-        padding: 4px 8px;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        z-index: 2;
-    ">
-        ⏳ En attente
-    </span>
-` : photo.status === 'rejected' ? `
-    <span style="
-        position: absolute;
-        top: 8px;
-        left: 8px;
-        background: #dc2626;
-        color: white;
-        padding: 4px 8px;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        z-index: 2;
-    ">
-        ❌ Rejetée
-    </span>
-` : photo.is_primary ? `
-    <span style="
-        position: absolute;
-        top: 8px;
-        left: 8px;
-        background: var(--primary-color);
-        color: white;
-        padding: 4px 8px;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        z-index: 2;
-    ">
-        ⭐ Principale
-    </span>
-` : `
-    <button
-        onclick="setPrimaryPhoto('${photo.id}', '${photo.photo_url}')"
-        style="
-            position: absolute;
-            bottom: 8px;
-            left: 8px;
-            right: 8px;
-            border: none;
-            border-radius: 8px;
-            background: rgba(79, 70, 229, 0.95);
-            color: white;
-            padding: 8px 6px;
-            cursor: pointer;
-            font-size: 0.78rem;
-            font-weight: 600;
-            z-index: 2;
-        "
-    >
-        📌 Définir comme principale
-    </button>
-`}
-                        <button
-                            onclick="deleteProfilePhoto('${photo.id}', '${photo.photo_url}')"
-                            style="
-                                position: absolute;
-                                top: 8px;
-                                right: 8px;
-                                width: 32px;
-                                height: 32px;
-                                border: none;
-                                border-radius: 50%;
-                                background: rgba(220, 38, 38, 0.9);
-                                color: white;
-                                cursor: pointer;
-                                font-size: 16px;
-                            "
-                            title="Supprimer"
-                        >
-                            🗑️
-                        </button>
-                    `;
+                        photoBox.innerHTML = `
+                            <img
+                                src="${photo.photo_url}"
+                                alt="Photo ${index + 1}"
+                                style="
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                "
+                                onerror="this.src=getDefaultAvatar()"
+                            >
 
-                    editContainer.appendChild(photoBox);
-                });
+                            ${
+                                photo.is_primary
+                                ? `
+                                    <span style="
+                                        position: absolute;
+                                        top: 8px;
+                                        left: 8px;
+                                        background: var(--primary-color);
+                                        color: white;
+                                        padding: 4px 8px;
+                                        border-radius: 20px;
+                                        font-size: 0.75rem;
+                                        font-weight: 600;
+                                        z-index: 2;
+                                    ">
+                                        ⭐ Principale
+                                    </span>
+                                `
+                                : `
+                                    <button
+                                        onclick="setPrimaryPhoto(
+                                            '${photo.id}',
+                                            '${photo.photo_url}'
+                                        )"
+                                        style="
+                                            position: absolute;
+                                            bottom: 8px;
+                                            left: 8px;
+                                            right: 8px;
+                                            border: none;
+                                            border-radius: 8px;
+                                            background: rgba(79,70,229,0.95);
+                                            color: white;
+                                            padding: 8px 6px;
+                                            cursor: pointer;
+                                            font-size: 0.78rem;
+                                            font-weight: 600;
+                                            z-index: 2;
+                                        "
+                                    >
+                                        📌 Définir comme principale
+                                    </button>
+                                `
+                            }
+
+                            <button
+                                onclick="deleteProfilePhoto(
+                                    '${photo.id}',
+                                    '${photo.photo_url}'
+                                )"
+                                style="
+                                    position: absolute;
+                                    top: 8px;
+                                    right: 8px;
+                                    width: 32px;
+                                    height: 32px;
+                                    border: none;
+                                    border-radius: 50%;
+                                    background: rgba(220,38,38,0.9);
+                                    color: white;
+                                    cursor: pointer;
+                                    font-size: 16px;
+                                "
+                                title="Supprimer"
+                            >
+                                🗑️
+                            </button>
+                        `;
+
+                        editContainer.appendChild(
+                            photoBox
+                        );
+                    }
+                );
             }
         }
 
-if (viewContainer) {
+        // Galerie de mon propre profil
+        if (viewContainer) {
+
             viewContainer.innerHTML = '';
 
-            if (approvedPhotosForView.length === 0) {
+            if (approvedPhotos.length === 0) {
+
                 viewContainer.innerHTML = `
                     <p style="
                         color: var(--text-color);
@@ -1349,37 +1701,51 @@ if (viewContainer) {
                         Aucune photo ajoutée 📷
                     </p>
                 `;
+
             } else {
 
-               approvedPhotosForView.forEach((photo, index) => {
+                approvedPhotos.forEach(
+                    (photo, index) => {
 
-                    const image = document.createElement('img');
+                        const image =
+                            document.createElement('img');
 
-                    image.src = photo.photo_url;
-                    image.alt = `Photo ${index + 1}`;
+                        image.src =
+                            photo.photo_url;
 
-                    image.style.cssText = `
-                        width: 100%;
-                        height: 220px;
-                        object-fit: cover;
-                        border-radius: 12px;
-                        cursor: pointer;
-                    `;
+                        image.alt =
+                            `Photo ${index + 1}`;
 
-                    image.onerror = function () {
-                        this.src = getDefaultAvatar();
-                    };
+                        image.style.cssText = `
+                            width: 100%;
+                            height: 220px;
+                            object-fit: cover;
+                            border-radius: 12px;
+                            cursor: pointer;
+                        `;
 
-                    viewContainer.appendChild(image);
-                });
+                        image.onerror =
+                            function () {
+                                this.src =
+                                    getDefaultAvatar();
+                            };
+
+                        viewContainer.appendChild(
+                            image
+                        );
+                    }
+                );
             }
         }
 
     } catch (error) {
-        console.error('❌ Erreur loadProfilePhotos:', error);
+
+        console.error(
+            '❌ Erreur loadProfilePhotos:',
+            error
+        );
     }
 }
-
 async function deleteProfilePhoto(photoId, photoUrl) {
 
     if (!confirm('Voulez-vous vraiment supprimer cette photo ?')) {
